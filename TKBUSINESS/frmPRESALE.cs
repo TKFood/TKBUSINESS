@@ -183,6 +183,16 @@ namespace TKBUSINESS
 
                     if (ds.Tables[tablename].Rows.Count == 0)
                     {
+                        textBox1.Text = null;
+                        textBox2.Text = null;
+                        textBox3.Text = null;
+                        textBox4.Text = null;
+                        textBox5.Text = null;
+                        textBox6.Text = null;
+                        textBox7.Text = null;                        
+                        textBox9.Text = null;
+                        textBox10.Text = null;
+                        textBoxID.Text = null;
 
                     }
                     else
@@ -223,7 +233,9 @@ namespace TKBUSINESS
             STR.AppendFormat(@"  ,[PRODUCTID] AS '商品代號',[PRODUCTNAME] AS '商品名'");
             STR.AppendFormat(@"  ,[PRICES] AS '單價',[NUM] AS '數量',[TMONEY] AS '金額',[ID]");
             STR.AppendFormat(@"   FROM [TKBUSINESS].[dbo].[PRESALE]");
-            STR.AppendFormat(@"  ");
+            STR.AppendFormat(@"   WHERE [SALESID]='{0}'",comboBox1.SelectedValue.ToString());
+            STR.AppendFormat(@"   AND  [YEARS]>='{0}' AND [MONTHS]>='{1}'",dateTimePicker1.Value.ToString("yyyy"), Convert.ToInt16(dateTimePicker1.Value.ToString("MM")));
+            STR.AppendFormat(@"   AND  [YEARS]<='{0}' AND [MONTHS]<='{1}'", dateTimePicker2.Value.ToString("yyyy"), Convert.ToInt16(dateTimePicker2.Value.ToString("MM")));
             STR.AppendFormat(@"  ");
             tablename = "TEMPds1";
 
@@ -490,7 +502,7 @@ namespace TKBUSINESS
 
                 sbSql.Clear();
                 sbSql.Append(" UPDATE [PRESALE]  ");
-                sbSql.AppendFormat("  SET [YEARS]='{1}',[MONTHS]='{2}',[DEPID]='{3}',[DEPNAME]='{4}',[SALESID]='{5}',[SALESNAME]='{6}',[CUSTOMERID]='{7}',[CUSTOMERNAME]='{8}',[PRODUCTID]='{9}',[PRODUCTNAME]='{10}',[PRICES]='{11}',[NUM]='{12}',[TMONEY]='{13}'  WHERE [ID]='{0}' ", textBoxID.Text.ToString(), numericUpDown3.Value.ToString(), numericUpDown4.Value.ToString(), textBox1.Text.ToString(), comboBox2.Text.ToString(), textBox2.Text.ToString(), comboBox3.Text.ToString(), textBox9.Text.ToString(), textBox10.Text.ToString(), textBox3.Text.ToString(), textBox4.Text.ToString(), textBox5.Text.ToString(), textBox6.Text.ToString(), textBox7.Text.ToString());
+                sbSql.AppendFormat("  SET [YEARS]='{1}',[MONTHS]='{2}',[DEPID]='{3}',[DEPNAME]='{4}',[SALESID]='{5}',[SALESNAME]='{6}',[CUSTOMERID]='{7}',[CUSTOMERNAME]='{8}',[PRODUCTID]='{9}',[PRODUCTNAME]='{10}',[PRICES]='{11}',[NUM]='{12}',[TMONEY]='{13}'  WHERE [ID]='{0}' ", textBoxID.Text.ToString(), numericUpDown3.Value.ToString(),  numericUpDown4.Value.ToString() , textBox1.Text.ToString(), comboBox2.Text.ToString(), textBox2.Text.ToString(), comboBox3.Text.ToString(), textBox9.Text.ToString(), textBox10.Text.ToString(), textBox3.Text.ToString(), textBox4.Text.ToString(), textBox5.Text.ToString(), textBox6.Text.ToString(), textBox7.Text.ToString());
                 sbSql.Append("   ");
 
                 cmd.Connection = sqlConn;
@@ -536,7 +548,7 @@ namespace TKBUSINESS
                 sbSql.Clear();
                 sbSql.Append(" INSERT INTO [PRESALE] ");
                 sbSql.Append(" ([ID],[YEARS],[MONTHS],[DEPID],[DEPNAME],[SALESID],[SALESNAME],[CUSTOMERID],[CUSTOMERNAME],[PRODUCTID],[PRODUCTNAME],[PRICES],[NUM],[TMONEY]) ");
-                sbSql.AppendFormat("  VALUES ('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}','{11}','{12}','{13}') ", Guid.NewGuid(),numericUpDown3.Value.ToString(),numericUpDown4.Value.ToString(),textBox1.Text.ToString(),comboBox2.Text.ToString(),textBox2.Text.ToString(),comboBox3.Text.ToString(),textBox9.Text.ToString(), textBox10.Text.ToString(), textBox3.Text.ToString(), textBox4.Text.ToString(), textBox5.Text.ToString(), textBox6.Text.ToString(), textBox7.Text.ToString());
+                sbSql.AppendFormat("  VALUES ('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}','{11}','{12}','{13}') ", Guid.NewGuid(),numericUpDown3.Value.ToString(),  numericUpDown4.Value.ToString().ToString(),textBox1.Text.ToString(),comboBox2.Text.ToString(),textBox2.Text.ToString(),comboBox3.Text.ToString(),textBox9.Text.ToString(), textBox10.Text.ToString(), textBox3.Text.ToString(), textBox4.Text.ToString(), textBox5.Text.ToString(), textBox6.Text.ToString(), textBox7.Text.ToString());
 
                 cmd.Connection = sqlConn;
                 cmd.CommandTimeout = 60;
@@ -666,6 +678,7 @@ namespace TKBUSINESS
             Search();
             SETFINISH();
         }
+
 
 
 
