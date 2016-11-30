@@ -233,8 +233,9 @@ namespace TKBUSINESS
             STR.AppendFormat(@"  ,[PRICES] AS '單價',[NUM] AS '數量',[TMONEY] AS '金額',[ID]");
             STR.AppendFormat(@"   FROM [TKBUSINESS].[dbo].[PRESALE]");
             STR.AppendFormat(@"   WHERE [SALESID]='{0}'",comboBox1.SelectedValue.ToString());
-            STR.AppendFormat(@"   AND  [YEARS]>='{0}' AND [MONTHS]>='{1}'",dateTimePicker1.Value.ToString("yyyy"), Convert.ToInt16(dateTimePicker1.Value.ToString("MM")));
-            STR.AppendFormat(@"   AND  [YEARS]<='{0}' AND [MONTHS]<='{1}'", dateTimePicker2.Value.ToString("yyyy"), Convert.ToInt16(dateTimePicker2.Value.ToString("MM")));
+            STR.AppendFormat(@"   AND  [YEARS]>='{0}' AND CONVERT(INT,[MONTHS])>='{1}'", dateTimePicker1.Value.ToString("yyyy"), Convert.ToInt16(dateTimePicker1.Value.ToString("MM")));
+            STR.AppendFormat(@"   AND  [YEARS]<='{0}' AND CONVERT(INT,[MONTHS])<='{1}'", dateTimePicker2.Value.ToString("yyyy"), Convert.ToInt16(dateTimePicker2.Value.ToString("MM")));
+            STR.AppendFormat(@"   ORDER BY [YEARS],CONVERT(INT,[MONTHS]),[CUSTOMERID]");
             STR.AppendFormat(@"  ");
             tablename = "TEMPds1";
 
