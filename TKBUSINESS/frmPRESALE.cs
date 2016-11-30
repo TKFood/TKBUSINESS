@@ -42,6 +42,8 @@ namespace TKBUSINESS
         int rownum = 0;
         DataGridViewRow row;
         string SALSESID=null;
+        int result;
+        DataGridViewRow drPRESLAES = new DataGridViewRow();
 
         public frmPRESALE()
         {
@@ -55,6 +57,16 @@ namespace TKBUSINESS
         }
 
         #region FUNCTION
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            if (keyData == Keys.Enter)
+            {
+                SendKeys.Send("{TAB}");
+                return true;
+            }
+            return base.ProcessCmdKey(ref msg, keyData);
+        }
+
         public void combobox1load()
         {
             connectionString = ConfigurationManager.ConnectionStrings["dberp"].ConnectionString;
@@ -292,10 +304,316 @@ namespace TKBUSINESS
 
 
         }
+
+        private void dataGridView1_SelectionChanged(object sender, EventArgs e)
+        {
+            if (dataGridView1.Rows.Count >= 1)
+            {
+                drPRESLAES = dataGridView1.Rows[dataGridView1.SelectedCells[0].RowIndex];
+
+                comboBox2.Text= drPRESLAES.Cells["部門名"].Value.ToString();
+                comboBox3.Text = drPRESLAES.Cells["業務名"].Value.ToString();
+                numericUpDown3.Value = Convert.ToDecimal(drPRESLAES.Cells["年度"].Value.ToString());
+                numericUpDown4.Value = Convert.ToDecimal(drPRESLAES.Cells["月份"].Value.ToString());
+                textBox1.Text = drPRESLAES.Cells["部門代號"].Value.ToString();
+                textBox2.Text = drPRESLAES.Cells["業務員代號"].Value.ToString();
+                textBox3.Text = drPRESLAES.Cells["商品代號"].Value.ToString();
+                textBox4.Text = drPRESLAES.Cells["商品名"].Value.ToString();
+                textBox5.Text = drPRESLAES.Cells["單價"].Value.ToString();
+                textBox6.Text = drPRESLAES.Cells["數量"].Value.ToString();
+                textBox7.Text = drPRESLAES.Cells["金額"].Value.ToString();
+                textBoxID.Text = drPRESLAES.Cells["ID"].Value.ToString();
+                textBox9.Text = drPRESLAES.Cells["客戶代號"].Value.ToString();
+                textBox10.Text = drPRESLAES.Cells["客戶名"].Value.ToString();
+
+
+            }
+            else
+            {
+                
+            }
+        }
+        private void textBox3_TextChanged(object sender, EventArgs e)
+        {
+            SEARCHPRODUCTNAME();
+        }
+
+        public void SEARCHPRODUCTNAME()
+        {
+            connectionString = ConfigurationManager.ConnectionStrings["dberp"].ConnectionString;
+            sqlConn = new SqlConnection(connectionString);
+            StringBuilder Sequel = new StringBuilder();
+            Sequel.AppendFormat(@" SELECT MB001,MB002  ");
+            Sequel.AppendFormat(@" FROM INVMB ");
+            Sequel.AppendFormat(@" WHERE MB001='{0}'",textBox3.Text.ToString());
+            Sequel.AppendFormat(@"  ");
+            SqlDataAdapter da = new SqlDataAdapter(Sequel.ToString(), sqlConn);
+
+            DataTable dt = new DataTable();
+            sqlConn.Open();
+
+            dt.Columns.Add("MB001", typeof(string));
+            dt.Columns.Add("MB002", typeof(string));
+            da.Fill(dt);
+
+            if (dt.Rows.Count > 0)
+            {
+               textBox4.Text = dt.Rows[0]["MB002"].ToString();
+            }
+           
+            sqlConn.Close();
+        }
+        private void textBox5_TextChanged(object sender, EventArgs e)
+        {
+            CALMONEY();
+        }
+
+        private void textBox6_TextChanged(object sender, EventArgs e)
+        {
+            CALMONEY();
+        }
+
+        public void CALMONEY()
+        {
+            if(!string.IsNullOrEmpty(textBox5.Text.ToString()) && !string.IsNullOrEmpty(textBox6.Text.ToString()))
+            {
+                if ((Convert.ToDouble(textBox5.Text.ToString()) > 0) && (Convert.ToDouble(textBox6.Text.ToString()) > 0))
+                {
+                    textBox7.Text = (Convert.ToDouble(textBox5.Text.ToString()) * Convert.ToDouble(textBox6.Text.ToString())).ToString();
+                }
+            }
+          
+        }
+        private void textBox9_TextChanged(object sender, EventArgs e)
+        {
+            SERACHCOPMA();
+        }
+
+        public void SERACHCOPMA()
+        {
+            connectionString = ConfigurationManager.ConnectionStrings["dberp"].ConnectionString;
+            sqlConn = new SqlConnection(connectionString);
+            StringBuilder Sequel = new StringBuilder();
+            Sequel.AppendFormat(@" SELECT MA001,MA002  ");
+            Sequel.AppendFormat(@" FROM COPMA ");
+            Sequel.AppendFormat(@" WHERE MA001='{0}'", textBox9.Text.ToString());
+            Sequel.AppendFormat(@"  ");
+            SqlDataAdapter da = new SqlDataAdapter(Sequel.ToString(), sqlConn);
+
+            DataTable dt = new DataTable();
+            sqlConn.Open();
+
+            dt.Columns.Add("MA001", typeof(string));
+            dt.Columns.Add("MA002", typeof(string));
+            da.Fill(dt);
+
+            if (dt.Rows.Count > 0)
+            {
+                textBox10.Text = dt.Rows[0]["MA002"].ToString();
+            }
+
+            sqlConn.Close();
+        }
+        public void SETADD()
+        {
+            comboBox2.Enabled = true;
+            comboBox3.Enabled = true;
+            numericUpDown3.Enabled = true;
+            numericUpDown4.Enabled = true;
+            //textBox1.ReadOnly = false;
+            //textBox2.ReadOnly = false;
+            textBox3.ReadOnly = false;
+            textBox4.ReadOnly = false;
+            textBox5.ReadOnly = false;
+            textBox6.ReadOnly = false;
+            textBox7.ReadOnly = false;
+            textBoxID.Text = null;
+            textBox9.ReadOnly = false;
+            //textBox10.ReadOnly = false;
+        }
+        public void SETADDNEW()
+        {
+            textBox3.Text = null;
+            textBox4.Text = null;
+            textBox5.Text = null;
+            textBox6.Text = null;
+            textBox7.Text = null;
+            textBoxID.Text = null;
+            textBox9.Text = null;
+            textBox10.Text = null;
+        }
+
+        public void SETUPDATE()
+        {
+            comboBox2.Enabled = true;
+            comboBox3.Enabled = true;
+            numericUpDown3.Enabled = true;
+            numericUpDown4.Enabled = true;
+            //textBox1.ReadOnly = false;
+            //textBox2.ReadOnly = false;
+            textBox3.ReadOnly = false;
+            textBox4.ReadOnly = false;
+            textBox5.ReadOnly = false;
+            textBox6.ReadOnly = false;
+            textBox7.ReadOnly = false;
+            textBox9.ReadOnly = false;
+            //textBox10.ReadOnly = false;
+        }
+        public void SETFINISH()
+        {
+            comboBox2.Enabled = false;
+            comboBox3.Enabled = false;
+            numericUpDown3.Enabled = false;
+            numericUpDown4.Enabled = false;
+            //textBox1.ReadOnly = true;
+            //textBox2.ReadOnly = true;
+            textBox3.ReadOnly = true;
+            textBox4.ReadOnly = true;
+            textBox5.ReadOnly = true;
+            textBox6.ReadOnly = true;
+            textBox7.ReadOnly = true;          
+            textBox9.ReadOnly = true;
+            //textBox10.ReadOnly = true;
+        }
+
+        public void UPDATE()
+        {
+            try
+            {
+               
+                connectionString = ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString;
+                sqlConn = new SqlConnection(connectionString);
+
+                sqlConn.Close();
+                sqlConn.Open();
+                tran = sqlConn.BeginTransaction();
+
+                sbSql.Clear();
+                sbSql.Append(" UPDATE [PRESALE]  ");
+                sbSql.AppendFormat("  SET [YEARS]='{1}',[MONTHS]='{2}',[DEPID]='{3}',[DEPNAME]='{4}',[SALESID]='{5}',[SALESNAME]='{6}',[CUSTOMERID]='{7}',[CUSTOMERNAME]='{8}',[PRODUCTID]='{9}',[PRODUCTNAME]='{10}',[PRICES]='{11}',[NUM]='{12}',[TMONEY]='{13}'  WHERE [ID]='{0}' ", textBoxID.Text.ToString(), numericUpDown3.Value.ToString(), numericUpDown4.Value.ToString(), textBox1.Text.ToString(), comboBox2.Text.ToString(), textBox2.Text.ToString(), comboBox3.Text.ToString(), textBox9.Text.ToString(), textBox10.Text.ToString(), textBox3.Text.ToString(), textBox4.Text.ToString(), textBox5.Text.ToString(), textBox6.Text.ToString(), textBox7.Text.ToString());
+                sbSql.Append("   ");
+
+                cmd.Connection = sqlConn;
+                cmd.CommandTimeout = 60;
+                cmd.CommandText = sbSql.ToString();
+                cmd.Transaction = tran;
+                result = cmd.ExecuteNonQuery();
+
+                if (result == 0)
+                {
+                    tran.Rollback();    //交易取消
+                }
+                else
+                {
+                    tran.Commit();      //執行交易  
+
+
+                }
+            }
+            catch
+            {
+
+            }
+
+            finally
+            {
+                sqlConn.Close();
+            }
+        }
+
+        public void ADD()
+        {
+            try
+            {
+                
+                connectionString = ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString;
+                sqlConn = new SqlConnection(connectionString);
+
+                sqlConn.Close();
+                sqlConn.Open();
+                tran = sqlConn.BeginTransaction();
+
+                sbSql.Clear();
+                sbSql.Append(" INSERT INTO [PRESALE] ");
+                sbSql.Append(" ([ID],[YEARS],[MONTHS],[DEPID],[DEPNAME],[SALESID],[SALESNAME],[CUSTOMERID],[CUSTOMERNAME],[PRODUCTID],[PRODUCTNAME],[PRICES],[NUM],[TMONEY]) ");
+                sbSql.AppendFormat("  VALUES ('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}','{11}','{12}','{13}') ", Guid.NewGuid(),numericUpDown3.Value.ToString(),numericUpDown4.Value.ToString(),textBox1.Text.ToString(),comboBox2.Text.ToString(),textBox2.Text.ToString(),comboBox3.Text.ToString(),textBox9.Text.ToString(), textBox10.Text.ToString(), textBox3.Text.ToString(), textBox4.Text.ToString(), textBox5.Text.ToString(), textBox6.Text.ToString(), textBox7.Text.ToString());
+
+                cmd.Connection = sqlConn;
+                cmd.CommandTimeout = 60;
+                cmd.CommandText = sbSql.ToString();
+                cmd.Transaction = tran;
+                result = cmd.ExecuteNonQuery();
+
+                if (result == 0)
+                {
+                    tran.Rollback();    //交易取消
+                }
+                else
+                {
+                    tran.Commit();      //執行交易  
+
+
+                }
+            }
+            catch
+            {
+
+            }
+
+            finally
+            {
+                sqlConn.Close();
+            }
+        }
+
+        public void DELETE()
+        {
+            try
+            {
+
+                connectionString = ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString;
+                sqlConn = new SqlConnection(connectionString);
+
+                sqlConn.Close();
+                sqlConn.Open();
+                tran = sqlConn.BeginTransaction();
+
+                sbSql.Clear();
+                sbSql.Append(" DELETE [PRESALE]  ");
+                sbSql.AppendFormat("  WHERE [ID]='{0}' ", textBoxID.Text.ToString());
+                sbSql.Append("   ");
+
+                cmd.Connection = sqlConn;
+                cmd.CommandTimeout = 60;
+                cmd.CommandText = sbSql.ToString();
+                cmd.Transaction = tran;
+                result = cmd.ExecuteNonQuery();
+
+                if (result == 0)
+                {
+                    tran.Rollback();    //交易取消
+                }
+                else
+                {
+                    tran.Commit();      //執行交易  
+
+
+                }
+            }
+            catch
+            {
+
+            }
+
+            finally
+            {
+                sqlConn.Close();
+            }
+        }
         #endregion
 
         #region BUTTON
-       
+
         #endregion
 
         #region BUTTON
@@ -303,6 +621,53 @@ namespace TKBUSINESS
         {
             Search();
         }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            SETADD();
+            SETADDNEW();
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            SETUPDATE();
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {            
+            DialogResult dialogResult = MessageBox.Show("確認要刪除嗎?", "yes/no", MessageBoxButtons.YesNo);
+            if (dialogResult == DialogResult.Yes)
+            {
+                DELETE();
+            }
+            else if (dialogResult == DialogResult.No)
+            {
+                //do something else
+            }
+            Search();
+            SETFINISH();
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(textBoxID.Text.ToString()))
+            {
+                UPDATE();
+            }
+            else
+            {
+                ADD();
+            }
+            //if (ds.Tables["TEMPds1"].Rows.Count >= 1)
+            //{
+            //    rownum = dataGridView1.CurrentCell.RowIndex;
+            //}
+
+            Search();
+            SETFINISH();
+        }
+
+
 
         #endregion
 
