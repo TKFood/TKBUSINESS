@@ -120,27 +120,29 @@ namespace TKBUSINESS
             }
             else if (comboBox1.Text.ToString().Equals("電子商務明細"))
             {
-                STR.AppendFormat(@"  SELECT [YEARS] AS '年度',CONVERT(INT,[MONTHS]) AS '月份' ,[PRODUCTID] AS '商品代號',[PRODUCTNAME] AS '商品名' ,SUM([PRICES]) AS '單價',SUM([NUM]) AS '數量',SUM([TMONEY]) AS '金額'  ");
+                STR.AppendFormat(@"  SELECT [YEARS] AS '年度',CONVERT(INT,[MONTHS]) AS '月份' ,[PRODUCTID] AS '商品代號',[PRODUCTNAME] AS '商品名',MB003 AS '規格' ,SUM([PRICES]) AS '單價',SUM([NUM]) AS '數量',SUM([TMONEY]) AS '金額'     ");
                 STR.AppendFormat(@"  FROM [TKBUSINESS].[dbo].[PRESALE]   ");
-                STR.AppendFormat(@"  WHERE   [YEARS]>='2017'AND CONVERT(INT,[MONTHS])>='{1}'", dateTimePicker1.Value.ToString("yyyy"), Convert.ToInt16(dateTimePicker1.Value.ToString("MM"))); ;
-                STR.AppendFormat(@"  AND [YEARS]<='2017'AND CONVERT(INT,[MONTHS])<='{1}'", dateTimePicker2.Value.ToString("yyyy"), Convert.ToInt16(dateTimePicker2.Value.ToString("MM")));
+                STR.AppendFormat(@"  LEFT JOIN [TK].[dbo].INVMB ON MB001=[PRODUCTID]");
+                STR.AppendFormat(@"  WHERE   [YEARS]>='{0}'AND CONVERT(INT,[MONTHS])>='{1}'", dateTimePicker1.Value.ToString("yyyy"), Convert.ToInt16(dateTimePicker1.Value.ToString("MM"))); ;
+                STR.AppendFormat(@"  AND [YEARS]<='{0}'AND CONVERT(INT,[MONTHS])<='{1}'", dateTimePicker2.Value.ToString("yyyy"), Convert.ToInt16(dateTimePicker2.Value.ToString("MM")));
                 STR.AppendFormat(@"  AND [CUSTOMERID]='1ZZZZZZZ'");
-                STR.AppendFormat(@"  GROUP BY [YEARS],CONVERT(INT,[MONTHS]),[CUSTOMERID],[PRODUCTID],[PRODUCTNAME] ");
-                STR.AppendFormat(@"  ORDER BY [YEARS],CONVERT(INT,[MONTHS]),[CUSTOMERID]");
+                STR.AppendFormat(@"  GROUP BY [YEARS],CONVERT(INT,[MONTHS]),[CUSTOMERID],[PRODUCTID],[PRODUCTNAME] ,MB003");
+                STR.AppendFormat(@"  ORDER BY [YEARS],CONVERT(INT,[MONTHS]),[CUSTOMERID],[PRODUCTID],[PRODUCTNAME] ,MB003");
                 STR.AppendFormat(@"  ");
                 tablename = "TEMPds2";
             }
             else if (comboBox1.Text.ToString().Equals("消費者及員購明細"))
             {
-                STR.AppendFormat(@"  SELECT [YEARS] AS '年度',CONVERT(INT,[MONTHS]) AS '月份' ,[PRODUCTID] AS '商品代號',[PRODUCTNAME] AS '商品名' ,SUM([PRICES]) AS '單價',SUM([NUM]) AS '數量',SUM([TMONEY]) AS '金額'  ");
+                STR.AppendFormat(@" SELECT [YEARS] AS '年度',CONVERT(INT,[MONTHS]) AS '月份' ,[PRODUCTID] AS '商品代號',[PRODUCTNAME] AS '商品名',MB003 AS '規格' ,SUM([PRICES]) AS '單價',SUM([NUM]) AS '數量',SUM([TMONEY]) AS '金額'      ");
                 STR.AppendFormat(@"  FROM [TKBUSINESS].[dbo].[PRESALE]   ");
-                STR.AppendFormat(@"  WHERE   [YEARS]>='2017'AND CONVERT(INT,[MONTHS])>='{1}'", dateTimePicker1.Value.ToString("yyyy"), Convert.ToInt16(dateTimePicker1.Value.ToString("MM"))); ;
-                STR.AppendFormat(@"  AND [YEARS]<='2017'AND CONVERT(INT,[MONTHS])<='{1}'", dateTimePicker2.Value.ToString("yyyy"), Convert.ToInt16(dateTimePicker2.Value.ToString("MM")));
+                STR.AppendFormat(@"  LEFT JOIN [TK].[dbo].INVMB ON MB001=[PRODUCTID]");
+                STR.AppendFormat(@"  WHERE   [YEARS]>='{0}'AND CONVERT(INT,[MONTHS])>='{1}'", dateTimePicker1.Value.ToString("yyyy"), Convert.ToInt16(dateTimePicker1.Value.ToString("MM"))); ;
+                STR.AppendFormat(@"  AND [YEARS]<='{0}'AND CONVERT(INT,[MONTHS])<='{1}'", dateTimePicker2.Value.ToString("yyyy"), Convert.ToInt16(dateTimePicker2.Value.ToString("MM")));
                 STR.AppendFormat(@"  AND [CUSTOMERID]='1ZZZZZZA'");
-                STR.AppendFormat(@"  GROUP BY [YEARS],CONVERT(INT,[MONTHS]),[CUSTOMERID],[PRODUCTID],[PRODUCTNAME] ");
-                STR.AppendFormat(@"  ORDER BY [YEARS],CONVERT(INT,[MONTHS]),[CUSTOMERID]");
+                STR.AppendFormat(@"  GROUP BY [YEARS],CONVERT(INT,[MONTHS]),[CUSTOMERID],[PRODUCTID],[PRODUCTNAME] ,MB003 ");
+                STR.AppendFormat(@"  ORDER BY [YEARS],CONVERT(INT,[MONTHS]),[CUSTOMERID],[PRODUCTID],[PRODUCTNAME] ,MB003");
                 STR.AppendFormat(@"  ");
-                tablename = "TEMPds2";
+                tablename = "TEMPds3";
             }
 
             return STR;
@@ -183,6 +185,41 @@ namespace TKBUSINESS
                     ws.GetRow(j + 1).CreateCell(2).SetCellValue(((System.Data.DataRowView)(dr.DataBoundItem)).Row.ItemArray[2].ToString());
                     ws.GetRow(j + 1).CreateCell(3).SetCellValue(Convert.ToDouble(((System.Data.DataRowView)(dr.DataBoundItem)).Row.ItemArray[3].ToString()));
                    
+                    j++;
+                }
+            }
+            else if(tablename.Equals("TEMPds2"))
+            {
+                foreach (DataGridViewRow dr in this.dataGridView1.Rows)
+                {
+                    ws.CreateRow(j + 1);
+                    ws.GetRow(j + 1).CreateCell(0).SetCellValue(((System.Data.DataRowView)(dr.DataBoundItem)).Row.ItemArray[0].ToString());
+                    ws.GetRow(j + 1).CreateCell(1).SetCellValue(((System.Data.DataRowView)(dr.DataBoundItem)).Row.ItemArray[1].ToString());
+                    ws.GetRow(j + 1).CreateCell(2).SetCellValue(((System.Data.DataRowView)(dr.DataBoundItem)).Row.ItemArray[2].ToString());
+                    ws.GetRow(j + 1).CreateCell(3).SetCellValue(((System.Data.DataRowView)(dr.DataBoundItem)).Row.ItemArray[3].ToString());
+                    ws.GetRow(j + 1).CreateCell(4).SetCellValue(((System.Data.DataRowView)(dr.DataBoundItem)).Row.ItemArray[4].ToString());
+                    ws.GetRow(j + 1).CreateCell(5).SetCellValue(Convert.ToDouble(((System.Data.DataRowView)(dr.DataBoundItem)).Row.ItemArray[5].ToString()));
+                    ws.GetRow(j + 1).CreateCell(6).SetCellValue(Convert.ToDouble(((System.Data.DataRowView)(dr.DataBoundItem)).Row.ItemArray[6].ToString()));
+                    ws.GetRow(j + 1).CreateCell(7).SetCellValue(Convert.ToDouble(((System.Data.DataRowView)(dr.DataBoundItem)).Row.ItemArray[7].ToString()));
+
+                    j++;
+                }
+
+            }
+            else if (tablename.Equals("TEMPds3"))
+            {
+                foreach (DataGridViewRow dr in this.dataGridView1.Rows)
+                {
+                    ws.CreateRow(j + 1);
+                    ws.GetRow(j + 1).CreateCell(0).SetCellValue(((System.Data.DataRowView)(dr.DataBoundItem)).Row.ItemArray[0].ToString());
+                    ws.GetRow(j + 1).CreateCell(1).SetCellValue(((System.Data.DataRowView)(dr.DataBoundItem)).Row.ItemArray[1].ToString());
+                    ws.GetRow(j + 1).CreateCell(2).SetCellValue(((System.Data.DataRowView)(dr.DataBoundItem)).Row.ItemArray[2].ToString());
+                    ws.GetRow(j + 1).CreateCell(3).SetCellValue(((System.Data.DataRowView)(dr.DataBoundItem)).Row.ItemArray[3].ToString());
+                    ws.GetRow(j + 1).CreateCell(4).SetCellValue(((System.Data.DataRowView)(dr.DataBoundItem)).Row.ItemArray[4].ToString());
+                    ws.GetRow(j + 1).CreateCell(5).SetCellValue(Convert.ToDouble(((System.Data.DataRowView)(dr.DataBoundItem)).Row.ItemArray[5].ToString()));
+                    ws.GetRow(j + 1).CreateCell(6).SetCellValue(Convert.ToDouble(((System.Data.DataRowView)(dr.DataBoundItem)).Row.ItemArray[6].ToString()));
+                    ws.GetRow(j + 1).CreateCell(7).SetCellValue(Convert.ToDouble(((System.Data.DataRowView)(dr.DataBoundItem)).Row.ItemArray[7].ToString()));
+
                     j++;
                 }
             }
