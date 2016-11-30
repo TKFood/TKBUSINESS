@@ -41,13 +41,113 @@ namespace TKBUSINESS
         string tablename = null;
         int rownum = 0;
         DataGridViewRow row;
-        string mdate;
+        string SALSESID=null;
 
         public frmPRESALE()
         {
             InitializeComponent();
+            //tableLayoutPanel2.AutoScroll = true;
+            //tableLayoutPanel2.AutoScrollMinSize = new Size(1000, 600);
+            combobox1load();            
+            combobox3load();
+            combobox2load();
+
         }
+
         #region FUNCTION
+        public void combobox1load()
+        {
+            connectionString = ConfigurationManager.ConnectionStrings["dberp"].ConnectionString;
+            sqlConn = new SqlConnection(connectionString);
+            StringBuilder Sequel = new StringBuilder();
+            Sequel.AppendFormat(@" SELECT MV001,MV002  ");
+            Sequel.AppendFormat(@" FROM CMSMV ");
+            Sequel.AppendFormat(@" WHERE MV001   IN ('160092','070005','090002','140020','140049','140051','140078','150012','160155') ");
+            Sequel.AppendFormat(@"  ");
+
+            SqlDataAdapter da = new SqlDataAdapter(Sequel.ToString(), sqlConn);
+
+            DataTable dt = new DataTable();
+            sqlConn.Open();
+
+            dt.Columns.Add("MV001", typeof(string));
+            dt.Columns.Add("MV002", typeof(string));
+            da.Fill(dt);
+            comboBox1.DataSource = dt.DefaultView;
+            comboBox1.ValueMember = "MV001";
+            comboBox1.DisplayMember = "MV002";
+            sqlConn.Close();
+
+        }
+        public void combobox2load()
+        {
+            if(!string.IsNullOrEmpty(SALSESID))
+            {
+                connectionString = ConfigurationManager.ConnectionStrings["dberp"].ConnectionString;
+                sqlConn = new SqlConnection(connectionString);
+
+                StringBuilder Sequel = new StringBuilder();
+                Sequel.AppendFormat(@" SELECT ME001,ME002 FROM CMSME ");
+                Sequel.AppendFormat(@" WHERE ME002 NOT LIKE '%停用%' ");
+                Sequel.AppendFormat(@"  AND ME001 IN (SELECT MV004 FROM CMSMV WHERE  MV001='{0}')", SALSESID.ToString());
+                //Sequel.AppendFormat(@" AND EXISTS (SELECT MV004 FROM COPMA,CMSMV WHERE MA016=MV001 AND ISNULL(MA016,'')<>'' AND MV004=ME001  AND MV001='{0}')", SALSESID.ToString());
+                Sequel.AppendFormat(@" ");
+
+                SqlDataAdapter da = new SqlDataAdapter(Sequel.ToString(), sqlConn);
+                DataTable dt = new DataTable();
+                sqlConn.Open();
+
+                dt.Columns.Add("ME001", typeof(string));
+                dt.Columns.Add("ME002", typeof(string));
+                 da.Fill(dt);
+                comboBox2.DataSource = dt.DefaultView;
+                comboBox2.ValueMember = "ME001";
+                comboBox2.DisplayMember = "ME002";
+                sqlConn.Close();
+                if(dt.Rows.Count>0)
+                {
+                    textBox1.Text = dt.Rows[0]["ME001"].ToString();
+                }
+                
+            }
+           
+
+        }
+
+        public void combobox3load()
+        {
+            connectionString = ConfigurationManager.ConnectionStrings["dberp"].ConnectionString;
+            sqlConn = new SqlConnection(connectionString);
+            StringBuilder Sequel = new StringBuilder();
+            Sequel.AppendFormat(@" SELECT MV001,MV002  ");
+            Sequel.AppendFormat(@" FROM CMSMV ");
+            Sequel.AppendFormat(@" WHERE MV001   IN ('160092','070005','090002','140020','140049','140051','140078','150012','160155') ");
+            Sequel.AppendFormat(@"  ");
+            SqlDataAdapter da = new SqlDataAdapter(Sequel.ToString(), sqlConn);
+
+            DataTable dt = new DataTable();
+            sqlConn.Open();
+
+            dt.Columns.Add("MV001", typeof(string));
+            dt.Columns.Add("MV002", typeof(string));
+            da.Fill(dt);
+            comboBox3.DataSource = dt.DefaultView;
+            comboBox3.ValueMember = "MV001";
+            comboBox3.DisplayMember = "MV002";
+            textBox2.Text = dt.Rows[0]["MV001"].ToString(); 
+            sqlConn.Close();
+
+            SALSESID = textBox2.Text.ToString();
+            combobox2load();
+
+        }
+        private void comboBox3_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            SALSESID = comboBox3.SelectedValue.ToString();
+            textBox2.Text = SALSESID;
+            combobox2load();
+        }
+       
         public void Search()
         {
             try
@@ -203,7 +303,9 @@ namespace TKBUSINESS
         {
             Search();
         }
+
         #endregion
 
+        
     }
 }
