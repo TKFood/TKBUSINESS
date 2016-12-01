@@ -199,7 +199,7 @@ namespace TKBUSINESS
                         dataGridView1.DataSource = ds.Tables[tablename];
                         dataGridView1.AutoResizeColumns();
                         //rownum = ds.Tables[talbename].Rows.Count - 1;
-                        dataGridView1.CurrentCell = dataGridView1.Rows[rownum].Cells[0];
+                        dataGridView1.CurrentCell = dataGridView1.Rows[rownum].Cells[8];
 
                         //dataGridView1.CurrentCell = dataGridView1[0, 2];
 
@@ -226,6 +226,11 @@ namespace TKBUSINESS
         public StringBuilder SETsbSql()
         {
             StringBuilder STR = new StringBuilder();
+            StringBuilder STRQUERY = new StringBuilder();
+            if (!string.IsNullOrEmpty(textBox8.Text.ToString()))
+            {
+                STRQUERY.AppendFormat(@" AND [CUSTOMERID] LIKE '{0}%'", textBox8.Text.ToString());
+            }
 
             STR.AppendFormat(@"  SELECT [YEARS] AS '年度',[MONTHS] AS '月份',[DEPID] AS '部門代號' ,[DEPNAME] AS '部門名'");
             STR.AppendFormat(@"  ,[SALESID] AS '業務員代號',[SALESNAME] AS '業務名',[CUSTOMERID] AS '客戶代號',[CUSTOMERNAME] AS '客戶名' ");
@@ -235,6 +240,7 @@ namespace TKBUSINESS
             STR.AppendFormat(@"   WHERE [SALESID]='{0}'",comboBox1.SelectedValue.ToString());
             STR.AppendFormat(@"   AND  [YEARS]>='{0}' AND CONVERT(INT,[MONTHS])>='{1}'", dateTimePicker1.Value.ToString("yyyy"), Convert.ToInt16(dateTimePicker1.Value.ToString("MM")));
             STR.AppendFormat(@"   AND  [YEARS]<='{0}' AND CONVERT(INT,[MONTHS])<='{1}'", dateTimePicker2.Value.ToString("yyyy"), Convert.ToInt16(dateTimePicker2.Value.ToString("MM")));
+            STR.AppendFormat(@"  {0}", STRQUERY.ToString());
             STR.AppendFormat(@"   ORDER BY [YEARS],CONVERT(INT,[MONTHS]),[CUSTOMERID]");
             STR.AppendFormat(@"  ");
             tablename = "TEMPds1";
@@ -676,10 +682,10 @@ namespace TKBUSINESS
             {
                 ADD();
             }
-            //if (ds.Tables["TEMPds1"].Rows.Count >= 1)
-            //{
-            //    rownum = dataGridView1.CurrentCell.RowIndex;
-            //}
+            if (ds.Tables["TEMPds1"].Rows.Count >= 1)
+            {
+                rownum = dataGridView1.CurrentCell.RowIndex;
+            }
 
             Search();
             SETFINISH();
