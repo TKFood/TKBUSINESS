@@ -88,6 +88,12 @@
     <Compile Include="frmPRESALE.Designer.cs">
       <DependentUpon>frmPRESALE.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmPRESALEV2018.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmPRESALEV2018.Designer.cs">
+      <DependentUpon>frmPRESALEV2018.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmREPORT.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -104,6 +110,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmPRESALE.resx">
       <DependentUpon>frmPRESALE.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmPRESALEV2018.resx">
+      <DependentUpon>frmPRESALEV2018.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmREPORT.resx">
       <DependentUpon>frmREPORT.cs</DependentUpon>
