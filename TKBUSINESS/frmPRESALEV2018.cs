@@ -528,7 +528,7 @@ namespace TKBUSINESS
 
 
 
-            #region BUTTON
+        #region BUTTON
         private void button1_Click(object sender, EventArgs e)
         {
             SearchPRESALE2018();
@@ -598,6 +598,15 @@ namespace TKBUSINESS
 
         }
 
+        private void button9_Click(object sender, EventArgs e)
+        {
+            frmPRESALEV2018COPY SUBfrmPRESALEV2018COPY = new frmPRESALEV2018COPY();
+            SUBfrmPRESALEV2018COPY.ShowDialog();
+
+            SearchPRESALE2018();
+            MessageBox.Show("完成");
+
+        }
 
 
         #endregion

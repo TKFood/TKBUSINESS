@@ -96,6 +96,7 @@
             this.report1 = new FastReport.Report();
             this.button7 = new System.Windows.Forms.Button();
             this.button8 = new System.Windows.Forms.Button();
+            this.button9 = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -444,6 +445,7 @@
             this.tableLayoutPanel1.Controls.Add(this.button5, 7, 2);
             this.tableLayoutPanel1.Controls.Add(this.button7, 4, 3);
             this.tableLayoutPanel1.Controls.Add(this.button8, 4, 2);
+            this.tableLayoutPanel1.Controls.Add(this.button9, 7, 3);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -1063,6 +1065,17 @@
             this.button8.UseVisualStyleBackColor = true;
             this.button8.Click += new System.EventHandler(this.button8_Click);
             // 
+            // button9
+            // 
+            this.button9.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.button9.Location = new System.Drawing.Point(843, 124);
+            this.button9.Name = "button9";
+            this.button9.Size = new System.Drawing.Size(114, 31);
+            this.button9.TabIndex = 38;
+            this.button9.Text = "同客戶複製";
+            this.button9.UseVisualStyleBackColor = true;
+            this.button9.Click += new System.EventHandler(this.button9_Click);
+            // 
             // frmPRESALEV2018
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 16F);
@@ -1180,5 +1193,6 @@
         private System.Windows.Forms.TextBox textBox200;
         private System.Windows.Forms.Button button7;
         private System.Windows.Forms.Button button8;
+        private System.Windows.Forms.Button button9;
     }
 }
