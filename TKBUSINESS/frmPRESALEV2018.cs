@@ -21,6 +21,8 @@ using NPOI.SS.UserModel;
 using System.Configuration;
 using NPOI.XSSF.UserModel;
 using System.Text.RegularExpressions;
+using FastReport;
+using FastReport.Data;
 
 namespace TKBUSINESS
 {
@@ -128,7 +130,7 @@ namespace TKBUSINESS
             STR.AppendFormat(@"  FROM [TKBUSINESS].[dbo].[PRESALE2018]");
             STR.AppendFormat(@"  WHERE [YEARS]={0} AND [MONTHS]>={1} AND [MONTHS]<={2}",numericUpDown1.Value.ToString(), numericUpDown2.Value.ToString(), numericUpDown3.Value.ToString());
             STR.AppendFormat(@"  {0}", STRQUERY.ToString());
-            STR.AppendFormat(@"  ORDER BY  [YEARS],[MONTHS],[CUSTOMERID],[MB001]");
+            STR.AppendFormat(@"  ORDER BY  [YEARS],[MONTHS],[SALESID],[CUSTOMERID],[MB001]");
             STR.AppendFormat(@"  ");
 
             tablename = "TEMPds1";
@@ -477,12 +479,56 @@ namespace TKBUSINESS
             }
         }
 
+        public void SETFASTREPORT()
+        {
+            string SQL;
+            report1 = new Report();
+            report1.Load(@"REPORT\銷售預估.frx");
+
+            report1.Dictionary.Connections[0].ConnectionString = ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString;
+
+            TableDataSource Table = report1.GetDataSource("Table") as TableDataSource;
+            SQL = SETFASETSQL();
+            Table.SelectCommand = SQL;
+            report1.Preview = previewControl1;
+            report1.Show();
+
+
+        }
+
+        public string SETFASETSQL()
+        {
+            StringBuilder FASTSQL = new StringBuilder();
+            StringBuilder STRQUERY = new StringBuilder();
+
+            if (!string.IsNullOrEmpty(textBox201.Text.ToString()))
+            {
+                STRQUERY.AppendFormat(@" AND [CUSTOMERID] LIKE '{0}%'", textBox201.Text.ToString());
+            }
+            if (!string.IsNullOrEmpty(textBox200.Text.ToString()))
+            {
+                STRQUERY.AppendFormat(@" AND [SALESID] LIKE '{0}%'", textBox200.Text.ToString());
+            }
+
+            FASTSQL.AppendFormat(@"  SELECT");
+            FASTSQL.AppendFormat(@"  [YEARS] AS '年',[MONTHS] AS '月',[SALESNAME] AS '業務名',[CUSTOMERNAME] AS '客戶名'");
+            FASTSQL.AppendFormat(@"  ,[MB001] AS '品號',[MB002] AS '品名',[PRICES] AS '單價',[NUM] AS '數量',[TMONEY] AS '金額'");
+            FASTSQL.AppendFormat(@"  ,[SALESID] AS '業務',[CUSTOMERID] AS '客戶'");
+            FASTSQL.AppendFormat(@"  ,[ID]");
+            FASTSQL.AppendFormat(@"  FROM [TKBUSINESS].[dbo].[PRESALE2018]");
+            FASTSQL.AppendFormat(@"  WHERE [YEARS]={0} AND [MONTHS]>={1} AND [MONTHS]<={2}", numericUpDown5.Value.ToString(), numericUpDown6.Value.ToString(), numericUpDown7.Value.ToString());
+            FASTSQL.AppendFormat(@"  {0}", STRQUERY.ToString());
+            FASTSQL.AppendFormat(@"  ORDER BY  [YEARS],[MONTHS],[SALESID],[CUSTOMERID],[MB001]");
+            FASTSQL.AppendFormat(@"  ");
+
+            return FASTSQL.ToString();
+        }
         #endregion
 
 
 
 
-        #region BUTTON
+            #region BUTTON
         private void button1_Click(object sender, EventArgs e)
         {
             SearchPRESALE2018();
@@ -530,6 +576,11 @@ namespace TKBUSINESS
                 //do something else
             }
         }
+        private void button6_Click(object sender, EventArgs e)
+        {
+            SETFASTREPORT();
+        }
+
 
 
 
@@ -537,6 +588,6 @@ namespace TKBUSINESS
 
         #endregion
 
-       
+
     }
 }
