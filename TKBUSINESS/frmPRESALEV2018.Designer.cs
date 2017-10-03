@@ -94,6 +94,8 @@
             this.textBox200 = new System.Windows.Forms.TextBox();
             this.previewControl1 = new FastReport.Preview.PreviewControl();
             this.report1 = new FastReport.Report();
+            this.button7 = new System.Windows.Forms.Button();
+            this.button8 = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -440,6 +442,8 @@
             this.tableLayoutPanel1.Controls.Add(this.label11, 6, 4);
             this.tableLayoutPanel1.Controls.Add(this.textBox20, 7, 4);
             this.tableLayoutPanel1.Controls.Add(this.button5, 7, 2);
+            this.tableLayoutPanel1.Controls.Add(this.button7, 4, 3);
+            this.tableLayoutPanel1.Controls.Add(this.button8, 4, 2);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -1037,6 +1041,28 @@
             // 
             this.report1.ReportResourceString = resources.GetString("report1.ReportResourceString");
             // 
+            // button7
+            // 
+            this.button7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.button7.Location = new System.Drawing.Point(483, 124);
+            this.button7.Name = "button7";
+            this.button7.Size = new System.Drawing.Size(114, 31);
+            this.button7.TabIndex = 36;
+            this.button7.Text = "開窗";
+            this.button7.UseVisualStyleBackColor = true;
+            this.button7.Click += new System.EventHandler(this.button7_Click);
+            // 
+            // button8
+            // 
+            this.button8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.button8.Location = new System.Drawing.Point(483, 84);
+            this.button8.Name = "button8";
+            this.button8.Size = new System.Drawing.Size(114, 31);
+            this.button8.TabIndex = 37;
+            this.button8.Text = "開窗";
+            this.button8.UseVisualStyleBackColor = true;
+            this.button8.Click += new System.EventHandler(this.button8_Click);
+            // 
             // frmPRESALEV2018
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 16F);
@@ -1152,5 +1178,7 @@
         private System.Windows.Forms.TextBox textBox201;
         private System.Windows.Forms.Label label23;
         private System.Windows.Forms.TextBox textBox200;
+        private System.Windows.Forms.Button button7;
+        private System.Windows.Forms.Button button8;
     }
 }

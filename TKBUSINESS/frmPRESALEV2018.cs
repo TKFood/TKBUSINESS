@@ -583,6 +583,17 @@ namespace TKBUSINESS
 
 
 
+        private void button8_Click(object sender, EventArgs e)
+        {
+            frmPRESALEV2018COPMA SUBfrmPRESALEV2018COPMA = new frmPRESALEV2018COPMA();
+            SUBfrmPRESALEV2018COPMA.ShowDialog();
+            textBox9.Text = SUBfrmPRESALEV2018COPMA.TextBoxMsg;
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+
+        }
 
 
 

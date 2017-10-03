@@ -98,6 +98,12 @@
     <Compile Include="frmPRESALEV2018.Designer.cs">
       <DependentUpon>frmPRESALEV2018.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmPRESALEV2018COPMA.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmPRESALEV2018COPMA.Designer.cs">
+      <DependentUpon>frmPRESALEV2018COPMA.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmREPORT.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -117,6 +123,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmPRESALEV2018.resx">
       <DependentUpon>frmPRESALEV2018.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmPRESALEV2018COPMA.resx">
+      <DependentUpon>frmPRESALEV2018COPMA.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmREPORT.resx">
       <DependentUpon>frmREPORT.cs</DependentUpon>
