@@ -1,6 +1,6 @@
 ﻿namespace TKBUSINESS
 {
-    partial class frmPRESALEV2018COPMA
+    partial class frmPRESALEV2018INVMB
     {
         /// <summary>
         /// Required designer variable.
@@ -58,8 +58,8 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.dataGridView1);
-            this.splitContainer1.Size = new System.Drawing.Size(601, 328);
-            this.splitContainer1.SplitterDistance = 101;
+            this.splitContainer1.Size = new System.Drawing.Size(639, 341);
+            this.splitContainer1.SplitterDistance = 109;
             this.splitContainer1.TabIndex = 0;
             // 
             // tableLayoutPanel1
@@ -67,8 +67,8 @@
             this.tableLayoutPanel1.BackColor = System.Drawing.Color.LightSkyBlue;
             this.tableLayoutPanel1.ColumnCount = 3;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 213F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 67F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 237F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 43F));
             this.tableLayoutPanel1.Controls.Add(this.label1, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.button1, 2, 0);
             this.tableLayoutPanel1.Controls.Add(this.textBox1, 1, 0);
@@ -82,8 +82,8 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(597, 97);
-            this.tableLayoutPanel1.TabIndex = 2;
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(635, 105);
+            this.tableLayoutPanel1.TabIndex = 3;
             // 
             // label1
             // 
@@ -100,7 +100,7 @@
             // button1
             // 
             this.button1.Font = new System.Drawing.Font("新細明體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.button1.Location = new System.Drawing.Point(316, 3);
+            this.button1.Location = new System.Drawing.Point(340, 3);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(99, 30);
             this.button1.TabIndex = 2;
@@ -113,14 +113,13 @@
             this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.textBox1.Location = new System.Drawing.Point(103, 9);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(207, 22);
+            this.textBox1.Size = new System.Drawing.Size(231, 22);
             this.textBox1.TabIndex = 3;
-            this.textBox1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBox1_KeyDown);
             // 
             // button2
             // 
             this.button2.Font = new System.Drawing.Font("新細明體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.button2.Location = new System.Drawing.Point(316, 43);
+            this.button2.Location = new System.Drawing.Point(340, 43);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(99, 30);
             this.button2.TabIndex = 4;
@@ -137,18 +136,18 @@
             this.dataGridView1.Location = new System.Drawing.Point(0, 0);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowTemplate.Height = 24;
-            this.dataGridView1.Size = new System.Drawing.Size(597, 219);
-            this.dataGridView1.TabIndex = 1;
+            this.dataGridView1.Size = new System.Drawing.Size(635, 224);
+            this.dataGridView1.TabIndex = 2;
             this.dataGridView1.SelectionChanged += new System.EventHandler(this.dataGridView1_SelectionChanged);
             // 
-            // frmPRESALEV2018COPMA
+            // frmPRESALEV2018INVMB
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(601, 328);
+            this.ClientSize = new System.Drawing.Size(639, 341);
             this.Controls.Add(this.splitContainer1);
-            this.Name = "frmPRESALEV2018COPMA";
-            this.Text = "frmPRESALEV2018COPMA";
+            this.Name = "frmPRESALEV2018INVMB";
+            this.Text = "frmPRESALEV2018INVMB";
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();

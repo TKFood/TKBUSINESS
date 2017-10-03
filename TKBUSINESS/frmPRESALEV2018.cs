@@ -592,6 +592,9 @@ namespace TKBUSINESS
 
         private void button7_Click(object sender, EventArgs e)
         {
+            frmPRESALEV2018INVMB SUBfrmPRESALEV2018INVMB = new frmPRESALEV2018INVMB();
+            SUBfrmPRESALEV2018INVMB.ShowDialog();
+            textBox11.Text = SUBfrmPRESALEV2018INVMB.TextBoxMsg;
 
         }
 
