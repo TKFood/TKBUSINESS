@@ -130,7 +130,7 @@ namespace TKBUSINESS
             STR.AppendFormat(@"  FROM [TKBUSINESS].[dbo].[PRESALE2018]");
             STR.AppendFormat(@"  WHERE [YEARS]={0} AND [MONTHS]>={1} AND [MONTHS]<={2}",numericUpDown1.Value.ToString(), numericUpDown2.Value.ToString(), numericUpDown3.Value.ToString());
             STR.AppendFormat(@"  {0}", STRQUERY.ToString());
-            STR.AppendFormat(@"  ORDER BY  [YEARS],[MONTHS],[SALESID],[CUSTOMERID],[MB001]");
+            STR.AppendFormat(@"  ORDER BY  [YEARS],CONVERT(INT,[MONTHS]),[SALESID],[CUSTOMERID],[MB001]");
             STR.AppendFormat(@"  ");
 
             tablename = "TEMPds1";
@@ -518,7 +518,7 @@ namespace TKBUSINESS
             FASTSQL.AppendFormat(@"  FROM [TKBUSINESS].[dbo].[PRESALE2018]");
             FASTSQL.AppendFormat(@"  WHERE [YEARS]={0} AND [MONTHS]>={1} AND [MONTHS]<={2}", numericUpDown5.Value.ToString(), numericUpDown6.Value.ToString(), numericUpDown7.Value.ToString());
             FASTSQL.AppendFormat(@"  {0}", STRQUERY.ToString());
-            FASTSQL.AppendFormat(@"  ORDER BY  [YEARS],[MONTHS],[SALESID],[CUSTOMERID],[MB001]");
+            FASTSQL.AppendFormat(@"  ORDER BY  [YEARS],CONVERT(INT,[MONTHS]),[SALESID],[CUSTOMERID],[MB001]");
             FASTSQL.AppendFormat(@"  ");
 
             return FASTSQL.ToString();
