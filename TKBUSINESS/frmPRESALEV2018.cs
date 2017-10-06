@@ -142,8 +142,8 @@ namespace TKBUSINESS
         {
             textBox7.Text = null;
             textBox8.Text = null;
-            textBox9.Text = null;
-            textBox10.Text = null;
+            //textBox9.Text = null;
+            //textBox10.Text = null;
             textBox11.Text = null;
             textBox12.Text = null;
             textBox13.Text = null;
