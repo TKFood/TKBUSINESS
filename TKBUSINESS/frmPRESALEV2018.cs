@@ -175,18 +175,16 @@ namespace TKBUSINESS
                 STRQUERY.AppendFormat(@" AND [SALESID] LIKE '{0}%'", textBox3.Text.ToString());
             }
 
-
             STR.AppendFormat(@"  SELECT");
             STR.AppendFormat(@"  [YEARS] AS '年',[MONTHS] AS '月',[SALESNAME] AS '業務名',[CUSTOMERNAME] AS '客戶名'");
             STR.AppendFormat(@"  ,[MB001] AS '品號',[MB002] AS '品名',[MB003] AS '規格',[PRICES] AS '單價',[NUM] AS '數量',[TMONEY] AS '金額'");
             STR.AppendFormat(@"  ,[SALESID] AS '業務',[CUSTOMERID] AS '客戶'");
             STR.AppendFormat(@"  ,[ID]");
             STR.AppendFormat(@"  FROM [TKBUSINESS].[dbo].[PRESALE2018]");
-            STR.AppendFormat(@"  WHERE [YEARS]={0} AND [MONTHS]>={1} AND [MONTHS]<={2}",numericUpDown1.Value.ToString(), numericUpDown2.Value.ToString(), numericUpDown3.Value.ToString());
+            STR.AppendFormat(@"  WHERE [YEARS]={0} AND [MONTHS]>={1} AND [MONTHS]<={2}", numericUpDown8.Value.ToString(), numericUpDown9.Value.ToString(), numericUpDown10.Value.ToString());
             STR.AppendFormat(@"  {0}", STRQUERY.ToString());
             STR.AppendFormat(@"  ORDER BY  [YEARS],CONVERT(INT,[MONTHS]),[SALESID],[CUSTOMERID],[MB001]");
             STR.AppendFormat(@"  ");
-
             tablename = "TEMPds1";
 
             return STR;
@@ -207,15 +205,15 @@ namespace TKBUSINESS
             }
 
 
+
             STR.AppendFormat(@"  SELECT");
-            STR.AppendFormat(@"  [YEARS] AS '年',[MONTHS] AS '月',[SALESNAME] AS '業務名',[CUSTOMERNAME] AS '客戶名'");
+            STR.AppendFormat(@"   [YEARS] AS '年',[MONTHS] AS '月',[SALESID] AS '業務',[SALESNAME] AS '業務名',[CUSTOMERID] AS '客戶',[CUSTOMERNAME] AS '客戶名' ");
             STR.AppendFormat(@"  ,[MB001] AS '品號',[MB002] AS '品名',[MB003] AS '規格',[PRICES] AS '單價',[NUM] AS '數量',[TMONEY] AS '金額'");
-            STR.AppendFormat(@"  ,[SALESID] AS '業務',[CUSTOMERID] AS '客戶'");
             STR.AppendFormat(@"  ,[ID]");
             STR.AppendFormat(@"  FROM [TKBUSINESS].[dbo].[PRESALE2018]");
-            STR.AppendFormat(@"  WHERE [YEARS]={0} AND [MONTHS]>={1} AND [MONTHS]<={2}", numericUpDown8.Value.ToString(), numericUpDown9.Value.ToString(), numericUpDown10.Value.ToString());
+            STR.AppendFormat(@"  WHERE [YEARS]={0} AND [MONTHS]>={1} AND [MONTHS]<={2}", numericUpDown1.Value.ToString(), numericUpDown2.Value.ToString(), numericUpDown3.Value.ToString());
             STR.AppendFormat(@"  {0}", STRQUERY.ToString());
-            STR.AppendFormat(@"  ORDER BY  [YEARS],CONVERT(INT,[MONTHS]),[SALESID],[CUSTOMERID],[MB001]");
+            STR.AppendFormat(@"  ORDER BY  [YEARS],CONVERT(INT,[MONTHS]),[SALESID],[CUSTOMERID],[MB001],SERNO");
             STR.AppendFormat(@"  ");
 
             tablename = "TEMPds2";
@@ -732,6 +730,28 @@ namespace TKBUSINESS
                 dataGridView2.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = SUBfrmPRESALEV2018COPMA.TextBoxMsg;
             }
         }
+
+        private void dataGridView3_DefaultValuesNeeded(object sender, DataGridViewRowEventArgs e)
+        {
+            e.Row.Cells["年"].Value = numericUpDown8.Value.ToString();
+            //e.Row.Cells["SERNO"].Value = "0";
+        }
+
+        private void dataGridView3_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.ColumnIndex == 4)
+            {
+                frmPRESALEV2018COPMA SUBfrmPRESALEV2018COPMA = new frmPRESALEV2018COPMA();
+                SUBfrmPRESALEV2018COPMA.ShowDialog();
+                dataGridView3.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = SUBfrmPRESALEV2018COPMA.TextBoxMsg;
+            }
+            if (e.ColumnIndex == 6)
+            {
+                frmPRESALEV2018INVMB SUBfrmPRESALEV2018INVMB = new frmPRESALEV2018INVMB();
+                SUBfrmPRESALEV2018INVMB.ShowDialog();
+                dataGridView3.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = SUBfrmPRESALEV2018INVMB.TextBoxMsg;
+            }
+        }
         #endregion
 
 
@@ -905,12 +925,29 @@ namespace TKBUSINESS
             SearchPRESALE2018V2();
         }
 
+        private void button13_Click(object sender, EventArgs e)
+        {
+            dataGridView3.ReadOnly = false;
+        }
+        private void button14_Click(object sender, EventArgs e)
+        {
+            dataGridView3.ReadOnly = true;
+
+            button12.PerformClick();
+        }
+        private void button15_Click(object sender, EventArgs e)
+        {
+
+            button12.PerformClick();
+        }
+
+
 
 
 
 
         #endregion
 
-
+        
     }
 }

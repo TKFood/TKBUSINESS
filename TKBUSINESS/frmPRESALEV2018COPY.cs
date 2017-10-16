@@ -133,8 +133,8 @@ namespace TKBUSINESS
 
                 sbSql.Clear();
                 sbSql.AppendFormat(" INSERT INTO [TKBUSINESS].[dbo].[PRESALE2018]");
-                sbSql.AppendFormat(" ([ID],[YEARS],[MONTHS],[SALESID],[SALESNAME],[CUSTOMERID],[CUSTOMERNAME],[MB001],[MB002],[PRICES],[NUM],[TMONEY])");
-                sbSql.AppendFormat(" SELECT NEWID(),'{0}','{1}',[SALESID],[SALESNAME],[CUSTOMERID],[CUSTOMERNAME],[MB001],[MB002],[PRICES],[NUM],[TMONEY]", numericUpDown3.Value.ToString(), numericUpDown4.Value.ToString());
+                sbSql.AppendFormat(" ([ID],[YEARS],[MONTHS],[SALESID],[SALESNAME],[CUSTOMERID],[CUSTOMERNAME],[MB001],[MB002],[PRICES],[NUM],[TMONEY],[MB003])");
+                sbSql.AppendFormat(" SELECT NEWID(),'{0}','{1}',[SALESID],[SALESNAME],[CUSTOMERID],[CUSTOMERNAME],[MB001],[MB002],[PRICES],[NUM],[TMONEY],[MB003]", numericUpDown3.Value.ToString(), numericUpDown4.Value.ToString());
                 sbSql.AppendFormat(" FROM [TKBUSINESS].[dbo].[PRESALE2018]");
                 sbSql.AppendFormat(" WHERE [YEARS]='{0}' AND [MONTHS]='{1}' AND [SALESID]='{2}' AND [CUSTOMERID]='{3}'",numericUpDown1.Value.ToString(),numericUpDown2.Value.ToString(),textBox7.Text,textBox9.Text);
                 sbSql.AppendFormat(" ");
