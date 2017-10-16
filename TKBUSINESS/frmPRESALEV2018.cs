@@ -107,6 +107,60 @@ namespace TKBUSINESS
             }
         }
 
+        public void SearchPRESALE2018V2()
+        {
+            try
+            {
+                sbSql.Clear();
+                sbSql = SETsbSqlV2();
+
+                if (!string.IsNullOrEmpty(sbSql.ToString()))
+                {
+                    connectionString = ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString;
+                    sqlConn = new SqlConnection(connectionString);
+                    adapter = new SqlDataAdapter(sbSql.ToString(), sqlConn);
+                    sqlCmdBuilder = new SqlCommandBuilder(adapter);
+
+                    sqlConn.Open();
+                    ds.Clear();
+                    adapter.Fill(ds, tablename);
+                    sqlConn.Close();
+
+
+                    if (ds.Tables[tablename].Rows.Count == 0)
+                    {
+                        dataGridView1.DataSource = null;
+                    }
+                    else
+                    {
+                        dataGridView3.DataSource = ds.Tables[tablename];
+                        dataGridView3.AutoResizeColumns();
+                        //rownum = ds.Tables[talbename].Rows.Count - 1;
+                        dataGridView3.CurrentCell = dataGridView1.Rows[rownum].Cells[8];
+
+                        //dataGridView1.CurrentCell = dataGridView1[0, 2];
+
+                    }
+                }
+                else
+                {
+
+                }
+
+
+
+            }
+            catch
+            {
+
+            }
+            finally
+            {
+
+            }
+        }
+
+
         public StringBuilder SETsbSql()
         {
             StringBuilder STR = new StringBuilder();
@@ -138,6 +192,36 @@ namespace TKBUSINESS
             return STR;
         }
 
+        public StringBuilder SETsbSqlV2()
+        {
+            StringBuilder STR = new StringBuilder();
+            StringBuilder STRQUERY = new StringBuilder();
+
+            if (!string.IsNullOrEmpty(textBox41.Text.ToString()))
+            {
+                STRQUERY.AppendFormat(@" AND [CUSTOMERID] LIKE '{0}%'", textBox41.Text.ToString());
+            }
+            if (!string.IsNullOrEmpty(textBox40.Text.ToString()))
+            {
+                STRQUERY.AppendFormat(@" AND [SALESID] LIKE '{0}%'", textBox40.Text.ToString());
+            }
+
+
+            STR.AppendFormat(@"  SELECT");
+            STR.AppendFormat(@"  [YEARS] AS '年',[MONTHS] AS '月',[SALESNAME] AS '業務名',[CUSTOMERNAME] AS '客戶名'");
+            STR.AppendFormat(@"  ,[MB001] AS '品號',[MB002] AS '品名',[MB003] AS '規格',[PRICES] AS '單價',[NUM] AS '數量',[TMONEY] AS '金額'");
+            STR.AppendFormat(@"  ,[SALESID] AS '業務',[CUSTOMERID] AS '客戶'");
+            STR.AppendFormat(@"  ,[ID]");
+            STR.AppendFormat(@"  FROM [TKBUSINESS].[dbo].[PRESALE2018]");
+            STR.AppendFormat(@"  WHERE [YEARS]={0} AND [MONTHS]>={1} AND [MONTHS]<={2}", numericUpDown8.Value.ToString(), numericUpDown9.Value.ToString(), numericUpDown10.Value.ToString());
+            STR.AppendFormat(@"  {0}", STRQUERY.ToString());
+            STR.AppendFormat(@"  ORDER BY  [YEARS],CONVERT(INT,[MONTHS]),[SALESID],[CUSTOMERID],[MB001]");
+            STR.AppendFormat(@"  ");
+
+            tablename = "TEMPds2";
+
+            return STR;
+        }
         public void SETNULL()
         {
             textBox7.Text = null;
@@ -816,6 +900,10 @@ namespace TKBUSINESS
 
             button11.PerformClick();
         }
+        private void button12_Click(object sender, EventArgs e)
+        {
+            SearchPRESALE2018V2();
+        }
 
 
 
@@ -823,6 +911,6 @@ namespace TKBUSINESS
 
         #endregion
 
-      
+
     }
 }
