@@ -528,6 +528,126 @@ namespace TKBUSINESS
 
             return FASTSQL.ToString();
         }
+
+
+        public void INSERTTABLE(string MB001,string MB002)
+        {
+            try
+            {
+
+                connectionString = ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString;
+                sqlConn = new SqlConnection(connectionString);
+
+                sqlConn.Close();
+                sqlConn.Open();
+                tran = sqlConn.BeginTransaction();
+
+                sbSql.Clear();
+                sbSql.AppendFormat(" INSERT INTO [TKBUSINESS].[dbo].[TEMP]");
+                sbSql.AppendFormat(" ([ID],[MB001],[MB002])");
+                sbSql.AppendFormat(" VALUES({0},'{1}','{2}')", "NEWID()", MB001, MB002);
+                sbSql.AppendFormat(" ");
+                sbSql.AppendFormat(" ");
+
+                cmd.Connection = sqlConn;
+                cmd.CommandTimeout = 60;
+                cmd.CommandText = sbSql.ToString();
+                cmd.Transaction = tran;
+                result = cmd.ExecuteNonQuery();
+
+                if (result == 0)
+                {
+                    tran.Rollback();    //交易取消
+                }
+                else
+                {
+                    tran.Commit();      //執行交易  
+
+
+                }
+            }
+            catch
+            {
+
+            }
+
+            finally
+            {
+                sqlConn.Close();
+            }
+        }
+
+        public void UPDATETABLE(string ID,string MB001,string MB002)
+        {
+            try
+            {
+
+                connectionString = ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString;
+                sqlConn = new SqlConnection(connectionString);
+
+                sqlConn.Close();
+                sqlConn.Open();
+                tran = sqlConn.BeginTransaction();
+
+                sbSql.Clear();
+                sbSql.AppendFormat(" UPDATE [TKBUSINESS].[dbo].[TEMP]");
+                sbSql.AppendFormat(" SET [MB001]='{0}',[MB002]='{1}'",MB001,MB002);
+                sbSql.AppendFormat(" WHERE [ID]='{0}'", ID);
+                sbSql.AppendFormat(" ");
+
+                cmd.Connection = sqlConn;
+                cmd.CommandTimeout = 60;
+                cmd.CommandText = sbSql.ToString();
+                cmd.Transaction = tran;
+                result = cmd.ExecuteNonQuery();
+
+                if (result == 0)
+                {
+                    tran.Rollback();    //交易取消
+                }
+                else
+                {
+                    tran.Commit();      //執行交易  
+
+
+                }
+            }
+            catch
+            {
+
+            }
+
+            finally
+            {
+                sqlConn.Close();
+            }
+        }
+
+        private void dataGridView2_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.ColumnIndex == 2)
+            {
+                MessageBox.Show(dataGridView2.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString());
+            }
+        }
+        private void dataGridView2_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
+        {
+            
+        }
+        private void dataGridView2_DefaultValuesNeeded(object sender, DataGridViewRowEventArgs e)
+        {
+            e.Row.Cells["SERNO"].Value = "99";
+        }
+
+        private void dataGridView2_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if(e.ColumnIndex==2)
+            {
+                frmPRESALEV2018COPMA SUBfrmPRESALEV2018COPMA = new frmPRESALEV2018COPMA();
+                SUBfrmPRESALEV2018COPMA.ShowDialog();
+                dataGridView2.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = SUBfrmPRESALEV2018COPMA.TextBoxMsg;
+            }
+        }
         #endregion
 
 
@@ -613,9 +733,96 @@ namespace TKBUSINESS
 
         }
 
+        private void button11_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                SqlConnection sqlConn2 = new SqlConnection();
+                SqlCommandBuilder sqlCmdBuilder2 = new SqlCommandBuilder();
+                SqlDataAdapter adapter2 = new SqlDataAdapter();
+                DataSet ds2=new DataSet();
+                
+                string sbSql2 = "SELECT [ID],[SERNO],[MB001],[MB002] FROM [TKBUSINESS].[dbo].[TEMP] ORDER BY [SERNO]";
+
+                if (!string.IsNullOrEmpty(sbSql2.ToString()))
+                {
+                    connectionString = ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString;
+                    sqlConn2 = new SqlConnection(connectionString);
+                    adapter2 = new SqlDataAdapter(sbSql2.ToString(), sqlConn2);
+                    sqlCmdBuilder2 = new SqlCommandBuilder(adapter2);
+
+                    sqlConn2.Open();
+                    ds2.Clear();
+                    adapter2.Fill(ds2, "TEMP");
+                    sqlConn2.Close();
+
+
+                    if (ds2.Tables["TEMP"].Rows.Count == 0)
+                    {
+                        dataGridView2.DataSource = null;
+                    }
+                    else
+                    {
+                        dataGridView2.DataSource = ds2.Tables["TEMP"];
+                        dataGridView2.AutoResizeColumns();
+                        dataGridView2.Columns["ID"].ReadOnly = true;
+                        dataGridView2.Columns["SERNO"].ReadOnly = true;
+
+
+                    }
+                }
+                else
+                {
+
+                }
+
+
+
+            }
+            catch
+            {
+
+            }
+            finally
+            {
+
+            }
+        }
+
+        private void button10_Click(object sender, EventArgs e)
+        {
+            dataGridView2.EndEdit();
+
+            int rows = 1;
+
+            foreach (DataGridViewRow row in dataGridView2.Rows)
+            {
+                if(dataGridView2.Rows.Count-1 >= rows)
+                {
+                    if (string.IsNullOrEmpty(row.Cells["ID"].Value.ToString()))
+                    {
+                        INSERTTABLE(row.Cells["MB001"].Value.ToString(), row.Cells["MB002"].Value.ToString());
+                    }
+                    else if (!string.IsNullOrEmpty(row.Cells["ID"].Value.ToString()))
+                    {
+                        UPDATETABLE(row.Cells["ID"].Value.ToString(), row.Cells["MB001"].Value.ToString(), row.Cells["MB002"].Value.ToString());
+                    }
+
+                    rows++;
+                }
+              
+            }
+            MessageBox.Show("Records");
+
+            button11.PerformClick();
+        }
+
+
+
+
 
         #endregion
 
-
+      
     }
 }
