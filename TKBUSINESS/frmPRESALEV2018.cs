@@ -124,7 +124,7 @@ namespace TKBUSINESS
 
             STR.AppendFormat(@"  SELECT");
             STR.AppendFormat(@"  [YEARS] AS '年',[MONTHS] AS '月',[SALESNAME] AS '業務名',[CUSTOMERNAME] AS '客戶名'");
-            STR.AppendFormat(@"  ,[MB001] AS '品號',[MB002] AS '品名',[PRICES] AS '單價',[NUM] AS '數量',[TMONEY] AS '金額'");
+            STR.AppendFormat(@"  ,[MB001] AS '品號',[MB002] AS '品名',[MB003] AS '規格',[PRICES] AS '單價',[NUM] AS '數量',[TMONEY] AS '金額'");
             STR.AppendFormat(@"  ,[SALESID] AS '業務',[CUSTOMERID] AS '客戶'");
             STR.AppendFormat(@"  ,[ID]");
             STR.AppendFormat(@"  FROM [TKBUSINESS].[dbo].[PRESALE2018]");
@@ -150,7 +150,7 @@ namespace TKBUSINESS
             textBox14.Text = null;
             textBox15.Text = null;
             textBox20.Text = null;
-
+            textBox21.Text = null;
 
         }
 
@@ -283,7 +283,7 @@ namespace TKBUSINESS
             connectionString = ConfigurationManager.ConnectionStrings["dberp"].ConnectionString;
             sqlConn = new SqlConnection(connectionString);
             StringBuilder Sequel = new StringBuilder();
-            Sequel.AppendFormat(@" SELECT MB001,MB002  FROM [TK].dbo.INVMB  WHERE MB001='{0}'", textBox11.Text.ToString());
+            Sequel.AppendFormat(@" SELECT MB001,MB002,MB003  FROM [TK].dbo.INVMB  WHERE MB001='{0}'", textBox11.Text.ToString());
             Sequel.AppendFormat(@"  ");
             SqlDataAdapter da = new SqlDataAdapter(Sequel.ToString(), sqlConn);
 
@@ -292,11 +292,13 @@ namespace TKBUSINESS
 
             dt.Columns.Add("MB001", typeof(string));
             dt.Columns.Add("MB002", typeof(string));
+            dt.Columns.Add("MB003", typeof(string));
             da.Fill(dt);
 
             if (dt.Rows.Count > 0)
             {
                 textBox12.Text = dt.Rows[0]["MB002"].ToString();
+                textBox21.Text = dt.Rows[0]["MB003"].ToString();
             }
             else
             {
@@ -320,8 +322,8 @@ namespace TKBUSINESS
 
                 sbSql.Clear();
                 sbSql.AppendFormat(" INSERT INTO  [TKBUSINESS].[dbo].[PRESALE2018]");
-                sbSql.AppendFormat(" ([ID],[YEARS],[MONTHS],[SALESID],[SALESNAME],[CUSTOMERID],[CUSTOMERNAME],[MB001],[MB002],[PRICES],[NUM],[TMONEY])");
-                sbSql.AppendFormat(" VALUES({0},'{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}','{11}')", "NEWID()", textBox6.Text, numericUpDown4.Value.ToString(),textBox7.Text, textBox8.Text, textBox9.Text, textBox10.Text, textBox11.Text, textBox12.Text, textBox13.Text, textBox14.Text, textBox15.Text, textBox20.Text);
+                sbSql.AppendFormat(" ([ID],[YEARS],[MONTHS],[SALESID],[SALESNAME],[CUSTOMERID],[CUSTOMERNAME],[MB001],[MB002],[PRICES],[NUM],[TMONEY],[MB003])");
+                sbSql.AppendFormat(" VALUES({0},'{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}','{11}','{12}')", "NEWID()", textBox6.Text, numericUpDown4.Value.ToString(),textBox7.Text, textBox8.Text, textBox9.Text, textBox10.Text, textBox11.Text, textBox12.Text, textBox13.Text, textBox14.Text, textBox15.Text,  textBox21.Text);
                 sbSql.AppendFormat(" ");
                 sbSql.AppendFormat(" ");
 
@@ -366,12 +368,14 @@ namespace TKBUSINESS
 
                 sbSql.Clear();
                 sbSql.AppendFormat(" UPDATE [TKBUSINESS].[dbo].[PRESALE2018]");
-                sbSql.AppendFormat(" SET [YEARS]='{0}',[MONTHS]='{1}',[SALESID]='{2}',[SALESNAME]='{3}',[CUSTOMERID]='{4}',[CUSTOMERNAME]='{5}',[MB001]='{6}',[MB002]='{7}',[PRICES]='{8}',[NUM]='{9}',[TMONEY]='{10}' ", textBox6.Text, numericUpDown4.Value.ToString(), textBox7.Text, textBox8.Text, textBox9.Text, textBox10.Text, textBox11.Text, textBox12.Text, textBox13.Text, textBox14.Text, textBox15.Text);
+                sbSql.AppendFormat(" SET [YEARS]='{0}',[MONTHS]='{1}',[SALESID]='{2}',[SALESNAME]='{3}',[CUSTOMERID]='{4}',[CUSTOMERNAME]='{5}',[MB001]='{6}',[MB002]='{7}',[PRICES]='{8}',[NUM]='{9}',[TMONEY]='{10}',[MB003]='{11}' ", textBox6.Text, numericUpDown4.Value.ToString(), textBox7.Text, textBox8.Text, textBox9.Text, textBox10.Text, textBox11.Text, textBox12.Text, textBox13.Text, textBox14.Text, textBox15.Text, textBox21.Text);
                 sbSql.AppendFormat(" WHERE [ID]='{0}'",textBox20.Text);
                 sbSql.AppendFormat(" ");
 
                 cmd.Connection = sqlConn;
                 cmd.CommandTimeout = 60;
+                cmd.CommandText = sbSql.ToString();
+                cmd.CommandText = sbSql.ToString();
                 cmd.CommandText = sbSql.ToString();
                 cmd.Transaction = tran;
                 result = cmd.ExecuteNonQuery();
@@ -465,6 +469,7 @@ namespace TKBUSINESS
                     textBox14.Text = row.Cells["數量"].Value.ToString();
                     textBox15.Text = row.Cells["金額"].Value.ToString();
                     textBox20.Text = row.Cells["ID"].Value.ToString();
+                    textBox21.Text = row.Cells["規格"].Value.ToString();
 
                     numericUpDown4.Value = Convert.ToInt32(row.Cells["月"].Value.ToString());
 
@@ -512,7 +517,7 @@ namespace TKBUSINESS
 
             FASTSQL.AppendFormat(@"  SELECT");
             FASTSQL.AppendFormat(@"  [YEARS] AS '年',[MONTHS] AS '月',[SALESNAME] AS '業務名',[CUSTOMERNAME] AS '客戶名'");
-            FASTSQL.AppendFormat(@"  ,[MB001] AS '品號',[MB002] AS '品名',[PRICES] AS '單價',[NUM] AS '數量',[TMONEY] AS '金額'");
+            FASTSQL.AppendFormat(@"  ,[MB001] AS '品號',[MB002] AS '品名',[MB003] AS '規格',[PRICES] AS '單價',[NUM] AS '數量',[TMONEY] AS '金額'");
             FASTSQL.AppendFormat(@"  ,[SALESID] AS '業務',[CUSTOMERID] AS '客戶'");
             FASTSQL.AppendFormat(@"  ,[ID]");
             FASTSQL.AppendFormat(@"  FROM [TKBUSINESS].[dbo].[PRESALE2018]");

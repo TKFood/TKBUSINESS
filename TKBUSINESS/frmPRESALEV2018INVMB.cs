@@ -62,11 +62,11 @@ namespace TKBUSINESS
 
                 if (string.IsNullOrEmpty(textBox1.Text))
                 {
-                    sbSql.AppendFormat(@"SELECT MB001,MB002 FROM [TK].dbo.INVMB ORDER BY MB001  ");
+                    sbSql.AppendFormat(@"SELECT MB001,MB002,MB003 FROM [TK].dbo.INVMB ORDER BY MB001  ");
                 }
                 else
                 {
-                    sbSql.AppendFormat(@"SELECT MB001,MB002 FROM [TK].dbo.INVMB WHERE MB001 LIKE '{0}%' OR MB002 LIKE '{0}%' ORDER BY MB001", textBox1.Text);
+                    sbSql.AppendFormat(@"SELECT MB001,MB002,MB003 FROM [TK].dbo.INVMB WHERE MB001 LIKE '{0}%' OR MB002 LIKE '{0}%' ORDER BY MB001", textBox1.Text);
                 }
 
                 adapter1 = new SqlDataAdapter(@"" + sbSql, sqlConn);
