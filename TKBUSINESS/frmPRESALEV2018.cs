@@ -1248,7 +1248,7 @@ namespace TKBUSINESS
                 }
 
             }
-            MessageBox.Show("Records");
+            MessageBox.Show("存檔完成");
 
             button12.PerformClick();
         }
@@ -1276,17 +1276,18 @@ namespace TKBUSINESS
             MessageBox.Show("完成");
         }
 
+        private void button17_Click(object sender, EventArgs e)
+        {
+            frmPRESALEV2018COPYCOPMA SUBfrmPRESALEV2018COPYCOPMA = new frmPRESALEV2018COPYCOPMA();
+            SUBfrmPRESALEV2018COPYCOPMA.ShowDialog();
 
+            SearchPRESALE2018V2();
+            MessageBox.Show("完成");
 
-
-
-
-
-
-
+        }
 
         #endregion
 
-       
+
     }
 }
