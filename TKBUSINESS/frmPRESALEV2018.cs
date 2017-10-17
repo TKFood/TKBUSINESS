@@ -29,6 +29,7 @@ namespace TKBUSINESS
     public partial class frmPRESALEV2018 : Form
     {
         SqlConnection sqlConn = new SqlConnection();
+        SqlConnection sqlConn2 = new SqlConnection();
         SqlCommand sqlComm = new SqlCommand();
         string connectionString;
         StringBuilder sbSql = new StringBuilder();
@@ -181,7 +182,7 @@ namespace TKBUSINESS
             STR.AppendFormat(@"  ,[SALESID] AS '業務',[CUSTOMERID] AS '客戶'");
             STR.AppendFormat(@"  ,[ID]");
             STR.AppendFormat(@"  FROM [TKBUSINESS].[dbo].[PRESALE2018]");
-            STR.AppendFormat(@"  WHERE [YEARS]={0} AND [MONTHS]>={1} AND [MONTHS]<={2}", numericUpDown8.Value.ToString(), numericUpDown9.Value.ToString(), numericUpDown10.Value.ToString());
+            STR.AppendFormat(@"  WHERE [YEARS]={0} AND [MONTHS]>={1} AND [MONTHS]<={2}", numericUpDown1.Value.ToString(), numericUpDown2.Value.ToString(), numericUpDown3.Value.ToString());
             STR.AppendFormat(@"  {0}", STRQUERY.ToString());
             STR.AppendFormat(@"  ORDER BY  [YEARS],CONVERT(INT,[MONTHS]),[SALESID],[CUSTOMERID],[MB001]");
             STR.AppendFormat(@"  ");
@@ -211,7 +212,7 @@ namespace TKBUSINESS
             STR.AppendFormat(@"  ,[MB001] AS '品號',[MB002] AS '品名',[MB003] AS '規格',[PRICES] AS '單價',[NUM] AS '數量',[TMONEY] AS '金額'");
             STR.AppendFormat(@"  ,[ID]");
             STR.AppendFormat(@"  FROM [TKBUSINESS].[dbo].[PRESALE2018]");
-            STR.AppendFormat(@"  WHERE [YEARS]={0} AND [MONTHS]>={1} AND [MONTHS]<={2}", numericUpDown1.Value.ToString(), numericUpDown2.Value.ToString(), numericUpDown3.Value.ToString());
+            STR.AppendFormat(@"  WHERE [YEARS]={0} AND [MONTHS]>={1} AND [MONTHS]<={2}", numericUpDown8.Value.ToString(), numericUpDown9.Value.ToString(), numericUpDown10.Value.ToString());
             STR.AppendFormat(@"  {0}", STRQUERY.ToString());
             STR.AppendFormat(@"  ORDER BY  [YEARS],CONVERT(INT,[MONTHS]),[SALESID],[CUSTOMERID],[MB001],SERNO");
             STR.AppendFormat(@"  ");
@@ -734,6 +735,8 @@ namespace TKBUSINESS
         private void dataGridView3_DefaultValuesNeeded(object sender, DataGridViewRowEventArgs e)
         {
             e.Row.Cells["年"].Value = numericUpDown8.Value.ToString();
+            e.Row.Cells["單價"].Value = 0;
+            e.Row.Cells["數量"].Value = 0;
             //e.Row.Cells["SERNO"].Value = "0";
         }
 
@@ -750,6 +753,95 @@ namespace TKBUSINESS
                 frmPRESALEV2018INVMB SUBfrmPRESALEV2018INVMB = new frmPRESALEV2018INVMB();
                 SUBfrmPRESALEV2018INVMB.ShowDialog();
                 dataGridView3.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = SUBfrmPRESALEV2018INVMB.TextBoxMsg;
+            }
+        }
+        private void dataGridView3_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            //MessageBox.Show("aa");
+           
+
+            //
+           
+           
+
+            
+            
+        }
+
+        private void dataGridView1_CellLeave(object sender, DataGridViewCellEventArgs e)
+        {
+           
+        }
+
+        private void dataGridView3_Validated(object sender, EventArgs e)
+        {
+           
+        }
+        private void dataGridView3_CellValidated(object sender, DataGridViewCellEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(dataGridView3.Rows[e.RowIndex].Cells[4].Value.ToString().Trim()))
+            {
+                connectionString = ConfigurationManager.ConnectionStrings["dberp"].ConnectionString;
+                sqlConn = new SqlConnection(connectionString);
+                StringBuilder Sequel = new StringBuilder();
+                Sequel.AppendFormat(@" SELECT MA001,MA002  FROM [TK].dbo.COPMA   WHERE MA001='{0}'", dataGridView3.Rows[e.RowIndex].Cells[4].Value.ToString().Trim());
+                Sequel.AppendFormat(@"  ");
+                SqlDataAdapter da = new SqlDataAdapter(Sequel.ToString(), sqlConn);
+
+                DataTable dt = new DataTable();
+                sqlConn.Open();
+
+                dt.Columns.Add("MA001", typeof(string));
+                dt.Columns.Add("MA002", typeof(string));
+                da.Fill(dt);
+
+                if (dt.Rows.Count > 0)
+                {
+                    dataGridView3.Rows[e.RowIndex].Cells[5].Value = dt.Rows[0]["MA002"].ToString();
+                }
+                else
+                {
+                    dataGridView3.Rows[e.RowIndex].Cells[5].Value = null;
+                }
+
+                sqlConn.Close();
+            }
+
+            if (!string.IsNullOrEmpty(dataGridView3.Rows[e.RowIndex].Cells[6].Value.ToString().Trim()))
+            {
+                connectionString = ConfigurationManager.ConnectionStrings["dberp"].ConnectionString;
+                sqlConn2 = new SqlConnection(connectionString);
+                StringBuilder Sequel2 = new StringBuilder();
+
+                Sequel2.AppendFormat(@" SELECT MB001,MB002,MB003  FROM [TK].dbo.INVMB  WHERE MB001='{0}'", dataGridView3.Rows[e.RowIndex].Cells[6].Value.ToString().Trim());
+                Sequel2.AppendFormat(@"  ");
+                SqlDataAdapter da2 = new SqlDataAdapter(Sequel2.ToString(), sqlConn);
+
+                DataTable dt2 = new DataTable();
+                sqlConn2.Open();
+
+                dt2.Columns.Add("MB001", typeof(string));
+                dt2.Columns.Add("MB002", typeof(string));
+                dt2.Columns.Add("MB003", typeof(string));
+                da2.Fill(dt2);
+
+                if (dt2.Rows.Count > 0)
+                {
+                    dataGridView3.Rows[e.RowIndex].Cells[7].Value = dt2.Rows[0]["MB002"].ToString();
+                    dataGridView3.Rows[e.RowIndex].Cells[8].Value = dt2.Rows[0]["MB003"].ToString();
+                }
+                else
+                {
+                    dataGridView3.Rows[e.RowIndex].Cells[7].Value = null;
+                    dataGridView3.Rows[e.RowIndex].Cells[8].Value = null;
+                }
+
+                sqlConn.Close();
+            }
+
+            if (!string.IsNullOrEmpty(dataGridView3.Rows[e.RowIndex].Cells[9].Value.ToString().Trim()) && !string.IsNullOrEmpty(dataGridView3.Rows[e.RowIndex].Cells[10].Value.ToString().Trim()))
+            {
+                dataGridView3.Rows[e.RowIndex].Cells[11].Value = Convert.ToDecimal(dataGridView3.Rows[e.RowIndex].Cells[9].Value.ToString()) * Convert.ToDecimal(dataGridView3.Rows[e.RowIndex].Cells[10].Value.ToString());
             }
         }
         #endregion
@@ -940,6 +1032,11 @@ namespace TKBUSINESS
 
             button12.PerformClick();
         }
+
+
+
+
+
 
 
 
