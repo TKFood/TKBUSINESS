@@ -48,6 +48,8 @@ namespace TKBUSINESS
         int result;
         DataGridViewRow drPRESLAES = new DataGridViewRow();
 
+        string DELID;
+
 
         public frmPRESALEV2018()
         {
@@ -742,18 +744,26 @@ namespace TKBUSINESS
 
         private void dataGridView3_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.ColumnIndex == 4)
+            try
             {
-                frmPRESALEV2018COPMA SUBfrmPRESALEV2018COPMA = new frmPRESALEV2018COPMA();
-                SUBfrmPRESALEV2018COPMA.ShowDialog();
-                dataGridView3.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = SUBfrmPRESALEV2018COPMA.TextBoxMsg;
+                if (e.ColumnIndex == 4)
+                {
+                    frmPRESALEV2018COPMA SUBfrmPRESALEV2018COPMA = new frmPRESALEV2018COPMA();
+                    SUBfrmPRESALEV2018COPMA.ShowDialog();
+                    dataGridView3.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = SUBfrmPRESALEV2018COPMA.TextBoxMsg.Trim();
+                }
+                if (e.ColumnIndex == 6)
+                {
+                    frmPRESALEV2018INVMB SUBfrmPRESALEV2018INVMB = new frmPRESALEV2018INVMB();
+                    SUBfrmPRESALEV2018INVMB.ShowDialog();
+                    dataGridView3.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = SUBfrmPRESALEV2018INVMB.TextBoxMsg.Trim();
+                }
             }
-            if (e.ColumnIndex == 6)
+            catch
             {
-                frmPRESALEV2018INVMB SUBfrmPRESALEV2018INVMB = new frmPRESALEV2018INVMB();
-                SUBfrmPRESALEV2018INVMB.ShowDialog();
-                dataGridView3.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = SUBfrmPRESALEV2018INVMB.TextBoxMsg;
+
             }
+          
         }
         private void dataGridView3_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
@@ -779,6 +789,33 @@ namespace TKBUSINESS
         }
         private void dataGridView3_CellValidated(object sender, DataGridViewCellEventArgs e)
         {
+            if (!string.IsNullOrEmpty(dataGridView3.Rows[e.RowIndex].Cells[2].Value.ToString().Trim()))
+            {
+                connectionString = ConfigurationManager.ConnectionStrings["dberp"].ConnectionString;
+                sqlConn = new SqlConnection(connectionString);
+                StringBuilder Sequel = new StringBuilder();
+                Sequel.AppendFormat(@" SELECT [Code],[CnName] FROM [HRMDB].[dbo].[Employee]   WHERE [Code]='{0}'", dataGridView3.Rows[e.RowIndex].Cells[2].Value.ToString().Trim());
+                Sequel.AppendFormat(@"  ");
+                SqlDataAdapter da = new SqlDataAdapter(Sequel.ToString(), sqlConn);
+
+                DataTable dt = new DataTable();
+                sqlConn.Open();
+
+                dt.Columns.Add("Code", typeof(string));
+                dt.Columns.Add("CnName", typeof(string));
+                da.Fill(dt);
+
+                if (dt.Rows.Count > 0)
+                {
+                    dataGridView3.Rows[e.RowIndex].Cells[3].Value = dt.Rows[0]["CnName"].ToString().Trim();
+                }
+                else
+                {
+                    dataGridView3.Rows[e.RowIndex].Cells[3].Value = null;
+                }
+
+                sqlConn.Close();
+            }
             if (!string.IsNullOrEmpty(dataGridView3.Rows[e.RowIndex].Cells[4].Value.ToString().Trim()))
             {
                 connectionString = ConfigurationManager.ConnectionStrings["dberp"].ConnectionString;
@@ -797,7 +834,7 @@ namespace TKBUSINESS
 
                 if (dt.Rows.Count > 0)
                 {
-                    dataGridView3.Rows[e.RowIndex].Cells[5].Value = dt.Rows[0]["MA002"].ToString();
+                    dataGridView3.Rows[e.RowIndex].Cells[5].Value = dt.Rows[0]["MA002"].ToString().Trim();
                 }
                 else
                 {
@@ -827,8 +864,8 @@ namespace TKBUSINESS
 
                 if (dt2.Rows.Count > 0)
                 {
-                    dataGridView3.Rows[e.RowIndex].Cells[7].Value = dt2.Rows[0]["MB002"].ToString();
-                    dataGridView3.Rows[e.RowIndex].Cells[8].Value = dt2.Rows[0]["MB003"].ToString();
+                    dataGridView3.Rows[e.RowIndex].Cells[7].Value = dt2.Rows[0]["MB002"].ToString().Trim();
+                    dataGridView3.Rows[e.RowIndex].Cells[8].Value = dt2.Rows[0]["MB003"].ToString().Trim();
                 }
                 else
                 {
@@ -844,12 +881,178 @@ namespace TKBUSINESS
                 dataGridView3.Rows[e.RowIndex].Cells[11].Value = Convert.ToDecimal(dataGridView3.Rows[e.RowIndex].Cells[9].Value.ToString()) * Convert.ToDecimal(dataGridView3.Rows[e.RowIndex].Cells[10].Value.ToString());
             }
         }
+
+        private void dataGridView3_SelectionChanged(object sender, EventArgs e)
+        {
+            if (dataGridView3.CurrentRow != null)
+            {
+
+                int rowindex = dataGridView3.CurrentRow.Index;
+                DataGridViewRow row = dataGridView3.Rows[rowindex];
+
+                if (rowindex >= 0)
+                {
+                    DELID = row.Cells["ID"].Value.ToString();
+                }
+                else
+                {
+                    DELID = null;
+
+                }
+            }
+            else
+            {
+                DELID = null;
+
+            }
+                  
+        }
+
+        public void INSERTPRESALE2018(string YEARS, string MONTHS, string SALESID, string SALESNAME, string CUSTOMERID, string CUSTOMERNAME, string MB001, string MB002, string MB003, string PRICES, string NUM, string TMONEY)
+        {
+            try
+            {
+
+                connectionString = ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString;
+                sqlConn = new SqlConnection(connectionString);
+
+                sqlConn.Close();
+                sqlConn.Open();
+                tran = sqlConn.BeginTransaction();
+
+                sbSql.Clear();
+                sbSql.AppendFormat(" INSERT INTO  [TKBUSINESS].[dbo].[PRESALE2018]");
+                sbSql.AppendFormat(" ([ID],[YEARS],[MONTHS],[SALESID],[SALESNAME],[CUSTOMERID],[CUSTOMERNAME],[MB001],[MB002],[MB003],[PRICES],[NUM],[TMONEY])");
+                sbSql.AppendFormat(" VALUES({0},'{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}',{10},{11},{12})", "NEWID()", YEARS, MONTHS, SALESID, SALESNAME, CUSTOMERID, CUSTOMERNAME, MB001, MB002, MB003, PRICES, NUM, TMONEY);
+                sbSql.AppendFormat(" ");
+                sbSql.AppendFormat(" ");
+
+                cmd.Connection = sqlConn;
+                cmd.CommandTimeout = 60;
+                cmd.CommandText = sbSql.ToString();
+                cmd.Transaction = tran;
+                result = cmd.ExecuteNonQuery();
+
+                if (result == 0)
+                {
+                    tran.Rollback();    //交易取消
+                }
+                else
+                {
+                    tran.Commit();      //執行交易  
+
+
+                }
+            }
+            catch
+            {
+
+            }
+
+            finally
+            {
+                sqlConn.Close();
+            }
+        }
+
+
+        public void UPDATEPRESALE2018(string ID, string YEARS, string MONTHS, string SALESID, string SALESNAME, string CUSTOMERID, string CUSTOMERNAME, string MB001, string MB002, string MB003, string PRICES, string NUM, string TMONEY)
+        {
+            try
+            {
+
+                connectionString = ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString;
+                sqlConn = new SqlConnection(connectionString);
+
+                sqlConn.Close();
+                sqlConn.Open();
+                tran = sqlConn.BeginTransaction();
+
+                sbSql.Clear();
+                sbSql.AppendFormat(" UPDATE [TKBUSINESS].[dbo].[PRESALE2018]");
+                sbSql.AppendFormat(" SET [YEARS]='{0}',[MONTHS]='{1}',[SALESID]='{2}',[SALESNAME]='{3}',[CUSTOMERID]='{4}',[CUSTOMERNAME]='{5}',[MB001]='{6}',[MB002]='{7}',[MB003]='{8}',[PRICES]={9},[NUM]={10},[TMONEY]={11} ", YEARS, MONTHS, SALESID, SALESNAME, CUSTOMERID, CUSTOMERNAME, MB001, MB002, MB003, PRICES, NUM, TMONEY);
+                sbSql.AppendFormat(" WHERE [ID]='{0}'", ID);
+                sbSql.AppendFormat(" ");
+
+                cmd.Connection = sqlConn;
+                cmd.CommandTimeout = 60;
+                cmd.CommandText = sbSql.ToString();
+
+                cmd.Transaction = tran;
+                result = cmd.ExecuteNonQuery();
+
+                if (result == 0)
+                {
+                    tran.Rollback();    //交易取消
+                }
+                else
+                {
+                    tran.Commit();      //執行交易  
+
+
+                }
+            }
+            catch
+            {
+
+            }
+
+            finally
+            {
+                sqlConn.Close();
+            }
+        }
+
+        public void DELETEPRESALE2018()
+        {
+            try
+            {
+
+                connectionString = ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString;
+                sqlConn = new SqlConnection(connectionString);
+
+                sqlConn.Close();
+                sqlConn.Open();
+                tran = sqlConn.BeginTransaction();
+
+                sbSql.Clear();
+                sbSql.AppendFormat(" DELETE [TKBUSINESS].[dbo].[PRESALE2018]");
+                sbSql.AppendFormat(" WHERE [ID]='{0}'", DELID);
+                sbSql.AppendFormat(" ");
+
+                cmd.Connection = sqlConn;
+                cmd.CommandTimeout = 60;
+                cmd.CommandText = sbSql.ToString();
+                cmd.Transaction = tran;
+                result = cmd.ExecuteNonQuery();
+
+                if (result == 0)
+                {
+                    tran.Rollback();    //交易取消
+                }
+                else
+                {
+                    tran.Commit();      //執行交易  
+
+
+                }
+            }
+            catch
+            {
+
+            }
+
+            finally
+            {
+                sqlConn.Close();
+            }
+        }
         #endregion
 
 
 
 
-        #region BUTTON
+            #region BUTTON
         private void button1_Click(object sender, EventArgs e)
         {
             SearchPRESALE2018();
@@ -1023,16 +1226,55 @@ namespace TKBUSINESS
         }
         private void button14_Click(object sender, EventArgs e)
         {
-            dataGridView3.ReadOnly = true;
+            dataGridView3.EndEdit();
+            dataGridView3.ReadOnly = true;           
+
+            int rows = 1;
+
+            foreach (DataGridViewRow row in dataGridView3.Rows)
+            {
+                if (dataGridView3.Rows.Count - 1 >= rows)
+                {
+                    if (string.IsNullOrEmpty(row.Cells["ID"].Value.ToString()))
+                    {
+                        INSERTPRESALE2018(row.Cells["年"].Value.ToString(), row.Cells["月"].Value.ToString(), row.Cells["業務"].Value.ToString(), row.Cells["業務名"].Value.ToString(), row.Cells["客戶"].Value.ToString(), row.Cells["客戶名"].Value.ToString(), row.Cells["品號"].Value.ToString(), row.Cells["品名"].Value.ToString(), row.Cells["規格"].Value.ToString(), row.Cells["單價"].Value.ToString(), row.Cells["數量"].Value.ToString(), row.Cells["金額"].Value.ToString());
+                    }
+                    else if (!string.IsNullOrEmpty(row.Cells["ID"].Value.ToString()))
+                    {
+                        UPDATEPRESALE2018(row.Cells["ID"].Value.ToString(),row.Cells["年"].Value.ToString(), row.Cells["月"].Value.ToString(), row.Cells["業務"].Value.ToString(), row.Cells["業務名"].Value.ToString(), row.Cells["客戶"].Value.ToString(), row.Cells["客戶名"].Value.ToString(), row.Cells["品號"].Value.ToString(), row.Cells["品名"].Value.ToString(), row.Cells["規格"].Value.ToString(), row.Cells["單價"].Value.ToString(), row.Cells["數量"].Value.ToString(), row.Cells["金額"].Value.ToString());
+                    }
+
+                    rows++;
+                }
+
+            }
+            MessageBox.Show("Records");
 
             button12.PerformClick();
         }
         private void button15_Click(object sender, EventArgs e)
         {
-
+            DialogResult dialogResult = MessageBox.Show("要刪除了?", "要刪除了?", MessageBoxButtons.YesNo);
+            if (dialogResult == DialogResult.Yes)
+            {
+                DELETEPRESALE2018();
+            }
+            else if (dialogResult == DialogResult.No)
+            {
+                //do something else
+            }
             button12.PerformClick();
         }
 
+
+        private void button16_Click(object sender, EventArgs e)
+        {
+            frmPRESALEV2018COPY SUBfrmPRESALEV2018COPY = new frmPRESALEV2018COPY();
+            SUBfrmPRESALEV2018COPY.ShowDialog();
+
+            SearchPRESALE2018V2();
+            MessageBox.Show("完成");
+        }
 
 
 
@@ -1045,6 +1287,6 @@ namespace TKBUSINESS
 
         #endregion
 
-        
+       
     }
 }

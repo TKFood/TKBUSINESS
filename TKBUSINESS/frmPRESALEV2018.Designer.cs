@@ -125,6 +125,7 @@
             this.button10 = new System.Windows.Forms.Button();
             this.dataGridView2 = new System.Windows.Forms.DataGridView();
             this.report1 = new FastReport.Report();
+            this.button16 = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer6)).BeginInit();
@@ -473,6 +474,7 @@
             this.tableLayoutPanel6.Controls.Add(this.button15, 0, 0);
             this.tableLayoutPanel6.Controls.Add(this.button14, 0, 0);
             this.tableLayoutPanel6.Controls.Add(this.button13, 0, 0);
+            this.tableLayoutPanel6.Controls.Add(this.button16, 5, 0);
             this.tableLayoutPanel6.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel6.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel6.Name = "tableLayoutPanel6";
@@ -529,6 +531,7 @@
             this.dataGridView3.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView3_CellEndEdit);
             this.dataGridView3.CellValidated += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView3_CellValidated);
             this.dataGridView3.DefaultValuesNeeded += new System.Windows.Forms.DataGridViewRowEventHandler(this.dataGridView3_DefaultValuesNeeded);
+            this.dataGridView3.SelectionChanged += new System.EventHandler(this.dataGridView3_SelectionChanged);
             this.dataGridView3.Validated += new System.EventHandler(this.dataGridView3_Validated);
             // 
             // tabPage2
@@ -1544,6 +1547,17 @@
             // 
             this.report1.ReportResourceString = resources.GetString("report1.ReportResourceString");
             // 
+            // button16
+            // 
+            this.button16.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.button16.Location = new System.Drawing.Point(603, 11);
+            this.button16.Name = "button16";
+            this.button16.Size = new System.Drawing.Size(114, 31);
+            this.button16.TabIndex = 39;
+            this.button16.Text = "同客戶複製";
+            this.button16.UseVisualStyleBackColor = true;
+            this.button16.Click += new System.EventHandler(this.button16_Click);
+            // 
             // frmPRESALEV2018
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 16F);
@@ -1712,5 +1726,6 @@
         private System.Windows.Forms.Button button15;
         private System.Windows.Forms.Button button14;
         private System.Windows.Forms.Button button13;
+        private System.Windows.Forms.Button button16;
     }
 }
