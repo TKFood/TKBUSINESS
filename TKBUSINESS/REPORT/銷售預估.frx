@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Report ScriptLanguage="CSharp" ReportInfo.Created="10/03/2017 10:16:49" ReportInfo.Modified="10/16/2017 13:29:48" ReportInfo.CreatorVersion="2016.4.4.0">
+<Report ScriptLanguage="CSharp" ReportInfo.Created="10/03/2017 10:16:49" ReportInfo.Modified="10/18/2017 14:57:46" ReportInfo.CreatorVersion="2016.4.4.0">
   <Dictionary>
-    <MsSqlDataConnection Name="Connection" ConnectionString="rijcmlqHwzMSgwTFaHpjtG3vsOj8Zy6q+uhwpDsytgWqwZQZyEQUQyQ022aWUGqU90pHzzNjHuzu89K+RQ2LIBVx1fpgNkNJhwC4eetn2/Uy0fMrO7zDUE5AmRb+0bcYI+lxqpNK7VAg28EMb2zujBtCWMs8uR7KE3TT1XHtlPqNg0WX9In7zH8BRPhBA3+Hi4G37YQ">
+    <MsSqlDataConnection Name="Connection" ConnectionString="rijcmlqHwzMSgwTFaHpjtG3vsOj8Zy6q+uhwpDsytgWqwZQZyEQUQyQ022aWUGqU90pHzzNjHuzu89K+RQ2LIBVx1fpgNkNJhwC4eetn2/Uy0fMrO7zDUE5AmRb+0bcYI+lxqpNK7VAg28EMb2zujBtCWMs8uR7KE3TT1XHtlPqNg0WX9JlwIUnCF8XewF5zJ+5Ue0w">
       <TableDataSource Name="Table" DataType="System.Int32" Enabled="true" SelectCommand="  SELECT  [YEARS] AS '年',[MONTHS] AS '月',[SALESNAME] AS '業務名',[CUSTOMERNAME] AS '客戶名'  ,[MB001] AS '品號',[MB002] AS '品名',[MB003] AS '規格' ,[PRICES] AS '單價',[NUM] AS '數量',[TMONEY] AS '金額'  ,[SALESID] AS '業務',[CUSTOMERID] AS '客戶'  ,[ID]  FROM [TKBUSINESS].[dbo].[PRESALE2018]  &#13;&#10;  WHERE [YEARS]=@P1 AND [MONTHS]&gt;=@P2 AND [MONTHS]&lt;=@P3   &#13;&#10; &#13;&#10;  ORDER BY  [YEARS],[MONTHS],[SALESID],[CUSTOMERID],[MB001]  ">
         <Column Name="年" DataType="System.String"/>
         <Column Name="月" DataType="System.String"/>
@@ -25,7 +25,9 @@
     <Total Name="Total金額" Expression="[Table.金額]" Evaluator="Data1"/>
   </Dictionary>
   <ReportPage Name="Page1" Landscape="true" PaperWidth="400" PaperHeight="210">
-    <ReportTitleBand Name="ReportTitle1" Width="1436.4" Height="37.8"/>
+    <ReportTitleBand Name="ReportTitle1" Width="1436.4" Height="37.8">
+      <TextObject Name="Text29" Width="1436.4" Height="18.9" Text="銷售報表" HorzAlign="Center" VertAlign="Center"/>
+    </ReportTitleBand>
     <DataBand Name="Data1" Top="69.6" Width="1436.4" Height="18.9" CanGrow="true" DataSource="Table">
       <TextObject Name="Text1" Width="94.5" Height="18.9" Border.Lines="All" Text="[Table.年]" HorzAlign="Center" VertAlign="Center"/>
       <TextObject Name="Text3" Left="94.5" Width="66.15" Height="18.9" Border.Lines="All" Text="[Table.月]" HorzAlign="Center" VertAlign="Center"/>
