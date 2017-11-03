@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Report ScriptLanguage="CSharp" ReportInfo.Created="10/03/2017 10:16:49" ReportInfo.Modified="10/18/2017 14:57:46" ReportInfo.CreatorVersion="2016.4.4.0">
+<Report ScriptLanguage="CSharp" ReportInfo.Created="10/03/2017 10:16:49" ReportInfo.Modified="11/03/2017 11:35:50" ReportInfo.CreatorVersion="2016.4.4.0">
   <Dictionary>
-    <MsSqlDataConnection Name="Connection" ConnectionString="rijcmlqHwzMSgwTFaHpjtG3vsOj8Zy6q+uhwpDsytgWqwZQZyEQUQyQ022aWUGqU90pHzzNjHuzu89K+RQ2LIBVx1fpgNkNJhwC4eetn2/Uy0fMrO7zDUE5AmRb+0bcYI+lxqpNK7VAg28EMb2zujBtCWMs8uR7KE3TT1XHtlPqNg0WX9JlwIUnCF8XewF5zJ+5Ue0w">
+    <MsSqlDataConnection Name="Connection" ConnectionString="rijcmlqHwzMSgwTFaHpjtG3vsOj8Zy6q+uhwpDsytgWqwZQZyEQUQyQ022aWUGqU90pHzzNjHuzu89K+RQ2LIBVx1fpgNkNJhwC4eetn2/Uy0fMrO7zDUE5AmRb+0bcYI+lxqpNK7VAg28EMb2zujBtCWMs8uR7KE3TT1XHtlPqNg0WX9IXIOUp8KF/PvD1eE6j1XPi">
       <TableDataSource Name="Table" DataType="System.Int32" Enabled="true" SelectCommand="  SELECT  [YEARS] AS '年',[MONTHS] AS '月',[SALESNAME] AS '業務名',[CUSTOMERNAME] AS '客戶名'  ,[MB001] AS '品號',[MB002] AS '品名',[MB003] AS '規格' ,[PRICES] AS '單價',[NUM] AS '數量',[TMONEY] AS '金額'  ,[SALESID] AS '業務',[CUSTOMERID] AS '客戶'  ,[ID]  FROM [TKBUSINESS].[dbo].[PRESALE2018]  &#13;&#10;  WHERE [YEARS]=@P1 AND [MONTHS]&gt;=@P2 AND [MONTHS]&lt;=@P3   &#13;&#10; &#13;&#10;  ORDER BY  [YEARS],[MONTHS],[SALESID],[CUSTOMERID],[MB001]  ">
         <Column Name="年" DataType="System.String"/>
         <Column Name="月" DataType="System.String"/>
@@ -37,8 +37,8 @@
       <TextObject Name="Text11" Left="529.2" Width="255.15" Height="18.9" Border.Lines="All" Text="[Table.品名]" VertAlign="Center"/>
       <TextObject Name="Text13" Left="926.1" Width="94.5" Height="18.9" Border.Lines="All" Text="[Table.單價]" Format="Number" Format.UseLocale="true" HorzAlign="Right" VertAlign="Center" WordWrap="false" Trimming="EllipsisCharacter"/>
       <TextObject Name="Text15" Left="1020.6" Width="94.5" Height="18.9" Border.Lines="All" Text="[Table.數量]" Format="Number" Format.UseLocale="true" HorzAlign="Right" VertAlign="Center" WordWrap="false" Trimming="EllipsisCharacter"/>
-      <TextObject Name="Text17" Left="1115.1" Width="94.5" Height="18.9" Border.Lines="All" Text="[Table.金額]" Format="Number" Format.UseLocale="true" HorzAlign="Right" VertAlign="Center" WordWrap="false" Trimming="EllipsisCharacter"/>
-      <TextObject Name="Text19" Left="1209.6" Width="113.4" Height="18.9" Border.Lines="All" Text="[Table.業務]" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text17" Left="1115.1" Width="113.4" Height="18.9" Border.Lines="All" Text="[Table.金額]" Format="Number" Format.UseLocale="true" HorzAlign="Right" VertAlign="Center" WordWrap="false" Trimming="EllipsisCharacter"/>
+      <TextObject Name="Text19" Left="1228.5" Width="94.5" Height="18.9" Border.Lines="All" Text="[Table.業務]" HorzAlign="Center" VertAlign="Center"/>
       <TextObject Name="Text21" Left="1324.39" Width="113.4" Height="18.9" Border.Lines="All" Text="[Table.客戶]" HorzAlign="Center" VertAlign="Center"/>
       <TextObject Name="Text27" Left="784.35" Width="141.75" Height="18.9" Border.Lines="All" CanGrow="true" GrowToBottom="true" Text="[Table.規格]" HorzAlign="Center" VertAlign="Center"/>
       <DataHeaderBand Name="DataHeader1" Top="44.25" Width="1436.4" Height="18.9">
@@ -50,17 +50,17 @@
         <TextObject Name="Text12" Left="529.2" Width="255.15" Height="18.9" Border.Lines="All" Text="品名" HorzAlign="Center" VertAlign="Center"/>
         <TextObject Name="Text14" Left="926.1" Width="94.5" Height="18.9" Border.Lines="All" Text="單價" HorzAlign="Center" VertAlign="Center"/>
         <TextObject Name="Text16" Left="1020.6" Width="94.5" Height="18.9" Border.Lines="All" Text="數量" HorzAlign="Center" VertAlign="Center"/>
-        <TextObject Name="Text18" Left="1115.1" Width="94.5" Height="18.9" Border.Lines="All" Text="金額" HorzAlign="Center" VertAlign="Center"/>
-        <TextObject Name="Text20" Left="1209.6" Width="113.4" Height="18.9" Border.Lines="All" Text="業務" HorzAlign="Center" VertAlign="Center"/>
+        <TextObject Name="Text18" Left="1115.1" Width="113.4" Height="18.9" Border.Lines="All" Text="金額" HorzAlign="Center" VertAlign="Center"/>
+        <TextObject Name="Text20" Left="1228.5" Width="94.5" Height="18.9" Border.Lines="All" Text="業務" HorzAlign="Center" VertAlign="Center"/>
         <TextObject Name="Text22" Left="1324.39" Width="113.4" Height="18.9" Border.Lines="All" Text="客戶" HorzAlign="Center" VertAlign="Center"/>
         <TextObject Name="Text28" Left="784.35" Width="141.75" Height="18.9" Border.Lines="All" CanGrow="true" GrowToBottom="true" Text="規格" HorzAlign="Center" VertAlign="Center"/>
       </DataHeaderBand>
     </DataBand>
     <ReportSummaryBand Name="ReportSummary1" Top="94.95" Width="1436.4" Height="18.9">
-      <TextObject Name="Text23" Left="926.1" Width="94.5" Height="18.9" Border.Lines="All" Text="[Total數量]" Format="Number" Format.UseLocale="true" HorzAlign="Right" VertAlign="Center"/>
-      <TextObject Name="Text24" Left="1020.6" Width="94.5" Height="18.9" Border.Lines="All" Text="[Total金額]" Format="Number" Format.UseLocale="true" HorzAlign="Right" VertAlign="Center"/>
-      <TextObject Name="Text25" Width="926.1" Height="18.9" Border.Lines="All" Text="小計" HorzAlign="Center" VertAlign="Center"/>
-      <TextObject Name="Text26" Left="1115.1" Width="321.3" Height="18.9" Border.Lines="All" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text23" Left="1020.6" Width="94.5" Height="18.9" Border.Lines="All" Text="[Total數量]" Format="Number" Format.UseLocale="true" HorzAlign="Right" VertAlign="Center"/>
+      <TextObject Name="Text24" Left="1115.1" Width="113.4" Height="18.9" Border.Lines="All" Text="[Total金額]" Format="Number" Format.UseLocale="true" HorzAlign="Right" VertAlign="Center"/>
+      <TextObject Name="Text25" Width="1020.6" Height="18.9" Border.Lines="All" Text="小計" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text26" Left="1228.5" Width="207.9" Height="18.9" Border.Lines="All" HorzAlign="Center" VertAlign="Center"/>
     </ReportSummaryBand>
   </ReportPage>
 </Report>
