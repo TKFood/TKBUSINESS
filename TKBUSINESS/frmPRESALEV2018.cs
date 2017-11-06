@@ -1047,12 +1047,58 @@ namespace TKBUSINESS
                 sqlConn.Close();
             }
         }
+
+
+        public void UPDATETMONEY()
+        {
+            try
+            {
+
+                connectionString = ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString;
+                sqlConn = new SqlConnection(connectionString);
+
+                sqlConn.Close();
+                sqlConn.Open();
+                tran = sqlConn.BeginTransaction();
+
+                sbSql.Clear();
+                sbSql.AppendFormat(" UPDATE [TKBUSINESS].[dbo].[PRESALE2018] SET [TMONEY]=[PRICES]*[NUM] WHERE [TMONEY]<>[PRICES]*[NUM]");
+                sbSql.AppendFormat(" ");
+
+                cmd.Connection = sqlConn;
+                cmd.CommandTimeout = 60;
+                cmd.CommandText = sbSql.ToString();
+                cmd.Transaction = tran;
+                result = cmd.ExecuteNonQuery();
+
+                if (result == 0)
+                {
+                    tran.Rollback();    //交易取消
+                }
+                else
+                {
+                    tran.Commit();      //執行交易  
+
+
+                }
+            }
+            catch
+            {
+
+            }
+
+            finally
+            {
+                sqlConn.Close();
+            }
+        }
+
         #endregion
 
 
 
 
-            #region BUTTON
+        #region BUTTON
         private void button1_Click(object sender, EventArgs e)
         {
             SearchPRESALE2018();
@@ -1076,7 +1122,8 @@ namespace TKBUSINESS
                 SearchPRESALE2018();
                 SETREADONLY("1");
             }
-           
+
+            UPDATETMONEY();
         }
         private void button4_Click(object sender, EventArgs e)
         {
@@ -1248,6 +1295,9 @@ namespace TKBUSINESS
                 }
 
             }
+
+            UPDATETMONEY();
+
             MessageBox.Show("存檔完成");
 
             button12.PerformClick();
