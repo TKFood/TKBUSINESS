@@ -76,6 +76,10 @@ namespace TKBUSINESS
                     if (ds.Tables[tablename].Rows.Count == 0)
                     {
                         dataGridView1.DataSource = null;
+
+                        textBox1.Text = null;
+                        textBox2.Text = null;
+                        textBox3.Text = null;
                     }
                     else
                     {
@@ -121,6 +125,87 @@ namespace TKBUSINESS
             return STR;
         }
 
+        private void dataGridView1_SelectionChanged(object sender, EventArgs e)
+        {
+            if (dataGridView1.CurrentRow != null)
+            {
+                int rowindex = dataGridView1.CurrentRow.Index;
+                if (rowindex >= 0)
+                {
+                    DataGridViewRow row = dataGridView1.Rows[rowindex];
+
+                    textBox2.Text = row.Cells["單別"].Value.ToString();
+                    textBox3.Text = row.Cells["單號"].Value.ToString();
+                    textBox1.Text = row.Cells["備註"].Value.ToString();
+
+
+                }
+                else
+                {
+                    textBox1.Text = null;
+                    textBox2.Text = null;
+                    textBox3.Text = null;
+                }
+            }
+        }
+
+        public void SETSTATUS()
+        {
+            textBox1.ReadOnly = false;
+        }
+
+        public void SETSTATUS2()
+        {
+            textBox1.ReadOnly = true;
+        }
+
+        public void UPDATECOPTG()
+        {
+            try
+            {
+
+                connectionString = ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString;
+                sqlConn = new SqlConnection(connectionString);
+
+                sqlConn.Close();
+                sqlConn.Open();
+                tran = sqlConn.BeginTransaction();
+
+                sbSql.Clear();
+                
+                sbSql.AppendFormat(" UPDATE [TK].dbo.COPTG");
+                sbSql.AppendFormat(" SET TG020='{0}'",textBox1.Text);
+                sbSql.AppendFormat(" WHERE TG001='{0}' AND TG002='{1}' ",textBox2.Text,textBox3.Text);
+                sbSql.AppendFormat(" ");
+                sbSql.AppendFormat(" ");
+
+                cmd.Connection = sqlConn;
+                cmd.CommandTimeout = 60;
+                cmd.CommandText = sbSql.ToString();
+                cmd.Transaction = tran;
+                result = cmd.ExecuteNonQuery();
+
+                if (result == 0)
+                {
+                    tran.Rollback();    //交易取消
+                }
+                else
+                {
+                    tran.Commit();      //執行交易  
+
+
+                }
+            }
+            catch
+            {
+
+            }
+
+            finally
+            {
+                sqlConn.Close();
+            }
+        }
         #endregion
 
 
@@ -135,15 +220,19 @@ namespace TKBUSINESS
 
         private void button2_Click(object sender, EventArgs e)
         {
-
+            SETSTATUS();
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
+            UPDATECOPTG();
+            SETSTATUS2();
 
+            Search();
         }
+
         #endregion
 
-
+        
     }
 }
