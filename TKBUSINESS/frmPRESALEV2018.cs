@@ -572,7 +572,7 @@ namespace TKBUSINESS
         public void SETFASTREPORT()
         {
             string SQL;
-            report1 = new Report();
+            Report report1 = new Report();
             report1.Load(@"REPORT\銷售預估.frx");
 
             report1.Dictionary.Connections[0].ConnectionString = ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString;
@@ -583,7 +583,7 @@ namespace TKBUSINESS
             report1.Preview = previewControl1;
             report1.Show();
 
-
+            
         }
 
         public string SETFASETSQL()
