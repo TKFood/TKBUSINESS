@@ -77,6 +77,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FrmCALENDAR.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmCALENDAR.Designer.cs">
+      <DependentUpon>FrmCALENDAR.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmCOPTG.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -139,6 +145,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="FrmCALENDAR.resx">
+      <DependentUpon>FrmCALENDAR.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmCOPTG.resx">
       <DependentUpon>frmCOPTG.cs</DependentUpon>
     </EmbeddedResource>
@@ -191,6 +200,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\CalendarNETSource\Calendar.NET.csproj">
+      <Project>{6CBC43B6-E950-49B2-B14A-563C50FCD5C3}</Project>
+      <Name>Calendar.NET</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
