@@ -63,7 +63,7 @@ namespace TKBUSINESS
 
             connectionString = ConfigurationManager.ConnectionStrings["dberp"].ConnectionString;
             sqlConn = new SqlConnection(connectionString);
-            String Sequel = "SELECT MV001,MV002  FROM [TK].dbo.CMSMV WHERE MV001 IN ('140078','140049','160155')";
+            String Sequel = "SELECT MV001,MV002  FROM [TK].dbo.CMSMV WHERE MV001 IN ('140078','140049','160155','090002','160048')";
             SqlDataAdapter da = new SqlDataAdapter(Sequel, sqlConn);
             DataTable dt = new DataTable();
             sqlConn.Open();
