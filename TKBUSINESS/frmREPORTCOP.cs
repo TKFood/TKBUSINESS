@@ -101,15 +101,16 @@ namespace TKBUSINESS
             StringBuilder FASTSQL = new StringBuilder();
             StringBuilder STRQUERY = new StringBuilder();
 
-            FASTSQL.AppendFormat(@"  SELECT MV002 AS '業務員',TH004 AS '品號',TH005 AS '品名',SUM(TH037) AS '金額',SUM(NUM) AS '數量',TH009 AS '單位',SUM(TH037)/SUM(NUM) AS '平均售價'");
-            FASTSQL.AppendFormat(@"  FROM [TK].dbo.COPTG,[TK].dbo.[VCOPTHINVMD],[TK].dbo.CMSMV");
+            FASTSQL.AppendFormat(@"  SELECT ME002 AS '部門',MV002 AS '業務員',TH004 AS '品號',TH005 AS '品名',SUM(TH037) AS '金額',SUM(NUM) AS '數量',TH009 AS '單位',SUM(TH037)/SUM(NUM) AS '平均售價'");
+            FASTSQL.AppendFormat(@"  FROM [TK].dbo.COPTG,[TK].dbo.[VCOPTHINVMD],[TK].dbo.CMSMV,[TK].dbo.CMSME ");
             FASTSQL.AppendFormat(@"  WHERE TG001=TH001 AND TG002=TH002");
             FASTSQL.AppendFormat(@"  AND TG006=MV001");
+            FASTSQL.AppendFormat(@"  AND TG005=ME001");
             FASTSQL.AppendFormat(@"  AND TG003>='{0}' AND TG003<='{1}'",dateTimePicker1.Value.ToString("yyyyMMdd"), dateTimePicker2.Value.ToString("yyyyMMdd"));
             FASTSQL.AppendFormat(@"  AND TG006='{0}'",comboBox1.SelectedValue,ToString());
-            FASTSQL.AppendFormat(@"  GROUP BY MV002,TH004,TH005,TH009");
+            FASTSQL.AppendFormat(@"  GROUP BY ME002,MV002,TH004,TH005,TH009");
             FASTSQL.AppendFormat(@"  HAVING SUM(TH037)>0 ");
-            FASTSQL.AppendFormat(@"  ORDER BY SUM(TH037) DESC");
+            FASTSQL.AppendFormat(@"  ORDER BY ME002,SUM(TH037) DESC");
             FASTSQL.AppendFormat(@"  ");
             FASTSQL.AppendFormat(@"  ");
 
@@ -137,15 +138,16 @@ namespace TKBUSINESS
             StringBuilder FASTSQL = new StringBuilder();
             StringBuilder STRQUERY = new StringBuilder();
 
-            FASTSQL.AppendFormat(@"  SELECT MV002 AS '業務員',TG007 AS '客戶',SUM(TH037) AS '金額',SUM(NUM) AS '數量'");
-            FASTSQL.AppendFormat(@"  FROM [TK].dbo.COPTG,[TK].dbo.[VCOPTHINVMD],[TK].dbo.CMSMV");
+            FASTSQL.AppendFormat(@"  SELECT  ME002 AS '部門', MV002 AS '業務員',TG007 AS '客戶',SUM(TH037) AS '金額',SUM(NUM) AS '數量'");
+            FASTSQL.AppendFormat(@"  FROM [TK].dbo.COPTG,[TK].dbo.[VCOPTHINVMD],[TK].dbo.CMSMV,[TK].dbo.CMSME");
             FASTSQL.AppendFormat(@"  WHERE TG001=TH001 AND TG002=TH002");
             FASTSQL.AppendFormat(@"  AND TG006=MV001");
+            FASTSQL.AppendFormat(@"  AND TG005=ME001");
             FASTSQL.AppendFormat(@"  AND TG003>='{0}' AND TG003<='{1}'", dateTimePicker1.Value.ToString("yyyyMMdd"), dateTimePicker2.Value.ToString("yyyyMMdd"));
             FASTSQL.AppendFormat(@"  AND TG006='{0}'", comboBox1.SelectedValue, ToString());
-            FASTSQL.AppendFormat(@"  GROUP BY MV002,TG007");
+            FASTSQL.AppendFormat(@"  GROUP BY ME002,MV002,TG007");
             FASTSQL.AppendFormat(@"  HAVING SUM(TH037)>0");
-            FASTSQL.AppendFormat(@" ORDER BY SUM(TH037) DESC ");
+            FASTSQL.AppendFormat(@"  ORDER BY ME002,SUM(TH037) DESC ");
             FASTSQL.AppendFormat(@"  ");
             FASTSQL.AppendFormat(@"  ");
             FASTSQL.AppendFormat(@"  ");

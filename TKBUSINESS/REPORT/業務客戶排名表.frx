@@ -1,30 +1,33 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Report ScriptLanguage="CSharp" ReportInfo.Created="05/03/2019 09:29:38" ReportInfo.Modified="05/03/2019 10:06:37" ReportInfo.CreatorVersion="2016.4.4.0">
+<Report ScriptLanguage="CSharp" ReportInfo.Created="05/03/2019 09:29:38" ReportInfo.Modified="05/10/2019 15:41:37" ReportInfo.CreatorVersion="2016.4.4.0">
   <Dictionary>
-    <MsSqlDataConnection Name="Connection" ConnectionString="rijcmlqHwzMSgwTFaHpjtG3vsOj8Zy6q+uhwpDsytgWqwZQZyEQUQyQ022aWUGqU90pHzzNjHuzu89K+RQ2LIBVx1fpgNkNJhwC4eetn2/Uy0fMrO7zDUE5AmRb+0bcYI+lxqpNK7VAg28EMb2zujBtCWMs8uR7KE3TT1XHtlPqNg0WX9I7fJIerMR5Do80UewMlSga">
-      <TableDataSource Name="Table" DataType="System.Int32" Enabled="true" SelectCommand="SELECT MV002 AS '業務員',TG007 AS '客戶',SUM(TH037) AS '金額',SUM(NUM) AS '數量'&#13;&#10;FROM [TK].dbo.COPTG,[TK].dbo.[VCOPTHINVMD],[TK].dbo.CMSMV&#13;&#10;WHERE TG001=TH001 AND TG002=TH002&#13;&#10;AND TG006=MV001&#13;&#10;AND TG003&gt;='20190401' AND TG003&lt;='20190407'&#13;&#10;AND TG006='140049'&#13;&#10;GROUP BY MV002,TG007&#13;&#10;HAVING SUM(TH037)&gt;0&#13;&#10;ORDER BY SUM(TH037) DESC">
+    <MsSqlDataConnection Name="Connection" ConnectionString="rijcmlqHwzMSgwTFaHpjtG3vsOj8Zy6q+uhwpDsytgWqwZQZyEQUQyQ022aWUGqU90pHzzNjHuzu89K+RQ2LIBVx1fpgNkNJhwC4eetn2/Uy0fMrO7zDUE5AmRb+0bcYI+lxqpNK7VAg28EMb2zujBtCWMs8uR7KE3TT1XHtlPqNg0WX9JM5wbaleylghSo0feET9W7">
+      <TableDataSource Name="Table" DataType="System.Int32" Enabled="true" SelectCommand="SELECT  ME002 AS '部門', MV002 AS '業務員',TG007 AS '客戶',SUM(TH037) AS '金額',SUM(NUM) AS '數量'&#13;&#10;FROM [TK].dbo.COPTG,[TK].dbo.[VCOPTHINVMD],[TK].dbo.CMSMV,[TK].dbo.CMSME&#13;&#10;WHERE TG001=TH001 AND TG002=TH002&#13;&#10;AND TG006=MV001&#13;&#10;AND TG005=ME001&#13;&#10;AND TG003&gt;='20190401' AND TG003&lt;='20190407'&#13;&#10;AND TG006='140049'&#13;&#10;GROUP BY ME002,MV002,TG007&#13;&#10;HAVING SUM(TH037)&gt;0&#13;&#10;ORDER BY ME002,SUM(TH037) DESC">
         <Column Name="業務員" DataType="System.String"/>
         <Column Name="金額" DataType="System.Decimal"/>
         <Column Name="數量" DataType="System.Decimal"/>
         <Column Name="客戶" DataType="System.String"/>
+        <Column Name="部門" DataType="System.String"/>
       </TableDataSource>
     </MsSqlDataConnection>
   </Dictionary>
   <ReportPage Name="Page1">
     <ReportTitleBand Name="ReportTitle1" Width="718.2" Height="37.8">
-      <TextObject Name="Text1" Width="604.8" Height="18.9" Text="業務業務排名表" HorzAlign="Center" VertAlign="Center"/>
-      <TextObject Name="Text3" Top="18.9" Width="75.6" Height="18.9" Border.Lines="All" Text="業務員" HorzAlign="Center" VertAlign="Center"/>
-      <TextObject Name="Text9" Left="406.35" Top="18.9" Width="103.95" Height="18.9" Border.Lines="All" Text="金額" HorzAlign="Center" VertAlign="Center"/>
-      <TextObject Name="Text11" Left="510.3" Top="18.9" Width="94.5" Height="18.9" Border.Lines="All" Text="數量" HorzAlign="Center" VertAlign="Center"/>
-      <TextObject Name="Text15" Left="75.6" Top="18.9" Width="56.7" Height="18.9" Border.Lines="All" Text="排名" HorzAlign="Center" VertAlign="Center"/>
-      <TextObject Name="Text5" Left="132.3" Top="18.9" Width="274.05" Height="18.9" Border.Lines="All" Text="客戶" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text1" Left="94.5" Width="604.8" Height="18.9" Text="業務業務排名表" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text3" Left="94.5" Top="18.9" Width="75.6" Height="18.9" Border.Lines="All" Text="業務員" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text9" Left="500.85" Top="18.9" Width="103.95" Height="18.9" Border.Lines="All" Text="金額" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text11" Left="604.8" Top="18.9" Width="94.5" Height="18.9" Border.Lines="All" Text="數量" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text15" Left="170.1" Top="18.9" Width="56.7" Height="18.9" Border.Lines="All" Text="排名" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text5" Left="226.8" Top="18.9" Width="274.05" Height="18.9" Border.Lines="All" Text="客戶" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text16" Top="18.9" Width="94.5" Height="18.9" Border.Lines="All" Text="部門" HorzAlign="Center" VertAlign="Center"/>
     </ReportTitleBand>
     <DataBand Name="Data1" Top="41.65" Width="718.2" Height="18.9" CanGrow="true" DataSource="Table">
-      <TextObject Name="Text2" Width="75.6" Height="18.9" Border.Lines="All" CanGrow="true" GrowToBottom="true" Text="[Table.業務員]" HorzAlign="Center" VertAlign="Center"/>
-      <TextObject Name="Text8" Left="406.35" Width="103.95" Height="18.9" Border.Lines="All" CanGrow="true" GrowToBottom="true" Text="[Table.金額]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="0" Format.DecimalSeparator="." Format.GroupSeparator="," Format.NegativePattern="1" HorzAlign="Right" VertAlign="Center" WordWrap="false" Trimming="EllipsisCharacter"/>
-      <TextObject Name="Text10" Left="510.3" Width="94.5" Height="18.9" Border.Lines="All" CanGrow="true" GrowToBottom="true" Text="[Table.數量]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="0" Format.DecimalSeparator="." Format.GroupSeparator="," Format.NegativePattern="1" HorzAlign="Right" VertAlign="Center" WordWrap="false" Trimming="EllipsisCharacter"/>
-      <TextObject Name="Text14" Left="75.6" Width="56.7" Height="18.9" Border.Lines="All" Text="[Row#]" HorzAlign="Center" VertAlign="Center"/>
-      <TextObject Name="Text4" Left="132.3" Width="274.05" Height="18.9" Border.Lines="All" CanGrow="true" GrowToBottom="true" Text="[Table.客戶]" VertAlign="Center"/>
+      <TextObject Name="Text2" Left="94.5" Width="75.6" Height="18.9" Border.Lines="All" CanGrow="true" GrowToBottom="true" Text="[Table.業務員]" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text8" Left="500.85" Width="103.95" Height="18.9" Border.Lines="All" CanGrow="true" GrowToBottom="true" Text="[Table.金額]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="0" Format.DecimalSeparator="." Format.GroupSeparator="," Format.NegativePattern="1" HorzAlign="Right" VertAlign="Center" WordWrap="false" Trimming="EllipsisCharacter"/>
+      <TextObject Name="Text10" Left="604.8" Width="94.5" Height="18.9" Border.Lines="All" CanGrow="true" GrowToBottom="true" Text="[Table.數量]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="0" Format.DecimalSeparator="." Format.GroupSeparator="," Format.NegativePattern="1" HorzAlign="Right" VertAlign="Center" WordWrap="false" Trimming="EllipsisCharacter"/>
+      <TextObject Name="Text14" Left="170.1" Width="56.7" Height="18.9" Border.Lines="All" Text="[Row#]" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text4" Left="226.8" Width="274.05" Height="18.9" Border.Lines="All" CanGrow="true" GrowToBottom="true" Text="[Table.客戶]" VertAlign="Center"/>
+      <TextObject Name="Text6" Width="94.5" Height="18.9" Border.Lines="All" Text="[Table.部門]" HorzAlign="Center" VertAlign="Center"/>
     </DataBand>
   </ReportPage>
 </Report>
