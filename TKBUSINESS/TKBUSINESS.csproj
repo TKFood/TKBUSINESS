@@ -137,6 +137,12 @@
     <Compile Include="frmPRESALEV2018INVMB.Designer.cs">
       <DependentUpon>frmPRESALEV2018INVMB.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmRECOP.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmRECOP.Designer.cs">
+      <DependentUpon>frmRECOP.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmRECOPSTILL.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -186,6 +192,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmPRESALEV2018INVMB.resx">
       <DependentUpon>frmPRESALEV2018INVMB.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmRECOP.resx">
+      <DependentUpon>frmRECOP.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmRECOPSTILL.resx">
       <DependentUpon>frmRECOPSTILL.cs</DependentUpon>
