@@ -45,11 +45,101 @@ namespace TKBUSINESS
         public frmRECOP()
         {
             InitializeComponent();
+
+            comboBox1load();
+            comboBox2load();
+            comboBox3load();
+            comboBox4load();
+
         }
 
 
         #region FUNCTION
 
+
+        public void comboBox1load()
+        {
+            connectionString = ConfigurationManager.ConnectionStrings["dberp"].ConnectionString;
+            sqlConn = new SqlConnection(connectionString);
+            StringBuilder Sequel = new StringBuilder();
+            Sequel.AppendFormat(@"SELECT [ID],[ID]+[NAME] AS NAME FROM [TKKPI].[dbo].[COPDEP] ");
+            SqlDataAdapter da = new SqlDataAdapter(Sequel.ToString(), sqlConn);
+            DataTable dt = new DataTable();
+            sqlConn.Open();
+
+            dt.Columns.Add("ID", typeof(string));
+            dt.Columns.Add("NAME", typeof(string));
+            da.Fill(dt);
+            comboBox1.DataSource = dt.DefaultView;
+            comboBox1.ValueMember = "ID";
+            comboBox1.DisplayMember = "NAME";
+            sqlConn.Close();
+
+
+        }
+
+        public void comboBox2load()
+        {
+            connectionString = ConfigurationManager.ConnectionStrings["dberp"].ConnectionString;
+            sqlConn = new SqlConnection(connectionString);
+            StringBuilder Sequel = new StringBuilder();
+            Sequel.AppendFormat(@"SELECT  [ID],[ID]+[NAME]  AS NAME FROM [TKKPI].[dbo].[COPSALES] ");
+            SqlDataAdapter da = new SqlDataAdapter(Sequel.ToString(), sqlConn);
+            DataTable dt = new DataTable();
+            sqlConn.Open();
+
+            dt.Columns.Add("ID", typeof(string));
+            dt.Columns.Add("NAME", typeof(string));
+            da.Fill(dt);
+            comboBox2.DataSource = dt.DefaultView;
+            comboBox2.ValueMember = "ID";
+            comboBox2.DisplayMember = "NAME";
+            sqlConn.Close();
+
+
+        }
+
+        public void comboBox3load()
+        {
+            connectionString = ConfigurationManager.ConnectionStrings["dberp"].ConnectionString;
+            sqlConn = new SqlConnection(connectionString);
+            StringBuilder Sequel = new StringBuilder();
+            Sequel.AppendFormat(@"SELECT [ID],[ID]+[NAME] AS NAME FROM [TKKPI].[dbo].[COPDEP] ");
+            SqlDataAdapter da = new SqlDataAdapter(Sequel.ToString(), sqlConn);
+            DataTable dt = new DataTable();
+            sqlConn.Open();
+
+            dt.Columns.Add("ID", typeof(string));
+            dt.Columns.Add("NAME", typeof(string));
+            da.Fill(dt);
+            comboBox3.DataSource = dt.DefaultView;
+            comboBox3.ValueMember = "ID";
+            comboBox3.DisplayMember = "NAME";
+            sqlConn.Close();
+
+
+        }
+
+        public void comboBox4load()
+        {
+            connectionString = ConfigurationManager.ConnectionStrings["dberp"].ConnectionString;
+            sqlConn = new SqlConnection(connectionString);
+            StringBuilder Sequel = new StringBuilder();
+            Sequel.AppendFormat(@"SELECT  [ID],[ID]+[NAME]  AS NAME FROM [TKKPI].[dbo].[COPSALES] ");
+            SqlDataAdapter da = new SqlDataAdapter(Sequel.ToString(), sqlConn);
+            DataTable dt = new DataTable();
+            sqlConn.Open();
+
+            dt.Columns.Add("ID", typeof(string));
+            dt.Columns.Add("NAME", typeof(string));
+            da.Fill(dt);
+            comboBox4.DataSource = dt.DefaultView;
+            comboBox4.ValueMember = "ID";
+            comboBox4.DisplayMember = "NAME";
+            sqlConn.Close();
+
+
+        }
         public void SETFASTREPORT()
         {
             StringBuilder SQL1 = new StringBuilder();
@@ -79,11 +169,11 @@ namespace TKBUSINESS
             SB.AppendFormat(" AND MB001=TH004");
             SB.AppendFormat(" AND MV001=TG006");
             SB.AppendFormat(" AND TG003>='{0}' AND TG003<='{1}'", dateTimePicker1.Value.ToString("yyyyMMdd"), dateTimePicker2.Value.ToString("yyyyMMdd"));
-            SB.AppendFormat(" AND TG005='{0}'", comboBox1.Text.ToString().Substring(0, 6));
-            SB.AppendFormat(" AND TG006='{0}'", comboBox2.Text.ToString().Substring(0, 6));
+            SB.AppendFormat(" AND TG005='{0}'", comboBox1.SelectedValue.ToString());
+            SB.AppendFormat(" AND TG006='{0}'", comboBox2.SelectedValue.ToString());
             SB.AppendFormat(" GROUP BY MV002,TH005,MB004");
             SB.AppendFormat(" ORDER BY SUM(TH037) DESC");
-            SB.AppendFormat(" ");
+            SB.AppendFormat("  ");
             SB.AppendFormat(" ");
             SB.AppendFormat(" ");
             SB.AppendFormat(" ");
@@ -122,11 +212,11 @@ namespace TKBUSINESS
             SB.AppendFormat(" AND MB001=TH004");
             SB.AppendFormat(" AND MV001=TG006");
             SB.AppendFormat(" AND TG003>='{0}' AND TG003<='{1}'", dateTimePicker3.Value.ToString("yyyyMMdd"), dateTimePicker4.Value.ToString("yyyyMMdd"));
-            SB.AppendFormat(" AND TG005='{0}'", comboBox3.Text.ToString().Substring(0, 6));
-            SB.AppendFormat(" AND TG006='{0}'", comboBox4.Text.ToString().Substring(0, 6));
+            SB.AppendFormat(" AND TG005='{0}'", comboBox3.SelectedValue.ToString());
+            SB.AppendFormat(" AND TG006='{0}'", comboBox4.SelectedValue.ToString());
             SB.AppendFormat(" GROUP BY MV002,TG007");
             SB.AppendFormat(" ORDER BY SUM(TH037) DESC");
-            SB.AppendFormat("  ");
+            SB.AppendFormat("   ");
             SB.AppendFormat(" ");
             SB.AppendFormat(" ");
             SB.AppendFormat(" ");

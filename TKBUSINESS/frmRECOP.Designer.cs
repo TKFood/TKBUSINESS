@@ -223,7 +223,7 @@
             "106200-國內",
             "106300-國外",
             "106800-大陸"});
-            this.comboBox1.Location = new System.Drawing.Point(303, 50);
+            this.comboBox1.Location = new System.Drawing.Point(303, 48);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(144, 24);
             this.comboBox1.TabIndex = 29;
@@ -236,7 +236,7 @@
             "140049-莉琴",
             "140078-顏鴻",
             "160155-JUDY"});
-            this.comboBox2.Location = new System.Drawing.Point(303, 88);
+            this.comboBox2.Location = new System.Drawing.Point(303, 90);
             this.comboBox2.Name = "comboBox2";
             this.comboBox2.Size = new System.Drawing.Size(144, 24);
             this.comboBox2.TabIndex = 30;
@@ -403,7 +403,7 @@
             "106200-國內",
             "106300-國外",
             "106800-大陸"});
-            this.comboBox3.Location = new System.Drawing.Point(303, 48);
+            this.comboBox3.Location = new System.Drawing.Point(303, 50);
             this.comboBox3.Name = "comboBox3";
             this.comboBox3.Size = new System.Drawing.Size(144, 24);
             this.comboBox3.TabIndex = 29;
@@ -416,7 +416,7 @@
             "140049-莉琴",
             "140078-顏鴻",
             "160155-JUDY"});
-            this.comboBox4.Location = new System.Drawing.Point(303, 90);
+            this.comboBox4.Location = new System.Drawing.Point(303, 88);
             this.comboBox4.Name = "comboBox4";
             this.comboBox4.Size = new System.Drawing.Size(144, 24);
             this.comboBox4.TabIndex = 30;
@@ -657,7 +657,7 @@
             this.ClientSize = new System.Drawing.Size(984, 761);
             this.Controls.Add(this.tabControl1);
             this.Font = new System.Drawing.Font("新細明體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "frmRECOP";
             this.Text = "frmRECOP";
             this.tabControl1.ResumeLayout(false);
