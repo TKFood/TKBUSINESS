@@ -149,6 +149,12 @@
     <Compile Include="frmRECOPSTILL.Designer.cs">
       <DependentUpon>frmRECOPSTILL.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmRECOPTH.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmRECOPTH.Designer.cs">
+      <DependentUpon>frmRECOPTH.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmREPORT.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -198,6 +204,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmRECOPSTILL.resx">
       <DependentUpon>frmRECOPSTILL.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmRECOPTH.resx">
+      <DependentUpon>frmRECOPTH.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmREPORT.resx">
       <DependentUpon>frmREPORT.cs</DependentUpon>
