@@ -26,7 +26,7 @@ using FastReport.Data;
 
 namespace TKBUSINESS
 {
-    public partial class frmCOPTG : Form
+    public partial class frmCOPTC : Form
     {
         SqlConnection sqlConn = new SqlConnection();
 
@@ -44,15 +44,13 @@ namespace TKBUSINESS
         int rownum = 0;
         DataGridViewRow row;
         int result;
-   
 
-        public frmCOPTG()
+        public frmCOPTC()
         {
             InitializeComponent();
         }
 
         #region FUNCTION
-
         public void Search()
         {
             try
@@ -112,19 +110,19 @@ namespace TKBUSINESS
         public StringBuilder SETsbSql()
         {
             StringBuilder STR = new StringBuilder();
-           
 
-            STR.AppendFormat(@"  SELECT TG001 AS '單別',TG002 AS '單號',TG003 AS '日期',TG007 AS '客戶',TG020 AS '備註'");
-            STR.AppendFormat(@"  FROM [TK].dbo.COPTG");
-            STR.AppendFormat(@"  WHERE TG001='{0}'",comboBox1.Text.ToString());
-            STR.AppendFormat(@"  AND TG003>='{0}' AND TG003<='{1}'",dateTimePicker1.Value.ToString("yyyyMMdd"), dateTimePicker2.Value.ToString("yyyyMMdd"));
+
+            STR.AppendFormat(@"  SELECT TC001 AS '單別',TC002 AS '單號',TC003 AS '日期',TC004 AS '客戶',TC053 AS '名稱',TC012 AS '客戶單號'");
+            STR.AppendFormat(@"  FROM [TK].dbo.COPTC");
+            STR.AppendFormat(@"  WHERE TC001='{0}'", comboBox1.Text.ToString());
+            STR.AppendFormat(@"  AND TC003>='{0}' AND TC003<='{1}'", dateTimePicker1.Value.ToString("yyyyMMdd"), dateTimePicker2.Value.ToString("yyyyMMdd"));
+            STR.AppendFormat(@"  ORDER BY TC001,TC002 ");
             STR.AppendFormat(@"  ");
 
             tablename = "TEMPds1";
 
             return STR;
         }
-
         private void dataGridView1_SelectionChanged(object sender, EventArgs e)
         {
             if (dataGridView1.CurrentRow != null)
@@ -136,7 +134,7 @@ namespace TKBUSINESS
 
                     textBox2.Text = row.Cells["單別"].Value.ToString();
                     textBox3.Text = row.Cells["單號"].Value.ToString();
-                    textBox1.Text = row.Cells["備註"].Value.ToString();
+                    textBox1.Text = row.Cells["客戶單號"].Value.ToString();
 
 
                 }
@@ -158,8 +156,7 @@ namespace TKBUSINESS
         {
             textBox1.ReadOnly = true;
         }
-
-        public void UPDATECOPTG()
+        public void UPDATECOPTC()
         {
             try
             {
@@ -172,10 +169,10 @@ namespace TKBUSINESS
                 tran = sqlConn.BeginTransaction();
 
                 sbSql.Clear();
-                
-                sbSql.AppendFormat(" UPDATE [TK].dbo.COPTG");
-                sbSql.AppendFormat(" SET TG020='{0}'",textBox1.Text);
-                sbSql.AppendFormat(" WHERE TG001='{0}' AND TG002='{1}' ",textBox2.Text,textBox3.Text);
+
+                sbSql.AppendFormat(" UPDATE [TK].dbo.COPTC");
+                sbSql.AppendFormat(" SET TC012='{0}'", textBox1.Text);
+                sbSql.AppendFormat(" WHERE TC001='{0}' AND TC002='{1}' ", textBox2.Text, textBox3.Text);
                 sbSql.AppendFormat(" ");
                 sbSql.AppendFormat(" ");
 
@@ -206,10 +203,11 @@ namespace TKBUSINESS
                 sqlConn.Close();
             }
         }
+
         #endregion
 
 
-
+      
 
         #region BUTTON
 
@@ -217,15 +215,13 @@ namespace TKBUSINESS
         {
             Search();
         }
-
         private void button2_Click(object sender, EventArgs e)
         {
             SETSTATUS();
         }
-
         private void button3_Click(object sender, EventArgs e)
         {
-            UPDATECOPTG();
+            UPDATECOPTC();
             SETSTATUS2();
 
             Search();
@@ -233,6 +229,6 @@ namespace TKBUSINESS
 
         #endregion
 
-        
+
     }
 }

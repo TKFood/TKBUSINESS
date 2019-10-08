@@ -83,6 +83,12 @@
     <Compile Include="FrmCALENDAR.Designer.cs">
       <DependentUpon>FrmCALENDAR.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmCOPTC.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmCOPTC.Designer.cs">
+      <DependentUpon>frmCOPTC.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmCOPTG.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -171,6 +177,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="FrmCALENDAR.resx">
       <DependentUpon>FrmCALENDAR.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmCOPTC.resx">
+      <DependentUpon>frmCOPTC.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmCOPTG.resx">
       <DependentUpon>frmCOPTG.cs</DependentUpon>
