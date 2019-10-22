@@ -50,6 +50,9 @@ namespace TKBUSINESS
         public frmPRESALEV2018COPY()
         {
             InitializeComponent();
+
+            numericUpDown1.Value = (DateTime.Now.Year + 1);
+            numericUpDown3.Value = (DateTime.Now.Year + 1);
         }
 
         #region FUNCTION
