@@ -112,7 +112,7 @@ namespace TKBUSINESS
             StringBuilder STR = new StringBuilder();
 
 
-            STR.AppendFormat(@"  SELECT TC001 AS '單別',TC002 AS '單號',TC003 AS '日期',TC004 AS '客戶',TC053 AS '名稱',TC012 AS '客戶單號'");
+            STR.AppendFormat(@"  SELECT TC001 AS '單別',TC002 AS '單號',TC003 AS '日期',TC004 AS '客戶',TC053 AS '名稱',TC012 AS '客戶單號' ,TC042 AS '付款條件' ");
             STR.AppendFormat(@"  FROM [TK].dbo.COPTC");
             STR.AppendFormat(@"  WHERE TC001='{0}'", comboBox1.Text.ToString());
             STR.AppendFormat(@"  AND TC003>='{0}' AND TC003<='{1}'", dateTimePicker1.Value.ToString("yyyyMMdd"), dateTimePicker2.Value.ToString("yyyyMMdd"));
@@ -135,6 +135,7 @@ namespace TKBUSINESS
                     textBox2.Text = row.Cells["單別"].Value.ToString();
                     textBox3.Text = row.Cells["單號"].Value.ToString();
                     textBox1.Text = row.Cells["客戶單號"].Value.ToString();
+                    textBox4.Text = row.Cells["付款條件"].Value.ToString();
 
 
                 }
@@ -143,6 +144,7 @@ namespace TKBUSINESS
                     textBox1.Text = null;
                     textBox2.Text = null;
                     textBox3.Text = null;
+                    textBox4.Text = null;
                 }
             }
         }
@@ -150,11 +152,13 @@ namespace TKBUSINESS
         public void SETSTATUS()
         {
             textBox1.ReadOnly = false;
+            textBox4.ReadOnly = false;
         }
 
         public void SETSTATUS2()
         {
             textBox1.ReadOnly = true;
+            textBox4.ReadOnly = true;
         }
         public void UPDATECOPTC()
         {
@@ -171,7 +175,7 @@ namespace TKBUSINESS
                 sbSql.Clear();
 
                 sbSql.AppendFormat(" UPDATE [TK].dbo.COPTC");
-                sbSql.AppendFormat(" SET TC012='{0}'", textBox1.Text);
+                sbSql.AppendFormat(" SET TC012='{0}',TC042='{1}'", textBox1.Text, textBox4.Text);
                 sbSql.AppendFormat(" WHERE TC001='{0}' AND TC002='{1}' ", textBox2.Text, textBox3.Text);
                 sbSql.AppendFormat(" ");
                 sbSql.AppendFormat(" ");
