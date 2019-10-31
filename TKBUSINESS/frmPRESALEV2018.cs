@@ -57,7 +57,7 @@ namespace TKBUSINESS
 
             numericUpDown8.Value =(DateTime.Now.Year+1);
             numericUpDown5.Value = (DateTime.Now.Year + 1);
-            numericUpDown1.Value = (DateTime.Now.Year + 1);
+            numericUpDown11.Value = (DateTime.Now.Year + 1);
             numericUpDown12.Value = (DateTime.Now.Year + 1);
             numericUpDown13.Value = (DateTime.Now.Year + 1);
         }
@@ -657,14 +657,14 @@ namespace TKBUSINESS
         {
             string SQL;
             Report report1 = new Report();
-            report1.Load(@"REPORT\銷售預估.frx");
+            report1.Load(@"REPORT\預估-業務的商品年度銷售金額.frx");
 
             report1.Dictionary.Connections[0].ConnectionString = ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString;
 
             TableDataSource Table = report1.GetDataSource("Table") as TableDataSource;
             SQL = SETFASETSQL3();
             Table.SelectCommand = SQL;
-            report1.Preview = previewControl1;
+            report1.Preview = previewControl4;
             report1.Show();
 
 
@@ -675,7 +675,11 @@ namespace TKBUSINESS
             StringBuilder FASTSQL = new StringBuilder();
             StringBuilder STRQUERY = new StringBuilder();
 
-           
+            FASTSQL.AppendFormat(@"  SELECT CONVERT(INT,[MONTHS]) AS MONTHS ,[MB001],[MB002],SUM([TMONEY]) AS MM");
+            FASTSQL.AppendFormat(@"  FROM [TKBUSINESS].[dbo].[PRESALE2018] ");
+            FASTSQL.AppendFormat(@"  WHERE [YEARS]='{0}' AND [SALESID]='{1}'",numericUpDown13.Value.ToString(),textBox5.Text);
+            FASTSQL.AppendFormat(@"  GROUP BY CONVERT(INT,[MONTHS]),[MB001],[MB002]");
+            FASTSQL.AppendFormat(@"  ORDER BY CONVERT(INT,[MONTHS]),[MB001],[MB002]");
             FASTSQL.AppendFormat(@"  ");
 
             return FASTSQL.ToString();
@@ -685,14 +689,14 @@ namespace TKBUSINESS
         {
             string SQL;
             Report report1 = new Report();
-            report1.Load(@"REPORT\銷售預估.frx");
+            report1.Load(@"REPORT\預估-客戶的商品年度銷售金額.frx");
 
             report1.Dictionary.Connections[0].ConnectionString = ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString;
 
             TableDataSource Table = report1.GetDataSource("Table") as TableDataSource;
             SQL = SETFASETSQL4();
             Table.SelectCommand = SQL;
-            report1.Preview = previewControl1;
+            report1.Preview = previewControl3 ;
             report1.Show();
 
 
@@ -703,7 +707,11 @@ namespace TKBUSINESS
             StringBuilder FASTSQL = new StringBuilder();
             StringBuilder STRQUERY = new StringBuilder();
 
-            
+            FASTSQL.AppendFormat(@"  SELECT CONVERT(INT,[MONTHS]) AS MONTHS ,[CUSTOMERNAME],[MB001],[MB002],SUM([TMONEY]) AS MM");
+            FASTSQL.AppendFormat(@"  FROM [TKBUSINESS].[dbo].[PRESALE2018]");
+            FASTSQL.AppendFormat(@"  WHERE [YEARS]='{0}' AND [CUSTOMERID]='{1}'",numericUpDown12.Value.ToString(),textBox2.Text);
+            FASTSQL.AppendFormat(@"  GROUP BY CONVERT(INT,[MONTHS]),[CUSTOMERNAME],[MB001],[MB002]");
+            FASTSQL.AppendFormat(@"  ORDER BY CONVERT(INT,[MONTHS]),[CUSTOMERNAME],[MB001],[MB002]");
             FASTSQL.AppendFormat(@"  ");
 
             return FASTSQL.ToString();
