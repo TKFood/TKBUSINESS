@@ -56,6 +56,10 @@ namespace TKBUSINESS
             InitializeComponent();
 
             numericUpDown8.Value =(DateTime.Now.Year+1);
+            numericUpDown5.Value = (DateTime.Now.Year + 1);
+            numericUpDown1.Value = (DateTime.Now.Year + 1);
+            numericUpDown12.Value = (DateTime.Now.Year + 1);
+            numericUpDown13.Value = (DateTime.Now.Year + 1);
         }
 
         #region FUNCTION
@@ -616,6 +620,95 @@ namespace TKBUSINESS
             return FASTSQL.ToString();
         }
 
+        public void SETFASTREPORT2()
+        {
+            string SQL;
+            Report report1 = new Report();
+            report1.Load(@"REPORT\預估-業務的客戶年度銷售金額.frx");
+
+            report1.Dictionary.Connections[0].ConnectionString = ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString;
+
+            TableDataSource Table = report1.GetDataSource("Table") as TableDataSource;
+            SQL = SETFASETSQL2();
+            Table.SelectCommand = SQL;
+            report1.Preview = previewControl2;
+            report1.Show();
+
+
+        }
+
+        public string SETFASETSQL2()
+        {
+            StringBuilder FASTSQL = new StringBuilder();
+            StringBuilder STRQUERY = new StringBuilder();
+
+          
+            FASTSQL.AppendFormat(@"  SELECT CONVERT(INT,[MONTHS]) AS MONTHS ,[CUSTOMERNAME],SUM([TMONEY]) AS MM");
+            FASTSQL.AppendFormat(@"  FROM [TKBUSINESS].[dbo].[PRESALE2018]");
+            FASTSQL.AppendFormat(@"  WHERE [YEARS]='{0}' AND [SALESID]='{1}'",numericUpDown11.Value.ToString(),textBox4.Text);
+            FASTSQL.AppendFormat(@"  GROUP BY CONVERT(INT,[MONTHS]),[CUSTOMERNAME]");
+            FASTSQL.AppendFormat(@"  ORDER BY CONVERT(INT,[MONTHS]),[CUSTOMERNAME]");
+            FASTSQL.AppendFormat(@"  ");
+
+            return FASTSQL.ToString();
+        }
+
+        public void SETFASTREPORT3()
+        {
+            string SQL;
+            Report report1 = new Report();
+            report1.Load(@"REPORT\銷售預估.frx");
+
+            report1.Dictionary.Connections[0].ConnectionString = ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString;
+
+            TableDataSource Table = report1.GetDataSource("Table") as TableDataSource;
+            SQL = SETFASETSQL3();
+            Table.SelectCommand = SQL;
+            report1.Preview = previewControl1;
+            report1.Show();
+
+
+        }
+
+        public string SETFASETSQL3()
+        {
+            StringBuilder FASTSQL = new StringBuilder();
+            StringBuilder STRQUERY = new StringBuilder();
+
+           
+            FASTSQL.AppendFormat(@"  ");
+
+            return FASTSQL.ToString();
+        }
+
+        public void SETFASTREPORT4()
+        {
+            string SQL;
+            Report report1 = new Report();
+            report1.Load(@"REPORT\銷售預估.frx");
+
+            report1.Dictionary.Connections[0].ConnectionString = ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString;
+
+            TableDataSource Table = report1.GetDataSource("Table") as TableDataSource;
+            SQL = SETFASETSQL4();
+            Table.SelectCommand = SQL;
+            report1.Preview = previewControl1;
+            report1.Show();
+
+
+        }
+
+        public string SETFASETSQL4()
+        {
+            StringBuilder FASTSQL = new StringBuilder();
+            StringBuilder STRQUERY = new StringBuilder();
+
+            
+            FASTSQL.AppendFormat(@"  ");
+
+            return FASTSQL.ToString();
+        }
+
 
         public void INSERTTABLE(string MB001,string MB002)
         {
@@ -710,31 +803,11 @@ namespace TKBUSINESS
             }
         }
 
-        private void dataGridView2_CellEndEdit(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.ColumnIndex == 2)
-            {
-                MessageBox.Show(dataGridView2.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString());
-            }
-        }
-        private void dataGridView2_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
-        {
-            
-        }
-        private void dataGridView2_DefaultValuesNeeded(object sender, DataGridViewRowEventArgs e)
-        {
-            e.Row.Cells["SERNO"].Value = "99";
-        }
+       
+       
+  
 
-        private void dataGridView2_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if(e.ColumnIndex==2)
-            {
-                frmPRESALEV2018COPMA SUBfrmPRESALEV2018COPMA = new frmPRESALEV2018COPMA();
-                SUBfrmPRESALEV2018COPMA.ShowDialog();
-                dataGridView2.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = SUBfrmPRESALEV2018COPMA.TextBoxMsg;
-            }
-        }
+       
 
         private void dataGridView3_DefaultValuesNeeded(object sender, DataGridViewRowEventArgs e)
         {
@@ -1181,89 +1254,9 @@ namespace TKBUSINESS
 
         }
 
-        private void button11_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                SqlConnection sqlConn2 = new SqlConnection();
-                SqlCommandBuilder sqlCmdBuilder2 = new SqlCommandBuilder();
-                SqlDataAdapter adapter2 = new SqlDataAdapter();
-                DataSet ds2=new DataSet();
-                
-                string sbSql2 = "SELECT [ID],[SERNO],[MB001],[MB002] FROM [TKBUSINESS].[dbo].[TEMP] ORDER BY [SERNO]";
+       
 
-                if (!string.IsNullOrEmpty(sbSql2.ToString()))
-                {
-                    connectionString = ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString;
-                    sqlConn2 = new SqlConnection(connectionString);
-                    adapter2 = new SqlDataAdapter(sbSql2.ToString(), sqlConn2);
-                    sqlCmdBuilder2 = new SqlCommandBuilder(adapter2);
-
-                    sqlConn2.Open();
-                    ds2.Clear();
-                    adapter2.Fill(ds2, "TEMP");
-                    sqlConn2.Close();
-
-
-                    if (ds2.Tables["TEMP"].Rows.Count == 0)
-                    {
-                        dataGridView2.DataSource = null;
-                    }
-                    else
-                    {
-                        dataGridView2.DataSource = ds2.Tables["TEMP"];
-                        dataGridView2.AutoResizeColumns();
-                        dataGridView2.Columns["ID"].ReadOnly = true;
-                        dataGridView2.Columns["SERNO"].ReadOnly = true;
-
-
-                    }
-                }
-                else
-                {
-
-                }
-
-
-
-            }
-            catch
-            {
-
-            }
-            finally
-            {
-
-            }
-        }
-
-        private void button10_Click(object sender, EventArgs e)
-        {
-            dataGridView2.EndEdit();
-
-            int rows = 1;
-
-            foreach (DataGridViewRow row in dataGridView2.Rows)
-            {
-                if(dataGridView2.Rows.Count-1 >= rows)
-                {
-                    if (string.IsNullOrEmpty(row.Cells["ID"].Value.ToString()))
-                    {
-                        INSERTTABLE(row.Cells["MB001"].Value.ToString(), row.Cells["MB002"].Value.ToString());
-                    }
-                    else if (!string.IsNullOrEmpty(row.Cells["ID"].Value.ToString()))
-                    {
-                        UPDATETABLE(row.Cells["ID"].Value.ToString(), row.Cells["MB001"].Value.ToString(), row.Cells["MB002"].Value.ToString());
-                    }
-
-                    rows++;
-                }
-              
-            }
-            MessageBox.Show("Records");
-
-            button11.PerformClick();
-        }
+       
         private void button12_Click(object sender, EventArgs e)
         {
             SearchPRESALE2018V2();
@@ -1336,6 +1329,20 @@ namespace TKBUSINESS
             SearchPRESALE2018V2();
             MessageBox.Show("完成");
 
+        }
+        private void button10_Click(object sender, EventArgs e)
+        {
+            SETFASTREPORT2();
+        }
+
+        private void button18_Click(object sender, EventArgs e)
+        {
+            SETFASTREPORT3();
+        }
+
+        private void button11_Click(object sender, EventArgs e)
+        {
+            SETFASTREPORT4();
         }
 
         #endregion

@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report ScriptLanguage="CSharp" ReportInfo.Created="10/31/2019 09:13:05" ReportInfo.Modified="10/31/2019 09:22:04" ReportInfo.CreatorVersion="2016.4.4.0">
+  <Dictionary>
+    <MsSqlDataConnection Name="Connection" ConnectionString="rijcmlqHwzMSgwTFaHpjtG3vsOj8Zy6q+uhwpDsytgWqwZQZyEQUQyQ022aWUGqU90pHzzNjHuzu89K+RQ2LIBVx1fpgNkNJhwC4eetn2/Uy0fMrO7zDUE5AmRb+0bcYI+lxqpNK7VAg28EMb2zujBtCWMs8uR7KE3TT1XHtlPqNg0WX9IK93x/s2beFNfi7V5GOu5X">
+      <TableDataSource Name="Table" DataType="System.Int32" Enabled="true" SelectCommand="/****** SSMS 中 SelectTopNRows 命令的指令碼  ******/&#13;&#10;SELECT CONVERT(INT,[MONTHS]) AS MONTHS ,[CUSTOMERNAME],SUM([TMONEY]) AS MM&#13;&#10;FROM [TKBUSINESS].[dbo].[PRESALE2018]&#13;&#10;WHERE [YEARS]='2020' AND [SALESID]='140049'&#13;&#10;GROUP BY CONVERT(INT,[MONTHS]),[CUSTOMERNAME]&#13;&#10;ORDER BY CONVERT(INT,[MONTHS]),[CUSTOMERNAME]">
+        <Column Name="MONTHS" DataType="System.String"/>
+        <Column Name="CUSTOMERNAME" DataType="System.String"/>
+        <Column Name="MM" DataType="System.Decimal"/>
+      </TableDataSource>
+    </MsSqlDataConnection>
+  </Dictionary>
+  <ReportPage Name="Page1" Landscape="true" PaperWidth="400" PaperHeight="300">
+    <ReportTitleBand Name="ReportTitle1" Width="1436.4" Height="18.9">
+      <TextObject Name="Text1" Width="708.75" Height="18.9" Text="預估-業務的客戶年度銷售金額" VertAlign="Center"/>
+    </ReportTitleBand>
+    <DataBand Name="Data1" Top="22.75" Width="1436.4" Height="56.7">
+      <MatrixObject Name="Matrix1" Left="9.45" Width="187.83" Height="52.88" FixedRows="1" FixedColumns="1" DataSource="Table">
+        <MatrixColumns>
+          <Header Expression="[Table.MONTHS]"/>
+        </MatrixColumns>
+        <MatrixRows>
+          <Header Expression="[Table.CUSTOMERNAME]"/>
+        </MatrixRows>
+        <MatrixCells>
+          <Cell Expression="[Table.MM]"/>
+        </MatrixCells>
+        <TableColumn Name="Column1" Width="95.62" AutoSize="true"/>
+        <TableColumn Name="Column2" Width="58.5" AutoSize="true"/>
+        <TableColumn Name="Column3" Width="33.71" AutoSize="true"/>
+        <TableRow Name="Row1" Height="18.19" AutoSize="true">
+          <TableCell Name="Cell1" Border.Lines="All" Text="客戶" HorzAlign="Center" VertAlign="Center"/>
+          <TableCell Name="Cell2" Border.Lines="All" Text="[MONTHS]" HorzAlign="Center" VertAlign="Center"/>
+          <TableCell Name="Cell5" Border.Lines="All" Text="合計" HorzAlign="Center" VertAlign="Center"/>
+        </TableRow>
+        <TableRow Name="Row2" Height="16.5" AutoSize="true">
+          <TableCell Name="Cell3" Border.Lines="All" Text="[CUSTOMERNAME]" HorzAlign="Center" VertAlign="Center"/>
+          <TableCell Name="Cell4" Border.Lines="All" Text="[MM]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="0" Format.DecimalSeparator="." Format.GroupSeparator="," Format.NegativePattern="1" HorzAlign="Right" VertAlign="Center"/>
+          <TableCell Name="Cell6" Border.Lines="All" Format="Number" Format.UseLocale="false" Format.DecimalDigits="0" Format.DecimalSeparator="." Format.GroupSeparator="," Format.NegativePattern="1" HorzAlign="Right" VertAlign="Center"/>
+        </TableRow>
+        <TableRow Name="Row3" Height="18.19" AutoSize="true">
+          <TableCell Name="Cell7" Border.Lines="All" Text="合計" HorzAlign="Center" VertAlign="Center"/>
+          <TableCell Name="Cell8" Border.Lines="All" Format="Number" Format.UseLocale="false" Format.DecimalDigits="0" Format.DecimalSeparator="." Format.GroupSeparator="," Format.NegativePattern="1" HorzAlign="Right" VertAlign="Center"/>
+          <TableCell Name="Cell9" Border.Lines="All" Format="Number" Format.UseLocale="false" Format.DecimalDigits="0" Format.DecimalSeparator="." Format.GroupSeparator="," Format.NegativePattern="1" HorzAlign="Right" VertAlign="Center"/>
+        </TableRow>
+      </MatrixObject>
+    </DataBand>
+  </ReportPage>
+</Report>
