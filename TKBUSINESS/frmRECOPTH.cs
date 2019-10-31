@@ -77,7 +77,7 @@ namespace TKBUSINESS
             SB.AppendFormat(" AND TG023='Y'");
             SB.AppendFormat(" AND (TH004 LIKE '4%' OR TH004 LIKE '5%' )");
             SB.AppendFormat(" AND TG003>='{0}' AND TG003<='{1}'", dateTimePicker1.Value.ToString("yyyyMM")+"01", dateTimePicker2.Value.ToString("yyyyMM") + "31");
-            SB.AppendFormat(" AND TG004='{0}'",textBox1.Text);
+            SB.AppendFormat(" AND TG004 IN ('{0}')",textBox1.Text);
             SB.AppendFormat(" GROUP BY SUBSTRING(TG003,1,6),TG004,TG007,TH004,TH005,MB004");
             SB.AppendFormat(" ORDER BY SUBSTRING(TG003,1,6),TH004");
             SB.AppendFormat("     ");
@@ -134,6 +134,52 @@ namespace TKBUSINESS
 
         }
 
+        public void SETFASTREPORT3()
+        {
+            StringBuilder SQL1 = new StringBuilder();
+
+            SQL1 = SETSQL3();
+            Report report1 = new Report();
+            report1.Load(@"REPORT\銷售月報表-多客戶.frx");
+
+            report1.Dictionary.Connections[0].ConnectionString = ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString;
+            TableDataSource table = report1.GetDataSource("Table") as TableDataSource;
+            table.SelectCommand = SQL1.ToString();
+
+            //report1.SetParameterValue("P1", dateTimePicker1.Value.ToString("yyyyMMdd"));
+            //report1.SetParameterValue("P2", dateTimePicker2.Value.ToString("yyyyMMdd"));
+            report1.Preview = previewControl1;
+            report1.Show();
+        }
+
+        public StringBuilder SETSQL3()
+        {
+            string CID = null;
+            string ST = textBox3.Text;
+            string[] SARRARY = ST.Split(',');
+
+            foreach (string S in SARRARY)
+            {
+                CID = CID + "'" + S + "',";
+            }
+            CID = CID + "''";
+
+            StringBuilder SB = new StringBuilder();
+
+            SB.AppendFormat(" SELECT SUBSTRING(TG003,1,6) AS 'YM',TH004,TH005,SUM(TH037) AS 'MONEY',SUM(LA011) AS 'NUM',MB004 ");
+            SB.AppendFormat(" FROM [TK].dbo.COPTG,[TK].dbo.COPTH,[TK].dbo.INVLA,[TK].dbo.INVMB ");
+            SB.AppendFormat(" WHERE TG001=TH001 AND TG002=TH002 AND LA006=TH001 AND LA007=TH002 AND LA008=TH003 AND TH004=MB001 AND TG023='Y'");
+            SB.AppendFormat(" AND (TH004 LIKE '4%' OR TH004 LIKE '5%' ) AND TG003>='{0}' AND TG003<='{1}' ", dateTimePicker1.Value.ToString("yyyyMM") + "01", dateTimePicker2.Value.ToString("yyyyMM") + "31");
+            SB.AppendFormat(" AND TG004 IN ({0} )", CID.ToString());
+            SB.AppendFormat(" GROUP BY SUBSTRING(TG003,1,6),TH004,TH005,MB004 ORDER BY SUBSTRING(TG003,1,6),TH004  ");
+            SB.AppendFormat("     ");
+            SB.AppendFormat(" ");
+            SB.AppendFormat(" ");
+            SB.AppendFormat(" ");
+
+            return SB;
+
+        }
         #endregion
 
         #region BUTTON
@@ -146,6 +192,11 @@ namespace TKBUSINESS
         private void button1_Click(object sender, EventArgs e)
         {
             SETFASTREPORT2();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            SETFASTREPORT3();
         }
         #endregion
 
