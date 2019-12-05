@@ -55,6 +55,7 @@ namespace TKBUSINESS
         {
             InitializeComponent();
 
+            numericUpDown1.Value = (DateTime.Now.Year + 1);
             numericUpDown8.Value =(DateTime.Now.Year+1);
             numericUpDown5.Value = (DateTime.Now.Year + 1);
             numericUpDown11.Value = (DateTime.Now.Year + 1);

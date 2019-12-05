@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Report ScriptLanguage="CSharp" ReportInfo.Created="10/31/2019 09:13:05" ReportInfo.Modified="10/31/2019 09:22:04" ReportInfo.CreatorVersion="2016.4.4.0">
+<Report ScriptLanguage="CSharp" ReportInfo.Created="10/31/2019 09:13:05" ReportInfo.Modified="11/07/2019 14:07:49" ReportInfo.CreatorVersion="2016.4.4.0">
   <Dictionary>
-    <MsSqlDataConnection Name="Connection" ConnectionString="rijcmlqHwzMSgwTFaHpjtG3vsOj8Zy6q+uhwpDsytgWqwZQZyEQUQyQ022aWUGqU90pHzzNjHuzu89K+RQ2LIBVx1fpgNkNJhwC4eetn2/Uy0fMrO7zDUE5AmRb+0bcYI+lxqpNK7VAg28EMb2zujBtCWMs8uR7KE3TT1XHtlPqNg0WX9IK93x/s2beFNfi7V5GOu5X">
-      <TableDataSource Name="Table" DataType="System.Int32" Enabled="true" SelectCommand="/****** SSMS 中 SelectTopNRows 命令的指令碼  ******/&#13;&#10;SELECT CONVERT(INT,[MONTHS]) AS MONTHS ,[CUSTOMERNAME],SUM([TMONEY]) AS MM&#13;&#10;FROM [TKBUSINESS].[dbo].[PRESALE2018]&#13;&#10;WHERE [YEARS]='2020' AND [SALESID]='140049'&#13;&#10;GROUP BY CONVERT(INT,[MONTHS]),[CUSTOMERNAME]&#13;&#10;ORDER BY CONVERT(INT,[MONTHS]),[CUSTOMERNAME]">
+    <MsSqlDataConnection Name="Connection" ConnectionString="rijcmlqHwzMSgwTFaHpjtG3vsOj8Zy6q+uhwpDsytgWqwZQZyEQUQyQ022aWUGqU90pHzzNjHuzu89K+RQ2LIBVx1fpgNkNJhwC4eetn2/Uy0fMrO7zDUE5AmRb+0bcYI+lxqpNK7VAg28EMb2zujBtCWMs8uR7KE3TT1XHtlPqNg0WX9JDg9P9uMBi6x+eoWBNY15f">
+      <TableDataSource Name="Table" DataType="System.Int32" Enabled="true" SelectCommand="SELECT CONVERT(INT,[MONTHS]) AS MONTHS ,[CUSTOMERNAME],SUM([TMONEY]) AS MM&#13;&#10;FROM [TKBUSINESS].[dbo].[PRESALE2018]&#13;&#10;WHERE [YEARS]='2020'&#13;&#10;AND [SALESID]='190024'&#13;&#10;GROUP BY CONVERT(INT,[MONTHS]),[CUSTOMERNAME]&#13;&#10;ORDER BY CONVERT(INT,[MONTHS]),[CUSTOMERNAME]">
         <Column Name="MONTHS" DataType="System.String"/>
         <Column Name="CUSTOMERNAME" DataType="System.String"/>
         <Column Name="MM" DataType="System.Decimal"/>
