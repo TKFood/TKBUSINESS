@@ -111,7 +111,7 @@ namespace TKBUSINESS
             SB.AppendFormat(" ");
             SB.AppendFormat(" ");
             SB.AppendFormat(" ");
-            SB.AppendFormat("  ");
+            SB.AppendFormat(" ");
 
             return SB;
 
