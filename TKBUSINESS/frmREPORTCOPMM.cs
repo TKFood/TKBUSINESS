@@ -44,6 +44,9 @@ namespace TKBUSINESS
         public frmREPORTCOPMM()
         {
             InitializeComponent();
+
+            DateTime dt = DateTime.Now.AddYears(1);
+            dateTimePicker1.Value = dt;
         }
 
         #region FUNCTION

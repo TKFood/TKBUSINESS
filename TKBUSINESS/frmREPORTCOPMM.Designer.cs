@@ -108,8 +108,8 @@
             this.tableLayoutPanel4.BackColor = System.Drawing.Color.LightGreen;
             this.tableLayoutPanel4.ColumnCount = 12;
             this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 150F));
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 150F));
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 150F));
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 197F));
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 103F));
             this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 150F));
             this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 150F));
             this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 150F));
@@ -143,10 +143,10 @@
             // button4
             // 
             this.button4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.button4.Location = new System.Drawing.Point(304, 4);
+            this.button4.Location = new System.Drawing.Point(351, 4);
             this.button4.Margin = new System.Windows.Forms.Padding(4);
             this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(142, 32);
+            this.button4.Size = new System.Drawing.Size(95, 32);
             this.button4.TabIndex = 16;
             this.button4.Text = "查詢";
             this.button4.UseVisualStyleBackColor = true;
@@ -160,7 +160,7 @@
             this.dateTimePicker1.Location = new System.Drawing.Point(154, 6);
             this.dateTimePicker1.Margin = new System.Windows.Forms.Padding(4);
             this.dateTimePicker1.Name = "dateTimePicker1";
-            this.dateTimePicker1.Size = new System.Drawing.Size(142, 27);
+            this.dateTimePicker1.Size = new System.Drawing.Size(189, 27);
             this.dateTimePicker1.TabIndex = 24;
             // 
             // label2
@@ -217,7 +217,7 @@
             this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.textBox1.Location = new System.Drawing.Point(153, 86);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(144, 27);
+            this.textBox1.Size = new System.Drawing.Size(191, 27);
             this.textBox1.TabIndex = 32;
             // 
             // textBox2
@@ -225,7 +225,7 @@
             this.textBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.textBox2.Location = new System.Drawing.Point(153, 132);
             this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(144, 27);
+            this.textBox2.Size = new System.Drawing.Size(191, 27);
             this.textBox2.TabIndex = 33;
             // 
             // label3
@@ -251,7 +251,7 @@
             "業務年月客戶商品明細"});
             this.comboBox1.Location = new System.Drawing.Point(153, 50);
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(144, 24);
+            this.comboBox1.Size = new System.Drawing.Size(191, 24);
             this.comboBox1.TabIndex = 35;
             this.comboBox1.Text = "業務年月";
             // 
