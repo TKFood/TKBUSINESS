@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report ScriptLanguage="CSharp" ReportInfo.Created="08/27/2020 11:15:23" ReportInfo.Modified="08/27/2020 11:18:33" ReportInfo.CreatorVersion="2016.4.4.0">
+  <Dictionary>
+    <MsSqlDataConnection Name="Connection" ConnectionString="rijcmlqHwzMSgwTFaHpjtG3vsOj8Zy6q+uhwpDsytgWqwZQZyEQUQyQ022aWUGqU90pHzzNjHuzu89K+RQ2LIBVx1fpgNkNJhwC4eetn2/Uy0fMrO7zDUE5AmRb+0bcYI+lxqpNK7VAg28EMb2zujBtCWMs8uR7KE3TT1XHtlPqNg0WX9Izbo//VkJeGJY5VZMZFQLH">
+      <TableDataSource Name="Table" DataType="System.Int32" Enabled="true" SelectCommand="SELECT MM001,MM011,MV002,MN003,MM003,MA002,MM017,MB002,SUM(MN004) MN004,SUM(MN005)  MN005&#13;&#10;FROM [TK].dbo.[COPMM],[TK].dbo.[COPMN],[TK].dbo.COPMA,[TK].dbo.INVMB,[TK].dbo.CMSMV&#13;&#10;WHERE MM001=MN001 AND MM002=MN002&#13;&#10;AND MA001=MM003&#13;&#10;AND MB001=MM017&#13;&#10;AND MV001=MM011&#13;&#10;AND MM001='2021'&#13;&#10;AND MM011='160155'&#13;&#10;GROUP BY MM001,MM011,MV002,MN003,MM003,MA002,MM017,MB002">
+        <Column Name="MM001" DataType="System.String"/>
+        <Column Name="MM011" DataType="System.String"/>
+        <Column Name="MV002" DataType="System.String"/>
+        <Column Name="MN003" DataType="System.String"/>
+        <Column Name="MM003" DataType="System.String"/>
+        <Column Name="MA002" DataType="System.String"/>
+        <Column Name="MM017" DataType="System.String"/>
+        <Column Name="MB002" DataType="System.String"/>
+        <Column Name="MN004" DataType="System.Decimal"/>
+        <Column Name="MN005" DataType="System.Decimal"/>
+      </TableDataSource>
+    </MsSqlDataConnection>
+  </Dictionary>
+  <ReportPage Name="Page1" Landscape="true" PaperWidth="500" PaperHeight="210">
+    <DataBand Name="Data1" Width="1814.4" Height="107.32">
+      <MatrixObject Name="Matrix1" Top="9.45" Width="276.66" Height="85.88" FixedRows="3" FixedColumns="2" CellsSideBySide="true" DataSource="Table">
+        <MatrixColumns>
+          <Header Expression="[Table.MM001]"/>
+          <Header Expression="[Table.MN003]" Totals="false"/>
+        </MatrixColumns>
+        <MatrixRows>
+          <Header Expression="[Table.MA002]"/>
+          <Header Expression="[Table.MB002]" Totals="false"/>
+        </MatrixRows>
+        <MatrixCells>
+          <Cell Expression="[Table.MN004]"/>
+          <Cell Expression="[Table.MN005]"/>
+        </MatrixCells>
+        <TableColumn Name="Column1" Width="52.31" AutoSize="true"/>
+        <TableColumn Name="Column2" Width="52.31" AutoSize="true"/>
+        <TableColumn Name="Column3" Width="52.31" AutoSize="true"/>
+        <TableColumn Name="Column4" Width="52.31" AutoSize="true"/>
+        <TableColumn Name="Column5" Width="33.71" AutoSize="true"/>
+        <TableColumn Name="Column6" Width="33.71" AutoSize="true"/>
+        <TableRow Name="Row1" Height="16.5" AutoSize="true">
+          <TableCell Name="Cell1" Border.Lines="All" Text="客戶" HorzAlign="Center" VertAlign="Center" RowSpan="3"/>
+          <TableCell Name="Cell2" Border.Lines="All" Text="商品" HorzAlign="Center" VertAlign="Center" RowSpan="3"/>
+          <TableCell Name="Cell5" Border.Lines="All" Text="[MM001]" HorzAlign="Center" VertAlign="Center" ColSpan="2"/>
+          <TableCell Name="Cell7" Border.Lines="All"/>
+          <TableCell Name="Cell17" Border.Lines="All" Text="合計" HorzAlign="Center" VertAlign="Center" ColSpan="2" RowSpan="2"/>
+          <TableCell Name="Cell26" Border.Lines="All"/>
+        </TableRow>
+        <TableRow Name="Row2" Height="16.5" AutoSize="true">
+          <TableCell Name="Cell3" Border.Lines="All"/>
+          <TableCell Name="Cell4" Border.Lines="All"/>
+          <TableCell Name="Cell6" Border.Lines="All" Text="[MN003]" HorzAlign="Center" VertAlign="Center" ColSpan="2"/>
+          <TableCell Name="Cell8" Border.Lines="All"/>
+          <TableCell Name="Cell18" Border.Lines="All"/>
+          <TableCell Name="Cell29" Border.Lines="All"/>
+        </TableRow>
+        <TableRow Name="Row3" Height="18.19" AutoSize="true">
+          <TableCell Name="Cell9" Border.Lines="All"/>
+          <TableCell Name="Cell10" Border.Lines="All"/>
+          <TableCell Name="Cell11" Border.Lines="All" Text="數量" HorzAlign="Center" VertAlign="Center"/>
+          <TableCell Name="Cell12" Border.Lines="All" Text="金額" HorzAlign="Center" VertAlign="Center"/>
+          <TableCell Name="Cell19" Border.Lines="All" Text="數量" HorzAlign="Center" VertAlign="Center"/>
+          <TableCell Name="Cell32" Border.Lines="All" Text="金額" HorzAlign="Center" VertAlign="Center"/>
+        </TableRow>
+        <TableRow Name="Row4" Height="16.5" AutoSize="true">
+          <TableCell Name="Cell13" Border.Lines="All" Text="[MA002]" HorzAlign="Center" VertAlign="Center"/>
+          <TableCell Name="Cell14" Border.Lines="All" Text="[MB002]" HorzAlign="Center" VertAlign="Center"/>
+          <TableCell Name="Cell15" Border.Lines="All" Text="[MN004]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="0" Format.DecimalSeparator="." Format.GroupSeparator="," Format.NegativePattern="1" HorzAlign="Right" VertAlign="Center"/>
+          <TableCell Name="Cell16" Border.Lines="All" Text="[MN005]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="0" Format.DecimalSeparator="." Format.GroupSeparator="," Format.NegativePattern="1" HorzAlign="Right" VertAlign="Center"/>
+          <TableCell Name="Cell20" Border.Lines="All" Format="Number" Format.UseLocale="false" Format.DecimalDigits="0" Format.DecimalSeparator="." Format.GroupSeparator="," Format.NegativePattern="1" HorzAlign="Right" VertAlign="Center"/>
+          <TableCell Name="Cell35" Border.Lines="All" Format="Number" Format.UseLocale="false" Format.DecimalDigits="0" Format.DecimalSeparator="." Format.GroupSeparator="," Format.NegativePattern="1" HorzAlign="Right" VertAlign="Center"/>
+        </TableRow>
+        <TableRow Name="Row5" Height="18.19" AutoSize="true">
+          <TableCell Name="Cell21" Border.Lines="All" Text="合計" HorzAlign="Center" VertAlign="Center" ColSpan="2"/>
+          <TableCell Name="Cell22" Border.Lines="All"/>
+          <TableCell Name="Cell23" Border.Lines="All" Format="Number" Format.UseLocale="false" Format.DecimalDigits="0" Format.DecimalSeparator="." Format.GroupSeparator="," Format.NegativePattern="1" HorzAlign="Right" VertAlign="Center"/>
+          <TableCell Name="Cell24" Border.Lines="All" Format="Number" Format.UseLocale="false" Format.DecimalDigits="0" Format.DecimalSeparator="." Format.GroupSeparator="," Format.NegativePattern="1" HorzAlign="Right" VertAlign="Center"/>
+          <TableCell Name="Cell25" Border.Lines="All" Format="Number" Format.UseLocale="false" Format.DecimalDigits="0" Format.DecimalSeparator="." Format.GroupSeparator="," Format.NegativePattern="1" HorzAlign="Right" VertAlign="Center"/>
+          <TableCell Name="Cell38" Border.Lines="All" Format="Number" Format.UseLocale="false" Format.DecimalDigits="0" Format.DecimalSeparator="." Format.GroupSeparator="," Format.NegativePattern="1" HorzAlign="Right" VertAlign="Center"/>
+        </TableRow>
+      </MatrixObject>
+    </DataBand>
+  </ReportPage>
+</Report>
