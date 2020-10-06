@@ -57,27 +57,32 @@ namespace TKBUSINESS
             
             Report report1 = new Report();
 
-            if(comboBox1.Text.Trim().Equals("業務年月"))
+            if(comboBox1.Text.Trim().Equals("ERP各業務總金額"))
             {
-                report1.Load(@"REPORT\業務年月.frx");
+                report1.Load(@"REPORT\ERP各業務總金額.frx");
                 SQL1 = SETSQL();
             }
-            else if (comboBox1.Text.Trim().Equals("業務年月客戶"))
+            else if (comboBox1.Text.Trim().Equals("ERP各業務總金額、月份金額"))
             {
-                report1.Load(@"REPORT\業務年月客戶.frx");
+                report1.Load(@"REPORT\ERP各業務總金額、月份金額.frx");
                 SQL1 = SETSQL2();
             }
-            else if (comboBox1.Text.Trim().Equals("業務年月客戶商品"))
+            else if (comboBox1.Text.Trim().Equals("ERP各業務總金額、月份、客戶金額"))
             {
-                report1.Load(@"REPORT\業務年月客戶商品.frx");
+                report1.Load(@"REPORT\ERP各業務總金額、月份、客戶金額.frx");
                 SQL1 = SETSQL3();
             }
-            else if (comboBox1.Text.Trim().Equals("業務年月客戶商品明細"))
+            else if (comboBox1.Text.Trim().Equals("ERP各業務總金額、月份、客戶、商品金額"))
             {
-                report1.Load(@"REPORT\業務年月客戶商品明細.frx");
+                report1.Load(@"REPORT\ERP各業務總金額、月份、客戶、商品金額.frx");
                 SQL1 = SETSQL4();
             }
-            
+            else if (comboBox1.Text.Trim().Equals("ERP各商品合計"))
+            {
+                report1.Load(@"REPORT\ERP各商品合計.frx");
+                SQL1 = SETSQL5();
+            }
+
 
             report1.Dictionary.Connections[0].ConnectionString = ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString;
             TableDataSource table = report1.GetDataSource("Table") as TableDataSource;
@@ -94,16 +99,13 @@ namespace TKBUSINESS
             StringBuilder SB = new StringBuilder();
       
             SB.AppendFormat(@" 
-            SELECT MM001,MM011,MV002,MN003,SUM(MN004) MN004,SUM(MN005)  MN005
-            FROM [TK].dbo.[COPMM],[TK].dbo.[COPMN],[TK].dbo.COPMA,[TK].dbo.INVMB,[TK].dbo.CMSMV
-            WHERE MM001=MN001 AND MM002=MN002
-            AND MA001=MM003
-            AND MB001=MM017
-            AND MV001=MM011
-            AND MM001='{0}'
-            AND MM011='{1}'
-            GROUP BY MM001,MM011,MV002,MN003
-            ",dateTimePicker1.Value.ToString("yyyy"),textBox1.Text);
+                            SELECT MM001,MM011,MV002,SUM(MN005) 'MONEY',SUM(MN004) AS 'NUMS'
+                            FROM [TK].dbo.COPMM,[TK].dbo.COPMN,[TK].dbo.CMSMV  
+                            WHERE MM001=MN001 AND  MM002=MN002
+                            AND MV001=MM011
+                            AND MM001='{0}'
+                            GROUP BY MM001,MM011,MV002
+                            ", dateTimePicker1.Value.ToString("yyyy"),textBox1.Text);
 
             return SB;
 
@@ -114,16 +116,14 @@ namespace TKBUSINESS
             StringBuilder SB = new StringBuilder();
 
             SB.AppendFormat(@" 
-            SELECT MM001,MM011,MV002,MN003,MM003,MA002,SUM(MN004) MN004,SUM(MN005)  MN005
-            FROM [TK].dbo.[COPMM],[TK].dbo.[COPMN],[TK].dbo.COPMA,[TK].dbo.INVMB,[TK].dbo.CMSMV
-            WHERE MM001=MN001 AND MM002=MN002
-            AND MA001=MM003
-            AND MB001=MM017
-            AND MV001=MM011
-            AND MM001='{0}'
-            AND MM011='{1}'
-            GROUP BY MM001,MM011,MV002,MN003,MM003,MA002
-            ", dateTimePicker1.Value.ToString("yyyy"), textBox1.Text);
+                            SELECT MM001,MM011,MV002,MN003,SUM(MN005) 'MONEY',SUM(MN004) AS 'NUMS'
+                            FROM [TK].dbo.COPMM,[TK].dbo.COPMN,[TK].dbo.CMSMV  
+                            WHERE MM001=MN001 AND  MM002=MN002
+                            AND MV001=MM011
+                            AND MM001='{0}'
+                            AND MM011='{1}'
+                            GROUP BY MM001,MM011,MV002,MN003
+                            ", dateTimePicker1.Value.ToString("yyyy"), textBox1.Text);
 
             return SB;
 
@@ -134,16 +134,16 @@ namespace TKBUSINESS
             StringBuilder SB = new StringBuilder();
 
             SB.AppendFormat(@" 
-            SELECT MM001,MM011,MV002,MN003,MM003,MA002,MM017,MB002,SUM(MN004) MN004,SUM(MN005)  MN005
-            FROM [TK].dbo.[COPMM],[TK].dbo.[COPMN],[TK].dbo.COPMA,[TK].dbo.INVMB,[TK].dbo.CMSMV
-            WHERE MM001=MN001 AND MM002=MN002
-            AND MA001=MM003
-            AND MB001=MM017
-            AND MV001=MM011
-            AND MM001='{0}'
-            AND MM011='{1}'
-            GROUP BY MM001,MM011,MV002,MN003,MM003,MA002,MM017,MB002
-            ", dateTimePicker1.Value.ToString("yyyy"), textBox1.Text);
+                            SELECT MM001,MM011,MV002,MN003,MM003,MA002,SUM(MN005) 'MONEY',SUM(MN004) AS 'NUMS'
+                            FROM [TK].dbo.COPMM,[TK].dbo.COPMN,[TK].dbo.CMSMV,[TK].dbo.COPMA  
+                            WHERE MM001=MN001 AND  MM002=MN002
+                            AND MV001=MM011
+                            AND MM003=MA001
+                            AND MM001='{0}'
+                            AND MM011='{1}'
+                            AND MM003='{2}'
+                            GROUP BY MM001,MM011,MV002,MN003,MM003,MA002
+                            ", dateTimePicker1.Value.ToString("yyyy"), textBox1.Text, textBox2.Text);
 
             return SB;
 
@@ -154,17 +154,36 @@ namespace TKBUSINESS
             StringBuilder SB = new StringBuilder();
 
             SB.AppendFormat(@" 
-            SELECT MM001,MM011,MV002,MN003,MM003,MA002,MM017,MB002,SUM(MN004) MN004,SUM(MN005)  MN005
-            FROM [TK].dbo.[COPMM],[TK].dbo.[COPMN],[TK].dbo.COPMA,[TK].dbo.INVMB,[TK].dbo.CMSMV
-            WHERE MM001=MN001 AND MM002=MN002
-            AND MA001=MM003
-            AND MB001=MM017
-            AND MV001=MM011
-            AND MM001='{0}'
-            AND MM011='{1}'
-            AND MM003='{2}'
-            GROUP BY MM001,MM011,MV002,MN003,MM003,MA002,MM017,MB002
-            ", dateTimePicker1.Value.ToString("yyyy"), textBox1.Text, textBox2.Text);
+                            SELECT MM001,MM011,MV002,MN003,MM003,MA002,MM017,MB002,SUM(MN005) 'MONEY',SUM(MN004) AS 'NUMS'
+                            FROM [TK].dbo.COPMM,[TK].dbo.COPMN,[TK].dbo.CMSMV,[TK].dbo.COPMA  ,[TK].dbo.INVMB
+                            WHERE MM001=MN001 AND  MM002=MN002
+                            AND MV001=MM011
+                            AND MM003=MA001
+                            AND MM017=MB001
+                              AND MM001='{0}'
+                            AND MM011='{1}'
+                            AND MM003='{2}'
+                            GROUP BY MM001,MM011,MV002,MN003,MM003,MA002,MM017,MB002            
+                            ", dateTimePicker1.Value.ToString("yyyy"), textBox1.Text, textBox2.Text);
+
+            return SB;
+
+        }
+
+        public StringBuilder SETSQL5()
+        {
+            StringBuilder SB = new StringBuilder();
+
+            SB.AppendFormat(@" 
+                            SELECT MM001,MN003,MM017,MB002,SUM(MN005) 'MONEY',SUM(MN004) AS 'NUMS'
+                            FROM [TK].dbo.COPMM,[TK].dbo.COPMN,[TK].dbo.CMSMV,[TK].dbo.COPMA  ,[TK].dbo.INVMB
+                            WHERE MM001=MN001 AND  MM002=MN002
+                            AND MV001=MM011
+                            AND MM003=MA001
+                            AND MM017=MB001
+                            AND MM001='2021'
+                            GROUP BY MM001,MN003,MM017,MB002
+                            ", dateTimePicker1.Value.ToString("yyyy"));
 
             return SB;
 
