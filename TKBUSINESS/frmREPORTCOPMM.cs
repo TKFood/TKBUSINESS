@@ -133,7 +133,9 @@ namespace TKBUSINESS
         {
             StringBuilder SB = new StringBuilder();
 
-            SB.AppendFormat(@" 
+            if(!string.IsNullOrEmpty(textBox2.Text))
+            {
+                SB.AppendFormat(@" 
                             SELECT MM001,MM011,MV002,MN003,MM003,MA002,SUM(MN005) 'MONEY',SUM(MN004) AS 'NUMS'
                             FROM [TK].dbo.COPMM,[TK].dbo.COPMN,[TK].dbo.CMSMV,[TK].dbo.COPMA  
                             WHERE MM001=MN001 AND  MM002=MN002
@@ -144,6 +146,21 @@ namespace TKBUSINESS
                             AND MM003='{2}'
                             GROUP BY MM001,MM011,MV002,MN003,MM003,MA002
                             ", dateTimePicker1.Value.ToString("yyyy"), textBox1.Text, textBox2.Text);
+            }
+            else
+            {
+                SB.AppendFormat(@" 
+                            SELECT MM001,MM011,MV002,MN003,MM003,MA002,SUM(MN005) 'MONEY',SUM(MN004) AS 'NUMS'
+                            FROM [TK].dbo.COPMM,[TK].dbo.COPMN,[TK].dbo.CMSMV,[TK].dbo.COPMA  
+                            WHERE MM001=MN001 AND  MM002=MN002
+                            AND MV001=MM011
+                            AND MM003=MA001
+                            AND MM001='{0}'
+                            AND MM011='{1}'
+                            GROUP BY MM001,MM011,MV002,MN003,MM003,MA002
+                            ", dateTimePicker1.Value.ToString("yyyy"), textBox1.Text);
+            }
+         
 
             return SB;
 
