@@ -718,13 +718,13 @@
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 150F));
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 120F));
             this.tableLayoutPanel3.Controls.Add(this.button3, 5, 0);
-            this.tableLayoutPanel3.Controls.Add(this.dateTimePicker7, 4, 0);
             this.tableLayoutPanel3.Controls.Add(this.label12, 3, 0);
-            this.tableLayoutPanel3.Controls.Add(this.dateTimePicker8, 2, 0);
             this.tableLayoutPanel3.Controls.Add(this.label17, 1, 0);
             this.tableLayoutPanel3.Controls.Add(this.label18, 0, 0);
             this.tableLayoutPanel3.Controls.Add(this.comboBox6, 2, 1);
             this.tableLayoutPanel3.Controls.Add(this.label13, 1, 1);
+            this.tableLayoutPanel3.Controls.Add(this.dateTimePicker7, 2, 0);
+            this.tableLayoutPanel3.Controls.Add(this.dateTimePicker8, 4, 0);
             this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel3.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel3.Margin = new System.Windows.Forms.Padding(4);
@@ -754,7 +754,7 @@
             this.dateTimePicker7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.dateTimePicker7.CustomFormat = "yyyy/MM/dd";
             this.dateTimePicker7.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dateTimePicker7.Location = new System.Drawing.Point(604, 6);
+            this.dateTimePicker7.Location = new System.Drawing.Point(304, 6);
             this.dateTimePicker7.Margin = new System.Windows.Forms.Padding(4);
             this.dateTimePicker7.Name = "dateTimePicker7";
             this.dateTimePicker7.Size = new System.Drawing.Size(142, 27);
@@ -777,7 +777,7 @@
             this.dateTimePicker8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.dateTimePicker8.CustomFormat = "yyyy/MM/dd";
             this.dateTimePicker8.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dateTimePicker8.Location = new System.Drawing.Point(304, 6);
+            this.dateTimePicker8.Location = new System.Drawing.Point(604, 6);
             this.dateTimePicker8.Margin = new System.Windows.Forms.Padding(4);
             this.dateTimePicker8.Name = "dateTimePicker8";
             this.dateTimePicker8.Size = new System.Drawing.Size(142, 27);

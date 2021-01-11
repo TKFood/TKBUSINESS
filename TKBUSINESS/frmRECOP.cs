@@ -291,6 +291,49 @@ namespace TKBUSINESS
             return SB;
 
         }
+
+        public void SETFASTREPORT4()
+        {
+            StringBuilder SQL1 = new StringBuilder();
+
+            SQL1 = SETSQL4();
+            Report report4 = new Report();
+            report4.Load(@"REPORT\業務商品排名表2021.frx");
+
+            report4.Dictionary.Connections[0].ConnectionString = ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString;
+            TableDataSource table = report4.GetDataSource("Table") as TableDataSource;
+            table.SelectCommand = SQL1.ToString();
+
+            //report1.SetParameterValue("P1", dateTimePicker1.Value.ToString("yyyyMMdd"));
+            //report1.SetParameterValue("P2", dateTimePicker2.Value.ToString("yyyyMMdd"));
+            report4.Preview = previewControl4;
+            report4.Show();
+        }
+
+        public StringBuilder SETSQL4()
+        {
+            StringBuilder SB = new StringBuilder();
+
+      
+            SB.AppendFormat(@" 
+                         SELECT MV002 AS '業務',TH005 AS '品名',SUM(TH037) AS '金額',SUM(LA011) AS '數量',MB004 AS '單位',SUM(TH037)/SUM(SUM(TH037)) OVER ()  AS '金額百分比'
+                         FROM [TK].dbo.COPTG, [TK].dbo.COPTH,[TK].dbo.INVLA,[TK].dbo.INVMB,[TK].dbo.CMSMV
+                         WHERE TG001=TH001 AND TG002=TH002
+                         AND LA006=TH001 AND LA007=TH002 AND LA008=TH003
+                         AND MB001=TH004
+                         AND MV001=TG006
+                         AND TG003>='{0}' AND TG003<='{1}'
+                         AND TG006 = '{2}'
+                         GROUP BY MV002,TH005,MB004
+                         ORDER BY SUM(TH037)DESC
+                        ", dateTimePicker7.Value.ToString("yyyyMMdd"), dateTimePicker8.Value.ToString("yyyyMMdd"), comboBox6.SelectedValue.ToString());
+            SB.AppendFormat(" ");
+            SB.AppendFormat(" ");
+
+            return SB;
+
+        }
+
         #endregion
 
         #region BUTTON
@@ -312,7 +355,7 @@ namespace TKBUSINESS
 
         private void button3_Click(object sender, EventArgs e)
         {
-
+            SETFASTREPORT4();
         }
         #endregion
 
