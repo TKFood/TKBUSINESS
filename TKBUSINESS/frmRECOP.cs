@@ -322,6 +322,7 @@ namespace TKBUSINESS
                          AND LA006=TH001 AND LA007=TH002 AND LA008=TH003
                          AND MB001=TH004
                          AND MV001=TG006
+                         AND TG001 IN ('A231','A232','A235','A236','A237','A238','A239','A23A','A23B','A23D')
                          AND TG003>='{0}' AND TG003<='{1}'
                          AND TG006 = '{2}'
                          GROUP BY MV002,TH005,MB004

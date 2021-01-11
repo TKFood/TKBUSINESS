@@ -705,8 +705,8 @@
             // 
             this.tableLayoutPanel3.BackColor = System.Drawing.Color.LightGreen;
             this.tableLayoutPanel3.ColumnCount = 12;
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 150F));
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 150F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 115F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 185F));
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 150F));
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 150F));
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 150F));
@@ -800,22 +800,22 @@
             // 
             this.label13.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(154, 52);
+            this.label13.Location = new System.Drawing.Point(119, 52);
             this.label13.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(142, 16);
+            this.label13.Size = new System.Drawing.Size(177, 16);
             this.label13.TabIndex = 28;
-            this.label13.Text = "業務";
+            this.label13.Text = "業務(不含電商+消費者)";
             this.label13.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // label17
             // 
             this.label17.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(154, 12);
+            this.label17.Location = new System.Drawing.Point(119, 12);
             this.label17.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(142, 16);
+            this.label17.Size = new System.Drawing.Size(177, 16);
             this.label17.TabIndex = 23;
             this.label17.Text = "查詢日期";
             this.label17.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -827,7 +827,7 @@
             this.label18.Location = new System.Drawing.Point(4, 12);
             this.label18.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(142, 16);
+            this.label18.Size = new System.Drawing.Size(107, 16);
             this.label18.TabIndex = 31;
             this.label18.Text = "商品排名";
             this.label18.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
