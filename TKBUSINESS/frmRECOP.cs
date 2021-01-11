@@ -50,6 +50,8 @@ namespace TKBUSINESS
             comboBox2load();
             comboBox3load();
             comboBox4load();
+            
+            comboBox6load();
 
         }
 
@@ -140,6 +142,30 @@ namespace TKBUSINESS
 
 
         }
+
+       
+
+        public void comboBox6load()
+        {
+            connectionString = ConfigurationManager.ConnectionStrings["dberp"].ConnectionString;
+            sqlConn = new SqlConnection(connectionString);
+            StringBuilder Sequel = new StringBuilder();
+            Sequel.AppendFormat(@"SELECT  [ID],[ID]+[NAME]  AS NAME FROM [TKKPI].[dbo].[COPSALES] ");
+            SqlDataAdapter da = new SqlDataAdapter(Sequel.ToString(), sqlConn);
+            DataTable dt = new DataTable();
+            sqlConn.Open();
+
+            dt.Columns.Add("ID", typeof(string));
+            dt.Columns.Add("NAME", typeof(string));
+            da.Fill(dt);
+            comboBox6.DataSource = dt.DefaultView;
+            comboBox6.ValueMember = "ID";
+            comboBox6.DisplayMember = "NAME";
+            sqlConn.Close();
+
+
+        }
+
         public void SETFASTREPORT()
         {
             StringBuilder SQL1 = new StringBuilder();
@@ -283,6 +309,13 @@ namespace TKBUSINESS
         {
             SETFASTREPORT3();
         }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+
+        }
         #endregion
+
+
     }
 }
