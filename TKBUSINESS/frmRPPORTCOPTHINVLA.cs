@@ -80,8 +80,8 @@ namespace TKBUSINESS
             TableDataSource table = report1.GetDataSource("Table") as TableDataSource;
             table.SelectCommand = SQL1.ToString();
 
-            //report1.SetParameterValue("P1", dateTimePicker1.Value.ToString("yyyyMMdd"));
-            //report1.SetParameterValue("P2", dateTimePicker2.Value.ToString("yyyyMMdd"));
+            report1.SetParameterValue("P1", textBox1.Text);
+            report1.SetParameterValue("P2", textBox2.Text);
             report1.Preview = previewControl1;
             report1.Show();
         }
@@ -91,7 +91,7 @@ namespace TKBUSINESS
             StringBuilder SB = new StringBuilder();
 
             SB.AppendFormat(@" 
-                            SELECT TG006 AS '部門代',ME002 AS '部門',TG005 AS '業務',MV002 AS '業務員',TG004 AS '客代',TG007 AS '客戶',TH004 AS '品號',TH005 AS '品名',CONVERT(DECIMAL(16,2),AVG(TH037/LA011)) AS '平均銷貨單價',AVG(LA012) AS '平均成本',AVG(LA012)*{0}*{1} AS '目標成本利潤',CONVERT(DECIMAL(16,2),(AVG(TH037/LA011)-(AVG(LA012)))) AS '單價成本差',CONVERT(DECIMAL(16,2),(AVG(TH037/LA011)-(AVG(LA012)*{0}*{1}))) AS '目標利潤單價成本差'
+                            SELECT TG006 AS '部門代',ME002 AS '部門',TG005 AS '業務',MV002 AS '業務員',TG004 AS '客代',TG007 AS '客戶',TH004 AS '品號',TH005 AS '品名',CONVERT(DECIMAL(16,2),AVG(TH037/LA011)) AS '平均銷貨單價',AVG(LA012) AS '平均成本',AVG(LA012)*{0} AS '目標成本利潤',CONVERT(DECIMAL(16,2),(AVG(TH037/LA011)-(AVG(LA012)))) AS '單價成本差',CONVERT(DECIMAL(16,2),(AVG(TH037/LA011)-(AVG(LA012)*{0}))) AS '目標利潤單價成本差'
                             FROM(
                             SELECT TG001,TG002,TG006,ME002,TG005,MV002,TG004,TG007,TH004,TH005,TH037,LA011,LA012
                             FROM [TK].dbo.COPTG,[TK].dbo.COPTH,[TK].dbo.INVLA,[TK].dbo.CMSMV,[TK].dbo.CMSME
@@ -103,11 +103,11 @@ namespace TKBUSINESS
                             AND (TG004 LIKE '2%' OR TG004 LIKE '3%' OR TG004 LIKE 'A%' OR TG004 LIKE 'B%')
                             AND TH037>0
                             AND LA011>0
-                            AND TG003>='{2}' AND TG003<='{3}'
+                            AND TG003>='{1}' AND TG003<='{2}'
                             ) AS TEMP
                             GROUP BY TG006,ME002,TG005,MV002,TG004,TG007,TH004,TH005
-                            ORDER BY CONVERT(DECIMAL(16,2),(AVG(TH037/LA011)-(AVG(LA012)*{0}*{1}))),ME002,TG005
-                            ",((Convert.ToDecimal(textBox1.Text)+100)/100), ((Convert.ToDecimal(textBox2.Text) + 100) / 100),dateTimePicker1.Value.ToString("yyyyMMdd"), dateTimePicker2.Value.ToString("yyyyMMdd"));
+                            ORDER BY CONVERT(DECIMAL(16,2),(AVG(TH037/LA011)-(AVG(LA012)*{0}))),ME002,TG005
+                             ",((Convert.ToDecimal(textBox1.Text)+ Convert.ToDecimal(textBox2.Text)+100)/100),dateTimePicker1.Value.ToString("yyyyMMdd"), dateTimePicker2.Value.ToString("yyyyMMdd"));
 
             return SB;
 
