@@ -185,6 +185,12 @@
     <Compile Include="frmREPORTCOPTDTH.Designer.cs">
       <DependentUpon>frmREPORTCOPTDTH.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmRPPORTCOPTHINVLA.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmRPPORTCOPTHINVLA.Designer.cs">
+      <DependentUpon>frmRPPORTCOPTHINVLA.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="FrmCALENDAR.resx">
@@ -240,6 +246,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmREPORTCOPTDTH.resx">
       <DependentUpon>frmREPORTCOPTDTH.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmRPPORTCOPTHINVLA.resx">
+      <DependentUpon>frmRPPORTCOPTHINVLA.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
