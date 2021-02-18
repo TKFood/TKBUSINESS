@@ -128,6 +128,93 @@ namespace TKBUSINESS
 
         }
 
+        public void ADDTOTEXTBOX()
+        {
+            string MB001;
+
+            foreach (DataGridViewRow dr in this.dataGridView1.Rows)
+            {
+                DataGridViewCheckBoxCell cbx = (DataGridViewCheckBoxCell)dr.Cells[0];
+
+                if ((bool)cbx.FormattedValue)
+                {
+                    MB001 = ((System.Data.DataRowView)(dr.DataBoundItem)).Row.ItemArray[0].ToString().Trim();
+                    
+
+                    //MessageBox.Show(TA001 + "-"+ TA002);
+                    if (!string.IsNullOrEmpty(MB001))
+                    {
+                        textBox2.AppendText(MB001 + Environment.NewLine);
+                    }
+                }
+                else
+                {
+                    
+                }
+            }
+        }
+
+        public void CLEARTEXTBOX()
+        {
+            textBox2.Text = null;
+        }
+
+        public void SETFASTREPORT()
+        {
+            StringBuilder SQL1 = new StringBuilder();
+
+            SQL1 = SETSQL();
+            Report report1 = new Report();
+            report1.Load(@"REPORT\銷售商品-客戶表.frx");
+
+            report1.Dictionary.Connections[0].ConnectionString = ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString;
+            TableDataSource table = report1.GetDataSource("Table") as TableDataSource;
+            table.SelectCommand = SQL1.ToString();
+
+            //report1.SetParameterValue("P1", textBox1.Text);
+            //report1.SetParameterValue("P2", textBox2.Text);
+            report1.Preview = previewControl1;
+            report1.Show();
+        }
+
+        public StringBuilder SETSQL()
+        {
+            StringBuilder SB = new StringBuilder();
+            string strLineData = FINDTEXTBOX();
+            //MessageBox.Show(strLineData);
+
+            SB.AppendFormat(@" 
+                            SELECT TG004,TG007,TH004,TH005,SUM(LA011) LA011,SUM(TH037)  TH037
+                            FROM [TK].dbo.COPTG,[TK].dbo.COPTH,[TK].dbo.INVLA
+                            WHERE TG001=TH001 AND TG002=TH002
+                            AND TH001=LA006 AND TH002=LA007 AND TH003=LA008
+                            AND TG004 NOT LIKE'1%'
+                            AND TG023='Y'
+                            AND TG003>='{0}' AND TG003<='{1}'
+                            AND TH004 IN ({2})
+                            GROUP BY TG004,TG007,TH004,TH005
+                            ORDER BY TG004,TG007,TH004,TH005
+                            ", dateTimePicker1.Value.ToString("yyyyMMdd"), dateTimePicker2.Value.ToString("yyyyMMdd"), strLineData);
+
+            return SB;
+
+        }
+
+        public string FINDTEXTBOX()
+        {
+            string strLineData = null;
+            StringBuilder ReturnMB001 = new StringBuilder();
+
+            for (int i = 0; i < textBox2.Lines.Length; i++)
+            {
+                ReturnMB001.AppendFormat("'" + textBox2.Lines[i] + "'" + ",");
+            }
+           
+
+            ReturnMB001.AppendFormat("'9'");
+            return ReturnMB001.ToString(); 
+        }
+
         #endregion
 
 
@@ -137,10 +224,30 @@ namespace TKBUSINESS
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Search(textBox1.Text.Trim());
+            if(!String.IsNullOrEmpty(textBox1.Text.Trim()))
+            {
+                Search(textBox1.Text.Trim());
+            }
+            
         }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            ADDTOTEXTBOX();
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            CLEARTEXTBOX();
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            SETFASTREPORT();
+        }
+
         #endregion
 
-      
+
     }
 }
