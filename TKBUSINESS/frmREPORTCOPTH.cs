@@ -111,8 +111,11 @@ namespace TKBUSINESS
                         //dataGridView1.Rows.Clear();
                         dataGridView1.DataSource = ds1.Tables["TEMPds1"];
                         dataGridView1.AutoResizeColumns();
+                        dataGridView1.ColumnHeadersDefaultCellStyle.Font = new Font("Tahoma", 9);
+                        dataGridView1.DefaultCellStyle.Font = new Font("Tahoma", 10);
+                        dataGridView1.Columns["品號"].Width = 100;
+                        dataGridView1.Columns["品名"].Width = 100;
 
-                      
                     }
                 }
 
