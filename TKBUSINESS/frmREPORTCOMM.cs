@@ -53,7 +53,9 @@ namespace TKBUSINESS
             textBox2.Text = DateTime.Now.Year.ToString();
             textBox3.Text = (DateTime.Now.Month-1).ToString().PadLeft(2, '0');
             textBox4.Text = DateTime.Now.Year.ToString();
-            textBox5.Text = (DateTime.Now.Month - 1).ToString().PadLeft(2, '0'); 
+            textBox5.Text = (DateTime.Now.Month - 1).ToString().PadLeft(2, '0');
+            textBox6.Text = DateTime.Now.Year.ToString();
+            textBox7.Text = (DateTime.Now.Month - 1).ToString().PadLeft(2, '0');
         }
 
         #region FUNCTION
@@ -300,6 +302,64 @@ namespace TKBUSINESS
 
         }
 
+        public void SETFASTREPORT4()
+        {
+            StringBuilder SQL1 = new StringBuilder();
+
+            SQL1 = SETSQL4();
+            Report report1 = new Report();
+            report1.Load(@"REPORT\客戶月份的預算及銷售商品差異表.frx");
+
+            report1.Dictionary.Connections[0].ConnectionString = ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString;
+            TableDataSource table = report1.GetDataSource("Table") as TableDataSource;
+            table.SelectCommand = SQL1.ToString();
+
+            //report1.SetParameterValue("P1", textBox1.Text);
+            //report1.SetParameterValue("P2", textBox2.Text);
+            report1.Preview = previewControl4;
+            report1.Show();
+        }
+
+        public StringBuilder SETSQL4()
+        {
+            StringBuilder SB = new StringBuilder();
+            //MessageBox.Show(strLineData);
+
+            string THISYEARS = textBox6.Text.Trim();
+            string LASTYEARS = (Convert.ToInt32(textBox6.Text.Trim()) - 1).ToString();
+            string THISMONTHS = textBox7.Text.Trim();
+            string MM003 = textBox8.Text.Trim();
+
+            SB.AppendFormat(@" 
+                            
+                            DECLARE @THISYEARS nvarchar(10)
+                            DECLARE @LASTYEARS nvarchar(10)
+                            DECLARE @MONTHS nvarchar(10)
+                            DECLARE @MM003 nvarchar(20)
+                            SET @THISYEARS='{0}'
+                            SET @LASTYEARS='{1}'
+                            SET @MONTHS='{2}'
+                            SET @MM003='{3}'
+
+                            SELECT MM001 AS '年度',MN003 AS '月份',MM002 AS '預算編號',MM003 AS '客戶代號',MA002 AS '客戶',MM017 AS '品號',MB002 AS '品名',MN004 AS '預算數量',MN005 AS '預算金額'
+                            ,(SELECT ISNULL(SUM(LA011),0) FROM [TK].dbo.COPTG,[TK].dbo.COPTH,[TK].dbo.INVLA WHERE TG001=TH001 AND TG002=TH002 AND LA006=TH001 AND LA007=TH002 AND LA008=TH003 AND TG004=MM003 AND TH004=MM017 AND TG003 LIKE @THISYEARS+@MONTHS+'%') AS '銷貨數量'
+                            ,(SELECT ISNULL(SUM(TH037),0) FROM [TK].dbo.COPTG,[TK].dbo.COPTH WHERE TG001=TH001 AND TG002=TH002 AND TG004=MM003 AND TH004=MM017 AND TG003 LIKE @THISYEARS+@MONTHS+'%') AS '銷貨金額'
+                            ,((SELECT ISNULL(SUM(TH037),0) FROM [TK].dbo.COPTG,[TK].dbo.COPTH WHERE TG001=TH001 AND TG002=TH002 AND TG004=MM003 AND TH004=MM017 AND TG003 LIKE @THISYEARS+@MONTHS+'%')-MN005)  AS '銷貨跟預算的差異金額'
+                            FROM [TK].dbo.COPMM,[TK].dbo.COPMN,[TK].dbo.COPMA ,[TK].dbo.INVMB
+                            WHERE MM001=MN001 AND MM002=MN002
+                            AND MA001=MM003
+                            AND MB001=MM017
+                            AND MM001=@THISYEARS
+                            AND MM003=@MM003
+                            AND MN003=@MONTHS
+
+
+                            ", THISYEARS, LASTYEARS, THISMONTHS, MM003);
+
+            return SB;
+
+        }
+
         #endregion
 
 
@@ -320,6 +380,10 @@ namespace TKBUSINESS
         private void button3_Click(object sender, EventArgs e)
         {
             SETFASTREPORT3();
+        }
+        private void button4_Click(object sender, EventArgs e)
+        {
+            SETFASTREPORT4();
         }
 
 
