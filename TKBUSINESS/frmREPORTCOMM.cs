@@ -51,7 +51,9 @@ namespace TKBUSINESS
 
             textBox1.Text = DateTime.Now.Year.ToString();
             textBox2.Text = DateTime.Now.Year.ToString();
-            textBox3.Text = (DateTime.Now.Month-1).ToString().PadLeft(2, '0'); ;
+            textBox3.Text = (DateTime.Now.Month-1).ToString().PadLeft(2, '0');
+            textBox4.Text = DateTime.Now.Year.ToString();
+            textBox5.Text = (DateTime.Now.Month - 1).ToString().PadLeft(2, '0'); 
         }
 
         #region FUNCTION
@@ -235,6 +237,69 @@ namespace TKBUSINESS
             return SB;
 
         }
+
+        public void SETFASTREPORT3()
+        {
+            StringBuilder SQL1 = new StringBuilder();
+
+            SQL1 = SETSQL3();
+            Report report1 = new Report();
+            report1.Load(@"REPORT\各客戶月份業績達成.frx");
+
+            report1.Dictionary.Connections[0].ConnectionString = ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString;
+            TableDataSource table = report1.GetDataSource("Table") as TableDataSource;
+            table.SelectCommand = SQL1.ToString();
+
+            //report1.SetParameterValue("P1", textBox1.Text);
+            //report1.SetParameterValue("P2", textBox2.Text);
+            report1.Preview = previewControl3;
+            report1.Show();
+        }
+
+        public StringBuilder SETSQL3()
+        {
+            StringBuilder SB = new StringBuilder();
+            //MessageBox.Show(strLineData);
+
+            string THISYEARS = textBox2.Text.Trim();
+            string LASTYEARS = (Convert.ToInt32(textBox2.Text.Trim()) - 1).ToString();
+            string THISMONTHS = textBox3.Text.Trim();
+
+            SB.AppendFormat(@" 
+                            DECLARE @THISYEARS nvarchar(10)
+                            DECLARE @LASTYEARS nvarchar(10)
+                            DECLARE @MONTHS nvarchar(10)
+                            SET @THISYEARS='{0}'
+                            SET @LASTYEARS='{1}'
+                            SET @MONTHS='{2}'
+
+
+                            SELECT @THISYEARS AS '年度',@MONTHS  AS '月份',ID1  AS '客戶代',MA002  AS '客戶',ID3  AS '業務代',MV002  AS '業務員'
+                            ,PRE2021 AS '本月預算',(IN2021MONTH-OUT2021MONTH) AS '本月實收',(IN2020MONTH-OUT2020MONTH) AS '去年同期實收'
+                            ,((IN2021MONTH-OUT2021MONTH)-PRE2021) AS '實收跟預算的差異'
+                            FROM
+                            (
+                            SELECT ID1,MA002,ID3,MV002
+                            ,(SELECT ISNULL(SUM(MN005),0) FROM [TK].dbo.COPMM,[TK].dbo.COPMN WHERE MM001=MN001 AND MM002=MN002 AND MM003=ID1 AND MM001=@THISYEARS AND MN003=@MONTHS) AS 'PRE2021'
+                            ,(SELECT ISNULL(SUM(TH037),0) FROM [TK].dbo.COPTG,[TK].dbo.COPTH WHERE TG001=TH001 AND TG002=TH002 AND TG004=ID1 AND TG023='Y' AND TG001 NOT IN ('A233','A234') AND TG003 LIKE @THISYEARS+@MONTHS+'%') 'IN2021MONTH'
+                            ,(SELECT ISNULL(SUM(TJ033),0) FROM [TK].dbo.COPTI,[TK].dbo.COPTJ WHERE TI001=TJ001 AND TI002=TJ002 AND TI004=ID1 AND TI019='Y' AND TI001 NOT IN ('A243','A246') AND TI003 LIKE @THISYEARS+@MONTHS+'%') 'OUT2021MONTH'
+                            ,(SELECT ISNULL(SUM(TH037),0) FROM [TK].dbo.COPTG,[TK].dbo.COPTH WHERE TG001=TH001 AND TG002=TH002 AND TG004=ID1 AND TG023='Y' AND TG001 NOT IN ('A233','A234') AND TG003 LIKE @LASTYEARS+@MONTHS+'%') 'IN2020MONTH'
+                            ,(SELECT ISNULL(SUM(TJ033),0) FROM [TK].dbo.COPTI,[TK].dbo.COPTJ WHERE TI001=TJ001 AND TI002=TJ002 AND TI004=ID1 AND TI019='Y' AND TI001 NOT IN ('A243','A246') AND TI003 LIKE @LASTYEARS+@MONTHS+'%') 'OUT2020MONTH'
+
+                            FROM [TK].dbo.ZSLAES
+                            LEFT JOIN [TK].dbo.CMSMV ON MV001=ID3
+                            LEFT JOIN [TK].dbo.COPMA ON MA001=ID1
+                            ) AS TEMP
+                            ORDER BY MV002,((IN2021MONTH-OUT2021MONTH)-PRE2021),ID1
+
+
+
+                            ", THISYEARS, LASTYEARS, THISMONTHS);
+
+            return SB;
+
+        }
+
         #endregion
 
 
@@ -252,6 +317,10 @@ namespace TKBUSINESS
             SETFASTREPORT2();
         }
 
+        private void button3_Click(object sender, EventArgs e)
+        {
+            SETFASTREPORT3();
+        }
 
 
         #endregion
