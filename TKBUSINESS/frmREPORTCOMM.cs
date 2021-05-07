@@ -48,6 +48,10 @@ namespace TKBUSINESS
         public frmREPORTCOMM()
         {
             InitializeComponent();
+
+            textBox1.Text = DateTime.Now.Year.ToString();
+            textBox2.Text = DateTime.Now.Year.ToString();
+            textBox3.Text = (DateTime.Now.Month-1).ToString().PadLeft(2, '0'); ;
         }
 
         #region FUNCTION
@@ -154,6 +158,83 @@ namespace TKBUSINESS
 
         }
 
+
+        public void SETFASTREPORT2()
+        {
+            StringBuilder SQL1 = new StringBuilder();
+
+            SQL1 = SETSQL2();
+            Report report1 = new Report();
+            report1.Load(@"REPORT\各業務員各月總預算及業績.frx");
+
+            report1.Dictionary.Connections[0].ConnectionString = ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString;
+            TableDataSource table = report1.GetDataSource("Table") as TableDataSource;
+            table.SelectCommand = SQL1.ToString();
+
+            //report1.SetParameterValue("P1", textBox1.Text);
+            //report1.SetParameterValue("P2", textBox2.Text);
+            report1.Preview = previewControl2;
+            report1.Show();
+        }
+
+        public StringBuilder SETSQL2()
+        {
+            StringBuilder SB = new StringBuilder();
+            //MessageBox.Show(strLineData);
+
+            string THISYEARS = textBox2.Text.Trim();
+            string LASTYEARS = (Convert.ToInt32(textBox2.Text.Trim()) - 1).ToString();
+            string THISMONTHS= textBox3.Text.Trim();
+
+            SB.AppendFormat(@" 
+                            DECLARE @THISYEARS nvarchar(10)
+                            DECLARE @LASTYEARS nvarchar(10)
+                            DECLARE @MONTHS nvarchar(10)
+                            SET @THISYEARS='{0}'
+                            SET @LASTYEARS='{1}'
+                            SET @MONTHS='{2}'
+
+                            SELECT @THISYEARS AS '年度',@MONTHS  AS '月份',ID3  AS '業務代',MV002  AS '業務員'
+                            ,SUM(PRE2021MOTH) AS '本月預算'
+                            ,SUM((IN2021MOTH-OUT2021MOTH)) AS '本月實收'
+                            ,SUM((IN2020MOTH-OUT2020MOTH)) AS '去年同期實收'
+                            ,((SUM((IN2021MOTH-OUT2021MOTH)))-SUM(PRE2021MOTH)) AS '實收跟預算的差異'
+                            FROM(
+                            SELECT ID1,MA002,ID3,MV002
+                            ,(SELECT ISNULL(SUM(MN005),0) FROM [TK].dbo.COPMM,[TK].dbo.COPMN WHERE MM001=MN001 AND MM002=MN002 AND MM003=ID1 AND MM001=@THISYEARS AND MN003=@MONTHS) AS 'PRE2021MOTH'
+                            ,(SELECT ISNULL(SUM(TH037),0) FROM [TK].dbo.COPTG,[TK].dbo.COPTH WHERE TG001=TH001 AND TG002=TH002 AND TG004=ID1 AND TG023='Y' AND TG001 NOT IN ('A233','A234') AND TG003 LIKE @THISYEARS+@MONTHS+'%') 'IN2021MOTH'
+                            ,(SELECT ISNULL(SUM(TJ033),0) FROM [TK].dbo.COPTI,[TK].dbo.COPTJ WHERE TI001=TJ001 AND TI002=TJ002 AND TI004=ID1 AND TI019='Y' AND TI001 NOT IN ('A243','A246') AND TI003 LIKE @THISYEARS+@MONTHS+'%') 'OUT2021MOTH'
+                            ,(SELECT ISNULL(SUM(TH037),0) FROM [TK].dbo.COPTG,[TK].dbo.COPTH WHERE TG001=TH001 AND TG002=TH002 AND TG004=ID1 AND TG023='Y' AND TG001 NOT IN ('A233','A234') AND TG003 LIKE @LASTYEARS+@MONTHS+'%') 'IN2020MOTH'
+                            ,(SELECT ISNULL(SUM(TJ033),0) FROM [TK].dbo.COPTI,[TK].dbo.COPTJ WHERE TI001=TJ001 AND TI002=TJ002 AND TI004=ID1 AND TI019='Y' AND TI001 NOT IN ('A243','A246') AND TI003 LIKE @LASTYEARS+@MONTHS+'%') 'OUT2020MOTH'
+
+                            FROM [TK].dbo.ZSLAES
+                            LEFT JOIN [TK].dbo.CMSMV ON MV001=ID3
+                            LEFT JOIN [TK].dbo.COPMA ON MA001=ID1
+                            ) AS TEMP
+                            GROUP BY ID3,MV002
+                            UNION ALL
+                            SELECT   @THISYEARS AS '年度',@MONTHS  AS '月份',MM003,MA002,PRE,(IN2021-OUT2021),(IN2020-OUT2020),((IN2021-OUT2021)-PRE)
+                            FROM (
+                            SELECT MM003,MA002,MN001,MN003,SUM(MN005) AS 'PRE'
+                            ,(SELECT ISNULL(SUM(TH037),0) FROM [TK].dbo.COPTG,[TK].dbo.COPTH WHERE TG001=TH001 AND TG002=TH002 AND TG023='Y' AND TG001 IN ('A233','A234') AND TG003 LIKE MN001+MN003+'%') 'IN2021'
+                            ,(SELECT ISNULL(SUM(TJ033),0) FROM [TK].dbo.COPTI,[TK].dbo.COPTJ WHERE TI001=TJ001 AND TI002=TJ002 AND TI019='Y' AND TI001 IN ('A243','A246') AND TI003 LIKE MN001+MN003+'%') 'OUT2021'
+                            ,(SELECT ISNULL(SUM(TH037),0) FROM [TK].dbo.COPTG,[TK].dbo.COPTH WHERE TG001=TH001 AND TG002=TH002 AND TG023='Y' AND TG001 IN ('A233','A234') AND TG003 LIKE @LASTYEARS+MN003+'%') 'IN2020'
+                            ,(SELECT ISNULL(SUM(TJ033),0) FROM [TK].dbo.COPTI,[TK].dbo.COPTJ WHERE TI001=TJ001 AND TI002=TJ002 AND TI019='Y' AND TI001 IN ('A243','A246') AND TI003 LIKE @LASTYEARS+MN003+'%') 'OUT2020'
+                            FROM [TK].dbo.COPMM,[TK].dbo.COPMN,[TK].dbo.COPMA 
+                            WHERE MM001=MN001 AND MM002=MN002 
+                            AND MA001=MM003
+                            AND MM001=@THISYEARS
+                            AND MM003='44900001'
+                            AND MN003=@MONTHS
+                            GROUP BY MM003,MA002,MN001,MN003
+                            )AS TEMP
+
+
+                            ", THISYEARS, LASTYEARS,THISMONTHS);
+
+            return SB;
+
+        }
         #endregion
 
 
@@ -165,6 +246,16 @@ namespace TKBUSINESS
         {
             SETFASTREPORT();
         }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            SETFASTREPORT2();
+        }
+
+
+
         #endregion
+
+
     }
 }
