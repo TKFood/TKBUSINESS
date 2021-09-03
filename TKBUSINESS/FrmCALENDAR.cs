@@ -14,6 +14,7 @@ using System.Reflection;
 using System.Threading;
 using System.Globalization;
 using Calendar.NET;
+using TKITDLL;
 
 namespace TKBUSINESS
 {
@@ -69,8 +70,18 @@ namespace TKBUSINESS
 
             try
             {
-                connectionString = ConfigurationManager.ConnectionStrings["dberp"].ConnectionString;
-                sqlConn = new SqlConnection(connectionString);
+                //20210902密
+                Class1 TKID = new Class1();//用new 建立類別實體
+                SqlConnectionStringBuilder sqlsb = new SqlConnectionStringBuilder(ConfigurationManager.ConnectionStrings["dberp"].ConnectionString);
+
+                //資料庫使用者密碼解密
+                sqlsb.Password = TKID.Decryption(sqlsb.Password);
+                sqlsb.UserID = TKID.Decryption(sqlsb.UserID);
+
+                String connectionString;
+                sqlConn = new SqlConnection(sqlsb.ConnectionString);
+
+             
 
                 sbSql.Clear();
                 sbSqlQuery.Clear();
