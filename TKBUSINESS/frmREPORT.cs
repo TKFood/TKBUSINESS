@@ -21,6 +21,7 @@ using NPOI.SS.UserModel;
 using System.Configuration;
 using NPOI.XSSF.UserModel;
 using System.Text.RegularExpressions;
+using TKITDLL;
 
 namespace TKBUSINESS
 {
@@ -58,8 +59,17 @@ namespace TKBUSINESS
 
                 if (!string.IsNullOrEmpty(sbSql.ToString()))
                 {
-                    connectionString = ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString;
-                    sqlConn = new SqlConnection(connectionString);
+                    //20210902密
+                    Class1 TKID = new Class1();//用new 建立類別實體
+                    SqlConnectionStringBuilder sqlsb = new SqlConnectionStringBuilder(ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString);
+
+                    //資料庫使用者密碼解密
+                    sqlsb.Password = TKID.Decryption(sqlsb.Password);
+                    sqlsb.UserID = TKID.Decryption(sqlsb.UserID);
+
+                    String connectionString;
+                    sqlConn = new SqlConnection(sqlsb.ConnectionString);
+
                     adapter = new SqlDataAdapter(sbSql.ToString(), sqlConn);
                     sqlCmdBuilder = new SqlCommandBuilder(adapter);
 
