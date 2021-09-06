@@ -23,6 +23,8 @@ using NPOI.XSSF.UserModel;
 using System.Text.RegularExpressions;
 using FastReport;
 using FastReport.Data;
+using TKITDLL;
+
 
 namespace TKBUSINESS
 {
@@ -62,13 +64,27 @@ namespace TKBUSINESS
 
         public void SETFASTREPORT()
         {
+            //20210902密
+            Class1 TKID = new Class1();//用new 建立類別實體
+            SqlConnectionStringBuilder sqlsb = new SqlConnectionStringBuilder(ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString);
+
+            //資料庫使用者密碼解密
+            sqlsb.Password = TKID.Decryption(sqlsb.Password);
+            sqlsb.UserID = TKID.Decryption(sqlsb.UserID);
+
+            String connectionString;
+            sqlConn = new SqlConnection(sqlsb.ConnectionString);
+
+           
+
             StringBuilder SQL1 = new StringBuilder();
 
             SQL1 = SETSQL();
             Report report1 = new Report();
             report1.Load(@"REPORT\預算跟銷售的業務員、商品比較表.frx");
 
-            report1.Dictionary.Connections[0].ConnectionString = ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString;
+            report1.Dictionary.Connections[0].ConnectionString = sqlsb.ConnectionString;
+
             TableDataSource table = report1.GetDataSource("Table") as TableDataSource;
             table.SelectCommand = SQL1.ToString();
 
@@ -165,13 +181,27 @@ namespace TKBUSINESS
 
         public void SETFASTREPORT2()
         {
+            //20210902密
+            Class1 TKID = new Class1();//用new 建立類別實體
+            SqlConnectionStringBuilder sqlsb = new SqlConnectionStringBuilder(ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString);
+
+            //資料庫使用者密碼解密
+            sqlsb.Password = TKID.Decryption(sqlsb.Password);
+            sqlsb.UserID = TKID.Decryption(sqlsb.UserID);
+
+            String connectionString;
+            sqlConn = new SqlConnection(sqlsb.ConnectionString);
+
+           
+
             StringBuilder SQL1 = new StringBuilder();
 
             SQL1 = SETSQL2();
             Report report1 = new Report();
             report1.Load(@"REPORT\各業務員各月總預算及業績.frx");
 
-            report1.Dictionary.Connections[0].ConnectionString = ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString;
+            report1.Dictionary.Connections[0].ConnectionString = sqlsb.ConnectionString;
+
             TableDataSource table = report1.GetDataSource("Table") as TableDataSource;
             table.SelectCommand = SQL1.ToString();
 
@@ -242,13 +272,27 @@ namespace TKBUSINESS
 
         public void SETFASTREPORT3()
         {
+            //20210902密
+            Class1 TKID = new Class1();//用new 建立類別實體
+            SqlConnectionStringBuilder sqlsb = new SqlConnectionStringBuilder(ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString);
+
+            //資料庫使用者密碼解密
+            sqlsb.Password = TKID.Decryption(sqlsb.Password);
+            sqlsb.UserID = TKID.Decryption(sqlsb.UserID);
+
+            String connectionString;
+            sqlConn = new SqlConnection(sqlsb.ConnectionString);
+
+           
+
             StringBuilder SQL1 = new StringBuilder();
 
             SQL1 = SETSQL3();
             Report report1 = new Report();
             report1.Load(@"REPORT\各客戶月份業績達成.frx");
 
-            report1.Dictionary.Connections[0].ConnectionString = ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString;
+            report1.Dictionary.Connections[0].ConnectionString = sqlsb.ConnectionString;
+
             TableDataSource table = report1.GetDataSource("Table") as TableDataSource;
             table.SelectCommand = SQL1.ToString();
 
@@ -304,13 +348,26 @@ namespace TKBUSINESS
 
         public void SETFASTREPORT4()
         {
+            //20210902密
+            Class1 TKID = new Class1();//用new 建立類別實體
+            SqlConnectionStringBuilder sqlsb = new SqlConnectionStringBuilder(ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString);
+
+            //資料庫使用者密碼解密
+            sqlsb.Password = TKID.Decryption(sqlsb.Password);
+            sqlsb.UserID = TKID.Decryption(sqlsb.UserID);
+
+            String connectionString;
+            sqlConn = new SqlConnection(sqlsb.ConnectionString);
+
+          
+
             StringBuilder SQL1 = new StringBuilder();
 
             SQL1 = SETSQL4();
             Report report1 = new Report();
             report1.Load(@"REPORT\客戶月份的預算及銷售商品差異表.frx");
 
-            report1.Dictionary.Connections[0].ConnectionString = ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString;
+            report1.Dictionary.Connections[0].ConnectionString = sqlsb.ConnectionString;
             TableDataSource table = report1.GetDataSource("Table") as TableDataSource;
             table.SelectCommand = SQL1.ToString();
 
