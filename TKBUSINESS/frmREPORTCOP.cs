@@ -23,6 +23,7 @@ using NPOI.XSSF.UserModel;
 using System.Text.RegularExpressions;
 using FastReport;
 using FastReport.Data;
+using TKITDLL;
 
 namespace TKBUSINESS
 {
@@ -61,8 +62,17 @@ namespace TKBUSINESS
         public void combobox1load()
         {
 
-            connectionString = ConfigurationManager.ConnectionStrings["dberp"].ConnectionString;
-            sqlConn = new SqlConnection(connectionString);
+            //20210902密
+            Class1 TKID = new Class1();//用new 建立類別實體
+            SqlConnectionStringBuilder sqlsb = new SqlConnectionStringBuilder(ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString);
+
+            //資料庫使用者密碼解密
+            sqlsb.Password = TKID.Decryption(sqlsb.Password);
+            sqlsb.UserID = TKID.Decryption(sqlsb.UserID);
+
+            String connectionString;
+            sqlConn = new SqlConnection(sqlsb.ConnectionString);
+
             String Sequel = "SELECT MV001,MV002  FROM [TK].dbo.CMSMV WHERE MV001 IN ('140078','140049','160155','090002','160048')";
             SqlDataAdapter da = new SqlDataAdapter(Sequel, sqlConn);
             DataTable dt = new DataTable();
@@ -83,11 +93,24 @@ namespace TKBUSINESS
         public void SETFASTREPORT()
         {
 
+            //20210902密
+            Class1 TKID = new Class1();//用new 建立類別實體
+            SqlConnectionStringBuilder sqlsb = new SqlConnectionStringBuilder(ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString);
+
+            //資料庫使用者密碼解密
+            sqlsb.Password = TKID.Decryption(sqlsb.Password);
+            sqlsb.UserID = TKID.Decryption(sqlsb.UserID);
+
+            String connectionString;
+            sqlConn = new SqlConnection(sqlsb.ConnectionString);
+
+            
+
             string SQL;
             report1 = new Report();
             report1.Load(@"REPORT\業務商品排名表.frx");
 
-            report1.Dictionary.Connections[0].ConnectionString = ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString;
+            report1.Dictionary.Connections[0].ConnectionString = sqlsb.ConnectionString;
 
             TableDataSource Table = report1.GetDataSource("Table") as TableDataSource;
             SQL = SETFASETSQL();
