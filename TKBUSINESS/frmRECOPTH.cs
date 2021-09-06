@@ -22,6 +22,7 @@ using System.Configuration;
 using NPOI.XSSF.UserModel;
 using FastReport;
 using FastReport.Data;
+using TKITDLL;
 
 namespace TKBUSINESS
 {
@@ -49,13 +50,29 @@ namespace TKBUSINESS
         #region FUNCTION
         public void SETFASTREPORT()
         {
+
+            //20210902密
+            Class1 TKID = new Class1();//用new 建立類別實體
+            SqlConnectionStringBuilder sqlsb = new SqlConnectionStringBuilder(ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString);
+
+            //資料庫使用者密碼解密
+            sqlsb.Password = TKID.Decryption(sqlsb.Password);
+            sqlsb.UserID = TKID.Decryption(sqlsb.UserID);
+
+            String connectionString;
+            sqlConn = new SqlConnection(sqlsb.ConnectionString);
+
+          
+
+
             StringBuilder SQL1 = new StringBuilder();
 
             SQL1 = SETSQL();
             Report report1 = new Report();
             report1.Load(@"REPORT\銷售月報表-客戶.frx");
 
-            report1.Dictionary.Connections[0].ConnectionString = ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString;
+            report1.Dictionary.Connections[0].ConnectionString = sqlsb.ConnectionString;
+
             TableDataSource table = report1.GetDataSource("Table") as TableDataSource;
             table.SelectCommand = SQL1.ToString();
 
@@ -92,13 +109,27 @@ namespace TKBUSINESS
 
         public void SETFASTREPORT2()
         {
+            //20210902密
+            Class1 TKID = new Class1();//用new 建立類別實體
+            SqlConnectionStringBuilder sqlsb = new SqlConnectionStringBuilder(ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString);
+
+            //資料庫使用者密碼解密
+            sqlsb.Password = TKID.Decryption(sqlsb.Password);
+            sqlsb.UserID = TKID.Decryption(sqlsb.UserID);
+
+            String connectionString;
+            sqlConn = new SqlConnection(sqlsb.ConnectionString);
+
+            
+
             StringBuilder SQL1 = new StringBuilder();
 
             SQL1 = SETSQL2();
             Report report2 = new Report();
             report2.Load(@"REPORT\銷售月報表-業務.frx");
 
-            report2.Dictionary.Connections[0].ConnectionString = ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString;
+            report2.Dictionary.Connections[0].ConnectionString = sqlsb.ConnectionString;
+
             TableDataSource table = report2.GetDataSource("Table") as TableDataSource;
             table.SelectCommand = SQL1.ToString();
 
@@ -136,13 +167,27 @@ namespace TKBUSINESS
 
         public void SETFASTREPORT3()
         {
+            //20210902密
+            Class1 TKID = new Class1();//用new 建立類別實體
+            SqlConnectionStringBuilder sqlsb = new SqlConnectionStringBuilder(ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString);
+
+            //資料庫使用者密碼解密
+            sqlsb.Password = TKID.Decryption(sqlsb.Password);
+            sqlsb.UserID = TKID.Decryption(sqlsb.UserID);
+
+            String connectionString;
+            sqlConn = new SqlConnection(sqlsb.ConnectionString);
+
+            
+
             StringBuilder SQL1 = new StringBuilder();
 
             SQL1 = SETSQL3();
             Report report1 = new Report();
             report1.Load(@"REPORT\銷售月報表-多客戶.frx");
 
-            report1.Dictionary.Connections[0].ConnectionString = ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString;
+            report1.Dictionary.Connections[0].ConnectionString = sqlsb.ConnectionString;
+
             TableDataSource table = report1.GetDataSource("Table") as TableDataSource;
             table.SelectCommand = SQL1.ToString();
 
