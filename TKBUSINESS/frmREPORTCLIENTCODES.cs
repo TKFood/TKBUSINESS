@@ -180,6 +180,55 @@ namespace TKBUSINESS
             }
         }
 
+        public void SETFASTREPORT()
+        {
+            //20210902密
+            Class1 TKID = new Class1();//用new 建立類別實體
+            SqlConnectionStringBuilder sqlsb = new SqlConnectionStringBuilder(ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString);
+
+            //資料庫使用者密碼解密
+            sqlsb.Password = TKID.Decryption(sqlsb.Password);
+            sqlsb.UserID = TKID.Decryption(sqlsb.UserID);
+
+            String connectionString;
+            sqlConn = new SqlConnection(sqlsb.ConnectionString);
+
+
+
+            StringBuilder SQL1 = new StringBuilder();
+
+            SQL1 = SETSQL();
+            Report report1 = new Report();
+
+            report1.Load(@"REPORT\銷貨單號比對.frx");
+
+
+            report1.Dictionary.Connections[0].ConnectionString = sqlsb.ConnectionString;
+
+            TableDataSource table = report1.GetDataSource("Table") as TableDataSource;
+            table.SelectCommand = SQL1.ToString();
+
+            //report1.SetParameterValue("P1", dateTimePicker1.Value.ToString("yyyyMMdd"));
+            //report1.SetParameterValue("P2", dateTimePicker2.Value.ToString("yyyyMMdd"));
+            report1.Preview = previewControl1;
+            report1.Show();
+        }
+
+        public StringBuilder SETSQL()
+        {
+            StringBuilder SB = new StringBuilder();          
+
+            SB.AppendFormat(@"
+                            SELECT [TBCLIENTCODES].CODE AS '單號',TG014 AS '發票號碼',TG020 AS '備註',TH001 AS '銷貨單',TH002 AS '銷貨單號',TH003 AS '銷貨序號',TH004 AS '品號',TH005 AS '品名',(TH008+TH024) AS '數量'
+                            FROM [TKBUSINESS].[dbo].[TBCLIENTCODES],[TK].dbo.COPTG,[TK].dbo.COPTH
+                            WHERE TG001=TH001 AND TG002=TH002
+                            AND TG020 LIKE '%'+[TBCLIENTCODES].CODE+'%'
+                            ORDER BY [TBCLIENTCODES].CODE,TG020,TH001,TH002,TH003,TH004
+                            ");
+
+            return SB;
+
+        }
         #endregion
 
         #region BUTTON
@@ -196,6 +245,13 @@ namespace TKBUSINESS
             }
         }
 
+        private void button1_Click(object sender, EventArgs e)
+        {
+            SETFASTREPORT();
+        }
+
         #endregion
+
+
     }
 }
