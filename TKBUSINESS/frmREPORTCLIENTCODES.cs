@@ -42,6 +42,8 @@ namespace TKBUSINESS
         DataTable dt = new DataTable();
         string tablename = null;
         int rownum = 0;
+        SqlTransaction tran;
+        int result;
 
         public frmREPORTCLIENTCODES()
         {
@@ -53,6 +55,7 @@ namespace TKBUSINESS
         {
             try
             {
+                DELETETBCLIENTCODES();
 
                 string conString = string.Empty;
                 string extension = Path.GetExtension(FilePathName);
@@ -83,23 +86,34 @@ namespace TKBUSINESS
                     }
                     excel_con.Close();
 
-                    //string consString = ConfigurationManager.ConnectionStrings["constr"].ConnectionString;
-                    //using (SqlConnection con = new SqlConnection(consString))
-                    //{
-                    //    using (SqlBulkCopy sqlBulkCopy = new SqlBulkCopy(con))
-                    //    {
-                    //        //Set the database table name
-                    //        sqlBulkCopy.DestinationTableName = "dbo.tblPersons";
+                    //20210902密
+                    Class1 TKID = new Class1();//用new 建立類別實體
+                    SqlConnectionStringBuilder sqlsb = new SqlConnectionStringBuilder(ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString);
 
-                    //        //[OPTIONAL]: Map the Excel columns with that of the database table
-                    //        sqlBulkCopy.ColumnMappings.Add("Id", "PersonId");
-                    //        sqlBulkCopy.ColumnMappings.Add("Name", "Name");
-                    //        sqlBulkCopy.ColumnMappings.Add("Salary", "Salary");
-                    //        con.Open();
-                    //        sqlBulkCopy.WriteToServer(dtExcelData);
-                    //        con.Close();
-                    //    }
-                    //}
+                    //資料庫使用者密碼解密
+                    sqlsb.Password = TKID.Decryption(sqlsb.Password);
+                    sqlsb.UserID = TKID.Decryption(sqlsb.UserID);
+
+                    String connectionString;
+                    sqlConn = new SqlConnection(sqlsb.ConnectionString);
+                   
+                    using (SqlConnection con = new SqlConnection(sqlsb.ConnectionString))
+                    {
+                        using (SqlBulkCopy sqlBulkCopy = new SqlBulkCopy(con))
+                        {
+                            //Set the database table name
+                            sqlBulkCopy.DestinationTableName = "[TKBUSINESS].[dbo].[TBCLIENTCODES]";
+
+                            //[OPTIONAL]: Map the Excel columns with that of the database table
+                            sqlBulkCopy.ColumnMappings.Add("CODE", "CODE");
+               
+                            con.Open();
+                            sqlBulkCopy.WriteToServer(dtExcelData);
+                            con.Close();
+
+                            MessageBox.Show("完成");
+                        }
+                    }
                 }
             }
             catch (Exception ex)
@@ -110,6 +124,60 @@ namespace TKBUSINESS
 
 
         
+        }
+
+        public void DELETETBCLIENTCODES()
+        {
+            try
+            {
+
+                //20210902密
+                Class1 TKID = new Class1();//用new 建立類別實體
+                SqlConnectionStringBuilder sqlsb = new SqlConnectionStringBuilder(ConfigurationManager.ConnectionStrings["dberp"].ConnectionString);
+
+                //資料庫使用者密碼解密
+                sqlsb.Password = TKID.Decryption(sqlsb.Password);
+                sqlsb.UserID = TKID.Decryption(sqlsb.UserID);
+
+                String connectionString;
+                sqlConn = new SqlConnection(sqlsb.ConnectionString);
+
+                sqlConn.Close();
+                sqlConn.Open();
+                tran = sqlConn.BeginTransaction();
+
+                sbSql.Clear();
+                
+                sbSql.AppendFormat(@"   
+                                    DELETE [TKBUSINESS].[dbo].[TBCLIENTCODES]
+                                    ");
+
+                cmd.Connection = sqlConn;
+                cmd.CommandTimeout = 60;
+                cmd.CommandText = sbSql.ToString();
+                cmd.Transaction = tran;
+                result = cmd.ExecuteNonQuery();
+
+                if (result == 0)
+                {
+                    tran.Rollback();    //交易取消
+                }
+                else
+                {
+                    tran.Commit();      //執行交易  
+
+
+                }
+            }
+            catch
+            {
+
+            }
+
+            finally
+            {
+                sqlConn.Close();
+            }
         }
 
         #endregion
