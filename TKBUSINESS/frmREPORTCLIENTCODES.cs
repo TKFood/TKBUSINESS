@@ -24,6 +24,7 @@ using FastReport;
 using FastReport.Data;
 using TKITDLL;
 using System.Data.OleDb;
+using Microsoft.Office.Interop.Excel;
 
 namespace TKBUSINESS
 {
@@ -39,7 +40,7 @@ namespace TKBUSINESS
         SqlCommand cmd = new SqlCommand();
         DataSet ds = new DataSet();
         DataSet ds2 = new DataSet();
-        DataTable dt = new DataTable();
+        System.Data.DataTable dt = new System.Data.DataTable();
         string tablename = null;
         int rownum = 0;
         SqlTransaction tran;
@@ -75,7 +76,7 @@ namespace TKBUSINESS
                 {
                     excel_con.Open();
                     string sheet1 = excel_con.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null).Rows[0]["TABLE_NAME"].ToString();
-                    DataTable dtExcelData = new DataTable();
+                    System.Data.DataTable dtExcelData = new System.Data.DataTable();
 
                     //[OPTIONAL]: It is recommended as otherwise the data will be considered as String by default.
                     //dtExcelData.Columns.AddRange(new DataColumn[1] { new DataColumn("CODES", typeof(string)) });
@@ -96,7 +97,7 @@ namespace TKBUSINESS
 
                     String connectionString;
                     sqlConn = new SqlConnection(sqlsb.ConnectionString);
-                   
+
                     using (SqlConnection con = new SqlConnection(sqlsb.ConnectionString))
                     {
                         using (SqlBulkCopy sqlBulkCopy = new SqlBulkCopy(con))
@@ -106,7 +107,7 @@ namespace TKBUSINESS
 
                             //[OPTIONAL]: Map the Excel columns with that of the database table
                             sqlBulkCopy.ColumnMappings.Add("CODE", "CODE");
-               
+
                             con.Open();
                             sqlBulkCopy.WriteToServer(dtExcelData);
                             con.Close();
@@ -119,11 +120,11 @@ namespace TKBUSINESS
             catch (Exception ex)
             {
                 MessageBox.Show(string.Format("Data has not been Imported due to :{0}", ex.Message), "Not Imported", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-           
+
             }
 
 
-        
+
         }
 
         public void DELETETBCLIENTCODES()
@@ -147,7 +148,7 @@ namespace TKBUSINESS
                 tran = sqlConn.BeginTransaction();
 
                 sbSql.Clear();
-                
+
                 sbSql.AppendFormat(@"   
                                     DELETE [TKBUSINESS].[dbo].[TBCLIENTCODES]
                                     ");
@@ -216,7 +217,7 @@ namespace TKBUSINESS
 
         public StringBuilder SETSQL()
         {
-            StringBuilder SB = new StringBuilder();          
+            StringBuilder SB = new StringBuilder();
 
             SB.AppendFormat(@"
                             SELECT [TBCLIENTCODES].CODE AS '單號',TG014 AS '發票號碼',TG020 AS '備註',TH001 AS '銷貨單',TH002 AS '銷貨單號',TH003 AS '銷貨序號',TH004 AS '品號',TH005 AS '品名',(TH008+TH024) AS '數量'
@@ -229,6 +230,138 @@ namespace TKBUSINESS
             return SB;
 
         }
+
+
+        public void DOWNLOADEXCEL()
+        {
+
+            System.Windows.Forms.SaveFileDialog saveExcel = new System.Windows.Forms.SaveFileDialog();
+            saveExcel.Filter = "Excel 2007 Files(*.xlsx)|*.xlsx|All Files(*.*)|Excel 2003 Files(*.xls)|*.xls|(*.*)";
+
+
+            saveExcel.RestoreDirectory = true;
+            string fileName = "";
+            saveExcel.FileName = fileName;
+            string ls_FileName = "";
+            if (saveExcel.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                ls_FileName = saveExcel.FileName;
+                SetExexl(ls_FileName);
+               
+            }
+        }
+
+        public void SetExexl(string ls_FileName)
+        {
+            // 儲存的Excel檔案路徑與檔案名稱
+            string filePath = ls_FileName;
+
+            Microsoft.Office.Interop.Excel.Workbook wBook;
+            Microsoft.Office.Interop.Excel.Worksheet wSheet;
+            Microsoft.Office.Interop.Excel.Range wRange;
+
+
+            Microsoft.Office.Interop.Excel.Application excelApp;
+            excelApp = new Microsoft.Office.Interop.Excel.Application();
+
+            // 嘗試打開已經存在的workbook
+            try
+            {
+                excelApp.Application.Workbooks.Open(filePath);
+
+            }
+            catch (Exception ex)    //若檔案不存在則加入新的workbook
+            {
+                excelApp.Workbooks.Add(Type.Missing);
+
+            }
+
+            /*****設定Excel檔案的屬性*****/
+
+            // 讓Excel文件不可見 (不會顯示Application, 在背景工作)
+            excelApp.Visible = false;
+
+            // 停用警告訊息
+            excelApp.DisplayAlerts = false;
+
+            // 取用第一個workbook
+            wBook = excelApp.Workbooks[1];
+
+            // 設定活頁簿焦點
+            wBook.Activate();
+
+
+
+            try
+            {
+                int sheetNum = wBook.Worksheets.Count;
+
+                // 新增worksheet
+                wSheet = (Microsoft.Office.Interop.Excel.Worksheet)wBook.Worksheets.Add();
+
+
+                // 設定worksheet的名稱
+                wSheet.Name = string.Format("My Sheet {0}", sheetNum);
+
+                // 設定工作表焦點
+                wSheet.Activate();
+
+                // 設定第1列資料 (從1開始，不是從0)
+                excelApp.Cells[1, 1] = "CODE";
+               
+
+
+                //// 設定第Cell[1, 1]至Cell[1,2]顏色 (兩個Cell間形成的矩形都會被設置)
+                //wRange = wSheet.Range[wSheet.Cells[1, 1]];
+                //wRange.Select();
+                //wRange.Font.Color = ColorTranslator.ToOle(System.Drawing.Color.White);
+                //wRange.Interior.Color = ColorTranslator.ToOle(System.Drawing.Color.DimGray);
+
+
+                //// 自動調整欄寬
+                //wRange = wSheet.Range[wSheet.Cells[1, 1]];
+                //wRange.Select();
+                //wRange.Columns.AutoFit();
+
+                try
+                {
+                    // 儲存workbook
+                    wBook.SaveAs(filePath);
+                    MessageBox.Show("匯出Execl成功!", "匯出");
+
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+            //關閉workbook
+            wBook.Close(false, Type.Missing, Type.Missing);
+
+            //關閉Excel
+            excelApp.Quit();
+
+            //釋放Excel資源
+            System.Runtime.InteropServices.Marshal.ReleaseComObject(excelApp);
+            wBook = null;
+            wSheet = null;
+            wRange = null;
+            excelApp = null;
+            GC.Collect();
+        }
+    
+
+
+
+
+
+
         #endregion
 
         #region BUTTON
@@ -250,6 +383,10 @@ namespace TKBUSINESS
             SETFASTREPORT();
         }
 
+        private void button2_Click(object sender, EventArgs e)
+        {
+            DOWNLOADEXCEL();
+        }
         #endregion
 
 
