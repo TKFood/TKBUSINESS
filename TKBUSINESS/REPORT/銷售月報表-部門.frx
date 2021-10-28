@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report ScriptLanguage="CSharp" ReportInfo.Created="09/05/2019 13:48:33" ReportInfo.Modified="10/28/2021 16:36:29" ReportInfo.CreatorVersion="2016.4.4.0">
+  <Dictionary>
+    <MsSqlDataConnection Name="Connection" ConnectionString="rijcmlqHwzMSgwTFaHpjtG3vsOj8Zy6q+uhwpDsytgWqwZQZyEQUQyQ022aWUGqU90pHzzNjHuzu89K+RQ2LIBVx1fpgNkNJhwC4eetn2/Uy0fMrO7zDUE5AmRb+0bcYI+lxqpNK7VAg28EMb2zujBtCWMs8uR7KE3TT1XHtlPqNg0WX9IsCs0ajkQiywA1gHFo+QSK">
+      <TableDataSource Name="Table" DataType="System.Int32" Enabled="true" SelectCommand=" SELECT TG005,TG006,SUBSTRING(TG003,1,6) AS 'YM',SUM(TH037) AS 'MONEY',SUM(LA011) AS 'NUM'&#13;&#10; FROM [TK].dbo.COPTG,[TK].dbo.COPTH,[TK].dbo.INVLA,[TK].dbo.INVMB&#13;&#10; WHERE TG001=TH001 AND TG002=TH002&#13;&#10; AND LA006=TH001 AND LA007=TH002 AND LA008=TH003&#13;&#10; AND TH004=MB001&#13;&#10; AND TG023='Y'&#13;&#10; AND (TH004 LIKE '4%' OR TH004 LIKE '5%' )&#13;&#10; AND TG003&gt;='20210101' AND TG003&lt;='20211231'&#13;&#10; AND TG005='117400'&#13;&#10; GROUP BY TG005,TG006,SUBSTRING(TG003,1,6)&#13;&#10; ORDER BY TG005,TG006, SUBSTRING(TG003,1,6)">
+        <Column Name="YM" DataType="System.String"/>
+        <Column Name="MONEY" DataType="System.Decimal"/>
+        <Column Name="NUM" DataType="System.Decimal"/>
+        <Column Name="TG006" DataType="System.String"/>
+        <Column Name="TG005" DataType="System.String"/>
+      </TableDataSource>
+    </MsSqlDataConnection>
+  </Dictionary>
+  <ReportPage Name="Page1" Landscape="true" PaperWidth="600" PaperHeight="800">
+    <PageHeaderBand Name="PageHeader1" Width="2192.4" Height="18.9">
+      <TextObject Name="Text1" Width="217.35" Height="18.9" Text="部門:[Table.TG005]" VertAlign="Center"/>
+    </PageHeaderBand>
+    <DataBand Name="Data1" Top="23.39" Width="2192.4" Height="80.24">
+      <MatrixObject Name="Matrix1" Width="211.98" Height="71.07" FixedRows="2" FixedColumns="1" CellsSideBySide="true" DataSource="Table">
+        <MatrixColumns>
+          <Header Expression="[Table.YM]"/>
+        </MatrixColumns>
+        <MatrixRows>
+          <Header Expression="[Table.TG006]"/>
+        </MatrixRows>
+        <MatrixCells>
+          <Cell Expression="[Table.MONEY]"/>
+          <Cell Expression="[Table.NUM]"/>
+        </MatrixCells>
+        <TableColumn Name="Column1" Width="52.31" AutoSize="true"/>
+        <TableColumn Name="Column2" Width="52.31" AutoSize="true"/>
+        <TableColumn Name="Column3" Width="39.94" AutoSize="true"/>
+        <TableColumn Name="Column4" Width="33.71" AutoSize="true"/>
+        <TableColumn Name="Column5" Width="33.71" AutoSize="true"/>
+        <TableRow Name="Row1" Height="18.19" AutoSize="true">
+          <TableCell Name="Cell1" Border.Lines="All" Text="業務" HorzAlign="Center" VertAlign="Center" RowSpan="2"/>
+          <TableCell Name="Cell2" Border.Lines="All" Text="[YM]" HorzAlign="Center" VertAlign="Center" ColSpan="2"/>
+          <TableCell Name="Cell7"/>
+          <TableCell Name="Cell10" Border.Lines="All" Text="合計" HorzAlign="Center" VertAlign="Center" ColSpan="2"/>
+          <TableCell Name="Cell13"/>
+        </TableRow>
+        <TableRow Name="Row2" Height="18.19" AutoSize="true">
+          <TableCell Name="Cell3"/>
+          <TableCell Name="Cell4" Border.Lines="All" Text="金額" HorzAlign="Center" VertAlign="Center"/>
+          <TableCell Name="Cell8" Border.Lines="All" Text="數量" HorzAlign="Center" VertAlign="Center"/>
+          <TableCell Name="Cell11" Border.Lines="All" Text="金額" HorzAlign="Center" VertAlign="Center"/>
+          <TableCell Name="Cell15" Border.Lines="All" Text="數量" HorzAlign="Center" VertAlign="Center"/>
+        </TableRow>
+        <TableRow Name="Row3" Height="16.5" AutoSize="true">
+          <TableCell Name="Cell5" Border.Lines="All" Text="[TG006]" HorzAlign="Center" VertAlign="Center"/>
+          <TableCell Name="Cell6" Border.Lines="All" Text="[MONEY]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="0" Format.DecimalSeparator="." Format.GroupSeparator="," Format.NegativePattern="1" HorzAlign="Right" VertAlign="Center"/>
+          <TableCell Name="Cell9" Border.Lines="All" Text="[NUM]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="0" Format.DecimalSeparator="." Format.GroupSeparator="," Format.NegativePattern="1" HorzAlign="Right" VertAlign="Center"/>
+          <TableCell Name="Cell12" Border.Lines="All" Format="Number" Format.UseLocale="false" Format.DecimalDigits="0" Format.DecimalSeparator="." Format.GroupSeparator="," Format.NegativePattern="1" HorzAlign="Right" VertAlign="Center"/>
+          <TableCell Name="Cell17" Border.Lines="All" Format="Number" Format.UseLocale="false" Format.DecimalDigits="0" Format.DecimalSeparator="." Format.GroupSeparator="," Format.NegativePattern="1" HorzAlign="Right" VertAlign="Center"/>
+        </TableRow>
+        <TableRow Name="Row4" Height="18.19" AutoSize="true">
+          <TableCell Name="Cell19" Border.Lines="All" Text="合計" HorzAlign="Center" VertAlign="Center"/>
+          <TableCell Name="Cell20" Border.Lines="All" Format="Number" Format.UseLocale="false" Format.DecimalDigits="0" Format.DecimalSeparator="." Format.GroupSeparator="," Format.NegativePattern="1" HorzAlign="Right" VertAlign="Center"/>
+          <TableCell Name="Cell21" Border.Lines="All" Format="Number" Format.UseLocale="false" Format.DecimalDigits="0" Format.DecimalSeparator="." Format.GroupSeparator="," Format.NegativePattern="1" HorzAlign="Right" VertAlign="Center"/>
+          <TableCell Name="Cell22" Border.Lines="All" Format="Number" Format.UseLocale="false" Format.DecimalDigits="0" Format.DecimalSeparator="." Format.GroupSeparator="," Format.NegativePattern="1" HorzAlign="Right" VertAlign="Center"/>
+          <TableCell Name="Cell23" Border.Lines="All" Format="Number" Format.UseLocale="false" Format.DecimalDigits="0" Format.DecimalSeparator="." Format.GroupSeparator="," Format.NegativePattern="1" HorzAlign="Right" VertAlign="Center"/>
+        </TableRow>
+      </MatrixObject>
+    </DataBand>
+    <PageFooterBand Name="PageFooter1" Top="108.13" Width="2192.4" Height="18.9"/>
+  </ReportPage>
+</Report>
