@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report ScriptLanguage="CSharp" ReportInfo.Created="11/02/2021 14:51:37" ReportInfo.Modified="11/02/2021 15:01:46" ReportInfo.CreatorVersion="2016.4.4.0">
+  <Dictionary>
+    <MsSqlDataConnection Name="Connection" ConnectionString="rijcmlqHwzMSgwTFaHpjtG3vsOj8Zy6q+uhwpDsytgWqwZQZyEQUQyQ022aWUGqU90pHzzNjHuzu89K+RQ2LIBVx1fpgNkNJhwC4eetn2/Uy0fMrO7zDUE5AmRb+0bcYI+lxqpN+i5gA3VDGcwlcfm6L9ZMsLrZ3U+wEDtHCQtd9vw2XUGNlozX0XrOvwmZigRs4GiY">
+      <TableDataSource Name="Table" DataType="System.Int32" Enabled="true" SelectCommand="SELECT SUBSTRING(TG003,1,6) AS YM,TG004,MA002,TG006,MV002,SUM(TH037) AS MM&#13;&#10;FROM [TK].dbo.COPTG,[TK].dbo.COPTH, [TK].dbo.CMSMV ,[TK].dbo.COPMA&#13;&#10;WHERE TG001=TH001 AND TG002=TH002&#13;&#10;AND MV001=TG006&#13;&#10;AND MA001=TG004&#13;&#10;AND TG023='Y'&#13;&#10;AND TG003 LIKE '2021%'&#13;&#10;AND TG006='100005'&#13;&#10;GROUP BY  SUBSTRING(TG003,1,6),TG004,MA002,TG006,MV002">
+        <Column Name="YM" DataType="System.String"/>
+        <Column Name="TG004" DataType="System.String"/>
+        <Column Name="MA002" DataType="System.String"/>
+        <Column Name="TG006" DataType="System.String"/>
+        <Column Name="MV002" DataType="System.String"/>
+        <Column Name="MM" DataType="System.Decimal"/>
+      </TableDataSource>
+    </MsSqlDataConnection>
+  </Dictionary>
+  <ReportPage Name="Page1" Landscape="true" PaperWidth="1000" PaperHeight="1000">
+    <ReportTitleBand Name="ReportTitle1" Width="3704.4" Height="37.8"/>
+    <DataBand Name="Data1" Top="42.29" Width="3704.4" Height="129.74">
+      <MatrixObject Name="Matrix1" Width="276.7" Height="52.88" FixedRows="1" FixedColumns="4" DataSource="Table">
+        <MatrixColumns>
+          <Header Expression="[Table.YM]"/>
+        </MatrixColumns>
+        <MatrixRows>
+          <Header Expression="[Table.TG006]"/>
+          <Header Expression="[Table.MV002]" Totals="false"/>
+          <Header Expression="[Table.TG004]" Totals="false"/>
+          <Header Expression="[Table.MA002]" Totals="false"/>
+        </MatrixRows>
+        <MatrixCells>
+          <Cell Expression="[Table.MM]"/>
+        </MatrixCells>
+        <TableColumn Name="Column1" Width="52.31" AutoSize="true"/>
+        <TableColumn Name="Column2" Width="52.31" AutoSize="true"/>
+        <TableColumn Name="Column3" Width="52.31" AutoSize="true"/>
+        <TableColumn Name="Column4" Width="52.31" AutoSize="true"/>
+        <TableColumn Name="Column5" Width="33.75" AutoSize="true"/>
+        <TableColumn Name="Column6" Width="33.71" AutoSize="true"/>
+        <TableRow Name="Row1" Height="18.19" AutoSize="true">
+          <TableCell Name="Cell1" Border.Lines="All" Text="業務" HorzAlign="Center" VertAlign="Center"/>
+          <TableCell Name="Cell2" Border.Lines="All" Text="業務員" HorzAlign="Center" VertAlign="Center"/>
+          <TableCell Name="Cell7" Border.Lines="All" Text="客代" HorzAlign="Center" VertAlign="Center"/>
+          <TableCell Name="Cell13" Border.Lines="All" Text="客戶" HorzAlign="Center" VertAlign="Center"/>
+          <TableCell Name="Cell21" Border.Lines="All" Text="[YM]" HorzAlign="Center" VertAlign="Center"/>
+          <TableCell Name="Cell31" Border.Lines="All" Text="小計" HorzAlign="Center" VertAlign="Center"/>
+        </TableRow>
+        <TableRow Name="Row2" Height="16.5" AutoSize="true">
+          <TableCell Name="Cell3" Border.Lines="All" Text="[TG006]" VertAlign="Center"/>
+          <TableCell Name="Cell4" Border.Lines="All" Text="[MV002]" VertAlign="Center"/>
+          <TableCell Name="Cell8" Border.Lines="All" Text="[TG004]" VertAlign="Center"/>
+          <TableCell Name="Cell14" Border.Lines="All" Text="[MA002]" VertAlign="Center"/>
+          <TableCell Name="Cell22" Border.Lines="All" Text="[MM]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="0" Format.DecimalSeparator="." Format.GroupSeparator="," Format.NegativePattern="1" HorzAlign="Right" VertAlign="Center"/>
+          <TableCell Name="Cell32" Border.Lines="All" Format="Number" Format.UseLocale="false" Format.DecimalDigits="0" Format.DecimalSeparator="." Format.GroupSeparator="," Format.NegativePattern="1" HorzAlign="Right" VertAlign="Center"/>
+        </TableRow>
+        <TableRow Name="Row3" Height="18.19" AutoSize="true">
+          <TableCell Name="Cell5" Border.Lines="All" Text="合計" HorzAlign="Center" VertAlign="Center" ColSpan="4"/>
+          <TableCell Name="Cell6"/>
+          <TableCell Name="Cell9"/>
+          <TableCell Name="Cell15"/>
+          <TableCell Name="Cell23" Border.Lines="All" Format="Number" Format.UseLocale="false" Format.DecimalDigits="0" Format.DecimalSeparator="." Format.GroupSeparator="," Format.NegativePattern="1" HorzAlign="Right" VertAlign="Center"/>
+          <TableCell Name="Cell33" Border.Lines="All" Format="Number" Format.UseLocale="false" Format.DecimalDigits="0" Format.DecimalSeparator="." Format.GroupSeparator="," Format.NegativePattern="1" HorzAlign="Right" VertAlign="Center"/>
+        </TableRow>
+      </MatrixObject>
+    </DataBand>
+  </ReportPage>
+</Report>

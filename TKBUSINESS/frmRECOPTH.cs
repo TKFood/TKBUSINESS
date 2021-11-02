@@ -283,6 +283,61 @@ namespace TKBUSINESS
 
         }
 
+        public void SETFASTREPORT5(string SDAY,  string TG006)
+        {
+            //20210902密
+            Class1 TKID = new Class1();//用new 建立類別實體
+            SqlConnectionStringBuilder sqlsb = new SqlConnectionStringBuilder(ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString);
+
+            //資料庫使用者密碼解密
+            sqlsb.Password = TKID.Decryption(sqlsb.Password);
+            sqlsb.UserID = TKID.Decryption(sqlsb.UserID);
+
+            String connectionString;
+            sqlConn = new SqlConnection(sqlsb.ConnectionString);
+
+
+
+            StringBuilder SQL1 = new StringBuilder();
+
+            SQL1 = SETSQL5(SDAY, TG006);
+            Report report1 = new Report();
+            report1.Load(@"REPORT\銷售年報-業務員-客戶.frx");
+
+            report1.Dictionary.Connections[0].ConnectionString = sqlsb.ConnectionString;
+
+            TableDataSource table = report1.GetDataSource("Table") as TableDataSource;
+            table.SelectCommand = SQL1.ToString();
+
+            //report1.SetParameterValue("P1", dateTimePicker1.Value.ToString("yyyyMMdd"));
+            //report1.SetParameterValue("P2", dateTimePicker2.Value.ToString("yyyyMMdd"));
+            report1.Preview = previewControl4;
+            report1.Show();
+        }
+
+        public StringBuilder SETSQL5(string SDAY, string TG006)
+        {
+
+            StringBuilder SB = new StringBuilder();
+
+            SB.AppendFormat(@" 
+                            SELECT SUBSTRING(TG003,1,6) AS YM,TG004,MA002,TG006,MV002,SUM(TH037) AS MM
+                            FROM [TK].dbo.COPTG,[TK].dbo.COPTH, [TK].dbo.CMSMV ,[TK].dbo.COPMA
+                            WHERE TG001=TH001 AND TG002=TH002
+                            AND MV001=TG006
+                            AND MA001=TG004
+                            AND TG023='Y'
+                            AND TG003 LIKE '{0}%'
+                            AND TG006='{1}'
+                            GROUP BY  SUBSTRING(TG003,1,6),TG004,MA002,TG006,MV002
+
+                            ", SDAY, TG006);
+
+            return SB;
+
+        }
+
+
         #endregion
 
         #region BUTTON
@@ -304,6 +359,10 @@ namespace TKBUSINESS
         private void button3_Click(object sender, EventArgs e)
         {
             SETFASTREPORT4(dateTimePicker5.Value.ToString("yyyyMM") + "01", dateTimePicker6.Value.ToString("yyyyMM") + "31",textBox4.Text.Trim());
+        }
+        private void button5_Click(object sender, EventArgs e)
+        {
+            SETFASTREPORT5(dateTimePicker7.Value.ToString("yyyy") , textBox5.Text.Trim());
         }
         #endregion
 
