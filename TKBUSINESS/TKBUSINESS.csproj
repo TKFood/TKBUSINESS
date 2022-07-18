@@ -80,6 +80,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="frmADDCOPTCTD.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmADDCOPTCTD.Designer.cs">
+      <DependentUpon>frmADDCOPTCTD.cs</DependentUpon>
+    </Compile>
     <Compile Include="FrmCALENDAR.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -220,6 +226,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="frmADDCOPTCTD.resx">
+      <DependentUpon>frmADDCOPTCTD.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FrmCALENDAR.resx">
       <DependentUpon>FrmCALENDAR.cs</DependentUpon>
     </EmbeddedResource>
