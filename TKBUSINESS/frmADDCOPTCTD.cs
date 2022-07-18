@@ -275,6 +275,7 @@ namespace TKBUSINESS
         {
             DATACOPMD COPMD = new DATACOPMD();
             COPMD.CREATE_DATE = DateTime.Now.ToString("yyyyMMdd");
+            COPMD.MD001 = "2221103200";
 
             try
             {
@@ -308,7 +309,7 @@ namespace TKBUSINESS
                                     )
                                     SELECT 
                                     'TK' AS [COMPANY],'160115' AS [CREATOR],'117000' AS [USR_GROUP],'{0}' AS [CREATE_DATE],'' AS [MODIFIER],'' AS [MODI_DATE],1 AS [FLAG],'' AS [CREATE_TIME],'' AS [MODI_TIME],'' AS [TRANS_TYPE],'' AS [TRANS_NAME],'' AS [sync_date],'' AS [sync_time],'' AS [sync_mark],0 AS [sync_count],'' AS [DataUser],'' AS [DataGroup]
-                                    ,'2221103200' AS [MD001],[加油站代號] AS [MD002],[縣市]+[鄉鎮區]+[收件者地址]+','+[收件者姓名]+','+[電話(日)]+'/ '+[手機] AS [MD003],'' AS [MD004],'' AS [MD005],[加油站名] AS [MD006],[收件者姓名] AS [MD007],'' AS [MD008],'' AS [MD009],'' AS [MD010]
+                                    ,'{1}' AS [MD001],[加油站代號] AS [MD002],[縣市]+[鄉鎮區]+[收件者地址]+','+[收件者姓名]+','+[電話(日)]+'/ '+[手機] AS [MD003],'' AS [MD004],'' AS [MD005],[加油站名] AS [MD006],[收件者姓名] AS [MD007],'' AS [MD008],'' AS [MD009],'' AS [MD010]
                                     ,'' AS [MD011],[收件者姓名] AS [MD012],0 AS [MD013],0 AS [MD014],'' AS [MD015],'' AS [MD016],'' AS [MD017],[郵遞區號] AS [MD018],'' AS [MD019],'' AS [MD020]
                                     ,0 AS [MD021],'' AS [MD022],'' AS [MD023],'' AS [MD024],0 AS [MD025],'' AS [MD026],0 AS [MD027],'' AS [MD028],'' AS [MD029],'' AS [MD030]
                                     ,0 AS [MD031]
@@ -316,7 +317,7 @@ namespace TKBUSINESS
                                     FROM [TKBUSINESS].[dbo].[TEMPCOPMAORDERRS] 
                                     WHERE [加油站代號] NOT IN (SELECT [MD002] FROM [TK].[dbo].[COPMD] WHERE [MD001]='2221103200')
                                       
-                                        ", COPMD.CREATE_DATE);
+                                        ", COPMD.CREATE_DATE, COPMD.MD001);
 
 
                 cmd.Connection = sqlConn;
@@ -332,8 +333,8 @@ namespace TKBUSINESS
                 else
                 {
                     tran.Commit();      //執行交易  
-                                        
 
+                    MessageBox.Show("完成");
                 }
 
             }
@@ -415,6 +416,11 @@ namespace TKBUSINESS
 
 
             return COPMD;
+
+        }
+
+        public void ADDCOPTCCOPTD()
+        {
 
         }
 
