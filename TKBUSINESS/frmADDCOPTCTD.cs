@@ -1433,6 +1433,18 @@ namespace TKBUSINESS
             }
         }
 
+        public void OPENFILE()
+        {
+            OpenFileDialog od = new OpenFileDialog();
+            od.Filter = "Excell|*.xls;*.xlsx;";
+            od.FileName = "EmployeeList.xlsx";
+            DialogResult dr = od.ShowDialog();
+            if (dr == DialogResult.Abort)
+                return;
+            if (dr == DialogResult.Cancel)
+                return;
+            textBox3.Text = od.FileName.ToString();
+        }
         #endregion
 
         #region BUTTON
@@ -1455,6 +1467,11 @@ namespace TKBUSINESS
             ADDCOPTCCOPTD();
 
             Search();
+        }
+        private void button4_Click(object sender, EventArgs e)
+        {
+            OPENFILE();
+
         }
 
         #endregion
