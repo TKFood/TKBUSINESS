@@ -1435,7 +1435,7 @@ namespace TKBUSINESS
             }
         }
 
-        public void OPENFILE()
+        public void OPENFILE(string MAXSERNO)
         {
             //記錄選到的檔案路徑
             _path = null;
@@ -1457,11 +1457,11 @@ namespace TKBUSINESS
             _path = od.FileName.ToString();
 
             //匯入excel到db
-            InsertExcelRecords();
+            InsertExcelRecords(MAXSERNO);
         }
 
 
-        private void InsertExcelRecords()
+        private void InsertExcelRecords(string MAXSERNO)
         {
 
             try
@@ -1483,23 +1483,28 @@ namespace TKBUSINESS
                 OleDbConnection Econ = new OleDbConnection(constr);
                 Econ.Open();
 
+              
+
                 DataTable excelShema = Econ.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);
                 string firstSheetName = excelShema.Rows[0]["TABLE_NAME"].ToString();
 
                 string Query = string.Format("Select * FROM [{0}]", firstSheetName);
                 OleDbCommand Ecom = new OleDbCommand(Query, Econ);
-             
 
-                DataSet ds = new DataSet();
+
+                DataTable dtExcelData = new DataTable();
+                
                 OleDbDataAdapter oda = new OleDbDataAdapter(Query, Econ);
                 Econ.Close();
-                oda.Fill(ds);
-                DataTable Exceldt = ds.Tables[0];
+                oda.Fill(dtExcelData);
+                DataTable Exceldt = dtExcelData;
 
-                //去除特定條件
+                //把第一列的欄位名移除
+                Exceldt.Rows[0].Delete();
+                //再去除特定條件
                 for (int i = Exceldt.Rows.Count - 1; i >=1; i--)
                 {
-                    if (Convert.ToInt32(Exceldt.Rows[i][0].ToString())<=5)
+                    if (Convert.ToInt32(Exceldt.Rows[i][0].ToString())<=Convert.ToInt32(MAXSERNO))
                     {
                         Exceldt.Rows[i].Delete();
                     }
@@ -1507,7 +1512,218 @@ namespace TKBUSINESS
 
                 Exceldt.AcceptChanges();
 
-                //creating object of SqlBulkCopy
+                if(Exceldt.Rows.Count>0)
+                {
+                    //把Exceldt匯到db中
+                    //20210902密
+                    Class1 TKID = new Class1();//用new 建立類別實體
+                    SqlConnectionStringBuilder sqlsb = new SqlConnectionStringBuilder(ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString);
+
+                    //資料庫使用者密碼解密
+                    sqlsb.Password = TKID.Decryption(sqlsb.Password);
+                    sqlsb.UserID = TKID.Decryption(sqlsb.UserID);
+
+                    String connectionString;
+                    sqlConn = new SqlConnection(sqlsb.ConnectionString);
+
+                    sbSql.Clear();
+
+                    foreach (DataRow DR in Exceldt.Rows)
+                    {
+                        sbSql.AppendFormat(@" 
+                                  
+                                    INSERT INTO [TKBUSINESS].[dbo].[TEMPCOPMAORDERRS]
+                                    (
+                                    [SERNO]
+                                    ,[預購單號]
+                                    ,[收件者姓名]
+                                    ,[電話(日)]
+                                    ,[電話(夜)]
+                                    ,[手機]
+                                    ,[電子郵件]
+                                    ,[預定到貨日期]
+                                    ,[取貨時段]
+                                    ,[郵遞區號]
+                                    ,[縣市]
+                                    ,[鄉鎮區]
+                                    ,[收件者地址]
+                                    ,[產品料號]
+                                    ,[商品名稱]
+                                    ,[預訂數量]
+                                    ,[加油站代號]
+                                    ,[加油站名]
+
+                                    )
+                                    VALUES
+                                    (
+                                    '{0}'
+                                    ,'{1}'
+                                    ,'{2}'
+                                    ,'{3}'
+                                    ,'{4}'
+                                    ,'{5}'
+                                    ,'{6}'
+                                    ,'{7}'
+                                    ,'{8}'
+                                    ,'{9}'
+                                    ,'{10}'
+                                    ,'{11}'
+                                    ,'{12}'
+                                    ,'{13}'
+                                    ,'{14}'
+                                    ,'{15}'
+                                    ,'{16}'
+                                    ,'{17}'
+                                    )
+                                    ", DR[0].ToString()
+                                        , DR[1].ToString()
+                                        , DR[2].ToString()
+                                        , DR[3].ToString()
+                                        , DR[4].ToString()
+                                        , DR[5].ToString()
+                                        , DR[6].ToString()
+                                        , DR[7].ToString()
+                                        , DR[8].ToString()
+                                        , DR[9].ToString()
+                                        , DR[10].ToString()
+                                        , DR[11].ToString()
+                                        , DR[12].ToString()
+                                        , DR[13].ToString()
+                                        , DR[14].ToString()
+                                        , DR[15].ToString()
+                                        , DR[16].ToString()
+                                        , DR[17].ToString()
+
+
+                                        );
+
+                    }
+
+
+                    sqlConn.Open();
+                    cmd.Connection = sqlConn;
+                    cmd.CommandTimeout = 60;
+                    cmd.CommandText = sbSql.ToString();
+                    cmd.Transaction = tran;
+                    result = cmd.ExecuteNonQuery();
+
+                    if (result == 0)
+                    {
+                        tran.Rollback();    //交易取消
+                    }
+                    else
+                    {
+                        tran.Commit();      //執行交易    
+
+                        sqlConn.Close();
+                    }
+
+                    //SqlBulkCopy objbulk = new SqlBulkCopy(sqlConn);
+                    ////assigning Destination table name
+                    //objbulk.DestinationTableName = "dbo.TEMPCOPMAORDERRS";
+                    ////Mapping Table column
+                    //objbulk.ColumnMappings.Add("F1"," SERNO");
+                    //objbulk.ColumnMappings.Add("F2", "預購單號");
+
+                    //sqlConn.Open();
+                    //objbulk.WriteToServer(Exceldt);
+                    //sqlConn.Close();
+                    //MessageBox.Show("Data has been Imported successfully.", "Imported", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(string.Format("錯誤:{0}", ex.Message), "Not Imported", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+             
+            }
+        }
+
+
+        public void TEST()
+        {
+            //記錄選到的檔案路徑
+            _path = null;
+
+            OpenFileDialog od = new OpenFileDialog();
+            od.Filter = "Excell|*.xls;*.xlsx;";
+
+            DialogResult dr = od.ShowDialog();
+            if (dr == DialogResult.Abort)
+            {
+                return;
+            }
+            if (dr == DialogResult.Cancel)
+            {
+                return;
+            }
+
+            textBox3.Text = od.FileName.ToString();
+            _path = od.FileName.ToString();
+
+            string conString = string.Empty;
+         
+
+            if (_path.CompareTo(".xls") == 0)
+            {
+                conString = @"provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + _path + ";Extended Properties='Excel 8.0;HRD=Yes;IMEX=1';"; //for below excel 2007  
+            }
+            else
+            {
+                conString = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + _path + ";Extended Properties='Excel 12.0;HDR=NO';"; //for above excel 2007  
+            }
+            
+            conString = string.Format(conString, _path);
+            using (OleDbConnection excel_con = new OleDbConnection(conString))
+            {
+                excel_con.Open();
+                string sheet1 = excel_con.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null).Rows[0]["TABLE_NAME"].ToString();
+                DataTable dtExcelData = new DataTable();
+
+                //[OPTIONAL]: It is recommended as otherwise the data will be considered as String by default.
+                dtExcelData.Columns.AddRange(
+                    new DataColumn[3] { new DataColumn("Id", typeof(int)),
+                    new DataColumn("Name", typeof(string)),
+                    new DataColumn("Salary", typeof(decimal))
+
+                    });
+
+                using (OleDbDataAdapter oda = new OleDbDataAdapter("SELECT * FROM [" + sheet1 + "]", excel_con))
+                {
+                    oda.Fill(dtExcelData);
+                }
+                excel_con.Close();
+
+                string consString = ConfigurationManager.ConnectionStrings["constr"].ConnectionString;
+                using (SqlConnection con = new SqlConnection(consString))
+                {
+                    using (SqlBulkCopy sqlBulkCopy = new SqlBulkCopy(con))
+                    {
+                        //Set the database table name
+                        sqlBulkCopy.DestinationTableName = "dbo.tblPersons";
+
+                        //[OPTIONAL]: Map the Excel columns with that of the database table
+                        sqlBulkCopy.ColumnMappings.Add("Id", "PersonId");
+                        sqlBulkCopy.ColumnMappings.Add("Name", "Name");
+                        sqlBulkCopy.ColumnMappings.Add("Salary", "Salary");
+                        con.Open();
+                        sqlBulkCopy.WriteToServer(dtExcelData);
+                        con.Close();
+                    }
+                }
+            }
+        }
+
+        public string FINDMAXSERNO()
+        {
+            SqlDataAdapter adapter = new SqlDataAdapter();
+            SqlCommandBuilder sqlCmdBuilder = new SqlCommandBuilder();
+            DataSet ds = new DataSet();
+           
+
+            try
+            {
                 //20210902密
                 Class1 TKID = new Class1();//用new 建立類別實體
                 SqlConnectionStringBuilder sqlsb = new SqlConnectionStringBuilder(ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString);
@@ -1519,27 +1735,43 @@ namespace TKBUSINESS
                 String connectionString;
                 sqlConn = new SqlConnection(sqlsb.ConnectionString);
 
-                SqlBulkCopy objbulk = new SqlBulkCopy(sqlConn);
-                //assigning Destination table name
-                objbulk.DestinationTableName = "TEMPCOPMAORDERRS";
-                //Mapping Table column
-                objbulk.ColumnMappings.Add("SERNO", "#");
-                objbulk.ColumnMappings.Add("預購單號", "預購單號");
-                
-                sqlConn.Open();
-                objbulk.WriteToServer(Exceldt);
-                sqlConn.Close();
-                MessageBox.Show("Data has been Imported successfully.", "Imported", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
+                StringBuilder sbSql = new StringBuilder();
+                sbSql.Clear();
+                sbSqlQuery.Clear();
+                ds.Clear();
+
+                sbSql.AppendFormat(@"  
+                                    SELECT MAX([SERNO])  [SERNO] FROM [TKBUSINESS].[dbo].[TEMPCOPMAORDERRS]
+                                    ");
+
+                adapter = new SqlDataAdapter(@"" + sbSql, sqlConn);
+
+                sqlCmdBuilder = new SqlCommandBuilder(adapter);
+                sqlConn.Open();
+                ds.Clear();
+                adapter.Fill(ds, "ds");
+                sqlConn.Close();
+
+
+                if (ds.Tables["ds"].Rows.Count >= 1)
+                {                    
+                    return ds.Tables["ds"].Rows[0]["SERNO"].ToString();
+                }
+                else
+                {
+                    return null;
+                }
             }
-            catch (Exception ex)
+            catch
             {
-                MessageBox.Show(string.Format("Data has not been Imported due to :{0}", ex.Message), "Not Imported", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-             
+                return null;
+            }
+            finally
+            {
+                sqlConn.Close();
             }
         }
-
-
 
         #endregion
 
@@ -1566,8 +1798,13 @@ namespace TKBUSINESS
         }
         private void button4_Click(object sender, EventArgs e)
         {
-            OPENFILE();
+            textBox5.Text = FINDMAXSERNO();
 
+            OPENFILE(textBox5.Text);
+            //TEST();
+
+            textBox5.Text = FINDMAXSERNO();
+            Search();
         }
 
         #endregion

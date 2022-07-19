@@ -46,6 +46,7 @@
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.textBox5 = new System.Windows.Forms.TextBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -124,6 +125,7 @@
             this.tableLayoutPanel1.Controls.Add(this.textBox3, 1, 2);
             this.tableLayoutPanel1.Controls.Add(this.button4, 2, 2);
             this.tableLayoutPanel1.Controls.Add(this.textBox4, 0, 3);
+            this.tableLayoutPanel1.Controls.Add(this.textBox5, 3, 2);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(4);
@@ -280,6 +282,15 @@
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
+            // textBox5
+            // 
+            this.textBox5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBox5.Location = new System.Drawing.Point(453, 86);
+            this.textBox5.Name = "textBox5";
+            this.textBox5.ReadOnly = true;
+            this.textBox5.Size = new System.Drawing.Size(144, 27);
+            this.textBox5.TabIndex = 27;
+            // 
             // frmADDCOPTCTD
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 16F);
@@ -323,5 +334,6 @@
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.TextBox textBox4;
+        private System.Windows.Forms.TextBox textBox5;
     }
 }
