@@ -1451,8 +1451,10 @@ namespace TKBUSINESS
         {
             //先在[TKBUSINESS].[dbo].[TEMPCOPMAORDERRS] 指定好TC001、TC002，方便做ERP訂單的新增
             //用TC012的客戶單號=預購單號做比較，找出那些還沒有轉入ERP的訂單中
-            //UPDATETEMPCOPMAORDERRS();
+            UPDATETEMPCOPMAORDERRS();
             ADDCOPTCCOPTD();
+
+            Search();
         }
 
         #endregion
