@@ -1460,7 +1460,18 @@ namespace TKBUSINESS
             try
             {
                 //  ExcelConn(_path);
-                string constr = string.Format(@"Provider=Microsoft.ACE.OLEDB.12.0;Data Source={0};Extended Properties='Excel 8.0;HDR=YES' ", _path);
+                string constr = null;
+                if (_path.CompareTo(".xls") == 0)
+                {
+                    constr = @"provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + _path + ";Extended Properties='Excel 8.0;HRD=Yes;IMEX=1';"; //for below excel 2007  
+                }                    
+                else
+                {
+                    constr = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + _path + ";Extended Properties='Excel 12.0;HDR=NO';"; //for above excel 2007  
+                }
+                    
+
+                //string constr = string.Format(@"Provider=Microsoft.ACE.OLEDB.12.0;Data Source={0};Extended Properties='Excel 8.0;HDR=YES' ", _path);
                 OleDbConnection Econ = new OleDbConnection(constr);
                 string Query = string.Format("Select * FROM [{0}]", "Sheet1$");
                 OleDbCommand Ecom = new OleDbCommand(Query, Econ);
@@ -1472,13 +1483,15 @@ namespace TKBUSINESS
                 oda.Fill(ds);
                 DataTable Exceldt = ds.Tables[0];
 
+                ////去除空白資料
                 //for (int i = Exceldt.Rows.Count - 1; i >= 0; i--)
                 //{
-                //    if (Exceldt.Rows[i]["Employee Name"] == DBNull.Value || Exceldt.Rows[i]["Email"] == DBNull.Value)
+                //    if (Exceldt.Rows[i][0] == DBNull.Value)
                 //    {
                 //        Exceldt.Rows[i].Delete();
                 //    }
                 //}
+
                 //Exceldt.AcceptChanges();
 
                 //creating object of SqlBulkCopy
