@@ -535,186 +535,404 @@ namespace TKBUSINESS
 
         public void ADDCOPTCCOPTD()
         {
-            DATACOPTC COPTC = new DATACOPTC();
-
-            COPTC.COMPANY = "TK";
-            COPTC.CREATOR = "160115";
-            COPTC.USR_GROUP = "117000";
-            COPTC.CREATE_DATE = DateTime.Now.ToString("yyyyMMdd");
-            COPTC.MODIFIER = "160115";
-            COPTC.MODI_DATE = DateTime.Now.ToString("yyyyMMdd");
-            COPTC.FLAG = "1";
-            COPTC.CREATE_TIME = DateTime.Now.ToString("HH:mm:ss");
-            COPTC.MODI_TIME = DateTime.Now.ToString("HH:mm:ss");
-            COPTC.TRANS_TYPE = "P001";
-            COPTC.TRANS_NAME = "COPMI06";
-            COPTC.sync_date = "";
-            COPTC.sync_time = "";
-            COPTC.sync_mark = "";
-            COPTC.sync_count = "0";
-            COPTC.DataUser = "";
-            COPTC.DataGroup = "117000";
-            COPTC.TC001 = "A221";
-            COPTC.TC002 = GETMAXTC002(COPTC.TC001, DateTime.Now.ToString("yyyyMMdd"));
-            COPTC.TC003 = DateTime.Now.ToString("yyyyMMdd");
-            COPTC.TC004 = "2221103200";
-            COPTC.TC005 = "117100";
-            COPTC.TC006 = "160155";
-            COPTC.TC007 = "20";
-            COPTC.TC008 = "NTD";
-            COPTC.TC009 = "1";
-            COPTC.TC010 = "";
-            COPTC.TC011 = "";
-            COPTC.TC012 = "";
-            COPTC.TC013 = "";
-            COPTC.TC014 = "出貨後30天匯款";
-            COPTC.TC015 = "1";
-            COPTC.TC016 = "";
-            COPTC.TC017 = "";
-            COPTC.TC018 = "";
-            COPTC.TC019 = "5";
-            COPTC.TC020 = "";
-            COPTC.TC021 = "";
-            COPTC.TC022 = "";
-            COPTC.TC023 = "";
-            COPTC.TC024 = "";
-            COPTC.TC025 = "";
-            COPTC.TC026 = "0";
-            COPTC.TC027 = "N";
-            COPTC.TC028 = "0";
-            COPTC.TC029 = "0";
-            COPTC.TC030 = "0";
-            COPTC.TC031 = "0";
-            COPTC.TC032 = "2221103200";
-            COPTC.TC033 = "";
-            COPTC.TC034 = "";
-            COPTC.TC035 = "";
-            COPTC.TC036 = "";
-            COPTC.TC037 = "";
-            COPTC.TC038 = "";
-            COPTC.TC039 = DateTime.Now.ToString("yyyyMMdd");
-            COPTC.TC040 = "";
-            COPTC.TC041 = "0.0500";
-            COPTC.TC042 = "218";
-            COPTC.TC043 = "0.980";
-            COPTC.TC044 = "0";
-            COPTC.TC045 = "0";
-            COPTC.TC046 = "0";
-            COPTC.TC047 = "";
-            COPTC.TC048 = "N";
-            COPTC.TC049 = "";
-            COPTC.TC050 = "N";
-            COPTC.TC051 = "";
-            COPTC.TC052 = "0";
-            COPTC.TC053 = "台灣中油股份有限公司";
-            COPTC.TC054 = "";
-            COPTC.TC055 = "";
-            COPTC.TC056 = "";
-            COPTC.TC057 = "";
-            COPTC.TC058 = "";
-            COPTC.TC059 = "";
-            COPTC.TC060 = "";
-            COPTC.TC061 = "";
-            COPTC.TC062 = "";
-            COPTC.TC063 = "台北市信義區松仁路3號";
-            COPTC.TC064 = "";
-            COPTC.TC065 = "";
-            COPTC.TC066 = "";
-            COPTC.TC067 = "";
-            COPTC.TC068 = "";
-            COPTC.TC069 = "";
-            COPTC.TC070 = "N";
-            COPTC.TC071 = "";
-            COPTC.TC072 = "0";
-            COPTC.TC073 = "0";
-            COPTC.TC074 = "0";
-            COPTC.TC075 = "";
-            COPTC.TC076 = "";
-            COPTC.TC077 = "";
-            COPTC.TC078 = "";
-            COPTC.TC079 = "";
-            COPTC.TC080 = "";
-            COPTC.TC081 = "";
-            COPTC.TC082 = "";
-            COPTC.TC083 = "";
-            COPTC.TC084 = "";
-            COPTC.TC085 = "";
-            COPTC.TC086 = "";
-            COPTC.TC087 = "";
-            COPTC.TC088 = "";
-            COPTC.TC089 = "";
-            COPTC.TC090 = "";
-            COPTC.TC091 = "";
-            COPTC.TC092 = "N";
-            COPTC.TC093 = "";
-            COPTC.TC094 = "";
-            COPTC.TC095 = "";
-            COPTC.TC096 = "";
-            COPTC.TC097 = "";
-            COPTC.TC098 = "";
-            COPTC.TC099 = "1";
-            COPTC.TC100 = "N";
-            COPTC.TC101 = "";
-            COPTC.TC102 = "";
-            COPTC.TC103 = "0";
-            COPTC.TC104 = "";
-            COPTC.TC105 = "";
-            COPTC.TC106 = "1";
-            COPTC.TC107 = "0";
-            COPTC.TC108 = "0";
-            COPTC.TC109 = "0";
-            COPTC.TC110 = "0";
-            COPTC.TC111 = "0";
-            COPTC.TC112 = "0";
-            COPTC.TC113 = "";
-            COPTC.TC114 = "";
-            COPTC.TC115 = "";
-            COPTC.TC116 = "1";
-            COPTC.TC117 = "";
-            COPTC.TC118 = "0";
-            COPTC.TC119 = "0";
-            COPTC.TC120 = "0";
-            COPTC.TC121 = "7";
-            COPTC.TC122 = "";
-            COPTC.TC123 = "";
-            COPTC.TC124 = "03707901";
-            COPTC.TC125 = "";
-            COPTC.TC126 = "";
-            COPTC.TC127 = "";
-            COPTC.TC128 = "";
-            COPTC.TC129 = "";
-            COPTC.TC130 = "";
-            COPTC.TC131 = "";
-            COPTC.TC132 = "";
-            COPTC.TC133 = "";
-            COPTC.TC134 = "";
-            COPTC.TC135 = "";
-            COPTC.TC136 = "";
-            COPTC.TC137 = "";
-            COPTC.TC138 = "";
-            COPTC.TC139 = "";
-            COPTC.TC140 = "";
-            COPTC.TC141 = "0";
-            COPTC.TC142 = "";
-            COPTC.TC143 = "";
-            COPTC.TC144 = "";
-            COPTC.TC145 = "";
-            COPTC.TC146 = "";
-            COPTC.UDF01 = "";
-            COPTC.UDF02 = "";
-            COPTC.UDF03 = "";
-            COPTC.UDF04 = "";
-            COPTC.UDF05 = "";
-            COPTC.UDF06 = "0";
-            COPTC.UDF07 = "0";
-            COPTC.UDF08 = "0";
-            COPTC.UDF09 = "0";
-            COPTC.UDF10 = "0";
+            //DATACOPTC COPTC = new DATACOPTC();
 
 
+            try
+            {
+                //20210902密
+                Class1 TKID = new Class1();//用new 建立類別實體
+                SqlConnectionStringBuilder sqlsb = new SqlConnectionStringBuilder(ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString);
+
+                //資料庫使用者密碼解密
+                sqlsb.Password = TKID.Decryption(sqlsb.Password);
+                sqlsb.UserID = TKID.Decryption(sqlsb.UserID);
+
+                String connectionString;
+                sqlConn = new SqlConnection(sqlsb.ConnectionString);
 
 
-            
+                sqlConn.Close();
+                sqlConn.Open();
+                tran = sqlConn.BeginTransaction();
+
+                sbSql.Clear();
+
+                sbSql.AppendFormat(@" 
+                                   --20220718 COPTC
+                                    INSERT INTO [TK].[dbo].[COPTC]
+                                    (
+                                    [COMPANY]
+                                    ,[CREATOR]
+                                    ,[USR_GROUP]
+                                    ,[CREATE_DATE]
+                                    ,[MODIFIER]
+                                    ,[MODI_DATE]
+                                    ,[FLAG]
+                                    ,[CREATE_TIME]
+                                    ,[MODI_TIME]
+                                    ,[TRANS_TYPE]
+                                    ,[TRANS_NAME]
+                                    ,[sync_date]
+                                    ,[sync_time]
+                                    ,[sync_mark]
+                                    ,[sync_count]
+                                    ,[DataUser]
+                                    ,[DataGroup]
+                                    ,[TC001]
+                                    ,[TC002]
+                                    ,[TC003]
+                                    ,[TC004]
+                                    ,[TC005]
+                                    ,[TC006]
+                                    ,[TC007]
+                                    ,[TC008]
+                                    ,[TC009]
+                                    ,[TC010]
+                                    ,[TC011]
+                                    ,[TC012]
+                                    ,[TC013]
+                                    ,[TC014]
+                                    ,[TC015]
+                                    ,[TC016]
+                                    ,[TC017]
+                                    ,[TC018]
+                                    ,[TC019]
+                                    ,[TC020]
+                                    ,[TC021]
+                                    ,[TC022]
+                                    ,[TC023]
+                                    ,[TC024]
+                                    ,[TC025]
+                                    ,[TC026]
+                                    ,[TC027]
+                                    ,[TC028]
+                                    ,[TC029]
+                                    ,[TC030]
+                                    ,[TC031]
+                                    ,[TC032]
+                                    ,[TC033]
+                                    ,[TC034]
+                                    ,[TC035]
+                                    ,[TC036]
+                                    ,[TC037]
+                                    ,[TC038]
+                                    ,[TC039]
+                                    ,[TC040]
+                                    ,[TC041]
+                                    ,[TC042]
+                                    ,[TC043]
+                                    ,[TC044]
+                                    ,[TC045]
+                                    ,[TC046]
+                                    ,[TC047]
+                                    ,[TC048]
+                                    ,[TC049]
+                                    ,[TC050]
+                                    ,[TC051]
+                                    ,[TC052]
+                                    ,[TC053]
+                                    ,[TC054]
+                                    ,[TC055]
+                                    ,[TC056]
+                                    ,[TC057]
+                                    ,[TC058]
+                                    ,[TC059]
+                                    ,[TC060]
+                                    ,[TC061]
+                                    ,[TC062]
+                                    ,[TC063]
+                                    ,[TC064]
+                                    ,[TC065]
+                                    ,[TC066]
+                                    ,[TC067]
+                                    ,[TC068]
+                                    ,[TC069]
+                                    ,[TC070]
+                                    ,[TC071]
+                                    ,[TC072]
+                                    ,[TC073]
+                                    ,[TC074]
+                                    ,[TC075]
+                                    ,[TC076]
+                                    ,[TC077]
+                                    ,[TC078]
+                                    ,[TC079]
+                                    ,[TC080]
+                                    ,[TC081]
+                                    ,[TC082]
+                                    ,[TC083]
+                                    ,[TC084]
+                                    ,[TC085]
+                                    ,[TC086]
+                                    ,[TC087]
+                                    ,[TC088]
+                                    ,[TC089]
+                                    ,[TC090]
+                                    ,[TC091]
+                                    ,[TC092]
+                                    ,[TC093]
+                                    ,[TC094]
+                                    ,[TC095]
+                                    ,[TC096]
+                                    ,[TC097]
+                                    ,[TC098]
+                                    ,[TC099]
+                                    ,[TC100]
+                                    ,[TC101]
+                                    ,[TC102]
+                                    ,[TC103]
+                                    ,[TC104]
+                                    ,[TC105]
+                                    ,[TC106]
+                                    ,[TC107]
+                                    ,[TC108]
+                                    ,[TC109]
+                                    ,[TC110]
+                                    ,[TC111]
+                                    ,[TC112]
+                                    ,[TC113]
+                                    ,[TC114]
+                                    ,[TC115]
+                                    ,[TC116]
+                                    ,[TC117]
+                                    ,[TC118]
+                                    ,[TC119]
+                                    ,[TC120]
+                                    ,[TC121]
+                                    ,[TC122]
+                                    ,[TC123]
+                                    ,[TC124]
+                                    ,[TC125]
+                                    ,[TC126]
+                                    ,[TC127]
+                                    ,[TC128]
+                                    ,[TC129]
+                                    ,[TC130]
+                                    ,[TC131]
+                                    ,[TC132]
+                                    ,[TC133]
+                                    ,[TC134]
+                                    ,[TC135]
+                                    ,[TC136]
+                                    ,[TC137]
+                                    ,[TC138]
+                                    ,[TC139]
+                                    ,[TC140]
+                                    ,[TC141]
+                                    ,[TC142]
+                                    ,[TC143]
+                                    ,[TC144]
+                                    ,[TC145]
+                                    ,[TC146]
+                                    ,[UDF01]
+                                    ,[UDF02]
+                                    ,[UDF03]
+                                    ,[UDF04]
+                                    ,[UDF05]
+                                    ,[UDF06]
+                                    ,[UDF07]
+                                    ,[UDF08]
+                                    ,[UDF09]
+                                    ,[UDF10]
+                                    )
+
+                                    SELECT 
+                                    'TK' AS [COMPANY],'160115' AS [CREATOR],'117000' AS [USR_GROUP],CONVERT(NVARCHAR,GETDATE(),112) AS [CREATE_DATE],'' AS [MODIFIER],'' AS [MODI_DATE],'1' AS [FLAG],CONVERT(NVARCHAR,GETDATE(),108) AS [CREATE_TIME],'' AS [MODI_TIME],'P001' AS [TRANS_TYPE],'COPMI06' AS [TRANS_NAME],'' AS [sync_date],'' AS [sync_time],'' AS [sync_mark],'0' AS [sync_count],'' AS [DataUser],'117000' AS [DataGroup]
+                                    ,[TEMPCOPMAORDERRS].TC001 AS [TC001]
+                                    ,[TEMPCOPMAORDERRS].TC002 AS [TC002]
+                                    ,CONVERT(NVARCHAR,GETDATE(),112) AS [TC003]
+                                    ,'2221103200' AS [TC004]
+                                    ,'117100' AS [TC005]
+                                    ,'160155' AS [TC006]
+                                    ,'20' AS [TC007]
+                                    ,'NTD' AS [TC008]
+                                    ,1 AS [TC009]
+                                    ,[縣市]+[鄉鎮區]+[收件者地址]+','+[收件者姓名]+','+[手機]+'/ '+[電話(日)] AS [TC010]
+                                    ,'' AS [TC011]
+                                    ,[預購單號] AS [TC012]
+                                    ,'' AS [TC013]
+                                    ,'出貨後30天匯款' AS [TC014]
+                                    ,'' AS [TC015]
+                                    ,'1' AS [TC016]
+                                    ,'' AS [TC017]
+                                    ,[收件者姓名] AS [TC018]
+                                    ,'5' AS [TC019]
+                                    ,'' AS [TC020]
+                                    ,'' AS [TC021]
+                                    ,'' AS [TC022]
+                                    ,'' AS [TC023]
+                                    ,'' AS [TC024]
+                                    ,'' AS [TC025]
+                                    ,0 AS [TC026]
+                                    ,'N' AS [TC027]
+                                    ,0 AS [TC028]
+                                    ,(CASE WHEN COPMA.MA038='1' THEN ROUND((450*CONVERT(INT,[預訂數量])/1.05),0) WHEN COPMA.MA038='2' THEN ROUND(450*CONVERT(INT,[預訂數量]),0)  ELSE 450*CONVERT(INT,[預訂數量]) END) AS [TC029]
+                                    , (CASE WHEN COPMA.MA038='1' THEN (450*CONVERT(INT,[預訂數量])-ROUND((450*CONVERT(INT,[預訂數量])/1.05),0)) WHEN COPMA.MA038='2' THEN ROUND((450*CONVERT(INT,[預訂數量])*0.05),0)  ELSE 0 END) AS [TC030]
+                                    ,CONVERT(INT,[預訂數量]) AS [TC031]
+                                    ,'2221103200' AS [TC032]
+                                    ,'' AS [TC033]
+                                    ,'' AS [TC034]
+                                    ,'' AS [TC035]
+                                    ,'' AS [TC036]
+                                    ,'' AS [TC037]
+                                    ,'' AS [TC038]
+                                    ,CONVERT(NVARCHAR,GETDATE(),112) AS [TC039]
+                                    ,'' AS [TC040]
+                                    ,0.05 AS [TC041]
+                                    ,'218' AS [TC042]
+                                    ,0.980*CONVERT(INT,[預訂數量]) AS [TC043]
+                                    ,0 AS [TC044]
+                                    ,0 AS [TC045]
+                                    ,0 AS [TC046]
+                                    ,'' AS [TC047]
+                                    ,'N' AS [TC048]
+                                    ,'' AS [TC049]
+                                    ,'N' AS [TC050]
+                                    ,'' AS [TC051]
+                                    ,0 AS [TC052]
+                                    ,'台灣中油股份有限公司' AS [TC053]
+                                    ,'' AS [TC054]
+                                    ,[收件者姓名] AS [TC055]
+                                    ,'' AS [TC056]
+                                    ,'' AS [TC057]
+                                    ,'' AS [TC058]
+                                    ,'' AS [TC059]
+                                    ,'' AS [TC060]
+                                    ,'' AS [TC061]
+                                    ,'' AS [TC062]
+                                    ,'台北市信義區松仁路3號' AS [TC063]
+                                    ,'' AS [TC064]
+                                    ,'' AS [TC065]
+                                    ,'' AS [TC066]
+                                    ,'' AS [TC067]
+                                    ,'' AS [TC068]
+                                    ,'' AS [TC069]
+                                    ,'N' AS [TC070]
+                                    ,'' AS [TC071]
+                                    ,0 AS [TC072]
+                                    ,0 AS [TC073]
+                                    ,0 AS [TC074]
+                                    ,'' AS [TC075]
+                                    ,'' AS [TC076]
+                                    ,'' AS [TC077]
+                                    ,'' AS [TC078]
+                                    ,'' AS [TC079]
+                                    ,'' AS [TC080]
+                                    ,'' AS [TC081]
+                                    ,'' AS [TC082]
+                                    ,'' AS [TC083]
+                                    ,'' AS [TC084]
+                                    ,'' AS [TC085]
+                                    ,'' AS [TC086]
+                                    ,'' AS [TC087]
+                                    ,'' AS [TC088]
+                                    ,'' AS [TC089]
+                                    ,'' AS [TC090]
+                                    ,'' AS [TC091]
+                                    ,'N' AS [TC092]
+                                    ,'' AS [TC093]
+                                    ,(CASE WHEN ISNULL([手機],'')<>'' THEN [手機] ELSE [電話(日)] END )AS [TC094]
+                                    ,'' AS [TC095]
+                                    ,'' AS [TC096]
+                                    ,'' AS [TC097]
+                                    ,'' AS [TC098]
+                                    ,'1' AS [TC099]
+                                    ,'N' AS [TC100]
+                                    ,'' AS [TC101]
+                                    ,'' AS [TC102]
+                                    ,0 AS [TC103]
+                                    ,'' AS [TC104]
+                                    ,'' AS [TC105]
+                                    ,'1' AS [TC106]
+                                    ,0 AS [TC107]
+                                    ,0 AS [TC108]
+                                    ,0 AS [TC109]
+                                    ,0 AS [TC110]
+                                    ,0 AS [TC111]
+                                    ,0 AS [TC112]
+                                    ,'' AS [TC113]
+                                    ,'' AS [TC114]
+                                    ,'' AS [TC115]
+                                    ,'1' AS [TC116]
+                                    ,'' AS [TC117]
+                                    ,0 AS [TC118]
+                                    ,0 AS [TC119]
+                                    ,0 AS [TC120]
+                                    ,'7' AS [TC121]
+                                    ,'' AS [TC122]
+                                    ,'' AS [TC123]
+                                    ,'03707901' AS [TC124]
+                                    ,'' AS [TC125]
+                                    ,'' AS [TC126]
+                                    ,'' AS [TC127]
+                                    ,'' AS [TC128]
+                                    ,'' AS [TC129]
+                                    ,'' AS [TC130]
+                                    ,'' AS [TC131]
+                                    ,'' AS [TC132]
+                                    ,'' AS [TC133]
+                                    ,'' AS [TC134]
+                                    ,'' AS [TC135]
+                                    ,'' AS [TC136]
+                                    ,'' AS [TC137]
+                                    ,'' AS [TC138]
+                                    ,'' AS [TC139]
+                                    ,'' AS [TC140]
+                                    ,0 AS [TC141]
+                                    ,'' AS [TC142]
+                                    ,'' AS [TC143]
+                                    ,'' AS [TC144]
+                                    ,'' AS [TC145]
+                                    ,'' AS [TC146]
+                                    ,'' AS [UDF01]
+                                    ,'' AS [UDF02]
+                                    ,'' AS [UDF03]
+                                    ,'' AS [UDF04]
+                                    ,'' AS [UDF05]
+                                    ,0 AS [UDF06]
+                                    ,0 AS [UDF07]
+                                    ,0 AS [UDF08]
+                                    ,0 AS [UDF09]
+                                    ,0 AS [UDF10]
+                                    FROM [TKBUSINESS].[dbo].[TEMPCOPMAORDERRS]
+                                    LEFT JOIN [TK].dbo.COPMA ON MA001='2221103200'
+                                    WHERE [預購單號] NOT IN (SELECT TC012 FROM [TK].dbo.COPTC WHERE ISNULL(TC012,'')<>'')
+                                      
+                                        
+                                        ");
+
+
+                cmd.Connection = sqlConn;
+                cmd.CommandTimeout = 60;
+                cmd.CommandText = sbSql.ToString();
+                cmd.Transaction = tran;
+                result = cmd.ExecuteNonQuery();
+
+                if (result == 0)
+                {
+                    tran.Rollback();    //交易取消
+                }
+                else
+                {
+                    tran.Commit();      //執行交易  
+
+                    MessageBox.Show("完成");
+                }
+
+            }
+            catch
+            {
+
+            }
+
+            finally
+            {
+                sqlConn.Close();
+            }
+
+
+
 
         }
 
@@ -839,6 +1057,7 @@ namespace TKBUSINESS
 
                 if (ds.Tables["ds"].Rows.Count >= 0)
                 {
+                    //多筆預購訂單，每陶1次新增TC001、TC002，避免重覆
                     string TC001 = "A221";
                     string TC002 = GETMAXTC002(TC001, DateTime.Now.ToString("yyyyMMdd"));
 
@@ -899,7 +1118,7 @@ namespace TKBUSINESS
                 sbSql.Clear();
 
                 sbSql.AppendFormat(@" 
-                                   UPDATE [TKBUSINESS].[dbo].[TEMPCOPMAORDERRS]
+                                    UPDATE [TKBUSINESS].[dbo].[TEMPCOPMAORDERRS]
                                     SET TC001='{1}',TC002='{2}'
                                     WHERE  [預購單號]='{0}'
                                         ", 預購單號, TC001, TC002);
@@ -948,7 +1167,10 @@ namespace TKBUSINESS
 
         private void button3_Click(object sender, EventArgs e)
         {
-            UPDATETEMPCOPMAORDERRS();
+            //先在[TKBUSINESS].[dbo].[TEMPCOPMAORDERRS] 指定好TC001、TC002，方便做ERP訂單的新增
+            //用TC012的客戶單號=預購單號做比較，找出那些還沒有轉入ERP的訂單中
+            //UPDATETEMPCOPMAORDERRS();
+            ADDCOPTCCOPTD();
         }
 
         #endregion
