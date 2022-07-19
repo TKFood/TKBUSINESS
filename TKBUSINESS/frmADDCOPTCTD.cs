@@ -24,6 +24,7 @@ using System.Text.RegularExpressions;
 using FastReport;
 using FastReport.Data;
 using TKITDLL;
+using System.Data.OleDb;
 
 namespace TKBUSINESS
 {
@@ -47,6 +48,7 @@ namespace TKBUSINESS
         DataGridViewRow row;
         int result;
 
+        string _path = null;
 
         public class DATACOPMD
         {
@@ -1435,6 +1437,8 @@ namespace TKBUSINESS
 
         public void OPENFILE()
         {
+            _path = null;
+
             OpenFileDialog od = new OpenFileDialog();
             od.Filter = "Excell|*.xls;*.xlsx;";
             od.FileName = "EmployeeList.xlsx";
@@ -1444,7 +1448,78 @@ namespace TKBUSINESS
             if (dr == DialogResult.Cancel)
                 return;
             textBox3.Text = od.FileName.ToString();
+            _path = od.FileName.ToString();
+
+            InsertExcelRecords();
         }
+
+
+        private void InsertExcelRecords()
+        {
+
+            try
+            {
+                //  ExcelConn(_path);
+                string constr = string.Format(@"Provider=Microsoft.ACE.OLEDB.12.0;Data Source={0};Extended Properties='Excel 8.0;HDR=YES' ", _path);
+                OleDbConnection Econ = new OleDbConnection(constr);
+                string Query = string.Format("Select * FROM [{0}]", "Sheet1$");
+                OleDbCommand Ecom = new OleDbCommand(Query, Econ);
+                Econ.Open();
+
+                DataSet ds = new DataSet();
+                OleDbDataAdapter oda = new OleDbDataAdapter(Query, Econ);
+                Econ.Close();
+                oda.Fill(ds);
+                DataTable Exceldt = ds.Tables[0];
+
+                //for (int i = Exceldt.Rows.Count - 1; i >= 0; i--)
+                //{
+                //    if (Exceldt.Rows[i]["Employee Name"] == DBNull.Value || Exceldt.Rows[i]["Email"] == DBNull.Value)
+                //    {
+                //        Exceldt.Rows[i].Delete();
+                //    }
+                //}
+                //Exceldt.AcceptChanges();
+
+                //creating object of SqlBulkCopy
+                //20210902密
+                Class1 TKID = new Class1();//用new 建立類別實體
+                SqlConnectionStringBuilder sqlsb = new SqlConnectionStringBuilder(ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString);
+
+                //資料庫使用者密碼解密
+                sqlsb.Password = TKID.Decryption(sqlsb.Password);
+                sqlsb.UserID = TKID.Decryption(sqlsb.UserID);
+
+                String connectionString;
+                sqlConn = new SqlConnection(sqlsb.ConnectionString);
+
+                SqlBulkCopy objbulk = new SqlBulkCopy(sqlConn);
+                //assigning Destination table name
+                objbulk.DestinationTableName = "Student";
+                //Mapping Table column
+                objbulk.ColumnMappings.Add("[Employee Name]", "Name");
+                objbulk.ColumnMappings.Add("DOB", "DOB");
+                objbulk.ColumnMappings.Add("Email", "Email");
+                objbulk.ColumnMappings.Add("Mobile", "Mob");
+
+                //inserting Datatable Records to DataBase
+                SqlConnection sqlConnection = new SqlConnection();
+                sqlConnection.ConnectionString = "server = VSBS01; database = dbHRVeniteck; User ID = sa; Password = veniteck@2016"; //Connection Details
+                sqlConn.Open();
+                objbulk.WriteToServer(Exceldt);
+                sqlConn.Close();
+                MessageBox.Show("Data has been Imported successfully.", "Imported", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(string.Format("Data has not been Imported due to :{0}", ex.Message), "Not Imported", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+             
+            }
+        }
+
+
+
         #endregion
 
         #region BUTTON
