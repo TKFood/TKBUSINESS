@@ -1437,19 +1437,26 @@ namespace TKBUSINESS
 
         public void OPENFILE()
         {
+            //記錄選到的檔案路徑
             _path = null;
 
             OpenFileDialog od = new OpenFileDialog();
             od.Filter = "Excell|*.xls;*.xlsx;";
-            od.FileName = "EmployeeList.xlsx";
+           
             DialogResult dr = od.ShowDialog();
             if (dr == DialogResult.Abort)
+            {
                 return;
+            }               
             if (dr == DialogResult.Cancel)
+            {
                 return;
+            }
+                
             textBox3.Text = od.FileName.ToString();
             _path = od.FileName.ToString();
 
+            //匯入excel到db
             InsertExcelRecords();
         }
 
@@ -1460,6 +1467,8 @@ namespace TKBUSINESS
             try
             {
                 //  ExcelConn(_path);
+                //找出不同excel的格式，設定連接字串
+                //xls跟非xls
                 string constr = null;
                 if (_path.CompareTo(".xls") == 0)
                 {
@@ -1470,12 +1479,16 @@ namespace TKBUSINESS
                     constr = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + _path + ";Extended Properties='Excel 12.0;HDR=NO';"; //for above excel 2007  
                 }
                     
-
-                //string constr = string.Format(@"Provider=Microsoft.ACE.OLEDB.12.0;Data Source={0};Extended Properties='Excel 8.0;HDR=YES' ", _path);
+                //找出excel的第1張分頁名稱，用query中                
                 OleDbConnection Econ = new OleDbConnection(constr);
-                string Query = string.Format("Select * FROM [{0}]", "Sheet1$");
-                OleDbCommand Ecom = new OleDbCommand(Query, Econ);
                 Econ.Open();
+
+                DataTable excelShema = Econ.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);
+                string firstSheetName = excelShema.Rows[0]["TABLE_NAME"].ToString();
+
+                string Query = string.Format("Select * FROM [{0}]", firstSheetName);
+                OleDbCommand Ecom = new OleDbCommand(Query, Econ);
+             
 
                 DataSet ds = new DataSet();
                 OleDbDataAdapter oda = new OleDbDataAdapter(Query, Econ);
@@ -1483,16 +1496,16 @@ namespace TKBUSINESS
                 oda.Fill(ds);
                 DataTable Exceldt = ds.Tables[0];
 
-                ////去除空白資料
-                //for (int i = Exceldt.Rows.Count - 1; i >= 0; i--)
-                //{
-                //    if (Exceldt.Rows[i][0] == DBNull.Value)
-                //    {
-                //        Exceldt.Rows[i].Delete();
-                //    }
-                //}
+                //去除特定條件
+                for (int i = Exceldt.Rows.Count - 1; i >=1; i--)
+                {
+                    if (Convert.ToInt32(Exceldt.Rows[i][0].ToString())<=5)
+                    {
+                        Exceldt.Rows[i].Delete();
+                    }
+                }
 
-                //Exceldt.AcceptChanges();
+                Exceldt.AcceptChanges();
 
                 //creating object of SqlBulkCopy
                 //20210902密
@@ -1508,16 +1521,11 @@ namespace TKBUSINESS
 
                 SqlBulkCopy objbulk = new SqlBulkCopy(sqlConn);
                 //assigning Destination table name
-                objbulk.DestinationTableName = "Student";
+                objbulk.DestinationTableName = "TEMPCOPMAORDERRS";
                 //Mapping Table column
-                objbulk.ColumnMappings.Add("[Employee Name]", "Name");
-                objbulk.ColumnMappings.Add("DOB", "DOB");
-                objbulk.ColumnMappings.Add("Email", "Email");
-                objbulk.ColumnMappings.Add("Mobile", "Mob");
-
-                //inserting Datatable Records to DataBase
-                SqlConnection sqlConnection = new SqlConnection();
-                sqlConnection.ConnectionString = "server = VSBS01; database = dbHRVeniteck; User ID = sa; Password = veniteck@2016"; //Connection Details
+                objbulk.ColumnMappings.Add("SERNO", "#");
+                objbulk.ColumnMappings.Add("預購單號", "預購單號");
+                
                 sqlConn.Open();
                 objbulk.WriteToServer(Exceldt);
                 sqlConn.Close();
