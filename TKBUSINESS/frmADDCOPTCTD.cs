@@ -546,28 +546,31 @@ namespace TKBUSINESS
         {
             //DATACOPTC COPTC = new DATACOPTC();
 
+            int INTCHECKALL = CHECKALL();
 
-            try
+            if(INTCHECKALL==1)
             {
-                //20210902密
-                Class1 TKID = new Class1();//用new 建立類別實體
-                SqlConnectionStringBuilder sqlsb = new SqlConnectionStringBuilder(ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString);
+                try
+                {
+                    //20210902密
+                    Class1 TKID = new Class1();//用new 建立類別實體
+                    SqlConnectionStringBuilder sqlsb = new SqlConnectionStringBuilder(ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString);
 
-                //資料庫使用者密碼解密
-                sqlsb.Password = TKID.Decryption(sqlsb.Password);
-                sqlsb.UserID = TKID.Decryption(sqlsb.UserID);
+                    //資料庫使用者密碼解密
+                    sqlsb.Password = TKID.Decryption(sqlsb.Password);
+                    sqlsb.UserID = TKID.Decryption(sqlsb.UserID);
 
-                String connectionString;
-                sqlConn = new SqlConnection(sqlsb.ConnectionString);
+                    String connectionString;
+                    sqlConn = new SqlConnection(sqlsb.ConnectionString);
 
 
-                sqlConn.Close();
-                sqlConn.Open();
-                tran = sqlConn.BeginTransaction();
+                    sqlConn.Close();
+                    sqlConn.Open();
+                    tran = sqlConn.BeginTransaction();
 
-                sbSql.Clear();
+                    sbSql.Clear();
 
-                sbSql.AppendFormat(@" 
+                    sbSql.AppendFormat(@" 
                                    --20220718 COPTC
                                     INSERT INTO [TK].[dbo].[COPTC]
                                     (
@@ -1072,9 +1075,9 @@ namespace TKBUSINESS
                                     ,'' AS [TD014]
                                     ,'' AS [TD015]
                                     ,'N' AS [TD016]
-                                    ,'' AS [TD017]
-                                    ,'' AS [TD018]
-                                    ,'' AS [TD019]
+                                    ,'A211' AS [TD017]
+                                    ,'20220718001' AS [TD018]
+                                    ,'0001' AS [TD019]
                                     ,'' AS [TD020]
                                     ,'N' AS [TD021]
                                     ,0 AS [TD022]
@@ -1187,37 +1190,131 @@ namespace TKBUSINESS
                                         ");
 
 
-                cmd.Connection = sqlConn;
-                cmd.CommandTimeout = 60;
-                cmd.CommandText = sbSql.ToString();
-                cmd.Transaction = tran;
-                result = cmd.ExecuteNonQuery();
+                    cmd.Connection = sqlConn;
+                    cmd.CommandTimeout = 60;
+                    cmd.CommandText = sbSql.ToString();
+                    cmd.Transaction = tran;
+                    result = cmd.ExecuteNonQuery();
 
-                if (result == 0)
+                    if (result == 0)
+                    {
+                        tran.Rollback();    //交易取消
+                    }
+                    else
+                    {
+                        tran.Commit();      //執行交易  
+
+                        MessageBox.Show("完成");
+                    }
+
+                }
+                catch
                 {
-                    tran.Rollback();    //交易取消
+
+                }
+
+                finally
+                {
+                    sqlConn.Close();
+                }
+            }
+            else
+            {
+                MessageBox.Show("沒有新增的預購單號");
+            }
+
+            
+
+
+
+
+        }
+
+        public int CHECKALL()
+        {
+            DataSet ds = new DataSet();
+
+            try
+            {
+                sbSql.Clear();
+
+                //20210902密
+                Class1 TKID = new Class1();//用new 建立類別實體
+                SqlConnectionStringBuilder sqlsb = new SqlConnectionStringBuilder(ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString);
+
+                //資料庫使用者密碼解密
+                sqlsb.Password = TKID.Decryption(sqlsb.Password);
+                sqlsb.UserID = TKID.Decryption(sqlsb.UserID);
+
+                String connectionString;
+                sqlConn = new SqlConnection(sqlsb.ConnectionString);
+
+                sbSql.AppendFormat(@"
+                                       
+                                    SELECT [SERNO]
+                                    ,[預購單號]
+                                    ,[收件者姓名]
+                                    ,[電話(日)]
+                                    ,[電話(夜)]
+                                    ,[手機]
+                                    ,[電子郵件]
+                                    ,[預定到貨日期]
+                                    ,[取貨時段]
+                                    ,[郵遞區號]
+                                    ,[縣市]
+                                    ,[鄉鎮區]
+                                    ,[收件者地址]
+                                    ,[產品料號]
+                                    ,[商品名稱]
+                                    ,[預訂數量]
+                                    ,[加油站代號]
+                                    ,[加油站名]
+                                    ,[TEMPCOPMAORDERRS].TC001
+                                    ,[TEMPCOPMAORDERRS].TC002
+                                    ,COPTC.TC001
+                                    ,COPTC.TC002
+                                    ,COPTD.TD001
+                                    ,COPTD.TD002
+                                    ,COPTD.TD003
+
+                                    FROM [TKBUSINESS].[dbo].[TEMPCOPMAORDERRS]
+                                    LEFT JOIN [TK].dbo.COPTC ON [預購單號]=TC012
+                                    LEFT JOIN [TK].dbo.COPTD ON [預購單號]=TD086
+                                    WHERE [預購單號] NOT IN  (SELECT TC012 FROM [TK].dbo.COPTC WHERE ISNULL(TC012,'')<>'')
+                                    ORDER BY [SERNO]
+                                         ");
+
+                adapter = new SqlDataAdapter(sbSql.ToString(), sqlConn);
+                sqlCmdBuilder = new SqlCommandBuilder(adapter);
+
+                sqlConn.Open();
+                ds.Clear();
+                adapter.Fill(ds, "ds");
+                sqlConn.Close();
+
+
+                if (ds.Tables["ds"].Rows.Count > 0)
+                {
+                    return 1;
+
                 }
                 else
                 {
-                    tran.Commit();      //執行交易  
+                    return 0;
 
-                    MessageBox.Show("完成");
                 }
+
+
 
             }
             catch
             {
-
+                return 0;
             }
-
             finally
             {
-                sqlConn.Close();
+
             }
-
-
-
-
         }
 
         public string GETMAXTC002(string TC001, string TC003)
@@ -1514,122 +1611,124 @@ namespace TKBUSINESS
 
                 if(Exceldt.Rows.Count>0)
                 {
-                    //把Exceldt匯到db中
-                    //20210902密
-                    Class1 TKID = new Class1();//用new 建立類別實體
-                    SqlConnectionStringBuilder sqlsb = new SqlConnectionStringBuilder(ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString);
-
-                    //資料庫使用者密碼解密
-                    sqlsb.Password = TKID.Decryption(sqlsb.Password);
-                    sqlsb.UserID = TKID.Decryption(sqlsb.UserID);
-
-                    String connectionString;
-                    sqlConn = new SqlConnection(sqlsb.ConnectionString);
-
-                    sbSql.Clear();
-
-                    foreach (DataRow DR in Exceldt.Rows)
+                    try
                     {
-                        sbSql.AppendFormat(@" 
-                                  
-                                    INSERT INTO [TKBUSINESS].[dbo].[TEMPCOPMAORDERRS]
-                                    (
-                                    [SERNO]
-                                    ,[預購單號]
-                                    ,[收件者姓名]
-                                    ,[電話(日)]
-                                    ,[電話(夜)]
-                                    ,[手機]
-                                    ,[電子郵件]
-                                    ,[預定到貨日期]
-                                    ,[取貨時段]
-                                    ,[郵遞區號]
-                                    ,[縣市]
-                                    ,[鄉鎮區]
-                                    ,[收件者地址]
-                                    ,[產品料號]
-                                    ,[商品名稱]
-                                    ,[預訂數量]
-                                    ,[加油站代號]
-                                    ,[加油站名]
+                        //20210902密
+                        Class1 TKID = new Class1();//用new 建立類別實體
+                        SqlConnectionStringBuilder sqlsb = new SqlConnectionStringBuilder(ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString);
 
-                                    )
-                                    VALUES
-                                    (
-                                    '{0}'
-                                    ,'{1}'
-                                    ,'{2}'
-                                    ,'{3}'
-                                    ,'{4}'
-                                    ,'{5}'
-                                    ,'{6}'
-                                    ,'{7}'
-                                    ,'{8}'
-                                    ,'{9}'
-                                    ,'{10}'
-                                    ,'{11}'
-                                    ,'{12}'
-                                    ,'{13}'
-                                    ,'{14}'
-                                    ,'{15}'
-                                    ,'{16}'
-                                    ,'{17}'
-                                    )
-                                    ", DR[0].ToString()
-                                        , DR[1].ToString()
-                                        , DR[2].ToString()
-                                        , DR[3].ToString()
-                                        , DR[4].ToString()
-                                        , DR[5].ToString()
-                                        , DR[6].ToString()
-                                        , DR[7].ToString()
-                                        , DR[8].ToString()
-                                        , DR[9].ToString()
-                                        , DR[10].ToString()
-                                        , DR[11].ToString()
-                                        , DR[12].ToString()
-                                        , DR[13].ToString()
-                                        , DR[14].ToString()
-                                        , DR[15].ToString()
-                                        , DR[16].ToString()
-                                        , DR[17].ToString()
+                        //資料庫使用者密碼解密
+                        sqlsb.Password = TKID.Decryption(sqlsb.Password);
+                        sqlsb.UserID = TKID.Decryption(sqlsb.UserID);
 
+                        String connectionString;
+                        sqlConn = new SqlConnection(sqlsb.ConnectionString);
 
-                                        );
-
-                    }
-
-
-                    sqlConn.Open();
-                    cmd.Connection = sqlConn;
-                    cmd.CommandTimeout = 60;
-                    cmd.CommandText = sbSql.ToString();
-                    cmd.Transaction = tran;
-                    result = cmd.ExecuteNonQuery();
-
-                    if (result == 0)
-                    {
-                        tran.Rollback();    //交易取消
-                    }
-                    else
-                    {
-                        tran.Commit();      //執行交易    
 
                         sqlConn.Close();
+                        sqlConn.Open();
+                        tran = sqlConn.BeginTransaction();
+
+                        sbSql.Clear();
+
+                        foreach(DataRow DR in Exceldt.Rows)
+                        {
+                            sbSql.AppendFormat(@" 
+                                  
+                                            INSERT INTO [TKBUSINESS].[dbo].[TEMPCOPMAORDERRS]
+                                            (
+                                            [SERNO]
+                                            ,[預購單號]
+                                            ,[收件者姓名]
+                                            ,[電話(日)]
+                                            ,[電話(夜)]
+                                            ,[手機]
+                                            ,[電子郵件]
+                                            ,[預定到貨日期]
+                                            ,[取貨時段]
+                                            ,[郵遞區號]
+                                            ,[縣市]
+                                            ,[鄉鎮區]
+                                            ,[收件者地址]
+                                            ,[產品料號]
+                                            ,[商品名稱]
+                                            ,[預訂數量]
+                                            ,[加油站代號]
+                                            ,[加油站名]
+
+                                            )
+                                            VALUES
+                                            (
+                                            '{0}'
+                                            ,'{1}'
+                                            ,'{2}'
+                                            ,'{3}'
+                                            ,'{4}'
+                                            ,'{5}'
+                                            ,'{6}'
+                                            ,'{7}'
+                                            ,'{8}'
+                                            ,'{9}'
+                                            ,'{10}'
+                                            ,'{11}'
+                                            ,'{12}'
+                                            ,'{13}'
+                                            ,'{14}'
+                                            ,'{15}'
+                                            ,'{16}'
+                                            ,'{17}'
+                                            )
+                                            ", DR[0].ToString()
+                                                , DR[1].ToString()
+                                                , DR[2].ToString()
+                                                , DR[3].ToString()
+                                                , DR[4].ToString()
+                                                , DR[5].ToString()
+                                                , DR[6].ToString()
+                                                , (DR[7].ToString().Replace("上午 12:00:00",""))
+                                                , DR[8].ToString()
+                                                , DR[9].ToString()
+                                                , DR[10].ToString()
+                                                , DR[11].ToString()
+                                                , DR[12].ToString()
+                                                , DR[13].ToString()
+                                                , DR[14].ToString()
+                                                , DR[15].ToString()
+                                                , DR[16].ToString()
+                                                , DR[17].ToString()
+                                                );
+
+                        }
+
+
+
+                        cmd.Connection = sqlConn;
+                        cmd.CommandTimeout = 60;
+                        cmd.CommandText = sbSql.ToString();
+                        cmd.Transaction = tran;
+                        result = cmd.ExecuteNonQuery();
+
+                        if (result == 0)
+                        {
+                            tran.Rollback();    //交易取消
+                        }
+                        else
+                        {
+                            tran.Commit();      //執行交易  
+
+                            MessageBox.Show("完成");
+                        }
+
+                    }
+                    catch
+                    {
+
                     }
 
-                    //SqlBulkCopy objbulk = new SqlBulkCopy(sqlConn);
-                    ////assigning Destination table name
-                    //objbulk.DestinationTableName = "dbo.TEMPCOPMAORDERRS";
-                    ////Mapping Table column
-                    //objbulk.ColumnMappings.Add("F1"," SERNO");
-                    //objbulk.ColumnMappings.Add("F2", "預購單號");
-
-                    //sqlConn.Open();
-                    //objbulk.WriteToServer(Exceldt);
-                    //sqlConn.Close();
-                    //MessageBox.Show("Data has been Imported successfully.", "Imported", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
+                    finally
+                    {
+                        sqlConn.Close();
+                    }
                 }
 
             }
