@@ -1567,7 +1567,9 @@ namespace TKBUSINESS
                 //找出不同excel的格式，設定連接字串
                 //xls跟非xls
                 string constr = null;
-                if (_path.CompareTo(".xls") == 0)
+                string CHECKEXCELFORMAT = _path.Substring(_path.Length - 4, 4);
+
+                if (CHECKEXCELFORMAT.CompareTo(".xls") == 0)
                 {
                     constr = @"provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + _path + ";Extended Properties='Excel 8.0;HRD=Yes;IMEX=1';"; //for below excel 2007  
                 }                    
