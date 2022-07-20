@@ -273,6 +273,7 @@
             this.button2.TabIndex = 21;
             this.button2.Text = "2-新增ERP銷貨單";
             this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // label4
             // 

@@ -276,6 +276,221 @@ namespace TKBUSINESS
             }
         }
 
+        public void UPDATETEMP91APPCOPCOPTG001TG002()
+        {
+            DataSet ds = new DataSet();
+
+            try
+            {
+                sbSql.Clear();
+
+                //20210902密
+                Class1 TKID = new Class1();//用new 建立類別實體
+                SqlConnectionStringBuilder sqlsb = new SqlConnectionStringBuilder(ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString);
+
+                //資料庫使用者密碼解密
+                sqlsb.Password = TKID.Decryption(sqlsb.Password);
+                sqlsb.UserID = TKID.Decryption(sqlsb.UserID);
+
+                String connectionString;
+                sqlConn = new SqlConnection(sqlsb.ConnectionString);
+
+                sbSql.AppendFormat(@"                                       
+                                     SELECT
+                                     [購物車編號] 
+                                     FROM [TKBUSINESS].[dbo].[TEMP91APPCOP]
+                                     WHERE [購物車編號]  NOT IN (SELECT TG020 FROM [TK].dbo.COPTG WHERE ISNULL(TG020,'')<>'')
+                                     GROUP BY [購物車編號]
+
+                                         ");
+
+                adapter = new SqlDataAdapter(sbSql.ToString(), sqlConn);
+                sqlCmdBuilder = new SqlCommandBuilder(adapter);
+
+                sqlConn.Open();
+                ds.Clear();
+                adapter.Fill(ds, "ds");
+                sqlConn.Close();
+
+
+                if (ds.Tables["ds"].Rows.Count >= 0)
+                {
+                    //多筆預購訂單，每陶1次新增TC001、TC002，避免重覆
+                    string TG001 = "A233";
+                    string TG002 = GETMAXTG002(TG001, DateTime.Now.ToString("yyyyMMdd"));
+
+                    int serno = Convert.ToInt16(TG002.Substring(8, 3));
+                    serno = serno - 1;
+
+                    foreach (DataRow DR in ds.Tables["ds"].Rows)
+                    {
+                        string 購物車編號 = DR["購物車編號"].ToString();
+
+                        //流水號+1
+                        serno = serno + 1;
+                        string temp = serno.ToString();
+                        temp = temp.PadLeft(3, '0');
+                        TG002 = DateTime.Now.ToString("yyyyMMdd") + temp.ToString();
+
+                        UPDATETEMP91APPCOPTG001TG002(購物車編號, TG001, TG002);
+
+
+                    }
+
+                }
+
+
+
+
+            }
+            catch
+            {
+
+            }
+            finally
+            {
+
+            }
+        }
+
+        public string GETMAXTG002(string TG001, string TG003)
+        {
+            SqlDataAdapter adapter4 = new SqlDataAdapter();
+            SqlCommandBuilder sqlCmdBuilder4 = new SqlCommandBuilder();
+            DataSet ds4 = new DataSet();
+            string TC002 = null;
+
+            try
+            {
+                //20210902密
+                Class1 TKID = new Class1();//用new 建立類別實體
+                SqlConnectionStringBuilder sqlsb = new SqlConnectionStringBuilder(ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString);
+
+                //資料庫使用者密碼解密
+                sqlsb.Password = TKID.Decryption(sqlsb.Password);
+                sqlsb.UserID = TKID.Decryption(sqlsb.UserID);
+
+                String connectionString;
+                sqlConn = new SqlConnection(sqlsb.ConnectionString);
+
+
+                StringBuilder sbSql = new StringBuilder();
+                sbSql.Clear();
+                sbSqlQuery.Clear();
+                ds4.Clear();
+
+                sbSql.AppendFormat(@"  SELECT ISNULL(MAX(TG002),'00000000000') AS TG002
+                                       FROM [TK].[dbo].[COPTG] 
+                                       WHERE  TG001='{0}' AND TG003='{1}'
+                                    ", TG001, TG003);
+
+                adapter4 = new SqlDataAdapter(@"" + sbSql, sqlConn);
+
+                sqlCmdBuilder4 = new SqlCommandBuilder(adapter4);
+                sqlConn.Open();
+                ds4.Clear();
+                adapter4.Fill(ds4, "TEMPds4");
+                sqlConn.Close();
+
+
+                if (ds4.Tables["TEMPds4"].Rows.Count == 0)
+                {
+                    return null;
+                }
+                else
+                {
+                    if (ds4.Tables["TEMPds4"].Rows.Count >= 1)
+                    {
+                        TC002 = SETTG002(ds4.Tables["TEMPds4"].Rows[0]["TG002"].ToString());
+                        return TC002;
+
+                    }
+                    return null;
+                }
+
+            }
+            catch
+            {
+                return null;
+            }
+            finally
+            {
+                sqlConn.Close();
+            }
+        }
+
+        public string SETTG002(string TG002)
+        {
+            if (TG002.Equals("00000000000"))
+            {
+                return DateTime.Now.ToString("yyyyMMdd") + "001";
+            }
+
+            else
+            {
+                int serno = Convert.ToInt16(TG002.Substring(8, 3));
+                serno = serno + 1;
+                string temp = serno.ToString();
+                temp = temp.PadLeft(3, '0');
+                return DateTime.Now.ToString("yyyyMMdd") + temp.ToString();
+            }
+        }
+
+        public void UPDATETEMP91APPCOPTG001TG002(string 購物車編號, string TG001, string TG002)
+        {
+            try
+            {
+                //20210902密
+                Class1 TKID = new Class1();//用new 建立類別實體
+                SqlConnectionStringBuilder sqlsb = new SqlConnectionStringBuilder(ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString);
+
+                //資料庫使用者密碼解密
+                sqlsb.Password = TKID.Decryption(sqlsb.Password);
+                sqlsb.UserID = TKID.Decryption(sqlsb.UserID);
+
+                String connectionString;
+                sqlConn = new SqlConnection(sqlsb.ConnectionString);
+
+
+                sqlConn.Close();
+                sqlConn.Open();
+                tran = sqlConn.BeginTransaction();
+
+                sbSql.Clear();
+
+                sbSql.AppendFormat(@" 
+                                    UPDATE [TKBUSINESS].[dbo].[TEMP91APPCOP]
+                                    SET TG001='{1}',TG002='{2}'
+                                    WHERE  [購物車編號]='{0}'
+                                        ", 購物車編號, TG001, TG002);
+
+
+                cmd.Connection = sqlConn;
+                cmd.CommandTimeout = 60;
+                cmd.CommandText = sbSql.ToString();
+                cmd.Transaction = tran;
+                result = cmd.ExecuteNonQuery();
+
+                if (result == 0)
+                {
+                    tran.Rollback();    //交易取消
+                }
+                else
+                {
+                    tran.Commit();      //執行交易                      
+                }
+
+            }
+            catch
+            {
+
+            }
+
+            finally
+            {
+                sqlConn.Close();
+            }
+        }
         #endregion
 
         #region BUTTON
@@ -285,9 +500,12 @@ namespace TKBUSINESS
         {
             Search(dateTimePicker1.Value.ToString("yyyyMM"));
         }
-
+        private void button2_Click(object sender, EventArgs e)
+        {
+            UPDATETEMP91APPCOPCOPTG001TG002();
+        }
         #endregion
 
-      
+
     }
 }
