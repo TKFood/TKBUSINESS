@@ -491,6 +491,142 @@ namespace TKBUSINESS
                 sqlConn.Close();
             }
         }
+
+        public void UPDATETEMP91APPCOPCOPTH003()
+        {
+            DataSet ds = new DataSet();
+
+            try
+            {
+                sbSql.Clear();
+
+                //20210902密
+                Class1 TKID = new Class1();//用new 建立類別實體
+                SqlConnectionStringBuilder sqlsb = new SqlConnectionStringBuilder(ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString);
+
+                //資料庫使用者密碼解密
+                sqlsb.Password = TKID.Decryption(sqlsb.Password);
+                sqlsb.UserID = TKID.Decryption(sqlsb.UserID);
+
+                String connectionString;
+                sqlConn = new SqlConnection(sqlsb.ConnectionString);
+
+                sbSql.AppendFormat(@"                                    
+                                    SELECT 
+                                    [購物車編號]
+                                    ,[主單編號]
+                                    ,[訂單編號]
+
+                                    ,[TG001]
+                                    ,[TG002]
+                                    ,[TH003]
+                                    ,RIGHT('0000'+CAST(row_number() OVER(PARTITION BY [TG001],[TG002] ORDER BY [訂單編號]) AS nvarchar(10)),4)  AS SEQ
+
+                                    FROM [TKBUSINESS].[dbo].[TEMP91APPCOP]
+                                    WHERE [購物車編號]  NOT IN (SELECT TG020 FROM [TK].dbo.COPTG WHERE ISNULL(TG020,'')<>'')
+                                    AND ISNULL(TG001,'')<>'' AND ISNULL(TG002,'')<>'' 
+                                    ORDER BY [購物車編號],[主單編號],[訂單編號]
+
+                                         ");
+
+                adapter = new SqlDataAdapter(sbSql.ToString(), sqlConn);
+                sqlCmdBuilder = new SqlCommandBuilder(adapter);
+
+                sqlConn.Open();
+                ds.Clear();
+                adapter.Fill(ds, "ds");
+                sqlConn.Close();
+
+
+                if (ds.Tables["ds"].Rows.Count >= 0)
+                {
+                 
+
+                    foreach (DataRow DR in ds.Tables["ds"].Rows)
+                    {
+                        string 訂單編號 = DR["訂單編號"].ToString();
+                        string TH003 = DR["SEQ"].ToString();
+
+
+
+                        UPDATETEMP91APPCOPTH003(訂單編號, TH003);
+
+
+                    }
+
+                }
+
+
+
+
+            }
+            catch
+            {
+
+            }
+            finally
+            {
+
+            }
+        }
+
+        public void UPDATETEMP91APPCOPTH003(string 訂單編號,string TH003)
+        {
+            try
+            {
+                //20210902密
+                Class1 TKID = new Class1();//用new 建立類別實體
+                SqlConnectionStringBuilder sqlsb = new SqlConnectionStringBuilder(ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString);
+
+                //資料庫使用者密碼解密
+                sqlsb.Password = TKID.Decryption(sqlsb.Password);
+                sqlsb.UserID = TKID.Decryption(sqlsb.UserID);
+
+                String connectionString;
+                sqlConn = new SqlConnection(sqlsb.ConnectionString);
+
+
+                sqlConn.Close();
+                sqlConn.Open();
+                tran = sqlConn.BeginTransaction();
+
+                sbSql.Clear();
+
+                sbSql.AppendFormat(@" 
+                                    UPDATE [TKBUSINESS].[dbo].[TEMP91APPCOP]
+                                    SET TH003='{1}'
+                                    WHERE  [訂單編號]='{0}'
+                                        ", 訂單編號, TH003);
+
+
+                cmd.Connection = sqlConn;
+                cmd.CommandTimeout = 60;
+                cmd.CommandText = sbSql.ToString();
+                cmd.Transaction = tran;
+                result = cmd.ExecuteNonQuery();
+
+                if (result == 0)
+                {
+                    tran.Rollback();    //交易取消
+                }
+                else
+                {
+                    tran.Commit();      //執行交易                      
+                }
+
+            }
+            catch
+            {
+
+            }
+
+            finally
+            {
+                sqlConn.Close();
+            }
+        }
+
+
         #endregion
 
         #region BUTTON
@@ -503,6 +639,7 @@ namespace TKBUSINESS
         private void button2_Click(object sender, EventArgs e)
         {
             UPDATETEMP91APPCOPCOPTG001TG002();
+            UPDATETEMP91APPCOPCOPTH003();
         }
         #endregion
 
