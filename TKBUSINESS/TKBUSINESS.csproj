@@ -224,6 +224,12 @@
     <Compile Include="frmRPPORTCOPTHINVLA.Designer.cs">
       <DependentUpon>frmRPPORTCOPTHINVLA.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmTEMP91APPCOP.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmTEMP91APPCOP.Designer.cs">
+      <DependentUpon>frmTEMP91APPCOP.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="frmADDCOPTCTD.resx">
@@ -297,6 +303,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmRPPORTCOPTHINVLA.resx">
       <DependentUpon>frmRPPORTCOPTHINVLA.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmTEMP91APPCOP.resx">
+      <DependentUpon>frmTEMP91APPCOP.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
