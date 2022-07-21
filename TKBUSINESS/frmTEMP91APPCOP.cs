@@ -233,7 +233,7 @@ namespace TKBUSINESS
                                     ,[線上訂單建立類型]
                                     ,[TG001]
                                     ,[TG002]
-                                    ,[TH001]
+                                    ,[TH003]
                                     FROM [TKBUSINESS].[dbo].[TEMP91APPCOP]
                                     WHERE [購物車編號] LIKE '{0}%'
                                     ORDER BY [購物車編號],[主單編號],[訂單編號]
