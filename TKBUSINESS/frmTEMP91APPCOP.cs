@@ -2215,7 +2215,7 @@ namespace TKBUSINESS
                                         ,0 AS [UDF09]
                                         ,0 AS [UDF10]
                                         FROM  [TK].dbo.COPMA,[TKBUSINESS].[dbo].[TEMP91APPCOP]
-                                        LEFT JOIN [TK].dbo.INVMB ON [商品料號]=''''+MB001
+                                        LEFT JOIN [TK].dbo.INVMB ON [商品料號]=MB001
                                         WHERE 1=1
                                         AND MA001='11127673'
                                         
@@ -2624,8 +2624,8 @@ namespace TKBUSINESS
                                          ", DR["購物車編號"].ToString().Replace("'", "")
                                             , DR["主單編號"].ToString().Replace("'", "")
                                             , DR["訂單編號"].ToString().Replace("'", "")
-                                            , DR["轉單日期時間"].ToString().Replace("'", "")
-                                            , DR["預計出貨日期"].ToString().Replace("'", "")
+                                            , Convert.ToDateTime(DR["轉單日期時間"].ToString().Replace("'", "").Replace("下午", "PM").Replace("上午", "AM")).ToString("yyyy/MM/dd HH:mm")
+                                            , Convert.ToDateTime(DR["預計出貨日期"].ToString().Replace("'", "").Replace("下午", "PM").Replace("上午", "AM")).ToString("yyyy/MM/dd")
                                             , DR["配送方式"].ToString().Replace("'", "")
                                             , DR["通路商"].ToString().Replace("'", "")
                                             , DR["溫層類別"].ToString().Replace("'", "")
