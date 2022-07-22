@@ -2251,6 +2251,188 @@ namespace TKBUSINESS
             }
         }
 
+        public void CHECKADDDATA()
+        {
+            //IEnumerable<DataRow> tempExcept = null;
+
+            DataTable DT1 = SEARCHTEMP91APPCOP();
+            DataTable DT2 = IMPORTEXCEL();
+
+            //找DataTable差集
+            //要有相同的欄位名稱
+            //找DataTable差集
+            //如果兩個datatable中有部分欄位相同，可以使用Contains比較　　
+            var tempExcept = from r in DT2.AsEnumerable()
+                             where
+                             !(from rr in DT1.AsEnumerable() select rr.Field<string>("訂單編號")).Contains(
+                             r.Field<string>("訂單編號"))
+                             select r;
+
+
+
+            if (tempExcept.Count() > 0)
+            {
+                //差集集合
+                DataTable dt3 = tempExcept.CopyToDataTable();
+
+                foreach (DataRow dr in dt3.Rows)
+                {
+                    //
+                }
+            }
+        }
+
+        public DataTable SEARCHTEMP91APPCOP()
+        {
+            SqlDataAdapter adapter1 = new SqlDataAdapter();
+            SqlCommandBuilder sqlCmdBuilder1 = new SqlCommandBuilder();
+            DataSet ds1 = new DataSet();
+          
+            //THISYEARS = "21";
+
+            try
+            {
+                //connectionString = ConfigurationManager.ConnectionStrings["dberp"].ConnectionString;
+                //sqlConn = new SqlConnection(connectionString);
+
+                //20210902密
+                Class1 TKID = new Class1();//用new 建立類別實體
+                SqlConnectionStringBuilder sqlsb = new SqlConnectionStringBuilder(ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString);
+
+                //資料庫使用者密碼解密
+                sqlsb.Password = TKID.Decryption(sqlsb.Password);
+                sqlsb.UserID = TKID.Decryption(sqlsb.UserID);
+
+                String connectionString;
+                sqlConn = new SqlConnection(sqlsb.ConnectionString);
+
+                sbSql.Clear();
+                sbSqlQuery.Clear();
+
+
+
+                //核準過TASK_RESULT='0'
+                //AND DOC_NBR  LIKE 'QC1002{0}%'
+
+                sbSql.AppendFormat(@"  
+                                    SELECT 
+                                    [訂單編號]
+                                    FROM [TKBUSINESS].[dbo].[TEMP91APPCOP]
+
+                                    ");
+
+
+                adapter1 = new SqlDataAdapter(@"" + sbSql, sqlConn);
+
+                sqlCmdBuilder1 = new SqlCommandBuilder(adapter1);
+                sqlConn.Open();
+                ds1.Clear();
+                adapter1.Fill(ds1, "ds1");
+                sqlConn.Close();
+
+                if (ds1.Tables["ds1"].Rows.Count >= 1)
+                {
+                    return ds1.Tables["ds1"];
+
+                }
+                else
+                {
+                    return null;
+                }
+
+            }
+            catch
+            {
+                return null;
+            }
+            finally
+            {
+                sqlConn.Close();
+            }
+        }
+
+        public DataTable IMPORTEXCEL()
+        {
+            //記錄選到的檔案路徑
+            _path = null;
+
+            OpenFileDialog od = new OpenFileDialog();
+            od.Filter = "Excell|*.xls;*.xlsx;";
+
+            DialogResult dr = od.ShowDialog();
+            if (dr == DialogResult.Abort)
+            {
+                return null;
+            }
+            if (dr == DialogResult.Cancel)
+            {
+                return null;
+            }
+           
+
+            textBox3.Text = od.FileName.ToString();
+            _path = od.FileName.ToString();
+
+            try
+            {
+                //  ExcelConn(_path);
+                //找出不同excel的格式，設定連接字串
+                //xls跟非xls
+                string constr = null;
+                string CHECKEXCELFORMAT = _path.Substring(_path.Length - 4, 4);
+
+                if (CHECKEXCELFORMAT.CompareTo(".xls") == 0)
+                {
+                    constr = @"provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + _path + ";Extended Properties='Excel 8.0;HRD=Yes;IMEX=1';"; //for below excel 2007  
+                }
+                else
+                {
+                    constr = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + _path + ";Extended Properties='Excel 12.0;HDR=NO';"; //for above excel 2007  
+                }
+
+                //找出excel的第1張分頁名稱，用query中                
+                OleDbConnection Econ = new OleDbConnection(constr);
+                Econ.Open();
+
+
+
+                DataTable excelShema = Econ.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);
+                string firstSheetName = excelShema.Rows[0]["TABLE_NAME"].ToString();
+
+                string Query = string.Format("Select * FROM [{0}]", firstSheetName);
+                OleDbCommand Ecom = new OleDbCommand(Query, Econ);
+
+
+                DataTable dtExcelData = new DataTable();
+
+                OleDbDataAdapter oda = new OleDbDataAdapter(Query, Econ);
+                Econ.Close();
+                oda.Fill(dtExcelData);
+                DataTable Exceldt = dtExcelData;
+
+                //把第一列的欄位名移除
+                Exceldt.Rows[0].Delete();
+
+                if(Exceldt.Rows.Count>0)
+                {
+                    return Exceldt;
+                }
+                else
+                {
+                    return null;
+                }
+                
+
+            }
+            catch (Exception ex)
+            {
+                return null;
+                //MessageBox.Show(string.Format("錯誤:{0}", ex.Message), "Not Imported", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+            }
+        }
+
+    
         #endregion
 
         #region BUTTON
@@ -2279,6 +2461,10 @@ namespace TKBUSINESS
             ADDERPCOPTGCOPTH();
 
             MessageBox.Show("完成");
+        }
+        private void button4_Click(object sender, EventArgs e)
+        {
+            CHECKADDDATA();
         }
         #endregion
 
