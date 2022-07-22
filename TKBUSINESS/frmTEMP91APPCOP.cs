@@ -2276,10 +2276,7 @@ namespace TKBUSINESS
                 //差集集合
                 DataTable dt3 = tempExcept.CopyToDataTable();
 
-                foreach (DataRow dr in dt3.Rows)
-                {
-                    //
-                }
+                INSERTINTOTEMP91APPCOP(dt3);
             }
         }
 
@@ -2433,6 +2430,311 @@ namespace TKBUSINESS
             }
         }
 
+        public void INSERTINTOTEMP91APPCOP(DataTable DT )
+        {
+            try
+            {
+                //20210902密
+                Class1 TKID = new Class1();//用new 建立類別實體
+                SqlConnectionStringBuilder sqlsb = new SqlConnectionStringBuilder(ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString);
+
+                //資料庫使用者密碼解密
+                sqlsb.Password = TKID.Decryption(sqlsb.Password);
+                sqlsb.UserID = TKID.Decryption(sqlsb.UserID);
+
+                String connectionString;
+                sqlConn = new SqlConnection(sqlsb.ConnectionString);
+
+
+                sqlConn.Close();
+                sqlConn.Open();
+                tran = sqlConn.BeginTransaction();
+
+                sbSql.Clear();
+                
+                foreach (DataRow DR in DT.Rows)
+                {
+                    sbSql.AppendFormat(@" 
+                                        INSERT INTO [TKBUSINESS].[dbo].[TEMP91APPCOP]
+                                        (
+                                        [購物車編號]
+                                        ,[主單編號]
+                                        ,[訂單編號]
+                                        ,[轉單日期時間]
+                                        ,[預計出貨日期]
+                                        ,[配送方式]
+                                        ,[通路商]
+                                        ,[溫層類別]
+                                        ,[收件人]
+                                        ,[收件人電話]
+                                        ,[地址]
+                                        ,[門市]
+                                        ,[訂單來源]
+                                        ,[商品名稱]
+                                        ,[商品選項]
+                                        ,[商品料號]
+                                        ,[數量]
+                                        ,[商品單價]
+                                        ,[運費]
+                                        ,[配送編號]
+                                        ,[狀態日期]
+                                        ,[出貨單狀態]
+                                        ,[訂單狀態]
+                                        ,[活動代碼]
+                                        ,[活動名稱]
+                                        ,[折扣金額]
+                                        ,[銷售金額(折扣後)]
+                                        ,[付款方式]
+                                        ,[活動折扣金額]
+                                        ,[折價券活動序號]
+                                        ,[折價券活動名稱]
+                                        ,[折價券折扣金額]
+                                        ,[貨到物流中心日]
+                                        ,[建議貨到期限]
+                                        ,[會員編號]
+                                        ,[商店備註]
+                                        ,[訂購備註]
+                                        ,[貨運單備註]
+                                        ,[驗退原因說明]
+                                        ,[訂單確認日期]
+                                        ,[實體會員編號]
+                                        ,[商品屬性]
+                                        ,[商品贈品關聯代碼]
+                                        ,[購買人]
+                                        ,[購買人會員等級]
+                                        ,[活動對象]
+                                        ,[活動會員等級]
+                                        ,[總成本]
+                                        ,[是否為加價購品]
+                                        ,[國碼]
+                                        ,[收件國家]
+                                        ,[取消原因]
+                                        ,[購物車總額]
+                                        ,[商品頁序號]
+                                        ,[點數活動名稱]
+                                        ,[折抵點數]
+                                        ,[點數折扣金額]
+                                        ,[已設定為不可退貨商品]
+                                        ,[郵遞區號]
+                                        ,[指定到貨日期]
+                                        ,[指定到貨時段]
+                                        ,[贈品券活動序號]
+                                        ,[國家地區運費活動名稱]
+                                        ,[運費折扣]
+                                        ,[地區/州/省份]
+                                        ,[城市]
+                                        ,[鄉鎮市區]
+                                        ,[街道]
+                                        ,[實際出貨數量]
+                                        ,[實際出貨金額]
+                                        ,[配送商]
+                                        ,[TS重量小計(g)]
+                                        ,[運費券活動序號]
+                                        ,[自訂活動代碼]
+                                        ,[交期]
+                                        ,[線上訂單建立類型]
+                                        ,[TG001]
+                                        ,[TG002]
+                                        ,[TH003]
+                                        )
+                                        VALUES
+                                        (
+                                        '{0}'
+                                        ,'{1}'
+                                        ,'{2}'
+                                        ,'{3}'
+                                        ,'{4}'
+                                        ,'{5}'
+                                        ,'{6}'
+                                        ,'{7}'
+                                        ,'{8}'
+                                        ,'{9}'
+                                        ,'{10}'
+                                        ,'{11}'
+                                        ,'{12}'
+                                        ,'{13}'
+                                        ,'{14}'
+                                        ,'{15}'
+                                        ,'{16}'
+                                        ,'{17}'
+                                        ,'{18}'
+                                        ,'{19}'
+                                        ,'{20}'
+                                        ,'{21}'
+                                        ,'{22}'
+                                        ,'{23}'
+                                        ,'{24}'
+                                        ,'{25}'
+                                        ,'{26}'
+                                        ,'{27}'
+                                        ,'{28}'
+                                        ,'{29}'
+                                        ,'{30}'
+                                        ,'{31}'
+                                        ,'{32}'
+                                        ,'{33}'
+                                        ,'{34}'
+                                        ,'{35}'
+                                        ,'{36}'
+                                        ,'{37}'
+                                        ,'{38}'
+                                        ,'{39}'
+                                        ,'{40}'
+                                        ,'{41}'
+                                        ,'{42}'
+                                        ,'{43}'
+                                        ,'{44}'
+                                        ,'{45}'
+                                        ,'{46}'
+                                        ,'{47}'
+                                        ,'{48}'
+                                        ,'{49}'
+                                        ,'{50}'
+                                        ,'{51}'
+                                        ,'{52}'
+                                        ,'{53}'
+                                        ,'{54}'
+                                        ,'{55}'
+                                        ,'{56}'
+                                        ,'{57}'
+                                        ,'{58}'
+                                        ,'{59}'
+                                        ,'{60}'
+                                        ,'{61}'
+                                        ,'{62}'
+                                        ,'{63}'
+                                        ,'{64}'
+                                        ,'{65}'
+                                        ,'{66}'
+                                        ,'{67}'
+                                        ,'{68}'
+                                        ,'{69}'
+                                        ,'{70}'
+                                        ,'{71}'
+                                        ,'{72}'
+                                        ,'{73}'
+                                        ,'{74}'
+                                        ,'{75}'
+                                        ,'{76}'
+                                        ,'{77}'
+                                        ,'{78}'
+
+                                        )
+                                           
+                                         ", DR["購物車編號"].ToString().Replace("'", "")
+                                            , DR["主單編號"].ToString().Replace("'", "")
+                                            , DR["訂單編號"].ToString().Replace("'", "")
+                                            , DR["轉單日期時間"].ToString().Replace("'", "")
+                                            , DR["預計出貨日期"].ToString().Replace("'", "")
+                                            , DR["配送方式"].ToString().Replace("'", "")
+                                            , DR["通路商"].ToString().Replace("'", "")
+                                            , DR["溫層類別"].ToString().Replace("'", "")
+                                            , DR["收件人"].ToString().Replace("'", "")
+                                            , DR["收件人電話"].ToString().Replace("'","")
+                                            , DR["地址"].ToString().Replace("'", "")
+                                            , DR["門市"].ToString().Replace("'", "")
+                                            , DR["訂單來源"].ToString().Replace("'", "")
+                                            , DR["商品名稱"].ToString().Replace("'", "")
+                                            , DR["商品選項"].ToString().Replace("'", "")
+                                            , DR["商品料號"].ToString().Replace("'", "")
+                                            , DR["數量"].ToString().Replace("'", "")
+                                            , DR["商品單價"].ToString().Replace("'", "")
+                                            , DR["運費"].ToString().Replace("'", "")
+                                            , DR["配送編號"].ToString().Replace("'", "")
+                                            , DR["狀態日期"].ToString().Replace("'", "")
+                                            , DR["出貨單狀態"].ToString().Replace("'", "")
+                                            , DR["訂單狀態"].ToString().Replace("'", "")
+                                            , DR["活動代碼"].ToString().Replace("'", "")
+                                            , DR["活動名稱"].ToString().Replace("'", "")
+                                            , DR["折扣金額"].ToString().Replace("'", "")
+                                            , DR["銷售金額(折扣後)"].ToString().Replace("'", "")
+                                            , DR["付款方式"].ToString().Replace("'", "")
+                                            , DR["活動折扣金額"].ToString().Replace("'", "")
+                                            , DR["折價券活動序號"].ToString().Replace("'", "")
+                                            , DR["折價券活動名稱"].ToString().Replace("'", "")
+                                            , DR["折價券折扣金額"].ToString().Replace("'", "")
+                                            , DR["貨到物流中心日"].ToString().Replace("'", "")
+                                            , DR["建議貨到期限"].ToString().Replace("'", "")
+                                            , DR["會員編號"].ToString().Replace("'", "")
+                                            , DR["商店備註"].ToString().Replace("'", "")
+                                            , DR["訂購備註"].ToString().Replace("'", "")
+                                            , DR["貨運單備註"].ToString().Replace("'", "")
+                                            , DR["驗退原因說明"].ToString().Replace("'", "")
+                                            , DR["訂單確認日期"].ToString().Replace("'", "")
+                                            , DR["實體會員編號"].ToString().Replace("'", "")
+                                            , DR["商品屬性"].ToString().Replace("'", "")
+                                            , DR["商品贈品關聯代碼"].ToString().Replace("'", "")
+                                            , DR["購買人"].ToString().Replace("'", "")
+                                            , DR["購買人會員等級"].ToString().Replace("'", "")
+                                            , DR["活動對象"].ToString().Replace("'", "")
+                                            , DR["活動會員等級"].ToString().Replace("'", "")
+                                            , DR["總成本"].ToString().Replace("'", "")
+                                            , DR["是否為加價購品"].ToString().Replace("'", "")
+                                            , DR["國碼"].ToString().Replace("'", "")
+                                            , DR["收件國家"].ToString().Replace("'", "")
+                                            , DR["取消原因"].ToString().Replace("'", "")
+                                            , DR["購物車總額"].ToString().Replace("'", "")
+                                            , DR["商品頁序號"].ToString().Replace("'", "")
+                                            , DR["點數活動名稱"].ToString().Replace("'", "")
+                                            , DR["折抵點數"].ToString().Replace("'", "")
+                                            , DR["點數折扣金額"].ToString().Replace("'", "")
+                                            , DR["已設定為不可退貨商品"].ToString().Replace("'", "")
+                                            , DR["郵遞區號"].ToString().Replace("'", "")
+                                            , DR["指定到貨日期"].ToString().Replace("'", "")
+                                            , DR["指定到貨時段"].ToString().Replace("'", "")
+                                            , DR["贈品券活動序號"].ToString().Replace("'", "")
+                                            , DR["國家地區運費活動名稱"].ToString().Replace("'", "")
+                                            , DR["運費折扣"].ToString().Replace("'", "")
+                                            , DR["地區/州/省份"].ToString().Replace("'", "")
+                                            , DR["城市"].ToString().Replace("'", "")
+                                            , DR["鄉鎮市區"].ToString().Replace("'", "")
+                                            , DR["街道"].ToString().Replace("'", "")
+                                            , DR["實際出貨數量"].ToString().Replace("'", "")
+                                            , DR["實際出貨金額"].ToString().Replace("'", "")
+                                            , DR["配送商"].ToString().Replace("'", "")
+                                            , DR["TS重量小計(g)"].ToString().Replace("'", "")
+                                            , DR["運費券活動序號"].ToString().Replace("'", "")
+                                            , DR["自訂活動代碼"].ToString().Replace("'", "")
+                                            , DR["交期"].ToString().Replace("'", "")
+                                            , DR["線上訂單建立類型"].ToString().Replace("'", "")
+                                            , ""
+                                            ,""
+                                            , ""
+                                            
+                                        );
+
+                }
+
+
+
+                cmd.Connection = sqlConn;
+                cmd.CommandTimeout = 60;
+                cmd.CommandText = sbSql.ToString();
+                cmd.Transaction = tran;
+                result = cmd.ExecuteNonQuery();
+
+                if (result == 0)
+                {
+                    tran.Rollback();    //交易取消
+                }
+                else
+                {
+                    tran.Commit();      //執行交易  
+
+                    MessageBox.Show("完成");
+                }
+
+            }
+            catch
+            {
+
+            }
+
+            finally
+            {
+                sqlConn.Close();
+            }
+        }
     
         #endregion
 
