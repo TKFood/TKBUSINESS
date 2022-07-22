@@ -2269,6 +2269,7 @@ namespace TKBUSINESS
                              select r;
 
 
+            //var tempExcept = DT2.AsEnumerable();
 
             if (tempExcept.Count() > 0)
             {
@@ -2411,7 +2412,7 @@ namespace TKBUSINESS
                 DataTable Exceldt = dtExcelData;
 
                 //把第一列的欄位名移除
-                Exceldt.Rows[0].Delete();
+                //Exceldt.Rows[0].Delete();
 
                 if(Exceldt.Rows.Count>0)
                 {

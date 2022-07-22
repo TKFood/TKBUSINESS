@@ -1599,7 +1599,7 @@ namespace TKBUSINESS
                 DataTable Exceldt = dtExcelData;
 
                 //把第一列的欄位名移除
-                Exceldt.Rows[0].Delete();
+                //Exceldt.Rows[0].Delete();
                 //再去除特定條件
                 for (int i = Exceldt.Rows.Count - 1; i >=1; i--)
                 {
