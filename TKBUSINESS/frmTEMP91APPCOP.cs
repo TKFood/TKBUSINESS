@@ -48,7 +48,7 @@ namespace TKBUSINESS
         int result;
 
         string _path = null;
-
+        DataTable EXCEL = null;
 
         public frmTEMP91APPCOP()
         {
