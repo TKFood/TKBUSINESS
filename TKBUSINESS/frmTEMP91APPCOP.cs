@@ -752,7 +752,7 @@ namespace TKBUSINESS
                                     ,[訂單來源]
                                     ,'' [商品名稱]
                                     ,'' [商品選項]
-                                    ,'''599010000000' [商品料號]
+                                    ,'599010000000' [商品料號]
                                     ,1 [數量]
                                     ,[運費] [商品單價]
                                     ,0 [運費]
@@ -1032,7 +1032,7 @@ namespace TKBUSINESS
                                     ,[訂單來源]
                                     ,'' [商品名稱]
                                     ,'' [商品選項]
-                                    ,'''599030000004' [商品料號]
+                                    ,'599030000004' [商品料號]
                                     ,1 [數量]
                                     ,(SUM(CONVERT(INT,[折扣金額]))-SUM(CONVERT(INT,[點數折扣金額]))) [商品單價]
                                     ,0 [運費]
@@ -1311,7 +1311,7 @@ namespace TKBUSINESS
                                     ,[訂單來源]
                                     ,'' [商品名稱]
                                     ,'' [商品選項]
-                                    ,'''599030000003' [商品料號]
+                                    ,'599030000003' [商品料號]
                                     ,SUM(CONVERT(INT,[點數折扣金額]))*-1 [數量]
                                     ,-1 [商品單價]
                                     ,0 [運費]
@@ -1490,7 +1490,7 @@ namespace TKBUSINESS
 
                 sbSql.Clear();
 
-                
+                //AND[購物車編號] = 'TG220719S01169'
                 //COPTG --AND [購物車編號]  NOT IN (SELECT TG020 FROM [TK].dbo.COPTG WHERE ISNULL(TG020,'')<>'')
                 //COPTH --AND [訂單編號]  NOT IN (SELECT TH074 FROM [TK].dbo.COPTH WHERE ISNULL(TH074,'')<>'')
                 sbSql.AppendFormat(@" 
@@ -1896,7 +1896,7 @@ namespace TKBUSINESS
                                         WHERE 1=1
                                         AND MA001='11127673'
 
-                                        AND [購物車編號]='TG220719S01169'
+                                       
                                         GROUP BY TEMP91APPCOP.購物車編號,TEMP91APPCOP.TG001,TEMP91APPCOP.TG002,TEMP91APPCOP.配送方式,TEMP91APPCOP.地址,TEMP91APPCOP.收件人,TEMP91APPCOP.收件人電話,TEMP91APPCOP.購物車總額,TEMP91APPCOP.通路商,TEMP91APPCOP.主單編號
                                         ,MA001,MA002,MA003,MA010,MA037,MA025
 
@@ -2219,8 +2219,7 @@ namespace TKBUSINESS
                                         WHERE 1=1
                                         AND MA001='11127673'
                                         
-                                        AND [購物車編號]='TG220719S01169'
-
+                                      
                                         ");
 
 
