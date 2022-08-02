@@ -1020,8 +1020,8 @@ namespace TKBUSINESS
                                     [購物車編號]
                                     ,[主單編號]
                                     ,''+[購物車編號]+'B'+CONVERT(NVARCHAR,row_number() OVER(PARTITION BY [購物車編號] ORDER BY [購物車編號])) As [訂單編號]
-                                    ,'' [轉單日期時間]
-                                    ,[預計出貨日期]
+                                    , [轉單日期時間]
+                                    ,'' [預計出貨日期]
                                     ,[配送方式]
                                     ,[通路商]
                                     ,[溫層類別]
@@ -1302,7 +1302,7 @@ namespace TKBUSINESS
                                     ,[主單編號]
                                     ,''+[購物車編號]+'C'+CONVERT(NVARCHAR,row_number() OVER(PARTITION BY [購物車編號] ORDER BY [購物車編號])) As [訂單編號]
                                     ,[轉單日期時間]
-                                    ,[預計出貨日期]
+                                    ,'' [預計出貨日期]
                                     ,[配送方式]
                                     ,[通路商]
                                     ,[溫層類別]
@@ -1372,7 +1372,7 @@ namespace TKBUSINESS
                                     ,0 [TS重量小計(g)]
                                     ,[運費券活動序號]
                                     ,[自訂活動代碼]
-                                    ,[交期]
+                                    ,'' [交期]
                                     ,[線上訂單建立類型]
                                     FROM [TKBUSINESS].[dbo].[TEMP91APPCOP]
                                     WHERE [折扣金額]<>0 
@@ -1381,7 +1381,7 @@ namespace TKBUSINESS
                                     GROUP  BY [購物車編號]
                                     ,[主單編號]
                                     ,[轉單日期時間]
-                                    ,[預計出貨日期]
+                                   
                                     ,[配送方式]
                                     ,[通路商]
                                     ,[溫層類別]
@@ -1436,7 +1436,7 @@ namespace TKBUSINESS
                                     ,[配送商]
                                     ,[運費券活動序號]
                                     ,[自訂活動代碼]
-                                    ,[交期]
+                                   
                                     ,[線上訂單建立類型]
 
                                     HAVING (SUM(CONVERT(INT,[點數折扣金額]))*-1)<>0
