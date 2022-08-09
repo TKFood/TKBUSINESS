@@ -70,7 +70,16 @@ namespace TKBUSINESS
 
         public void SETDATES()
         {
-            dateTimePicker2.Value = DateTime.Now.AddDays(1);
+            dateTimePicker2.Value = DateTime.Now;
+
+            if (dateTimePicker2.Value.DayOfWeek== DayOfWeek.Friday)
+            {
+                dateTimePicker2.Value = DateTime.Now.AddDays(3);
+            }
+            else
+            {
+                dateTimePicker2.Value = DateTime.Now.AddDays(1);
+            }
         }
         private void textBox2_TextChanged(object sender, EventArgs e)
         {
