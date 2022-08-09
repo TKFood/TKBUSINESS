@@ -1498,11 +1498,13 @@ namespace TKBUSINESS
                 //AND[購物車編號] = 'TG220719S01169'
                 //COPTG --AND [購物車編號]  NOT IN (SELECT TG020 FROM [TK].dbo.COPTG WHERE ISNULL(TG020,'')<>'')
                 //COPTH --AND [訂單編號]  NOT IN (SELECT TH074 FROM [TK].dbo.COPTH WHERE ISNULL(TH074,'')<>'')
+
+                //INSERT INTO [test0923].[dbo].[COPTG]
                 sbSql.AppendFormat(@" 
                                    
                                    
                                         --COPTG
-                                        INSERT INTO [test0923].[dbo].[COPTG]
+                                        INSERT INTO [TK].[dbo].[COPTG]
                                         (
                                          [COMPANY]
                                         ,[CREATOR]
@@ -1903,14 +1905,14 @@ namespace TKBUSINESS
                                         FROM  [TKBUSINESS].[dbo].[TEMP91APPCOP],[TK].dbo.COPMA
                                         WHERE 1=1
                                         AND MA001='11127673'
-
+                                        AND [購物車編號]  NOT IN (SELECT TG020 FROM [TK].dbo.COPTG WHERE ISNULL(TG020,'')<>'')
                                        
                                         GROUP BY TEMP91APPCOP.購物車編號,TEMP91APPCOP.TG001,TEMP91APPCOP.TG002,TEMP91APPCOP.配送方式,TEMP91APPCOP.地址,TEMP91APPCOP.收件人,TEMP91APPCOP.收件人電話,TEMP91APPCOP.購物車總額,TEMP91APPCOP.通路商,TEMP91APPCOP.主單編號
                                         ,MA001,MA002,MA003,MA010,MA037,MA025
 
 
                                         --COPTH
-                                        INSERT INTO  [test0923].[dbo].[COPTH]
+                                        INSERT INTO  [TK].[dbo].[COPTH]
                                         (
                                         [COMPANY]
                                         ,[CREATOR]
@@ -2227,7 +2229,7 @@ namespace TKBUSINESS
                                         LEFT JOIN [TK].dbo.INVMB ON [商品料號]=MB001
                                         WHERE 1=1
                                         AND MA001='11127673'
-                                        
+                                        AND [訂單編號]  NOT IN (SELECT TH074 FROM [TK].dbo.COPTH WHERE ISNULL(TH074,'')<>'')
                                       
                                         ");
 
@@ -2770,6 +2772,9 @@ namespace TKBUSINESS
 
             //新增到ERP的COPTG、COPTH
             ADDERPCOPTGCOPTH();
+
+
+            Search(dateTimePicker1.Value.ToString("yyyyMM"));
 
             MessageBox.Show("完成");
         }
