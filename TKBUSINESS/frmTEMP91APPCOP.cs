@@ -55,6 +55,7 @@ namespace TKBUSINESS
             InitializeComponent();
 
             SETTEXTBOX();
+            SETDATES();
 
 
         }
@@ -65,6 +66,11 @@ namespace TKBUSINESS
         {
             textBox2.Text = "11127673";
             textBox1.Text = SERACHCOPMA(textBox2.Text.ToString().Trim());
+        }
+
+        public void SETDATES()
+        {
+            dateTimePicker2.Value = DateTime.Now.AddDays(1);
         }
         private void textBox2_TextChanged(object sender, EventArgs e)
         {
@@ -276,7 +282,7 @@ namespace TKBUSINESS
             }
         }
 
-        public void UPDATETEMP91APPCOPCOPTG001TG002()
+        public void UPDATETEMP91APPCOPCOPTG001TG002(string TG003)
         {
             DataSet ds = new DataSet();
 
@@ -301,7 +307,7 @@ namespace TKBUSINESS
                                      [購物車編號] 
                                      FROM [TKBUSINESS].[dbo].[TEMP91APPCOP]
                                      WHERE 1=1
-
+                                     AND [購物車編號]  NOT IN (SELECT TG020 FROM [TK].dbo.COPTG WHERE ISNULL(TG020,'')<>'')
                                      GROUP BY [購物車編號]
 
                                          ");
@@ -319,7 +325,7 @@ namespace TKBUSINESS
                 {
                     //多筆預購訂單，每陶1次新增TC001、TC002，避免重覆
                     string TG001 = "A233";
-                    string TG002 = GETMAXTG002(TG001, DateTime.Now.ToString("yyyyMMdd"));
+                    string TG002 = GETMAXTG002(TG001, TG003);
 
                     int serno = Convert.ToInt16(TG002.Substring(8, 3));
                     serno = serno - 1;
@@ -332,7 +338,7 @@ namespace TKBUSINESS
                         serno = serno + 1;
                         string temp = serno.ToString();
                         temp = temp.PadLeft(3, '0');
-                        TG002 = DateTime.Now.ToString("yyyyMMdd") + temp.ToString();
+                        TG002 = TG003 + temp.ToString();
 
                         UPDATETEMP91APPCOPTG001TG002(購物車編號, TG001, TG002);
 
@@ -403,7 +409,7 @@ namespace TKBUSINESS
                 {
                     if (ds4.Tables["TEMPds4"].Rows.Count >= 1)
                     {
-                        TC002 = SETTG002(ds4.Tables["TEMPds4"].Rows[0]["TG002"].ToString());
+                        TC002 = SETTG002(ds4.Tables["TEMPds4"].Rows[0]["TG002"].ToString(), TG003);
                         return TC002;
 
                     }
@@ -421,11 +427,11 @@ namespace TKBUSINESS
             }
         }
 
-        public string SETTG002(string TG002)
+        public string SETTG002(string TG002,string TG003)
         {
             if (TG002.Equals("00000000000"))
             {
-                return DateTime.Now.ToString("yyyyMMdd") + "001";
+                return TG003 + "001";
             }
 
             else
@@ -434,7 +440,7 @@ namespace TKBUSINESS
                 serno = serno + 1;
                 string temp = serno.ToString();
                 temp = temp.PadLeft(3, '0');
-                return DateTime.Now.ToString("yyyyMMdd") + temp.ToString();
+                return TG003 + temp.ToString();
             }
         }
 
@@ -1473,7 +1479,7 @@ namespace TKBUSINESS
             }
         }
 
-        public void ADDERPCOPTGCOPTH()
+        public void ADDERPCOPTGCOPTH(string TG003)
         {
             try
             {
@@ -1718,7 +1724,7 @@ namespace TKBUSINESS
                                         ,'102602' AS [DataGroup]
                                         ,[TEMP91APPCOP].TG001 AS [TG001]
                                         ,[TEMP91APPCOP].TG002 AS [TG002]
-                                        ,CONVERT(NVARCHAR,GETDATE(),112) AS [TG003]
+                                        ,'{0}' AS [TG003]
                                         ,MA001 AS [TG004]
                                         ,'117300' AS [TG005]
                                         ,'170007' AS [TG006]
@@ -1766,11 +1772,11 @@ namespace TKBUSINESS
                                         ,'' AS [TG035]
                                         ,'N' AS [TG036]
                                         ,'N' AS [TG037]
-                                        ,LEFT(CONVERT(NVARCHAR,GETDATE(),112),6) AS [TG038]
+                                        ,LEFT('{0}',6) AS [TG038]
                                         ,'' AS [TG039]
                                         ,'' AS [TG040]
                                         ,0 AS [TG041]
-                                        ,CONVERT(NVARCHAR,GETDATE(),112) AS [TG042]
+                                        ,'{0}' AS [TG042]
                                         ,''  AS [TG043]
                                         ,0.0500 AS [TG044]
                                         ,ROUND(CONVERT(INT,[購物車總額]) /1.05,0) AS [TG045]
@@ -1838,7 +1844,7 @@ namespace TKBUSINESS
                                         ,'' AS [TG107]
                                         ,'' AS [TG108]
                                         ,'' AS [TG109]
-                                        ,CONVERT(NVARCHAR,DATEADD(day, 1, GETDATE()),112) AS [TG110]
+                                        ,'{0}' AS [TG110]
                                         ,'1' AS [TG111]
                                         ,'' AS [TG112]
                                         ,0 AS [TG113]
@@ -1879,7 +1885,7 @@ namespace TKBUSINESS
                                         ,'' AS [TG148]
                                         ,'' AS [TG149]
                                         ,'' AS [TG150]
-                                        ,CONVERT(NVARCHAR,GETDATE(),112) AS [TG151]
+                                        ,'{0}' AS [TG151]
                                         ,0 AS [TG152]
                                         ,0 AS [TG153]
                                         ,0 AS [TG154]
@@ -2231,7 +2237,7 @@ namespace TKBUSINESS
                                         AND MA001='11127673'
                                         AND [訂單編號]  NOT IN (SELECT TH074 FROM [TK].dbo.COPTH WHERE ISNULL(TH074,'')<>'')
                                       
-                                        ");
+                                        ", TG003);
 
 
                 cmd.Connection = sqlConn;
@@ -2843,12 +2849,12 @@ namespace TKBUSINESS
             ADDDISCOUNTINVMB2();
 
             //找出未轉入銷貨單的TG020<>購物車編號，新增TG001、TG002
-            UPDATETEMP91APPCOPCOPTG001TG002();
+            UPDATETEMP91APPCOPCOPTG001TG002(dateTimePicker2.Value.ToString("yyyyMMdd"));
             //依TG001、TG002，新增TH003
             UPDATETEMP91APPCOPCOPTH003();
 
             //新增到ERP的COPTG、COPTH
-            ADDERPCOPTGCOPTH();
+            ADDERPCOPTGCOPTH(dateTimePicker2.Value.ToString("yyyyMMdd"));
 
 
             Search(dateTimePicker1.Value.ToString("yyyyMM"));
