@@ -2858,7 +2858,11 @@ namespace TKBUSINESS
         private void button4_Click(object sender, EventArgs e)
         {
             CHECKADDDATA();
+
+            Search(dateTimePicker1.Value.ToString("yyyyMM"));
+            MessageBox.Show("完成");
         }
+
         private void button3_Click(object sender, EventArgs e)
         {
             DialogResult dialogResult = MessageBox.Show("要刪除了?", "要刪除了?", MessageBoxButtons.YesNo);
