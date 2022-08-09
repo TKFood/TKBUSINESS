@@ -2232,8 +2232,9 @@ namespace TKBUSINESS
                                         ,0 AS [UDF09]
                                         ,0 AS [UDF10]
                                         FROM  [TK].dbo.COPMA,[TKBUSINESS].[dbo].[TEMP91APPCOP]
-                                        LEFT JOIN [TK].dbo.INVMB ON [商品料號]=MB001
+                                        LEFT JOIN [TK].dbo.INVMB ON LTRIM(RTRIM(Replace([商品料號],'''','')))=MB001                                        
                                         WHERE 1=1
+
                                         AND MA001='11127673'
                                         AND [訂單編號]  NOT IN (SELECT TH074 FROM [TK].dbo.COPTH WHERE ISNULL(TH074,'')<>'')
                                       
