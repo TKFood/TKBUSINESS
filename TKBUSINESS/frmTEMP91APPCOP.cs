@@ -466,7 +466,7 @@ namespace TKBUSINESS
                                      [購物車編號] 
                                      FROM [TKBUSINESS].[dbo].[TEMP91APPCOP]
                                      WHERE 1=1
-                                     AND [購物車編號]  NOT IN (SELECT TG020 FROM [TK].dbo.COPTG WHERE ISNULL(TG020,'')<>'')
+                                     AND [購物車編號]  NOT IN (SELECT SUBSTRING(TG020,1,14) FROM [TK].dbo.COPTG WHERE ISNULL(TG020,'')<>'')
                                      GROUP BY [購物車編號]
 
                                          ");
@@ -1885,8 +1885,8 @@ namespace TKBUSINESS
                                         ,[TEMP91APPCOP].TG002 AS [TG002]
                                         ,'{0}' AS [TG003]
                                         ,MA001 AS [TG004]
-                                        ,'117300' AS [TG005]
-                                        ,'170007' AS [TG006]
+                                        ,MA015 AS [TG005]
+                                        ,MA016 AS [TG006]
                                         ,MA003 AS [TG007]
                                         ,REPLACE(
                                             REPLACE(
@@ -2070,10 +2070,10 @@ namespace TKBUSINESS
                                         FROM  [TKBUSINESS].[dbo].[TEMP91APPCOP],[TK].dbo.COPMA
                                         WHERE 1=1
                                         AND MA001='11127673'
-                                        AND [購物車編號]  NOT IN (SELECT TG020 FROM [TK].dbo.COPTG WHERE ISNULL(TG020,'')<>'')
+                                        AND [購物車編號]  NOT IN (SELECT SUBSTRING(TG020,1,14) FROM [TK].dbo.COPTG WHERE ISNULL(TG020,'')<>'')
                                        
                                         GROUP BY TEMP91APPCOP.購物車編號,TEMP91APPCOP.TG001,TEMP91APPCOP.TG002,TEMP91APPCOP.配送方式,TEMP91APPCOP.地址,TEMP91APPCOP.收件人,TEMP91APPCOP.收件人電話,TEMP91APPCOP.購物車總額,TEMP91APPCOP.通路商,TEMP91APPCOP.主單編號
-                                        ,MA001,MA002,MA003,MA010,MA037,MA025
+                                        ,MA001,MA002,MA003,MA010,MA037,MA025,MA015,MA016
 
 
                                         --COPTH
