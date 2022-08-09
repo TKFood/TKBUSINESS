@@ -2745,7 +2745,84 @@ namespace TKBUSINESS
                 sqlConn.Close();
             }
         }
-    
+        private void dataGridView1_SelectionChanged(object sender, EventArgs e)
+        {
+            textBox6.Text = "";
+
+            if (dataGridView1.CurrentRow != null)
+            {
+                int rowindex = dataGridView1.CurrentRow.Index;
+                if (rowindex >= 0)
+                {
+                    DataGridViewRow row = dataGridView1.Rows[rowindex];
+                    textBox6.Text = row.Cells["購物車編號"].Value.ToString();
+                }
+                else
+                {
+                    
+
+                }
+            }
+        }
+
+        public void DELETETEMP91APPCOP(string ID)
+        {
+            try
+            {
+                //20210902密
+                Class1 TKID = new Class1();//用new 建立類別實體
+                SqlConnectionStringBuilder sqlsb = new SqlConnectionStringBuilder(ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString);
+
+                //資料庫使用者密碼解密
+                sqlsb.Password = TKID.Decryption(sqlsb.Password);
+                sqlsb.UserID = TKID.Decryption(sqlsb.UserID);
+
+                String connectionString;
+                sqlConn = new SqlConnection(sqlsb.ConnectionString);
+
+
+                sqlConn.Close();
+                sqlConn.Open();
+                tran = sqlConn.BeginTransaction();
+
+                sbSql.Clear();
+
+                sbSql.AppendFormat(@" 
+                                    DELETE [TKBUSINESS].[dbo].[TEMP91APPCOP]
+                                    WHERE [購物車編號]='{0}'
+                                       
+                                        ", ID);
+
+
+
+                cmd.Connection = sqlConn;
+                cmd.CommandTimeout = 60;
+                cmd.CommandText = sbSql.ToString();
+                cmd.Transaction = tran;
+                result = cmd.ExecuteNonQuery();
+
+                if (result == 0)
+                {
+                    tran.Rollback();    //交易取消
+                }
+                else
+                {
+                    tran.Commit();      //執行交易  
+
+                    MessageBox.Show("完成");
+                }
+
+            }
+            catch
+            {
+
+            }
+
+            finally
+            {
+                sqlConn.Close();
+            }
+        }
         #endregion
 
         #region BUTTON
@@ -2782,8 +2859,24 @@ namespace TKBUSINESS
         {
             CHECKADDDATA();
         }
+        private void button3_Click(object sender, EventArgs e)
+        {
+            DialogResult dialogResult = MessageBox.Show("要刪除了?", "要刪除了?", MessageBoxButtons.YesNo);
+            if (dialogResult == DialogResult.Yes)
+            {
+                DELETETEMP91APPCOP(textBox6.Text.ToString());
+
+                Search(dateTimePicker1.Value.ToString("yyyyMM"));
+            }
+            else if (dialogResult == DialogResult.No)
+            {
+                //do something else
+            }
+          
+        }
+
         #endregion
 
-
+    
     }
 }
