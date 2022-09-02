@@ -2071,7 +2071,7 @@ namespace TKBUSINESS
                                         WHERE 1=1
                                         AND MA001='11127673'
                                         AND [購物車編號]  NOT IN (SELECT SUBSTRING(TG020,1,14) FROM [TK].dbo.COPTG WHERE ISNULL(TG020,'')<>'')
-                                       
+                                        AND [TEMP91APPCOP].TG002 LIKE '{0}%'
                                         GROUP BY TEMP91APPCOP.購物車編號,TEMP91APPCOP.TG001,TEMP91APPCOP.TG002,TEMP91APPCOP.配送方式,TEMP91APPCOP.地址,TEMP91APPCOP.收件人,TEMP91APPCOP.收件人電話,TEMP91APPCOP.購物車總額,TEMP91APPCOP.通路商,TEMP91APPCOP.主單編號
                                         ,MA001,MA002,MA003,MA010,MA037,MA025,MA015,MA016
 
@@ -2396,7 +2396,8 @@ namespace TKBUSINESS
 
                                         AND MA001='11127673'
                                         AND [訂單編號]  NOT IN (SELECT TH074 FROM [TK].dbo.COPTH WHERE ISNULL(TH074,'')<>'')
-                                      
+                                        AND TG002 LIKE '{0}%'
+
                                         ", TG003);
 
 
@@ -3013,8 +3014,7 @@ namespace TKBUSINESS
             //依TG001、TG002，新增TH003
             UPDATETEMP91APPCOPCOPTH003();
 
-            //新增到ERP的COPTG、COPTH
-            ADDERPCOPTGCOPTH(dateTimePicker2.Value.ToString("yyyyMMdd"));
+           
 
 
             Search(dateTimePicker1.Value.ToString("yyyyMM"));
@@ -3048,6 +3048,11 @@ namespace TKBUSINESS
         private void button5_Click(object sender, EventArgs e)
         {
             Search2(dateTimePicker3.Value.ToString("yyyyMMdd"));
+        }
+        private void button6_Click(object sender, EventArgs e)
+        {
+            //新增到ERP的COPTG、COPTH
+            ADDERPCOPTGCOPTH(dateTimePicker2.Value.ToString("yyyyMMdd"));
         }
         #endregion
 
