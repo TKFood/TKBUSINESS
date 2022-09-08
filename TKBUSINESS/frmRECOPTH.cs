@@ -337,6 +337,71 @@ namespace TKBUSINESS
 
         }
 
+        public void SETFASTREPORT6(string SDAYS, string EDAYS, string LA001)
+        {
+            //20210902密
+            Class1 TKID = new Class1();//用new 建立類別實體
+            SqlConnectionStringBuilder sqlsb = new SqlConnectionStringBuilder(ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString);
+
+            //資料庫使用者密碼解密
+            sqlsb.Password = TKID.Decryption(sqlsb.Password);
+            sqlsb.UserID = TKID.Decryption(sqlsb.UserID);
+
+            String connectionString;
+            sqlConn = new SqlConnection(sqlsb.ConnectionString);
+
+
+
+            StringBuilder SQL1 = new StringBuilder();
+
+            SQL1 = SETSQL6(SDAYS, EDAYS, LA001);
+            Report report1 = new Report();
+            report1.Load(@"REPORT\銷售月報表-商品.frx");
+
+            report1.Dictionary.Connections[0].ConnectionString = sqlsb.ConnectionString;
+
+            TableDataSource table = report1.GetDataSource("Table") as TableDataSource;
+            table.SelectCommand = SQL1.ToString();
+
+            //report1.SetParameterValue("P1", dateTimePicker1.Value.ToString("yyyyMMdd"));
+            //report1.SetParameterValue("P2", dateTimePicker2.Value.ToString("yyyyMMdd"));
+            report1.Preview = previewControl5;
+            report1.Show();
+        }
+
+        public StringBuilder SETSQL6(string SDAYS,string EDAYS, string LA001)
+        {
+            string ST = LA001;
+            string[] SARRARY = ST.Split(',');
+            string LA001ID = null;
+
+            foreach (string S in SARRARY)
+            {
+                LA001ID = LA001ID + "'" + S + "',";
+            }
+            LA001ID = LA001ID + "''";
+
+            StringBuilder SB = new StringBuilder();
+
+            SB.AppendFormat(@" 
+                          
+                            SELECT LA001,MB002,SUBSTRING(TG003,1,6) AS 'YM',SUM(TH037) AS 'MONEY',SUM(LA011) AS 'NUM'
+                            FROM [TK].dbo.COPTG,[TK].dbo.COPTH,[TK].dbo.INVLA,[TK].dbo.INVMB
+                            WHERE TG001=TH001 AND TG002=TH002
+                            AND LA006=TH001 AND LA007=TH002 AND LA008=TH003
+                            AND TH004=MB001
+                            AND TG023='Y'
+                            AND (TH004 LIKE '4%' OR TH004 LIKE '5%' )
+                            AND TG003>='{0}' AND TG003<='{1}'
+                            AND LA001 IN ({2})
+                            GROUP BY  LA001,MB002,SUBSTRING(TG003,1,6)
+                            ORDER BY  LA001,MB002, SUBSTRING(TG003,1,6)
+                            ", SDAYS, EDAYS, LA001);
+
+            return SB;
+
+        }
+
 
         #endregion
 
@@ -364,6 +429,11 @@ namespace TKBUSINESS
         {
             SETFASTREPORT5(dateTimePicker7.Value.ToString("yyyy") , textBox5.Text.Trim());
         }
+        private void button7_Click(object sender, EventArgs e)
+        {
+            SETFASTREPORT6(dateTimePicker8.Value.ToString("yyyyMM"), dateTimePicker9.Value.ToString("yyyyMM"), textBox7.Text.Trim());
+        }
+
         #endregion
 
 
