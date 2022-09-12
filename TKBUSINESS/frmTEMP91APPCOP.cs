@@ -57,11 +57,42 @@ namespace TKBUSINESS
             SETTEXTBOX();
             SETDATES();
 
+            comboBox1load();
 
         }
 
 
         #region FUNCTION
+        public void comboBox1load()
+        {
+            //20210902密
+            Class1 TKID = new Class1();//用new 建立類別實體
+            SqlConnectionStringBuilder sqlsb = new SqlConnectionStringBuilder(ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString);
+
+            //資料庫使用者密碼解密
+            sqlsb.Password = TKID.Decryption(sqlsb.Password);
+            sqlsb.UserID = TKID.Decryption(sqlsb.UserID);
+
+            String connectionString;
+            sqlConn = new SqlConnection(sqlsb.ConnectionString);
+
+            StringBuilder Sequel = new StringBuilder();
+            Sequel.AppendFormat(@"SELECT [ID],[NAMES] FROM [TKBUSINESS].[dbo].[TEMP91APPCOPBASES] ORDER BY [ID] ");
+            SqlDataAdapter da = new SqlDataAdapter(Sequel.ToString(), sqlConn);
+            DataTable dt = new DataTable();
+            sqlConn.Open();
+
+            dt.Columns.Add("ID", typeof(string));
+            dt.Columns.Add("NAMES", typeof(string));
+
+            da.Fill(dt);
+            comboBox1.DataSource = dt.DefaultView;
+            comboBox1.ValueMember = "ID";
+            comboBox1.DisplayMember = "NAMES";
+            sqlConn.Close();
+
+
+        }
         public void SETTEXTBOX()
         {
             textBox2.Text = "11127673";
@@ -155,14 +186,16 @@ namespace TKBUSINESS
         }
 
 
-        public void Search(string YYYYMM)
+        public void Search(string YYYYMM,string STATUS)
         {
-            DataSet ds = new DataSet();
-            YYYYMM= YYYYMM.Substring(YYYYMM.Length - 4, 4);           
+            DataSet ds = new DataSet();           
+            StringBuilder sbSqlQUERY = new StringBuilder();
+            YYYYMM = YYYYMM.Substring(YYYYMM.Length - 4, 4);
 
             try
             {
                 sbSql.Clear();
+                sbSqlQUERY.Clear();
 
                 //20210902密
                 Class1 TKID = new Class1();//用new 建立類別實體
@@ -174,6 +207,27 @@ namespace TKBUSINESS
 
                 String connectionString;
                 sqlConn = new SqlConnection(sqlsb.ConnectionString);
+
+                if(STATUS.Equals("未出貨"))
+                {
+                    sbSqlQUERY.AppendFormat(@" 
+                                            AND [TG001]+[TG002] NOT IN (SELECT [TG001]+[TG002] FROM [TK].dbo.COPTG)
+
+                                            ");
+                }
+                else if (STATUS.Equals("已出貨"))
+                {
+                    sbSqlQUERY.AppendFormat(@" 
+                                            AND [TG001]+[TG002]  IN (SELECT [TG001]+[TG002] FROM [TK].dbo.COPTG)
+
+                                            ");
+                }
+                else if (STATUS.Equals("全部"))
+                {
+                    sbSqlQUERY.AppendFormat(@" 
+                                        
+                                            ");
+                }
 
                 sbSql.AppendFormat(@"
                                     
@@ -259,8 +313,10 @@ namespace TKBUSINESS
                                     ,[TH003]
                                     FROM [TKBUSINESS].[dbo].[TEMP91APPCOP]
                                     WHERE [購物車編號] LIKE '{0}%'
+                                    {1}
+
                                     ORDER BY [購物車編號],[主單編號],[訂單編號]
-                                         ", "TG"+YYYYMM);
+                                         ", "TG"+ YYYYMM, sbSqlQUERY.ToString());
 
                 adapter = new SqlDataAdapter(sbSql.ToString(), sqlConn);
                 sqlCmdBuilder = new SqlCommandBuilder(adapter);
@@ -2997,7 +3053,10 @@ namespace TKBUSINESS
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Search(dateTimePicker1.Value.ToString("yyyyMM"));
+            Search(dateTimePicker1.Value.ToString("yyyyMM"), comboBox1.Text.ToString());
+
+            MessageBox.Show("完成");
+
         }
         private void button2_Click(object sender, EventArgs e)
         {
@@ -3017,7 +3076,7 @@ namespace TKBUSINESS
            
 
 
-            Search(dateTimePicker1.Value.ToString("yyyyMM"));
+            Search(dateTimePicker1.Value.ToString("yyyyMM"), comboBox1.Text.ToString());
 
             MessageBox.Show("完成");
         }
@@ -3025,7 +3084,7 @@ namespace TKBUSINESS
         {
             CHECKADDDATA();
 
-            Search(dateTimePicker1.Value.ToString("yyyyMM"));
+            Search(dateTimePicker1.Value.ToString("yyyyMM"), comboBox1.Text.ToString());
             MessageBox.Show("完成");
         }
 
@@ -3036,7 +3095,7 @@ namespace TKBUSINESS
             {
                 DELETETEMP91APPCOP(textBox6.Text.ToString());
 
-                Search(dateTimePicker1.Value.ToString("yyyyMM"));
+                Search(dateTimePicker1.Value.ToString("yyyyMM"),comboBox1.Text.ToString());
             }
             else if (dialogResult == DialogResult.No)
             {
@@ -3054,6 +3113,8 @@ namespace TKBUSINESS
             //新增到ERP的COPTG、COPTH
             ADDERPCOPTGCOPTH(dateTimePicker2.Value.ToString("yyyyMMdd"));
         }
+
+       
         #endregion
 
 

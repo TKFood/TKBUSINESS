@@ -32,6 +32,7 @@
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.button8 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.textBox3 = new System.Windows.Forms.TextBox();
             this.button4 = new System.Windows.Forms.Button();
@@ -46,16 +47,17 @@
             this.textBox6 = new System.Windows.Forms.TextBox();
             this.button3 = new System.Windows.Forms.Button();
             this.textBox4 = new System.Windows.Forms.TextBox();
-            this.dateTimePicker3 = new System.Windows.Forms.DateTimePicker();
-            this.button5 = new System.Windows.Forms.Button();
-            this.label7 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.dateTimePicker2 = new System.Windows.Forms.DateTimePicker();
             this.button2 = new System.Windows.Forms.Button();
+            this.button6 = new System.Windows.Forms.Button();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.button5 = new System.Windows.Forms.Button();
+            this.dateTimePicker3 = new System.Windows.Forms.DateTimePicker();
+            this.label7 = new System.Windows.Forms.Label();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.button6 = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -104,7 +106,7 @@
             // 
             this.splitContainer1.Panel2.Controls.Add(this.dataGridView1);
             this.splitContainer1.Size = new System.Drawing.Size(970, 666);
-            this.splitContainer1.SplitterDistance = 270;
+            this.splitContainer1.SplitterDistance = 264;
             this.splitContainer1.TabIndex = 0;
             // 
             // tableLayoutPanel1
@@ -123,6 +125,7 @@
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 102F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 150F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 120F));
+            this.tableLayoutPanel1.Controls.Add(this.button8, 7, 0);
             this.tableLayoutPanel1.Controls.Add(this.button1, 2, 1);
             this.tableLayoutPanel1.Controls.Add(this.textBox3, 1, 2);
             this.tableLayoutPanel1.Controls.Add(this.button4, 2, 2);
@@ -137,14 +140,15 @@
             this.tableLayoutPanel1.Controls.Add(this.textBox6, 5, 0);
             this.tableLayoutPanel1.Controls.Add(this.button3, 5, 1);
             this.tableLayoutPanel1.Controls.Add(this.textBox4, 4, 2);
-            this.tableLayoutPanel1.Controls.Add(this.dateTimePicker3, 1, 5);
-            this.tableLayoutPanel1.Controls.Add(this.button5, 2, 5);
-            this.tableLayoutPanel1.Controls.Add(this.label7, 0, 5);
             this.tableLayoutPanel1.Controls.Add(this.label3, 0, 2);
             this.tableLayoutPanel1.Controls.Add(this.label6, 0, 3);
             this.tableLayoutPanel1.Controls.Add(this.dateTimePicker2, 1, 3);
             this.tableLayoutPanel1.Controls.Add(this.button2, 2, 3);
             this.tableLayoutPanel1.Controls.Add(this.button6, 2, 4);
+            this.tableLayoutPanel1.Controls.Add(this.comboBox1, 3, 1);
+            this.tableLayoutPanel1.Controls.Add(this.button5, 5, 5);
+            this.tableLayoutPanel1.Controls.Add(this.dateTimePicker3, 4, 5);
+            this.tableLayoutPanel1.Controls.Add(this.label7, 3, 5);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(4);
@@ -157,8 +161,19 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(966, 266);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(966, 260);
             this.tableLayoutPanel1.TabIndex = 17;
+            // 
+            // button8
+            // 
+            this.button8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.button8.Location = new System.Drawing.Point(1078, 4);
+            this.button8.Margin = new System.Windows.Forms.Padding(4);
+            this.button8.Name = "button8";
+            this.button8.Size = new System.Drawing.Size(172, 32);
+            this.button8.TabIndex = 41;
+            this.button8.Text = "查詢銷貨日";
+            this.button8.UseVisualStyleBackColor = true;
             // 
             // button1
             // 
@@ -168,7 +183,7 @@
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(158, 32);
             this.button1.TabIndex = 16;
-            this.button1.Text = "查詢月份";
+            this.button1.Text = "查詢";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
@@ -304,38 +319,6 @@
             this.textBox4.TabIndex = 26;
             this.textBox4.Text = "檔案要先另成xls格式";
             // 
-            // dateTimePicker3
-            // 
-            this.dateTimePicker3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.dateTimePicker3.CustomFormat = "yyyy/MM/dd";
-            this.dateTimePicker3.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dateTimePicker3.Location = new System.Drawing.Point(187, 206);
-            this.dateTimePicker3.Name = "dateTimePicker3";
-            this.dateTimePicker3.Size = new System.Drawing.Size(110, 27);
-            this.dateTimePicker3.TabIndex = 36;
-            // 
-            // button5
-            // 
-            this.button5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.button5.Location = new System.Drawing.Point(304, 204);
-            this.button5.Margin = new System.Windows.Forms.Padding(4);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(158, 32);
-            this.button5.TabIndex = 37;
-            this.button5.Text = "查詢銷貨日";
-            this.button5.UseVisualStyleBackColor = true;
-            this.button5.Click += new System.EventHandler(this.button5_Click);
-            // 
-            // label7
-            // 
-            this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(3, 212);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(178, 16);
-            this.label7.TabIndex = 35;
-            this.label7.Text = "銷貨日";
-            // 
             // label3
             // 
             this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
@@ -378,6 +361,59 @@
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
+            // button6
+            // 
+            this.button6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.button6.Location = new System.Drawing.Point(304, 164);
+            this.button6.Margin = new System.Windows.Forms.Padding(4);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(158, 32);
+            this.button6.TabIndex = 38;
+            this.button6.Text = "3-轉入ERP銷貨單";
+            this.button6.UseVisualStyleBackColor = true;
+            this.button6.Click += new System.EventHandler(this.button6_Click);
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Location = new System.Drawing.Point(469, 48);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(128, 24);
+            this.comboBox1.TabIndex = 39;
+            // 
+            // button5
+            // 
+            this.button5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.button5.Location = new System.Drawing.Point(754, 204);
+            this.button5.Margin = new System.Windows.Forms.Padding(4);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(142, 32);
+            this.button5.TabIndex = 37;
+            this.button5.Text = "查詢銷貨日";
+            this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
+            // 
+            // dateTimePicker3
+            // 
+            this.dateTimePicker3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.dateTimePicker3.CustomFormat = "yyyy/MM/dd";
+            this.dateTimePicker3.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dateTimePicker3.Location = new System.Drawing.Point(603, 206);
+            this.dateTimePicker3.Name = "dateTimePicker3";
+            this.dateTimePicker3.Size = new System.Drawing.Size(144, 27);
+            this.dateTimePicker3.TabIndex = 36;
+            // 
+            // label7
+            // 
+            this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(469, 212);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(128, 16);
+            this.label7.TabIndex = 35;
+            this.label7.Text = "銷貨日";
+            // 
             // dataGridView1
             // 
             this.dataGridView1.AllowUserToAddRows = false;
@@ -388,7 +424,7 @@
             this.dataGridView1.Location = new System.Drawing.Point(0, 0);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowTemplate.Height = 24;
-            this.dataGridView1.Size = new System.Drawing.Size(966, 388);
+            this.dataGridView1.Size = new System.Drawing.Size(966, 394);
             this.dataGridView1.TabIndex = 1;
             this.dataGridView1.SelectionChanged += new System.EventHandler(this.dataGridView1_SelectionChanged);
             // 
@@ -401,18 +437,6 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "tabPage2";
             this.tabPage2.UseVisualStyleBackColor = true;
-            // 
-            // button6
-            // 
-            this.button6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.button6.Location = new System.Drawing.Point(304, 164);
-            this.button6.Margin = new System.Windows.Forms.Padding(4);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(158, 32);
-            this.button6.TabIndex = 38;
-            this.button6.Text = "3-轉入ERP銷貨單";
-            this.button6.UseVisualStyleBackColor = true;
-            this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
             // frmTEMP91APPCOP
             // 
@@ -467,5 +491,7 @@
         private System.Windows.Forms.DateTimePicker dateTimePicker3;
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.Button button8;
     }
 }
