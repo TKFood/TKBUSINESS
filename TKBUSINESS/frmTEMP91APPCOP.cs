@@ -2665,6 +2665,85 @@ namespace TKBUSINESS
 
         public void INSERTINTOTEMP91APPCOP(DataTable DT )
         {
+            string 購物車編號 = null;
+            string 主單編號 = null;
+            string 訂單編號 = null;
+            string 轉單日期時間 = null;
+            string 預計出貨日期 = null;
+            string 配送方式 = null;
+            string 通路商 = null;
+            string 溫層類別 = null;
+            string 收件人 = null;
+            string 收件人電話 = null;
+            string 地址 = null;
+            string 門市 = null;
+            string 訂單來源 = null;
+            string 商品名稱 = null;
+            string 商品選項 = null;
+            string 商品料號 = null;
+            string 數量 = null;
+            string 商品單價 = null;
+            string 運費 = null;
+            string 配送編號 = null;
+            string 狀態日期 = null;
+            string 出貨單狀態 = null;
+            string 訂單狀態 = null;
+            string 活動代碼 = null;
+            string 活動名稱 = null;
+            string 折扣金額 = null;
+            string 銷售金額折扣後 = null;
+            string 付款方式 = null;
+            string 活動折扣金額 = null;
+            string 折價券活動序號 = null;
+            string 折價券活動名稱 = null;
+            string 折價券折扣金額 = null;
+            string 貨到物流中心日 = null;
+            string 建議貨到期限 = null;
+            string 會員編號 = null;
+            string 商店備註 = null;
+            string 訂購備註 = null;
+            string 貨運單備註 = null;
+            string 驗退原因說明 = null;
+            string 訂單確認日期 = null;
+            string 實體會員編號 = null;
+            string 商品屬性 = null;
+            string 商品贈品關聯代碼 = null;
+            string 購買人 = null;
+            string 購買人會員等級 = null;
+            string 活動對象 = null;
+            string 活動會員等級 = null;
+            string 總成本 = null;
+            string 是否為加價購品 = null;
+            string 國碼 = null;
+            string 收件國家 = null;
+            string 取消原因 = null;
+            string 購物車總額 = null;
+            string 商品頁序號 = null;
+            string 點數活動名稱= null;
+            string 折抵點數 = null;
+            string 點數折扣金額 = null;
+            string 已設定為不可退貨商品 = null;
+            string 郵遞區號 = null;
+            string 指定到貨日期 = null;
+            string 指定到貨時段 = null;
+            string 贈品券活動序號 = null;
+            string 國家地區運費活動名稱 = null;
+            string 運費折扣 = null;
+            string 地區州省份= null;
+            string 城市 = null;
+            string 鄉鎮市區 = null;
+            string 街道 = null;
+            string 實際出貨數量 = null;
+            string 實際出貨金額 = null;
+            string 配送商 = null;
+            string TS重量小計g = null;
+            string 運費券活動序號 = null;
+            string 自訂活動代碼 = null;
+            string 交期 = null;
+            string 線上訂單建立類型 = null;
+            string TG001 = null;
+            string TG002 = null;
+            string TH003 = null;
             try
             {
                 //20210902密
@@ -2687,6 +2766,721 @@ namespace TKBUSINESS
                 
                 foreach (DataRow DR in DT.Rows)
                 {
+                    //
+                    try
+                    {
+                        購物車編號 = DR["購物車編號"].ToString().Replace("'", "").Replace(" ", "");
+                    }
+                    catch
+                    {
+
+                    }
+                    //
+                    try
+                    {
+                        主單編號 = DR["主單編號"].ToString().Replace("'", "").Replace(" ", "");
+                    }
+                    catch
+                    {
+                        
+                    }
+                    //
+                    try
+                    {
+                        訂單編號 = DR["訂單編號"].ToString().Replace("'", "").Replace(" ", "");
+                    }
+                    catch
+                    {
+
+                    }
+                    //
+                    try
+                    {
+                        轉單日期時間 = DR["轉單日期時間"].ToString().Replace("'", "").Replace(" ", "");
+                    }
+                    catch
+                    {
+
+                    }
+                    //
+                    try
+                    {
+                        預計出貨日期 = DR["預計出貨日期"].ToString().Replace("'", "").Replace(" ", "");
+                    }
+                    catch
+                    {
+
+                    }
+                    //
+                    try
+                    {
+                        配送方式 = DR["配送方式"].ToString().Replace("'", "").Replace(" ", "");
+                    }
+                    catch
+                    {
+
+                    }
+                    //
+                    try
+                    {
+                        通路商 = DR["通路商"].ToString().Replace("'", "").Replace(" ", "");
+                    }
+                    catch
+                    {
+
+                    }
+                    //
+                    try
+                    {
+                        溫層類別 = DR["溫層類別"].ToString().Replace("'", "").Replace(" ", "");
+                    }
+                    catch
+                    {
+
+                    }
+                    //
+                    try
+                    {
+                        收件人 = DR["收件人"].ToString().Replace("'", "").Replace(" ", "");
+                    }
+                    catch
+                    {
+
+                    }
+                    //
+                    try
+                    {
+                        收件人電話 = DR["收件人電話"].ToString().Replace("'", "").Replace(" ", "");
+                    }
+                    catch
+                    {
+
+                    }
+                    //
+                    try
+                    {
+                        地址 = DR["地址"].ToString().Replace("'", "").Replace(" ", "");
+                    }
+                    catch
+                    {
+
+                    }
+                    //
+                    try
+                    {
+                        門市 = DR["門市"].ToString().Replace("'", "").Replace(" ", "");
+                    }
+                    catch
+                    {
+
+                    }
+                    //
+                    try
+                    {
+                        訂單來源 = DR["訂單來源"].ToString().Replace("'", "").Replace(" ", "");
+                    }
+                    catch
+                    {
+
+                    }
+                    //
+                    try
+                    {
+                        商品名稱 = DR["商品名稱"].ToString().Replace("'", "").Replace(" ", "");
+                    }
+                    catch
+                    {
+
+                    }
+                    //
+                    try
+                    {
+                        商品選項 = DR["商品選項"].ToString().Replace("'", "").Replace(" ", "");
+                    }
+                    catch
+                    {
+
+                    }
+                    //
+                    try
+                    {
+                        商品料號 = DR["商品料號"].ToString().Replace("'", "").Replace(" ", "");
+                    }
+                    catch
+                    {
+
+                    }
+                    //
+                    try
+                    {
+                        數量 = DR["數量"].ToString().Replace("'", "").Replace(" ", "");
+                    }
+                    catch
+                    {
+
+                    }
+                    //
+                    try
+                    {
+                        商品單價 = DR["商品單價"].ToString().Replace("'", "").Replace(" ", "");
+                    }
+                    catch
+                    {
+
+                    }
+                    //
+                    try
+                    {
+                        運費 = DR["運費"].ToString().Replace("'", "").Replace(" ", "");
+                    }
+                    catch
+                    {
+
+                    }
+                    //
+                    try
+                    {
+                        配送編號 = DR["配送編號"].ToString().Replace("'", "").Replace(" ", "");
+                    }
+                    catch
+                    {
+
+                    }
+                    //
+                    try
+                    {
+                        狀態日期 = DR["狀態日期"].ToString().Replace("'", "").Replace(" ", "");
+                    }
+                    catch
+                    {
+
+                    }
+                    //
+                    try
+                    {
+                        出貨單狀態 = DR["出貨單狀態"].ToString().Replace("'", "").Replace(" ", "");
+                    }
+                    catch
+                    {
+
+                    }
+                    //
+                    try
+                    {
+                        訂單狀態 = DR["訂單狀態"].ToString().Replace("'", "").Replace(" ", "");
+                    }
+                    catch
+                    {
+
+                    }
+                    //
+                    try
+                    {
+                        活動代碼 = DR["活動代碼"].ToString().Replace("'", "").Replace(" ", "");
+                    }
+                    catch
+                    {
+
+                    }
+                    //
+                    try
+                    {
+                        活動名稱 = DR["活動名稱"].ToString().Replace("'", "").Replace(" ", "");
+                    }
+                    catch
+                    {
+
+                    }
+                    //
+                    try
+                    {
+                        折扣金額 = DR["折扣金額"].ToString().Replace("'", "").Replace(" ", "");
+                    }
+                    catch
+                    {
+
+                    }
+                    //
+                    try
+                    {
+                        銷售金額折扣後 = DR["銷售金額(折扣後)"].ToString().Replace("'", "").Replace(" ", "");
+                    }
+                    catch
+                    {
+
+                    }
+                    //
+                    try
+                    {
+                        付款方式 = DR["付款方式"].ToString().Replace("'", "").Replace(" ", "");
+                    }
+                    catch
+                    {
+
+                    }
+                    //
+                    try
+                    {
+                        活動折扣金額 = DR["活動折扣金額"].ToString().Replace("'", "").Replace(" ", "");
+                    }
+                    catch
+                    {
+
+                    }
+                    //
+                    try
+                    {
+                        折價券活動序號 = DR["折價券活動序號"].ToString().Replace("'", "").Replace(" ", "");
+                    }
+                    catch
+                    {
+
+                    }
+                    //
+                    try
+                    {
+                        折價券活動名稱 = DR["折價券活動名稱"].ToString().Replace("'", "").Replace(" ", "");
+                    }
+                    catch
+                    {
+
+                    }
+                    //
+                    try
+                    {
+                        折價券折扣金額 = DR["折價券折扣金額"].ToString().Replace("'", "").Replace(" ", "");
+                    }
+                    catch
+                    {
+
+                    }
+                    //
+                    try
+                    {
+                        貨到物流中心日 = DR["貨到物流中心日"].ToString().Replace("'", "").Replace(" ", "");
+                    }
+                    catch
+                    {
+
+                    }
+                    //
+                    try
+                    {
+                        建議貨到期限 = DR["建議貨到期限"].ToString().Replace("'", "").Replace(" ", "");
+                    }
+                    catch
+                    {
+
+                    }
+                    //
+                    try
+                    {
+                        會員編號 = DR["會員編號"].ToString().Replace("'", "").Replace(" ", "");
+                    }
+                    catch
+                    {
+
+                    }
+                    //
+                    try
+                    {
+                        商店備註 = DR["商店備註"].ToString().Replace("'", "").Replace(" ", "");
+                    }
+                    catch
+                    {
+
+                    }
+                    //
+                    try
+                    {
+                        訂購備註 = DR["訂購備註"].ToString().Replace("'", "").Replace(" ", "");
+                    }
+                    catch
+                    {
+
+                    }
+                    //
+                    try
+                    {
+                        貨運單備註 = DR["貨運單備註"].ToString().Replace("'", "").Replace(" ", "");
+                    }
+                    catch
+                    {
+
+                    }
+                    //
+                    try
+                    {
+                        驗退原因說明 = DR["驗退原因說明"].ToString().Replace("'", "").Replace(" ", "");
+                    }
+                    catch
+                    {
+
+                    }
+                    //
+                    try
+                    {
+                        訂單確認日期 = DR["訂單確認日期"].ToString().Replace("'", "").Replace(" ", "");
+                    }
+                    catch
+                    {
+
+                    }
+                    //
+                    try
+                    {
+                        實體會員編號 = DR["實體會員編號"].ToString().Replace("'", "").Replace(" ", "");
+                    }
+                    catch
+                    {
+
+                    }
+                    //
+                    try
+                    {
+                        商品屬性 = DR["商品屬性"].ToString().Replace("'", "").Replace(" ", "");
+                    }
+                    catch
+                    {
+
+                    }
+                    //
+                    try
+                    {
+                        商品贈品關聯代碼 = DR["商品贈品關聯代碼"].ToString().Replace("'", "").Replace(" ", "");
+                    }
+                    catch
+                    {
+
+                    }
+                    //
+                    try
+                    {
+                        購買人 = DR["購買人"].ToString().Replace("'", "").Replace(" ", "");
+                    }
+                    catch
+                    {
+
+                    }
+                    //
+                    try
+                    {
+                        購買人會員等級 = DR["購買人會員等級"].ToString().Replace("'", "").Replace(" ", "");
+                    }
+                    catch
+                    {
+
+                    }
+                    //
+                    try
+                    {
+                        活動對象 = DR["活動對象"].ToString().Replace("'", "").Replace(" ", "");
+                    }
+                    catch
+                    {
+
+                    }
+                    //
+                    try
+                    {
+                        活動會員等級 = DR["活動會員等級"].ToString().Replace("'", "").Replace(" ", "");
+                    }
+                    catch
+                    {
+
+                    }
+                    //
+                    try
+                    {
+                        總成本 = DR["總成本"].ToString().Replace("'", "").Replace(" ", "");
+                    }
+                    catch
+                    {
+
+                    }
+                    //
+                    try
+                    {
+                        是否為加價購品 = DR["是否為加價購品"].ToString().Replace("'", "").Replace(" ", "");
+                    }
+                    catch
+                    {
+
+                    }
+                    //
+                    try
+                    {
+                        國碼 = DR["國碼"].ToString().Replace("'", "").Replace(" ", "");
+                    }
+                    catch
+                    {
+
+                    }
+                    //
+                    try
+                    {
+                        收件國家 = DR["收件國家"].ToString().Replace("'", "").Replace(" ", "");
+                    }
+                    catch
+                    {
+
+                    }
+                    //
+                    try
+                    {
+                        取消原因 = DR["取消原因"].ToString().Replace("'", "").Replace(" ", "");
+                    }
+                    catch
+                    {
+
+                    }
+                    //
+                    try
+                    {
+                        購物車總額 = DR["購物車總額"].ToString().Replace("'", "").Replace(" ", "");
+                    }
+                    catch
+                    {
+
+                    }
+                    //
+                    try
+                    {
+                        商品頁序號 = DR["商品頁序號"].ToString().Replace("'", "").Replace(" ", "");
+                    }
+                    catch
+                    {
+
+                    }
+                    //
+                    try
+                    {
+                        點數活動名稱 = DR["點數活動名稱"].ToString().Replace("'", "").Replace(" ", "");
+                    }
+                    catch
+                    {
+
+                    }
+                    //
+                    try
+                    {
+                        折抵點數 = DR["折抵點數"].ToString().Replace("'", "").Replace(" ", "");
+                    }
+                    catch
+                    {
+
+                    }
+                    //
+                    try
+                    {
+                        點數折扣金額 = DR["點數折扣金額"].ToString().Replace("'", "").Replace(" ", "");
+                    }
+                    catch
+                    {
+
+                    }
+                    //
+                    try
+                    {
+                        已設定為不可退貨商品 = DR["已設定為不可退貨商品"].ToString().Replace("'", "").Replace(" ", "");
+                    }
+                    catch
+                    {
+
+                    }
+                    //
+                    try
+                    {
+                        郵遞區號 = DR["郵遞區號"].ToString().Replace("'", "").Replace(" ", "");
+                    }
+                    catch
+                    {
+
+                    }
+                    //
+                    try
+                    {
+                        指定到貨日期 = DR["指定到貨日期"].ToString().Replace("'", "").Replace(" ", "");
+                    }
+                    catch
+                    {
+
+                    }
+                    //
+                    try
+                    {
+                        指定到貨時段 = DR["指定到貨時段"].ToString().Replace("'", "").Replace(" ", "");
+                    }
+                    catch
+                    {
+
+                    }
+                    //
+                    try
+                    {
+                        贈品券活動序號 = DR["贈品券活動序號"].ToString().Replace("'", "").Replace(" ", "");
+                    }
+                    catch
+                    {
+
+                    }
+                    //
+                    try
+                    {
+                        國家地區運費活動名稱 = DR["國家地區運費活動名稱"].ToString().Replace("'", "").Replace(" ", "");
+                    }
+                    catch
+                    {
+
+                    }
+                    //
+                    try
+                    {
+                        運費折扣 = DR["運費折扣"].ToString().Replace("'", "").Replace(" ", "");
+                    }
+                    catch
+                    {
+
+                    }
+                    //
+                    try
+                    {
+                        地區州省份 = DR["地區/州/省份"].ToString().Replace("'", "").Replace(" ", "");
+                    }
+                    catch
+                    {
+
+                    }
+                    //
+                    try
+                    {
+                        城市 = DR["城市"].ToString().Replace("'", "").Replace(" ", "");
+                    }
+                    catch
+                    {
+
+                    }
+                    //
+                    try
+                    {
+                        鄉鎮市區 = DR["鄉鎮市區"].ToString().Replace("'", "").Replace(" ", "");
+                    }
+                    catch
+                    {
+
+                    }
+                    //
+                    try
+                    {
+                        街道 = DR["街道"].ToString().Replace("'", "").Replace(" ", "");
+                    }
+                    catch
+                    {
+
+                    }
+                    //
+                    try
+                    {
+                        實際出貨數量 = DR["實際出貨數量"].ToString().Replace("'", "").Replace(" ", "");
+                    }
+                    catch
+                    {
+
+                    }
+                    //
+                    try
+                    {
+                        實際出貨金額 = DR["實際出貨金額"].ToString().Replace("'", "").Replace(" ", "");
+                    }
+                    catch
+                    {
+                        
+                    }
+                    //
+                    try
+                    {
+                        配送商 = DR["配送商"].ToString().Replace("'", "").Replace(" ", "");
+                    }
+                    catch
+                    {
+
+                    }
+                    //
+                    try
+                    {
+                        TS重量小計g = DR["TS重量小計(g)"].ToString().Replace("'", "").Replace(" ", "");
+                    }
+                    catch
+                    {
+
+                    }
+                    //
+                    try
+                    {
+                        運費券活動序號 = DR["運費券活動序號"].ToString().Replace("'", "").Replace(" ", "");
+                    }
+                    catch
+                    {
+
+                    }
+                    //
+                    try
+                    {
+                        自訂活動代碼 = DR["自訂活動代碼"].ToString().Replace("'", "").Replace(" ", "");
+                    }
+                    catch
+                    {
+
+                    }
+                    //
+                    try
+                    {
+                        交期 = DR["交期"].ToString().Replace("'", "").Replace(" ", "");
+                    }
+                    catch
+                    {
+
+                    }
+                    //
+                    try
+                    {
+                        線上訂單建立類型 = DR["線上訂單建立類型"].ToString().Replace("'", "").Replace(" ", "");
+                    }
+                    catch
+                    {
+
+                    }
+                    //
+                    try
+                    {
+                        TG001 = "";
+                    }
+                    catch
+                    {
+
+                    }
+                    //
+                    try
+                    {
+                        TG002 = "";
+                    }
+                    catch
+                    {
+
+                    }
+                    //
+                    try
+                    {
+                        TH003 = "";
+                    }
+                    catch
+                    {
+
+                    }
+               
+
+
+
                     sbSql.AppendFormat(@" 
                                         INSERT INTO [TKBUSINESS].[dbo].[TEMP91APPCOP]
                                         (
@@ -2854,86 +3648,86 @@ namespace TKBUSINESS
 
                                         )
                                            
-                                         ", DR["購物車編號"].ToString().Replace("'", "").Replace(" ", "")
-                                            , DR["主單編號"].ToString().Replace("'", "").Replace(" ", "")
-                                            , DR["訂單編號"].ToString().Replace("'", "").Replace(" ", "")
-                                            , Convert.ToDateTime(DR["轉單日期時間"].ToString().Replace("'", "").Replace("下午", "PM").Replace("上午", "AM")).ToString("yyyy/MM/dd HH:mm")
-                                            , Convert.ToDateTime(DR["預計出貨日期"].ToString().Replace("'", "").Replace("下午", "PM").Replace("上午", "AM")).ToString("yyyy/MM/dd")
-                                            , DR["配送方式"].ToString().Replace("'", "").Replace(" ", "")
-                                            , DR["通路商"].ToString().Replace("'", "").Replace(" ", "")
-                                            , DR["溫層類別"].ToString().Replace("'", "").Replace(" ", "")
-                                            , DR["收件人"].ToString().Replace("'", "").Replace(" ", "")
-                                            , DR["收件人電話"].ToString().Replace("'","").Replace(" ", "")
-                                            , DR["地址"].ToString().Replace("'", "").Replace(" ", "")
-                                            , DR["門市"].ToString().Replace("'", "").Replace(" ", "")
-                                            , DR["訂單來源"].ToString().Replace("'", "").Replace(" ", "")
-                                            , DR["商品名稱"].ToString().Replace("'", "").Replace(" ", "")
-                                            , DR["商品選項"].ToString().Replace("'", "").Replace(" ", "")
-                                            , DR["商品料號"].ToString().Replace("'", "").Replace(" ", "")
-                                            , DR["數量"].ToString().Replace("'", "").Replace(" ", "")
-                                            , DR["商品單價"].ToString().Replace("'", "").Replace(" ", "")
-                                            , DR["運費"].ToString().Replace("'", "").Replace(" ", "")
-                                            , DR["配送編號"].ToString().Replace("'", "").Replace(" ", "")
-                                            , DR["狀態日期"].ToString().Replace("'", "").Replace(" ", "")
-                                            , DR["出貨單狀態"].ToString().Replace("'", "").Replace(" ", "")
-                                            , DR["訂單狀態"].ToString().Replace("'", "").Replace(" ", "")
-                                            , DR["活動代碼"].ToString().Replace("'", "").Replace(" ", "")
-                                            , DR["活動名稱"].ToString().Replace("'", "").Replace(" ", "")
-                                            , DR["折扣金額"].ToString().Replace("'", "").Replace(" ", "")
-                                            , DR["銷售金額(折扣後)"].ToString().Replace("'", "").Replace(" ", "")
-                                            , DR["付款方式"].ToString().Replace("'", "").Replace(" ", "")
-                                            , DR["活動折扣金額"].ToString().Replace("'", "").Replace(" ", "")
-                                            , DR["折價券活動序號"].ToString().Replace("'", "").Replace(" ", "")
-                                            , DR["折價券活動名稱"].ToString().Replace("'", "").Replace(" ", "")
-                                            , DR["折價券折扣金額"].ToString().Replace("'", "").Replace(" ", "")
-                                            , DR["貨到物流中心日"].ToString().Replace("'", "").Replace(" ", "")
-                                            , DR["建議貨到期限"].ToString().Replace("'", "").Replace(" ", "")
-                                            , DR["會員編號"].ToString().Replace("'", "").Replace(" ", "")
-                                            , DR["商店備註"].ToString().Replace("'", "").Replace(" ", "")
-                                            , DR["訂購備註"].ToString().Replace("'", "").Replace(" ", "")
-                                            , DR["貨運單備註"].ToString().Replace("'", "").Replace(" ", "")
-                                            , DR["驗退原因說明"].ToString().Replace("'", "").Replace(" ", "")
-                                            , DR["訂單確認日期"].ToString().Replace("'", "").Replace(" ", "")
-                                            , DR["實體會員編號"].ToString().Replace("'", "").Replace(" ", "")
-                                            , DR["商品屬性"].ToString().Replace("'", "").Replace(" ", "")
-                                            , DR["商品贈品關聯代碼"].ToString().Replace("'", "").Replace(" ", "")
-                                            , DR["購買人"].ToString().Replace("'", "").Replace(" ", "")
-                                            , DR["購買人會員等級"].ToString().Replace("'", "").Replace(" ", "")
-                                            , DR["活動對象"].ToString().Replace("'", "").Replace(" ", "")
-                                            , DR["活動會員等級"].ToString().Replace("'", "").Replace(" ", "")
-                                            , DR["總成本"].ToString().Replace("'", "").Replace(" ", "")
-                                            , DR["是否為加價購品"].ToString().Replace("'", "").Replace(" ", "")
-                                            , DR["國碼"].ToString().Replace("'", "").Replace(" ", "")
-                                            , DR["收件國家"].ToString().Replace("'", "").Replace(" ", "")
-                                            , DR["取消原因"].ToString().Replace("'", "").Replace(" ", "")
-                                            , DR["購物車總額"].ToString().Replace("'", "").Replace(" ", "")
-                                            , DR["商品頁序號"].ToString().Replace("'", "").Replace(" ", "")
-                                            , DR["點數活動名稱"].ToString().Replace("'", "").Replace(" ", "")
-                                            , DR["折抵點數"].ToString().Replace("'", "").Replace(" ", "")
-                                            , DR["點數折扣金額"].ToString().Replace("'", "").Replace(" ", "")
-                                            , DR["已設定為不可退貨商品"].ToString().Replace("'", "").Replace(" ", "")
-                                            , DR["郵遞區號"].ToString().Replace("'", "").Replace(" ", "")
-                                            , DR["指定到貨日期"].ToString().Replace("'", "").Replace(" ", "")
-                                            , DR["指定到貨時段"].ToString().Replace("'", "").Replace(" ", "")
-                                            , DR["贈品券活動序號"].ToString().Replace("'", "").Replace(" ", "")
-                                            , DR["國家地區運費活動名稱"].ToString().Replace("'", "").Replace(" ", "")
-                                            , DR["運費折扣"].ToString().Replace("'", "").Replace(" ", "")
-                                            , DR["地區/州/省份"].ToString().Replace("'", "").Replace(" ", "")
-                                            , DR["城市"].ToString().Replace("'", "").Replace(" ", "")
-                                            , DR["鄉鎮市區"].ToString().Replace("'", "").Replace(" ", "")
-                                            , DR["街道"].ToString().Replace("'", "").Replace(" ", "")
-                                            , DR["實際出貨數量"].ToString().Replace("'", "").Replace(" ", "")
-                                            , DR["實際出貨金額"].ToString().Replace("'", "").Replace(" ", "")
-                                            , DR["配送商"].ToString().Replace("'", "").Replace(" ", "")
-                                            , DR["TS重量小計(g)"].ToString().Replace("'", "").Replace(" ", "")
-                                            , DR["運費券活動序號"].ToString().Replace("'", "").Replace(" ", "")
-                                            , DR["自訂活動代碼"].ToString().Replace("'", "").Replace(" ", "")
-                                            , DR["交期"].ToString().Replace("'", "").Replace(" ", "")
-                                            , DR["線上訂單建立類型"].ToString().Replace("'", "").Replace(" ", "")
-                                            , ""
-                                            ,""
-                                            , ""
-                                            
+                                         ", 購物車編號
+                                            , 主單編號
+                                            , 訂單編號
+                                            , 轉單日期時間
+                                            , 預計出貨日期
+                                            , 配送方式
+                                            , 通路商
+                                            , 溫層類別
+                                            , 收件人
+                                            , 收件人電話
+                                            , 地址
+                                            , 門市
+                                            , 訂單來源
+                                            , 商品名稱
+                                            , 商品選項
+                                            , 商品料號
+                                            , 數量
+                                            , 商品單價
+                                            , 運費
+                                            , 配送編號
+                                            , 狀態日期
+                                            , 出貨單狀態
+                                            , 訂單狀態
+                                            , 活動代碼
+                                            , 活動名稱
+                                            , 折扣金額
+                                            , 銷售金額折扣後
+                                            , 付款方式
+                                            , 活動折扣金額
+                                            , 折價券活動序號
+                                            , 折價券活動名稱
+                                            , 折價券折扣金額
+                                            , 貨到物流中心日
+                                            , 建議貨到期限
+                                            , 會員編號
+                                            , 商店備註
+                                            , 訂購備註
+                                            , 貨運單備註
+                                            , 驗退原因說明
+                                            , 訂單確認日期
+                                            , 實體會員編號
+                                            , 商品屬性
+                                            , 商品贈品關聯代碼
+                                            , 購買人
+                                            , 購買人會員等級
+                                            , 活動對象
+                                            , 活動會員等級
+                                            , 總成本
+                                            , 是否為加價購品
+                                            , 國碼
+                                            , 收件國家
+                                            , 取消原因
+                                            , 購物車總額
+                                            , 商品頁序號
+                                            , 點數活動名稱
+                                            , 折抵點數
+                                            , 點數折扣金額
+                                            , 已設定為不可退貨商品
+                                            , 郵遞區號
+                                            , 指定到貨日期
+                                            , 指定到貨時段
+                                            , 贈品券活動序號
+                                            , 國家地區運費活動名稱
+                                            , 運費折扣
+                                            , 地區州省份
+                                            , 城市
+                                            , 鄉鎮市區
+                                            , 街道
+                                            , 實際出貨數量
+                                            , 實際出貨金額
+                                            , 配送商
+                                            , TS重量小計g
+                                            , 運費券活動序號
+                                            , 自訂活動代碼
+                                            , 交期
+                                            , 線上訂單建立類型
+                                            , TG001
+                                            , TG002
+                                            , TH003
+
                                         );
 
                 }
