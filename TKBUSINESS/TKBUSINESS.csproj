@@ -230,6 +230,12 @@
     <Compile Include="frmTEMP91APPCOP.Designer.cs">
       <DependentUpon>frmTEMP91APPCOP.cs</DependentUpon>
     </Compile>
+    <Compile Include="fromCOPTATBSTOP.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="fromCOPTATBSTOP.Designer.cs">
+      <DependentUpon>fromCOPTATBSTOP.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="frmADDCOPTCTD.resx">
@@ -306,6 +312,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmTEMP91APPCOP.resx">
       <DependentUpon>frmTEMP91APPCOP.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="fromCOPTATBSTOP.resx">
+      <DependentUpon>fromCOPTATBSTOP.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
