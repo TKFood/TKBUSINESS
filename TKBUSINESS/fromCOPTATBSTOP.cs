@@ -82,6 +82,8 @@ namespace TKBUSINESS
                                     ,TB016 AS '生效日期',TB017 AS '失效日期'
 
                                     ,TB006 AS '規格',TA004 AS '客代',TA005 AS '業務'
+                                    ,TA007 AS '幣別'
+
                                     FROM [TK].dbo.COPTB,[TK].dbo.COPTA
                                     LEFT JOIN [TK].dbo.CMSMV ON MV001=TA005
                                     WHERE 1=1
@@ -130,6 +132,7 @@ namespace TKBUSINESS
                     dataGridView1.Columns["規格"].Width = 100;
                     dataGridView1.Columns["客代"].Width = 100;
                     dataGridView1.Columns["業務"].Width = 100;
+                    dataGridView1.Columns["幣別"].Width = 100;
 
                 }
 
