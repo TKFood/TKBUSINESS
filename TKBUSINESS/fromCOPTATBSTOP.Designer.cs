@@ -236,6 +236,7 @@
             this.button2.TabIndex = 22;
             this.button2.Text = "設失效日期";
             this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // label1
             // 
@@ -267,6 +268,7 @@
             this.button3.TabIndex = 31;
             this.button3.Text = "清空失效日期";
             this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // fromCOPTATBSTOP
             // 
@@ -278,6 +280,7 @@
             this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "fromCOPTATBSTOP";
             this.Text = "fromCOPTATBSTOP";
+            this.Load += new System.EventHandler(this.fromCOPTATBSTOP_Load);
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.splitContainer1.Panel1.ResumeLayout(false);
