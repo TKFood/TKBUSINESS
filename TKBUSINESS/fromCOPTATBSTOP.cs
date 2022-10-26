@@ -331,11 +331,41 @@ namespace TKBUSINESS
         }
         private void button2_Click(object sender, EventArgs e)
         {
-            SETTB017MB018();
+
+            DialogResult dialogResult = MessageBox.Show("更新?", "更新?", MessageBoxButtons.YesNo);
+            if (dialogResult == DialogResult.Yes)
+            {
+                SETTB017MB018();
+            }
+            else if (dialogResult == DialogResult.No)
+            {
+                //do something else
+            }
+
+            if (!string.IsNullOrEmpty(textBox1.Text))
+            {
+                Search(textBox1.Text);
+            }
         }
         private void button3_Click(object sender, EventArgs e)
         {
-            SETTB017MB018NULL();
+
+            DialogResult dialogResult = MessageBox.Show("更新?", "更新?", MessageBoxButtons.YesNo);
+            if (dialogResult == DialogResult.Yes)
+            {
+                SETTB017MB018NULL();
+            }
+            else if (dialogResult == DialogResult.No)
+            {
+                //do something else
+            }
+
+            if (!string.IsNullOrEmpty(textBox1.Text))
+            {
+                Search(textBox1.Text);
+            }
+
+
         }
 
         #endregion
