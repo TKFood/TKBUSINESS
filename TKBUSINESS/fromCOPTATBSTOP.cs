@@ -214,10 +214,25 @@ namespace TKBUSINESS
                 }
 
             }
-
             TA001TA002TB004TB016 = TA001TA002TB004TB016 + "''";
 
+            foreach (DataGridViewRow dr in this.dataGridView1.Rows)
+            {
+                if (dr.Cells[0].Value != null && (bool)dr.Cells[0].Value)
+                {
+
+
+                    MB001MB002MB003MB004MB017 = MB001MB002MB003MB004MB017 + "'" + dr.Cells["客代"].Value.ToString() + dr.Cells["品號"].Value.ToString() + dr.Cells["報價單位"].Value.ToString() + dr.Cells["幣別"].Value.ToString() + dr.Cells["生效日期"].Value.ToString() + "'";
+
+                    MB001MB002MB003MB004MB017 = MB001MB002MB003MB004MB017 + ",";
+
+                }
+
+            }
+            MB001MB002MB003MB004MB017 = MB001MB002MB003MB004MB017 + "''";
+
             UPDATECOPTBTB017(TA001TA002TB004TB016, dateTimePicker1.Value.ToString("yyyyMMdd"));
+            UPDATECOMMBMB018(MB001MB002MB003MB004MB017, dateTimePicker1.Value.ToString("yyyyMMdd"));
 
             //MessageBox.Show(TA001TA002TB004);
         }
@@ -239,11 +254,25 @@ namespace TKBUSINESS
                 }
 
             }
-
             TA001TA002TB004TB016 = TA001TA002TB004TB016 + "''";
 
-            UPDATECOPTBTB017(TA001TA002TB004TB016,"");
+            foreach (DataGridViewRow dr in this.dataGridView1.Rows)
+            {
+                if (dr.Cells[0].Value != null && (bool)dr.Cells[0].Value)
+                {
 
+
+                    MB001MB002MB003MB004MB017 = MB001MB002MB003MB004MB017 + "'" + dr.Cells["客代"].Value.ToString() + dr.Cells["品號"].Value.ToString() + dr.Cells["報價單位"].Value.ToString() + dr.Cells["幣別"].Value.ToString() + dr.Cells["生效日期"].Value.ToString() + "'";
+
+                    MB001MB002MB003MB004MB017 = MB001MB002MB003MB004MB017 + ",";
+
+                }
+
+            }
+            MB001MB002MB003MB004MB017 = MB001MB002MB003MB004MB017 + "''";
+
+            UPDATECOPTBTB017(TA001TA002TB004TB016,"");
+            UPDATECOMMBMB018(MB001MB002MB003MB004MB017, "");
             //MessageBox.Show(TA001TA002TB004);
         }
 
@@ -312,9 +341,70 @@ namespace TKBUSINESS
             }
         }
 
-        public void UPDATECOMMBMB018()
+        public void UPDATECOMMBMB018(string MB001MB002MB003MB004MB017, string MB018)
         {
+            try
+            {
+                //20210902密
+                Class1 TKID = new Class1();//用new 建立類別實體
+                SqlConnectionStringBuilder sqlsb = new SqlConnectionStringBuilder(ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString);
 
+                //資料庫使用者密碼解密
+                sqlsb.Password = TKID.Decryption(sqlsb.Password);
+                sqlsb.UserID = TKID.Decryption(sqlsb.UserID);
+
+                String connectionString;
+                sqlConn = new SqlConnection(sqlsb.ConnectionString);
+
+
+                sqlConn.Close();
+                sqlConn.Open();
+                tran = sqlConn.BeginTransaction();
+
+                sbSql.Clear();
+
+                //AND[購物車編號] = 'TG220719S01169'
+                //COPTG --AND [購物車編號]  NOT IN (SELECT TG020 FROM [TK].dbo.COPTG WHERE ISNULL(TG020,'')<>'')
+                //COPTH --AND [訂單編號]  NOT IN (SELECT TH074 FROM [TK].dbo.COPTH WHERE ISNULL(TH074,'')<>'')
+
+                //INSERT INTO [test0923].[dbo].[COPTG]
+                sbSql.AppendFormat(@" 
+                                    UPDATE [TK].dbo.COPMB
+                                    SET MB018='{1}'
+                                    WHERE LTRIM(RTRIM(MB001))+LTRIM(RTRIM(MB002))+LTRIM(RTRIM(MB003))+LTRIM(RTRIM(MB004))+LTRIM(RTRIM(MB017))
+                                    IN
+                                    (
+                                    {0}
+                                    )
+                                       
+                                        ", MB001MB002MB003MB004MB017, MB018);
+
+
+                cmd.Connection = sqlConn;
+                cmd.CommandTimeout = 60;
+                cmd.CommandText = sbSql.ToString();
+                cmd.Transaction = tran;
+                result = cmd.ExecuteNonQuery();
+
+                if (result == 0)
+                {
+                    tran.Rollback();    //交易取消
+                }
+                else
+                {
+                    tran.Commit();      //執行交易                      
+                }
+
+            }
+            catch
+            {
+
+            }
+
+            finally
+            {
+                sqlConn.Close();
+            }
         }
 
    
@@ -332,7 +422,7 @@ namespace TKBUSINESS
         private void button2_Click(object sender, EventArgs e)
         {
 
-            DialogResult dialogResult = MessageBox.Show("更新?", "更新?", MessageBoxButtons.YesNo);
+            DialogResult dialogResult = MessageBox.Show("更新失效日?", "更新失效日?", MessageBoxButtons.YesNo);
             if (dialogResult == DialogResult.Yes)
             {
                 SETTB017MB018();
@@ -350,7 +440,7 @@ namespace TKBUSINESS
         private void button3_Click(object sender, EventArgs e)
         {
 
-            DialogResult dialogResult = MessageBox.Show("更新?", "更新?", MessageBoxButtons.YesNo);
+            DialogResult dialogResult = MessageBox.Show("清空失效日?", "清空失效日?", MessageBoxButtons.YesNo);
             if (dialogResult == DialogResult.Yes)
             {
                 SETTB017MB018NULL();
