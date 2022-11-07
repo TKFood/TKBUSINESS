@@ -2114,7 +2114,7 @@ namespace TKBUSINESS
                                         ,'' AS [TG162]
                                         ,'' AS [TG163]
                                         ,'' AS [UDF01]
-                                        ,[主單編號] AS [UDF02]
+                                        ,(SELECT [主單編號] FROM [TKBUSINESS].[dbo].[TEMP91APPCOP] TEMP WHERE TEMP.購物車編號=[TEMP91APPCOP].購物車編號 GROUP BY [主單編號]  FOR XML PATH('')) AS [UDF02]
                                         ,'' AS [UDF03]
                                         ,'' AS [UDF04]
                                         ,'' AS [UDF05]
@@ -2128,7 +2128,7 @@ namespace TKBUSINESS
                                         AND MA001='11127673'
                                         AND [購物車編號]  NOT IN (SELECT SUBSTRING(TG020,1,14) FROM [TK].dbo.COPTG WHERE ISNULL(TG020,'')<>'')
                                         AND [TEMP91APPCOP].TG002 LIKE '{0}%'
-                                        GROUP BY TEMP91APPCOP.購物車編號,TEMP91APPCOP.TG001,TEMP91APPCOP.TG002,TEMP91APPCOP.配送方式,TEMP91APPCOP.地址,TEMP91APPCOP.收件人,TEMP91APPCOP.收件人電話,TEMP91APPCOP.購物車總額,TEMP91APPCOP.通路商,TEMP91APPCOP.主單編號
+                                        GROUP BY TEMP91APPCOP.購物車編號,TEMP91APPCOP.TG001,TEMP91APPCOP.TG002,TEMP91APPCOP.配送方式,TEMP91APPCOP.地址,TEMP91APPCOP.收件人,TEMP91APPCOP.收件人電話,TEMP91APPCOP.購物車總額,TEMP91APPCOP.通路商
                                         ,MA001,MA002,MA003,MA010,MA037,MA025,MA015,MA016
 
 
@@ -3840,6 +3840,84 @@ namespace TKBUSINESS
                 sqlConn.Close();
             }
         }
+
+        public void CHECKID()
+        {
+
+            try
+            {
+                sbSql.Clear();
+
+                //20210902密
+                Class1 TKID = new Class1();//用new 建立類別實體
+                SqlConnectionStringBuilder sqlsb = new SqlConnectionStringBuilder(ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString);
+
+                //資料庫使用者密碼解密
+                sqlsb.Password = TKID.Decryption(sqlsb.Password);
+                sqlsb.UserID = TKID.Decryption(sqlsb.UserID);
+
+                String connectionString;
+                sqlConn = new SqlConnection(sqlsb.ConnectionString);
+
+                sbSql.AppendFormat(@"
+                                    SELECT [購物車編號],COUNT([購物車編號]) AS NUM
+                                    FROM(
+                                    SELECT DISTINCT
+                                    [購物車編號]
+                                    ,[主單編號]
+                                    FROM [TKBUSINESS].[dbo].[TEMP91APPCOP]
+                                    GROUP BY [購物車編號],[主單編號]
+                                    ) AS TEMP
+                                    GROUP BY [購物車編號]
+                                    HAVING COUNT([購物車編號])>=2
+                                    ");
+
+                adapter = new SqlDataAdapter(sbSql.ToString(), sqlConn);
+                sqlCmdBuilder = new SqlCommandBuilder(adapter);
+
+                sqlConn.Open();
+                ds.Clear();
+                adapter.Fill(ds, "ds");
+                sqlConn.Close();
+
+
+                if (ds.Tables["ds"].Rows.Count == 0)
+                {
+                    
+
+                }
+                else
+                {
+                    StringBuilder ID = new StringBuilder();
+
+                    ID.AppendFormat(@"以下是購物車編號跟主單編號有重複 ");
+                    foreach(DataRow DR in ds.Tables["ds"].Rows)
+                    {
+                        ID.AppendFormat(@" 
+                                        購物車編號='{0}'
+                                        ", DR["購物車編號"].ToString());
+
+                        ID.AppendLine();
+                    }
+
+                    MessageBox.Show(ID.ToString());
+                    
+
+                }
+
+
+
+            }
+            catch
+            {
+
+            }
+            finally
+            {
+
+            }
+        }
+
         #endregion
 
         #region BUTTON
@@ -3908,7 +3986,11 @@ namespace TKBUSINESS
             ADDERPCOPTGCOPTH(dateTimePicker2.Value.ToString("yyyyMMdd"));
         }
 
-       
+        private void button7_Click(object sender, EventArgs e)
+        {
+            CHECKID();
+        }
+
         #endregion
 
 

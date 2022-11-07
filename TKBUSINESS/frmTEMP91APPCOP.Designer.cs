@@ -57,6 +57,7 @@
             this.button3 = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.button7 = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -140,9 +141,10 @@
             this.tableLayoutPanel1.Controls.Add(this.button5, 5, 5);
             this.tableLayoutPanel1.Controls.Add(this.dateTimePicker3, 4, 5);
             this.tableLayoutPanel1.Controls.Add(this.label7, 3, 5);
+            this.tableLayoutPanel1.Controls.Add(this.button7, 0, 5);
             this.tableLayoutPanel1.Controls.Add(this.label5, 3, 3);
-            this.tableLayoutPanel1.Controls.Add(this.textBox6, 4, 3);
             this.tableLayoutPanel1.Controls.Add(this.button3, 5, 3);
+            this.tableLayoutPanel1.Controls.Add(this.textBox6, 4, 3);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(4);
@@ -328,7 +330,7 @@
             // 
             this.comboBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(469, 50);
+            this.comboBox1.Location = new System.Drawing.Point(469, 48);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(128, 24);
             this.comboBox1.TabIndex = 39;
@@ -421,6 +423,19 @@
             this.tabPage2.Text = "tabPage2";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
+            // button7
+            // 
+            this.button7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.button7.Font = new System.Drawing.Font("新細明體", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.button7.Location = new System.Drawing.Point(4, 204);
+            this.button7.Margin = new System.Windows.Forms.Padding(4);
+            this.button7.Name = "button7";
+            this.button7.Size = new System.Drawing.Size(176, 32);
+            this.button7.TabIndex = 40;
+            this.button7.Text = "檢查購物車跟主單是否相衝";
+            this.button7.UseVisualStyleBackColor = true;
+            this.button7.Click += new System.EventHandler(this.button7_Click);
+            // 
             // frmTEMP91APPCOP
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 16F);
@@ -475,5 +490,6 @@
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.Button button6;
         private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.Button button7;
     }
 }
