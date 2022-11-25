@@ -103,7 +103,7 @@ namespace TKBUSINESS
                             SELECT LA006
                             FROM [TK].dbo.SASLA
                             WHERE CONVERT(NVARCHAR,LA015,112)>='{0}' AND CONVERT(NVARCHAR,LA015,112)<='{1}' 
-                            AND LA006 LIKE '2%'
+                           
                             GROUP BY LA006
 
                             )
@@ -155,7 +155,7 @@ namespace TKBUSINESS
 
         private void button4_Click(object sender, EventArgs e)
         {
-            SETFASTREPORT(textBox1.Text, dateTimePicker1.Value.ToString("yyyyMM") + "01", dateTimePicker2.Value.ToString("yyyyMM") + "31");
+            SETFASTREPORT(textBox1.Text.Trim(), dateTimePicker1.Value.ToString("yyyyMM") + "01", dateTimePicker2.Value.ToString("yyyyMM") + "31");
         }
 
         private void button2_Click(object sender, EventArgs e)
