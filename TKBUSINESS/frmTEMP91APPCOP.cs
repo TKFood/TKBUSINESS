@@ -2024,7 +2024,7 @@ namespace TKBUSINESS
                                         ,'5' AS [TG072]
                                         ,'' AS [TG073]
                                         ,'' AS [TG074]
-                                        ,[通路商]+'-'+[配送方式]+'-'+[收件人] AS [TG075]
+                                        ,CONVERT(NVARCHAR(30),[通路商]+'-'+[配送方式]+'-'+[收件人]) AS [TG075]
                                         ,'' AS [TG076]
                                         ,'' AS [TG077]
                                         ,'' AS [TG078]
