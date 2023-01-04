@@ -96,7 +96,6 @@ namespace TKBUSINESS
 
             TableDataSource table = report1.GetDataSource("Table") as TableDataSource;
             table.SelectCommand = SQL1.ToString();
-
             TableDataSource table1 = report1.GetDataSource("Table1") as TableDataSource;
             table1.SelectCommand = SQL2.ToString();
 
