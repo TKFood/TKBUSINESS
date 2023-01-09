@@ -2451,6 +2451,7 @@ namespace TKBUSINESS
                                         WHERE 1=1
 
                                         AND MA001='11127673'
+                                        AND ISNULL(MB002,'')<>''
                                         AND [訂單編號]  NOT IN (SELECT TH074 FROM [TK].dbo.COPTH WHERE ISNULL(TH074,'')<>'')
                                         AND TG002 LIKE '{0}%'
 
