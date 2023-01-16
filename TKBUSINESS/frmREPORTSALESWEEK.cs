@@ -119,12 +119,14 @@ namespace TKBUSINESS
                                 SELECT TC001 AS '訂單單別',TC002 AS '訂單單號',MA002 AS '客戶簡稱'
                                 ,CASE WHEN TC016='1' THEN '應稅內含' WHEN TC016='2' THEN '應稅外加' END  AS '課稅別'
                                 ,ME002 AS '部門',TD005 AS '品名',TD008 AS 	'訂單數量',TD009 AS '已交數量',TD024 AS	'贈品數量',TD025 AS	'贈品已交量',(TD008-TD009) AS  '未出數量',TD010 AS 	'單位',TD011 AS  '單價',(TD008-TD009)*TD011 AS '未出貨金額',TD013 AS'預交日'
+		                        ,(TD009)*TD011 AS '已出貨金額'
+                                
                                 FROM [TK].dbo.COPTC,[TK].dbo.COPTD,[TK].dbo.COPMA,[TK].dbo.CMSME
                                 WHERE TC001=TD001 AND TC002=TD002
                                 AND TC004=MA001
                                 AND TC005=ME001
                                 AND TC027 IN ('Y','N')
-                                AND TD016 IN ('N')
+                             
                                 AND TD013>='{0}' AND TD013<='{1}'
                                 AND TC005 IN ('117700','117100','117200','117400')
                                 AND TC001 NOT IN ('A223')
@@ -132,21 +134,23 @@ namespace TKBUSINESS
                                 SELECT TC001 AS '訂單單別',TC002 AS '訂單單號',MA002 AS '客戶簡稱'
                                 ,CASE WHEN TC016='1' THEN '應稅內含' WHEN TC016='2' THEN '應稅外加' END  AS '課稅別'
                                 ,ME002 AS '部門',TD005 AS '品名',TD008 AS 	'訂單數量',TD009 AS '已交數量',TD024 AS	'贈品數量',TD025 AS	'贈品已交量',(TD008-TD009) AS  '未出數量',TD010 AS 	'單位',TD011 AS  '單價',(TD008-TD009)*TD011 AS '未出貨金額',TD013 AS'預交日'
+                           		,(TD009)*TD011 AS '已出貨金額'
+
                                 FROM [TK].dbo.COPTC,[TK].dbo.COPTD,[TK].dbo.COPMA,[TK].dbo.CMSME
                                 WHERE TC001=TD001 AND TC002=TD002
                                 AND TC004=MA001
                                 AND TC005=ME001
                                 AND TC027 IN ('Y','N')
-                                AND TD016 IN ('N')
-                                 AND TD013>='{0}' AND TD013<='{1}'
+                        
+                                AND TD013>='{0}' AND TD013<='{1}'
                                 AND TC005 IN ('117700','117100','117200','117400')
                                 AND TC001  IN ('A223')
                                 AND TC004 NOT IN ('2248500100')
                                 AND TC004 NOT IN ('2248500100')
                                 ) AS TEMP 
                                 ORDER BY 訂單單別,未出貨金額 DESC
-
-
+ 
+ 
                             ", SDATES,EDATES);
 
             return SB;
@@ -165,12 +169,14 @@ namespace TKBUSINESS
                                 SELECT TC001 AS '訂單單別',TC002 AS '訂單單號',MA002 AS '客戶簡稱'
                                 ,CASE WHEN TC016='1' THEN '應稅內含' WHEN TC016='2' THEN '應稅外加' END  AS '課稅別'
                                 ,ME002 AS '部門',TD005 AS '品名',TD008 AS 	'訂單數量',TD009 AS '已交數量',TD024 AS	'贈品數量',TD025 AS	'贈品已交量',(TD008-TD009) AS  '未出數量',TD010 AS 	'單位',TD011 AS  '單價',(TD008-TD009)*TD011 AS '未出貨金額',TD013 AS'預交日'
+                                ,(TD009)*TD011 AS '已出貨金額'
+
                                 FROM [TK].dbo.COPTC,[TK].dbo.COPTD,[TK].dbo.COPMA,[TK].dbo.CMSME
                                 WHERE TC001=TD001 AND TC002=TD002
                                 AND TC004=MA001
                                 AND TC005=ME001
                                 AND TC027 IN ('Y','N')
-                                AND TD016 IN ('N')
+                            
                                 AND TD013>='{0}' AND TD013<='{1}'
                                 AND TC005 IN ('117800','117500','117600')
                                 AND TC001 NOT IN ('A223')
@@ -178,11 +184,14 @@ namespace TKBUSINESS
                                 SELECT TC001 AS '訂單單別',TC002 AS '訂單單號',MA002 AS '客戶簡稱'
                                 ,CASE WHEN TC016='1' THEN '應稅內含' WHEN TC016='2' THEN '應稅外加' END  AS '課稅別'
                                 ,ME002 AS '部門',TD005 AS '品名',TD008 AS 	'訂單數量',TD009 AS '已交數量',TD024 AS	'贈品數量',TD025 AS	'贈品已交量',(TD008-TD009) AS  '未出數量',TD010 AS 	'單位',TD011 AS  '單價',(TD008-TD009)*TD011 AS '未出貨金額',TD013 AS'預交日'
+                                  ,(TD009)*TD011 AS '已出貨金額'
+
                                 FROM [TK].dbo.COPTC,[TK].dbo.COPTD,[TK].dbo.COPMA,[TK].dbo.CMSME
                                 WHERE TC001=TD001 AND TC002=TD002
                                 AND TC004=MA001
                                 AND TC005=ME001
-                                AND TD016 IN ('N')
+                                AND TC027 IN ('Y','N')
+
                                 AND TD013>='{0}' AND TD013<='{1}'
                                 AND TC005 IN ('117800','117500','117600')
                                 AND TC001  IN ('A223')
