@@ -339,6 +339,9 @@ namespace TKBUSINESS
 
         public void SETFASTREPORT6(string SDAYS, string EDAYS, string LA001)
         {
+            SDAYS = SDAYS + "01";
+            EDAYS = EDAYS + "31";
+
             //20210902密
             Class1 TKID = new Class1();//用new 建立類別實體
             SqlConnectionStringBuilder sqlsb = new SqlConnectionStringBuilder(ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString);
@@ -393,18 +396,18 @@ namespace TKBUSINESS
             StringBuilder SB = new StringBuilder();
 
             SB.AppendFormat(@" 
-                          
-                            SELECT LA001,MB002,SUBSTRING(TG003,1,6) AS 'YM',SUM(TH037) AS 'MONEY',SUM(LA011) AS 'NUM'
-                            FROM [TK].dbo.COPTG,[TK].dbo.COPTH,[TK].dbo.INVLA,[TK].dbo.INVMB
-                            WHERE TG001=TH001 AND TG002=TH002
-                            AND LA006=TH001 AND LA007=TH002 AND LA008=TH003
-                            AND TH004=MB001
-                            AND TG023='Y'
-                            AND (TH004 LIKE '4%' OR TH004 LIKE '5%' )
-                            AND TG003>='{0}' AND TG003<='{1}'
+                            SELECT SUBSTRING(LA004,1,6) AS 'YM',LA001,MB002,SUM(LA011) LA011,SUM(LA013) LA013
+                            FROM [TK].dbo.INVLA WITH(NOLOCK)
+                            LEFT JOIN [TK].dbo.CMSMQ WITH(NOLOCK) ON LA006=MQ001
+                            ,[TK].dbo.INVMB WITH(NOLOCK)
+                            WHERE LA001=MB001
+                            AND (MQ008='2' OR (ISNULL(MQ008,'')='' AND LA005=-1))
+                            AND LA004>='{0}' AND LA004<='{1}'
                             AND LA001 IN ({2})
-                            GROUP BY  LA001,MB002,SUBSTRING(TG003,1,6)
-                            ORDER BY  LA001,MB002, SUBSTRING(TG003,1,6)
+
+                            GROUP BY  LA001,MB002,LA005,SUBSTRING(LA004,1,6)
+                            ORDER BY SUBSTRING(LA004,1,6),LA001
+
                             ", SDAYS, EDAYS, LA001ID);
 
             return SB;

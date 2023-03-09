@@ -1,20 +1,20 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Report ScriptLanguage="CSharp" ReportInfo.Created="09/05/2019 13:48:33" ReportInfo.Modified="03/09/2023 14:21:07" ReportInfo.CreatorVersion="2016.4.4.0">
+<Report ScriptLanguage="CSharp" ReportInfo.Created="09/05/2019 13:48:33" ReportInfo.Modified="03/09/2023 15:46:37" ReportInfo.CreatorVersion="2016.4.4.0">
   <Dictionary>
-    <MsSqlDataConnection Name="Connection" ConnectionString="rijcmlqHwzMSgwTFaHpjtG3vsOj8Zy6q+uhwpDsytgWqwZQZyEQUQyQ022aWUGqU90pHzzNjHuzu89K+RQ2LIBVx1fpgNkNJhwC4eetn2/Uy0fMrO7zDUE5AmRb+0bcYI+lxqpNK7VAg28EMb2zujBtCWMs8uR7KE3TT1XHtlPqNg0WX9LMrFCHwrnuIbvW6yFBcz5D">
-      <TableDataSource Name="Table" DataType="System.Int32" Enabled="true" SelectCommand="SELECT LA001,MB002,SUBSTRING(TG003,1,6) AS 'YM',SUM(TH037) AS 'MONEY',SUM(LA011) AS 'NUM'&#13;&#10;FROM [TK].dbo.COPTG,[TK].dbo.COPTH,[TK].dbo.INVLA,[TK].dbo.INVMB&#13;&#10;WHERE TG001=TH001 AND TG002=TH002&#13;&#10;AND LA006=TH001 AND LA007=TH002 AND LA008=TH003&#13;&#10;AND TH004=MB001&#13;&#10;AND TG023='Y'&#13;&#10;AND (TH004 LIKE '4%' OR TH004 LIKE '5%' )&#13;&#10;AND TG003&gt;='20220101' AND TG003&lt;='20230301'&#13;&#10;AND LA001 IN ('40102910320200')&#13;&#10;GROUP BY  LA001,MB002,SUBSTRING(TG003,1,6)&#13;&#10;ORDER BY  LA001,MB002, SUBSTRING(TG003,1,6)">
+    <MsSqlDataConnection Name="Connection" ConnectionString="rijcmlqHwzMSgwTFaHpjtG3vsOj8Zy6q+uhwpDsytgWqwZQZyEQUQyQ022aWUGqU90pHzzNjHuzu89K+RQ2LIBVx1fpgNkNJhwC4eetn2/Uy0fMrO7zDUE5AmRb+0bcYI+lxqpNK7VAg28EMb2zujBtCWMs8uR7KE3TT1XHtlPqNg0WX9J7b5dNVwYwpa9ppGfwLrnp">
+      <TableDataSource Name="Table" DataType="System.Int32" Enabled="true" SelectCommand="SELECT SUBSTRING(LA004,1,6) AS 'YM',LA001,MB002,SUM(LA011) LA011,SUM(LA013) LA013&#13;&#10;FROM [TK].dbo.INVLA WITH(NOLOCK)&#13;&#10;LEFT JOIN [TK].dbo.CMSMQ WITH(NOLOCK) ON LA006=MQ001&#13;&#10;,[TK].dbo.INVMB WITH(NOLOCK)&#13;&#10;WHERE LA001=MB001&#13;&#10;AND (MQ008='2' OR (ISNULL(MQ008,'')='' AND LA005=-1))&#13;&#10;AND LA004&gt;='20220101' AND LA004&lt;='20230309'&#13;&#10;AND LA001 IN ('40102910320200')&#13;&#10;GROUP BY  LA001,MB002,LA005,SUBSTRING(LA004,1,6)&#13;&#10;ORDER BY SUBSTRING(LA004,1,6),LA001">
         <Column Name="YM" DataType="System.String"/>
-        <Column Name="MONEY" DataType="System.Decimal"/>
-        <Column Name="NUM" DataType="System.Decimal"/>
         <Column Name="LA001" DataType="System.String"/>
         <Column Name="MB002" DataType="System.String"/>
+        <Column Name="LA011" DataType="System.Decimal"/>
+        <Column Name="LA013" DataType="System.Decimal"/>
       </TableDataSource>
     </MsSqlDataConnection>
   </Dictionary>
   <ReportPage Name="Page1" Landscape="true" PaperWidth="400" PaperHeight="300">
     <PageHeaderBand Name="PageHeader1" Width="1436.4" Height="18.9"/>
     <DataBand Name="Data1" Top="23.5" Width="1436.4" Height="71.07">
-      <MatrixObject Name="Matrix1" Width="264.29" Height="71.07" Border.Lines="All" FixedRows="2" FixedColumns="2" CellsSideBySide="true" DataSource="Table">
+      <MatrixObject Name="Matrix1" Width="276.66" Height="71.07" Border.Lines="All" FixedRows="2" FixedColumns="2" CellsSideBySide="true" DataSource="Table">
         <MatrixColumns>
           <Header Expression="[Table.YM]"/>
         </MatrixColumns>
@@ -23,13 +23,13 @@
           <Header Expression="[Table.MB002]" Totals="false"/>
         </MatrixRows>
         <MatrixCells>
-          <Cell Expression="[Table.MONEY]"/>
-          <Cell Expression="[Table.NUM]"/>
+          <Cell Expression="[Table.LA013]"/>
+          <Cell Expression="[Table.LA011]"/>
         </MatrixCells>
         <TableColumn Name="Column1" Width="52.31" AutoSize="true"/>
         <TableColumn Name="Column2" Width="52.31" AutoSize="true"/>
         <TableColumn Name="Column3" Width="52.31" AutoSize="true"/>
-        <TableColumn Name="Column4" Width="39.94" AutoSize="true"/>
+        <TableColumn Name="Column4" Width="52.31" AutoSize="true"/>
         <TableColumn Name="Column5" Width="33.71" AutoSize="true"/>
         <TableColumn Name="Column6" Width="33.71" AutoSize="true"/>
         <TableRow Name="Row1" Height="18.19" AutoSize="true">
@@ -51,8 +51,8 @@
         <TableRow Name="Row3" Height="16.5" AutoSize="true">
           <TableCell Name="Cell7" Border.Lines="All" Text="[LA001]" HorzAlign="Center" VertAlign="Center"/>
           <TableCell Name="Cell8" Border.Lines="All" Text="[MB002]" VertAlign="Center"/>
-          <TableCell Name="Cell9" Border.Lines="All" Text="[MONEY]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="0" Format.DecimalSeparator="." Format.GroupSeparator="," Format.NegativePattern="1" HorzAlign="Right" VertAlign="Center"/>
-          <TableCell Name="Cell14" Border.Lines="All" Text="[NUM]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="0" Format.DecimalSeparator="." Format.GroupSeparator="," Format.NegativePattern="1" HorzAlign="Right" VertAlign="Center"/>
+          <TableCell Name="Cell9" Border.Lines="All" Text="[LA013]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="0" Format.DecimalSeparator="." Format.GroupSeparator="," Format.NegativePattern="1" HorzAlign="Right" VertAlign="Center"/>
+          <TableCell Name="Cell14" Border.Lines="All" Text="[LA011]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="0" Format.DecimalSeparator="." Format.GroupSeparator="," Format.NegativePattern="1" HorzAlign="Right" VertAlign="Center"/>
           <TableCell Name="Cell15" Border.Lines="All" Format="Number" Format.UseLocale="false" Format.DecimalDigits="0" Format.DecimalSeparator="." Format.GroupSeparator="," Format.NegativePattern="1" HorzAlign="Right" VertAlign="Center"/>
           <TableCell Name="Cell23" Border.Lines="All" Format="Number" Format.UseLocale="false" Format.DecimalDigits="0" Format.DecimalSeparator="." Format.GroupSeparator="," Format.NegativePattern="1" HorzAlign="Right" VertAlign="Center"/>
         </TableRow>
