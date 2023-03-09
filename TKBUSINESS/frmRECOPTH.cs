@@ -375,11 +375,20 @@ namespace TKBUSINESS
             string[] SARRARY = ST.Split(',');
             string LA001ID = null;
 
-            foreach (string S in SARRARY)
+            if(SARRARY.Length>=2)
             {
-                LA001ID = LA001ID + "'" + S + "',";
+                foreach (string S in SARRARY)
+                {
+                    LA001ID = LA001ID + "'" + S + "',";
+                }
+                LA001ID = LA001ID + "''";
             }
-            LA001ID = LA001ID + "''";
+            else
+            {
+                LA001ID = "'" + LA001 + "'";
+
+            }
+           
 
             StringBuilder SB = new StringBuilder();
 
@@ -396,7 +405,7 @@ namespace TKBUSINESS
                             AND LA001 IN ({2})
                             GROUP BY  LA001,MB002,SUBSTRING(TG003,1,6)
                             ORDER BY  LA001,MB002, SUBSTRING(TG003,1,6)
-                            ", SDAYS, EDAYS, LA001);
+                            ", SDAYS, EDAYS, LA001ID);
 
             return SB;
 

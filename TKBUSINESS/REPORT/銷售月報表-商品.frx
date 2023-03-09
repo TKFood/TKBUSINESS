@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Report ScriptLanguage="CSharp" ReportInfo.Created="09/05/2019 13:48:33" ReportInfo.Modified="09/08/2022 09:56:40" ReportInfo.CreatorVersion="2016.4.4.0">
+<Report ScriptLanguage="CSharp" ReportInfo.Created="09/05/2019 13:48:33" ReportInfo.Modified="03/09/2023 14:21:07" ReportInfo.CreatorVersion="2016.4.4.0">
   <Dictionary>
-    <MsSqlDataConnection Name="Connection" ConnectionString="rijcmlqHwzMSgwTFaHpjtG3vsOj8Zy6q+uhwpDsytgWqwZQZyEQUQyQ022aWUGqU90pHzzNjHuzu89K+RQ2LIBVx1fpgNkNJhwC4eetn2/Uy0fMrO7zDUE5AmRb+0bcYI+lxqpNK7VAg28EMb2zujBtCWMs8uR7KE3TT1XHtlPqNg0WX9I/aMpakbzj1gv0xce/UNzd">
-      <TableDataSource Name="Table" DataType="System.Int32" Enabled="true" SelectCommand="SELECT LA001,MB002,SUBSTRING(TG003,1,6) AS 'YM',SUM(TH037) AS 'MONEY',SUM(LA011) AS 'NUM'&#13;&#10;FROM [TK].dbo.COPTG,[TK].dbo.COPTH,[TK].dbo.INVLA,[TK].dbo.INVMB&#13;&#10;WHERE TG001=TH001 AND TG002=TH002&#13;&#10;AND LA006=TH001 AND LA007=TH002 AND LA008=TH003&#13;&#10;AND TH004=MB001&#13;&#10;AND TG023='Y'&#13;&#10;AND (TH004 LIKE '4%' OR TH004 LIKE '5%' )&#13;&#10;AND TG003&gt;='20220601' AND TG003&lt;='20220831'&#13;&#10;AND LA001 IN ('40100210810010')&#13;&#10;GROUP BY  LA001,MB002,SUBSTRING(TG003,1,6)&#13;&#10;ORDER BY  LA001,MB002, SUBSTRING(TG003,1,6)     ">
+    <MsSqlDataConnection Name="Connection" ConnectionString="rijcmlqHwzMSgwTFaHpjtG3vsOj8Zy6q+uhwpDsytgWqwZQZyEQUQyQ022aWUGqU90pHzzNjHuzu89K+RQ2LIBVx1fpgNkNJhwC4eetn2/Uy0fMrO7zDUE5AmRb+0bcYI+lxqpNK7VAg28EMb2zujBtCWMs8uR7KE3TT1XHtlPqNg0WX9LMrFCHwrnuIbvW6yFBcz5D">
+      <TableDataSource Name="Table" DataType="System.Int32" Enabled="true" SelectCommand="SELECT LA001,MB002,SUBSTRING(TG003,1,6) AS 'YM',SUM(TH037) AS 'MONEY',SUM(LA011) AS 'NUM'&#13;&#10;FROM [TK].dbo.COPTG,[TK].dbo.COPTH,[TK].dbo.INVLA,[TK].dbo.INVMB&#13;&#10;WHERE TG001=TH001 AND TG002=TH002&#13;&#10;AND LA006=TH001 AND LA007=TH002 AND LA008=TH003&#13;&#10;AND TH004=MB001&#13;&#10;AND TG023='Y'&#13;&#10;AND (TH004 LIKE '4%' OR TH004 LIKE '5%' )&#13;&#10;AND TG003&gt;='20220101' AND TG003&lt;='20230301'&#13;&#10;AND LA001 IN ('40102910320200')&#13;&#10;GROUP BY  LA001,MB002,SUBSTRING(TG003,1,6)&#13;&#10;ORDER BY  LA001,MB002, SUBSTRING(TG003,1,6)">
         <Column Name="YM" DataType="System.String"/>
         <Column Name="MONEY" DataType="System.Decimal"/>
         <Column Name="NUM" DataType="System.Decimal"/>
@@ -13,7 +13,7 @@
   </Dictionary>
   <ReportPage Name="Page1" Landscape="true" PaperWidth="400" PaperHeight="300">
     <PageHeaderBand Name="PageHeader1" Width="1436.4" Height="18.9"/>
-    <DataBand Name="Data1" Top="23.39" Width="1436.4" Height="71.07">
+    <DataBand Name="Data1" Top="23.5" Width="1436.4" Height="71.07">
       <MatrixObject Name="Matrix1" Width="264.29" Height="71.07" Border.Lines="All" FixedRows="2" FixedColumns="2" CellsSideBySide="true" DataSource="Table">
         <MatrixColumns>
           <Header Expression="[Table.YM]"/>
@@ -66,6 +66,6 @@
         </TableRow>
       </MatrixObject>
     </DataBand>
-    <PageFooterBand Name="PageFooter1" Top="98.96" Width="1436.4" Height="18.9"/>
+    <PageFooterBand Name="PageFooter1" Top="99.17" Width="1436.4" Height="18.9"/>
   </ReportPage>
 </Report>
