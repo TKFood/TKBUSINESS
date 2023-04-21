@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report ScriptLanguage="CSharp" ReportInfo.Created="04/21/2023 11:36:41" ReportInfo.Modified="04/21/2023 11:47:54" ReportInfo.CreatorVersion="2016.4.4.0">
+  <Dictionary>
+    <MsSqlDataConnection Name="Connection" ConnectionString="rijcmlqHwzMSgwTFaHpjtG3vsOj8Zy6q+uhwpDsytgWqwZQZyEQUQyQ022aWUGqU90pHzzNjHuzu89K+RQ2LIBVx1fpgNkNJhwC4eetn2/Uy0fMrO7zDUE5AmRb+0bcYI+lxqpN+i5gA3VDGcwlcfm6L9ZMsLrZ3U+wEDtHCQtd9vw2XUFcQeoNU7pW+qnAghAfblDy">
+      <TableDataSource Name="Table" DataType="System.Int32" Enabled="true" SelectCommand="SELECT          &#13;&#10;MD002 AS '地址代號'&#13;&#10;,MD003 AS '地址一'&#13;&#10;,MD004 AS '地址二'&#13;&#10;,MD005 AS '備註'&#13;&#10;,MD006 AS '全名'&#13;&#10;,MD007 AS '連絡人'&#13;&#10;,MD008 AS '統一編號'&#13;&#10;,MD009 AS 'TEL_NO'&#13;&#10;,MD010 AS 'FAX_NO'&#13;&#10;,MD011 AS '收貨部門'&#13;&#10;,MD012 AS '收貨人'&#13;&#10;,MD001 AS '客戶代號'&#13;&#10;FROM              [TK].dbo.COPMD&#13;&#10;WHERE          (MD001 = '2248400100')&#13;&#10;&#13;&#10;ORDER BY MD002&#13;&#10;&#13;&#10;DELETE [TK].dbo.COPMD&#13;&#10;WHERE MD001='{0}' AND MD002='{1}'">
+        <Column Name="地址代號" DataType="System.String"/>
+        <Column Name="地址一" DataType="System.String"/>
+        <Column Name="地址二" DataType="System.String"/>
+        <Column Name="備註" DataType="System.String"/>
+        <Column Name="全名" DataType="System.String"/>
+        <Column Name="連絡人" DataType="System.String"/>
+        <Column Name="統一編號" DataType="System.String"/>
+        <Column Name="TEL_NO" DataType="System.String"/>
+        <Column Name="FAX_NO" DataType="System.String"/>
+        <Column Name="收貨部門" DataType="System.String"/>
+        <Column Name="收貨人" DataType="System.String"/>
+        <Column Name="客戶代號" DataType="System.String"/>
+      </TableDataSource>
+    </MsSqlDataConnection>
+  </Dictionary>
+  <ReportPage Name="Page1" Landscape="true" PaperWidth="600" PaperHeight="210">
+    <ReportTitleBand Name="ReportTitle1" Width="2192.4" Height="18.9">
+      <TextObject Name="Text2" Width="94.5" Height="18.9" Border.Lines="All" Text="客戶代號" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text4" Left="94.5" Width="94.5" Height="18.9" Border.Lines="All" Text="地址代號" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text6" Left="189" Width="557.55" Height="18.9" Border.Lines="All" Text="地址一" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text8" Left="746.55" Width="94.5" Height="18.9" Border.Lines="All" Text="地址二" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text10" Left="841.05" Width="141.75" Height="18.9" Border.Lines="All" Text="備註" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text12" Left="982.8" Width="359.1" Height="18.9" Border.Lines="All" Text="全名" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text14" Left="1341.9" Width="132.3" Height="18.9" Border.Lines="All" Text="連絡人" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text16" Left="1474.2" Width="94.5" Height="18.9" Border.Lines="All" Text="統一編號" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text18" Left="1568.7" Width="151.2" Height="18.9" Border.Lines="All" Text="TEL_NO" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text20" Left="1719.9" Width="151.2" Height="18.9" Border.Lines="All" Text="FAX_NO" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text22" Left="1871.1" Width="179.55" Height="18.9" Border.Lines="All" Text="收貨部門" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text24" Left="2050.65" Width="141.75" Height="18.9" Border.Lines="All" Text="收貨人" HorzAlign="Center" VertAlign="Center"/>
+    </ReportTitleBand>
+    <DataBand Name="Data1" Top="23.5" Width="2192.4" Height="18.9" CanGrow="true" DataSource="Table">
+      <TextObject Name="Text1" Width="94.5" Height="18.9" Border.Lines="All" CanGrow="true" GrowToBottom="true" Text="[Table.客戶代號]" VertAlign="Center"/>
+      <TextObject Name="Text3" Left="94.5" Width="94.5" Height="18.9" Border.Lines="All" CanGrow="true" GrowToBottom="true" Text="[Table.地址代號]" VertAlign="Center"/>
+      <TextObject Name="Text5" Left="189" Width="557.55" Height="18.9" Border.Lines="All" CanGrow="true" GrowToBottom="true" Text="[Table.地址一]" VertAlign="Center"/>
+      <TextObject Name="Text11" Left="982.8" Width="359.1" Height="18.9" Border.Lines="All" CanGrow="true" GrowToBottom="true" Text="[Table.全名]" VertAlign="Center"/>
+      <TextObject Name="Text13" Left="1341.9" Width="132.3" Height="18.9" Border.Lines="All" CanGrow="true" GrowToBottom="true" Text="[Table.連絡人]" VertAlign="Center"/>
+      <TextObject Name="Text15" Left="1474.2" Width="94.5" Height="18.9" Border.Lines="All" CanGrow="true" GrowToBottom="true" Text="[Table.統一編號]" VertAlign="Center"/>
+      <TextObject Name="Text17" Left="1568.7" Width="151.2" Height="18.9" Border.Lines="All" CanGrow="true" GrowToBottom="true" Text="[Table.TEL_NO]" VertAlign="Center"/>
+      <TextObject Name="Text19" Left="1719.9" Width="151.2" Height="18.9" Border.Lines="All" CanGrow="true" GrowToBottom="true" Text="[Table.FAX_NO]" VertAlign="Center"/>
+      <TextObject Name="Text21" Left="1871.1" Width="179.55" Height="18.9" Border.Lines="All" CanGrow="true" GrowToBottom="true" Text="[Table.收貨部門]" VertAlign="Center"/>
+      <TextObject Name="Text23" Left="2050.65" Width="141.75" Height="18.9" Border.Lines="All" CanGrow="true" GrowToBottom="true" Text="[Table.收貨人]" VertAlign="Center"/>
+      <TextObject Name="Text9" Left="841.05" Width="141.75" Height="18.9" Border.Lines="All" CanGrow="true" GrowToBottom="true" Text="[Table.備註]" VertAlign="Center"/>
+      <TextObject Name="Text7" Left="746.55" Width="94.5" Height="18.9" Border.Lines="All" CanGrow="true" GrowToBottom="true" Text="[Table.地址二]" VertAlign="Center"/>
+    </DataBand>
+  </ReportPage>
+</Report>

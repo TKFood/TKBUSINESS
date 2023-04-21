@@ -57,6 +57,7 @@ namespace TKBUSINESS
         private void frmCOPMD_Load(object sender, EventArgs e)
         {
             Search(textBox1.Text.Trim());
+            Search_DG3(textBox27.Text.Trim());
         }
         #region FUNCTION
         public void Search(string MB001)
@@ -255,6 +256,89 @@ namespace TKBUSINESS
                     textBox14.Text = "";
 
                     textBox26.Text = "";
+
+                }
+            }
+        }
+        public void Search_DG3(string MB001)
+        {
+            DataSet ds = new DataSet();
+
+            try
+            {
+                sbSql.Clear();
+
+                //20210902密
+                Class1 TKID = new Class1();//用new 建立類別實體
+                SqlConnectionStringBuilder sqlsb = new SqlConnectionStringBuilder(ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString);
+
+                //資料庫使用者密碼解密
+                sqlsb.Password = TKID.Decryption(sqlsb.Password);
+                sqlsb.UserID = TKID.Decryption(sqlsb.UserID);
+
+                String connectionString;
+                sqlConn = new SqlConnection(sqlsb.ConnectionString);
+
+                sbSql.AppendFormat(@"
+                                    SELECT 
+                                    MA001 AS '客代'
+                                    ,MA002  AS '客戶'
+                                    FROM [TK].dbo.COPMA
+                                    WHERE (MA001 LIKE '%{0}%' OR MA002 LIKE '%{0}%')
+                                         ", MB001);
+
+                adapter = new SqlDataAdapter(sbSql.ToString(), sqlConn);
+                sqlCmdBuilder = new SqlCommandBuilder(adapter);
+
+                sqlConn.Open();
+                ds.Clear();
+                adapter.Fill(ds, "ds");
+                sqlConn.Close();
+
+
+                if (ds.Tables["ds"].Rows.Count == 0)
+                {
+                    dataGridView3.DataSource = null;
+
+                }
+                else
+                {
+                    dataGridView3.DataSource = ds.Tables["ds"];
+                    dataGridView3.AutoResizeColumns();
+                    //rownum = ds.Tables[talbename].Rows.Count - 1;                       
+
+                    //dataGridView1.CurrentCell = dataGridView1[0, 2];
+
+                }
+
+
+
+            }
+            catch
+            {
+
+            }
+            finally
+            {
+
+            }
+        }
+
+        private void dataGridView3_SelectionChanged(object sender, EventArgs e)
+        {
+            textBox28.Text = "";
+
+            if (dataGridView3.CurrentRow != null)
+            {
+                int rowindex = dataGridView3.CurrentRow.Index;
+                if (rowindex >= 0)
+                {
+                    DataGridViewRow row = dataGridView3.Rows[rowindex];
+                    textBox28.Text = row.Cells["客代"].Value.ToString();
+                }
+                else
+                {
+
 
                 }
             }
@@ -499,7 +583,64 @@ namespace TKBUSINESS
                 sqlConn.Close();
             }
         }
+        public void SETFASTREPORT(string MD001)
+        {
+            //20210902密
+            Class1 TKID = new Class1();//用new 建立類別實體
+            SqlConnectionStringBuilder sqlsb = new SqlConnectionStringBuilder(ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString);
 
+            //資料庫使用者密碼解密
+            sqlsb.Password = TKID.Decryption(sqlsb.Password);
+            sqlsb.UserID = TKID.Decryption(sqlsb.UserID);
+
+            String connectionString;
+            sqlConn = new SqlConnection(sqlsb.ConnectionString);
+
+
+
+            StringBuilder SQL1 = new StringBuilder();
+
+            SQL1 = SETSQL(MD001);
+            Report report1 = new Report();
+            report1.Load(@"REPORT\客戶地址表.frx");
+
+            report1.Dictionary.Connections[0].ConnectionString = sqlsb.ConnectionString;
+
+            TableDataSource table = report1.GetDataSource("Table") as TableDataSource;
+            table.SelectCommand = SQL1.ToString();
+
+            //report1.SetParameterValue("P1", textBox1.Text);
+            //report1.SetParameterValue("P2", textBox2.Text);
+            report1.Preview = previewControl1;
+            report1.Show();
+        }
+
+        public StringBuilder SETSQL(string MD001)
+        {
+            StringBuilder SB = new StringBuilder();
+            //MessageBox.Show(strLineData);
+
+            SB.AppendFormat(@" 
+                           SELECT          
+                            MD002 AS '地址代號'
+                            ,MD003 AS '地址一'
+                            ,MD004 AS '地址二'
+                            ,MD005 AS '備註'
+                            ,MD006 AS '全名'
+                            ,MD007 AS '連絡人'
+                            ,MD008 AS '統一編號'
+                            ,MD009 AS 'TEL_NO'
+                            ,MD010 AS 'FAX_NO'
+                            ,MD011 AS '收貨部門'
+                            ,MD012 AS '收貨人'
+                            ,MD001 AS '客戶代號'
+                            FROM              [TK].dbo.COPMD
+                            WHERE          (MD001 = '{0}')
+                            ", MD001);
+
+            return SB;
+
+        }
         #endregion
 
         #region BUTTON
@@ -577,8 +718,18 @@ namespace TKBUSINESS
            
         }
 
+        private void button6_Click(object sender, EventArgs e)
+        {
+            Search_DG3(textBox27.Text.Trim());
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            SETFASTREPORT(textBox28.Text.Trim());
+        }
+
         #endregion
 
-      
+       
     }
 }
