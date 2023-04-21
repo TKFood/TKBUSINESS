@@ -212,7 +212,45 @@ namespace TKBUSINESS
 
             }
         }
+        private void dataGridView2_SelectionChanged(object sender, EventArgs e)
+        {
+            if (dataGridView2.CurrentRow != null)
+            {
+                int rowindex = dataGridView2.CurrentRow.Index;
+                if (rowindex >= 0)
+                {
+                    DataGridViewRow row = dataGridView2.Rows[rowindex];
+                    textBox3.Text = row.Cells["地址代號"].Value.ToString().Trim();
+                    textBox4.Text = row.Cells["地址一"].Value.ToString().Trim();
+                    textBox5.Text = row.Cells["地址二"].Value.ToString().Trim();
+                    textBox6.Text = row.Cells["備註"].Value.ToString().Trim();
+                    textBox7.Text = row.Cells["全名"].Value.ToString().Trim();
+                    textBox8.Text = row.Cells["連絡人"].Value.ToString().Trim();
+                    textBox9.Text = row.Cells["統一編號"].Value.ToString().Trim();
+                    textBox10.Text = row.Cells["TEL_NO"].Value.ToString().Trim();
+                    textBox11.Text = row.Cells["FAX_NO"].Value.ToString().Trim();
+                    textBox12.Text = row.Cells["收貨部門"].Value.ToString().Trim();
+                    textBox13.Text = row.Cells["收貨人"].Value.ToString().Trim();
+                    textBox14.Text = row.Cells["客戶代號"].Value.ToString().Trim();
+                }
+                else
+                {
+                    textBox3.Text = "";
+                    textBox4.Text = "";
+                    textBox5.Text = "";
+                    textBox6.Text = "";
+                    textBox7.Text = "";
+                    textBox8.Text = "";
+                    textBox9.Text = "";
+                    textBox10.Text = "";
+                    textBox11.Text = "";
+                    textBox12.Text = "";
+                    textBox13.Text = "";
+                    textBox14.Text = "";
 
+                }
+            }
+        }
 
         #endregion
 
@@ -226,8 +264,9 @@ namespace TKBUSINESS
             Search_COPMD(MD001, textBox2.Text);
         }
 
+
         #endregion
 
-      
+     
     }
 }
