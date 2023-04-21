@@ -195,10 +195,9 @@ namespace TKBUSINESS
                 {
                     dataGridView2.DataSource = ds.Tables["ds"];
                     dataGridView2.AutoResizeColumns();
-                    //rownum = ds.Tables[talbename].Rows.Count - 1;                       
-
-                    //dataGridView1.CurrentCell = dataGridView1[0, 2];
-
+                    dataGridView2.ColumnHeadersDefaultCellStyle.Font = new Font("Tahoma", 9);
+                    dataGridView2.DefaultCellStyle.Font = new Font("Tahoma", 10);
+                    //dataGridView1.Columns["序號"].Width = 30;
                 }
 
 
