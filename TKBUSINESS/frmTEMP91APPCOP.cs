@@ -1696,6 +1696,7 @@ namespace TKBUSINESS
 
         public void ADDERPCOPTGCOPTH(string TG003)
         {
+            
             try
             {
                 //20210902密
@@ -1975,7 +1976,7 @@ namespace TKBUSINESS
                                         ,'N' AS [TG023]
                                         ,'N' AS [TG024]
                                         ,(CONVERT(INT,[購物車總額])-ROUND(CONVERT(INT,[購物車總額]) /1.05,0)) AS [TG025]
-                                        ,'170007' AS [TG026]
+                                        ,MA016 AS [TG026]
                                         ,'' AS [TG027]
                                         ,'' AS [TG028]
                                         ,'' AS [TG029]
