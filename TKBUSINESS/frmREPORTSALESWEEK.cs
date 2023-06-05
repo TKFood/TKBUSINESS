@@ -148,7 +148,7 @@ namespace TKBUSINESS
                                 AND TC004 NOT IN ('2248500100')
                                 AND TC004 NOT IN ('2248500100')
                                 ) AS TEMP 
-                                ORDER BY 訂單單別,未出貨金額 DESC
+                                ORDER BY 訂單單別,訂單單號,未出貨金額 DESC
  
  
                             ", SDATES,EDATES);
