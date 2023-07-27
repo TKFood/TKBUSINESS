@@ -2060,7 +2060,7 @@ namespace TKBUSINESS
                                         ,'' AS [TG107]
                                         ,'' AS [TG108]
                                         ,'' AS [TG109]
-                                        ,'{0}' AS [TG110]
+                                        ,REPLACE([指定到貨日期],'/','') AS [TG110]
                                         ,'1' AS [TG111]
                                         ,'' AS [TG112]
                                         ,0 AS [TG113]
@@ -2129,7 +2129,7 @@ namespace TKBUSINESS
                                         AND MA001='11127673'
                                         AND [購物車編號]  NOT IN (SELECT SUBSTRING(TG020,1,14) FROM [TK].dbo.COPTG WHERE ISNULL(TG020,'')<>'')
                                         AND [TEMP91APPCOP].TG002 LIKE '{0}%'
-                                        GROUP BY TEMP91APPCOP.購物車編號,TEMP91APPCOP.TG001,TEMP91APPCOP.TG002,TEMP91APPCOP.配送方式,TEMP91APPCOP.地址,TEMP91APPCOP.收件人,TEMP91APPCOP.收件人電話,TEMP91APPCOP.購物車總額,TEMP91APPCOP.通路商
+                                        GROUP BY TEMP91APPCOP.購物車編號,TEMP91APPCOP.TG001,TEMP91APPCOP.TG002,TEMP91APPCOP.配送方式,TEMP91APPCOP.地址,TEMP91APPCOP.收件人,TEMP91APPCOP.收件人電話,TEMP91APPCOP.購物車總額,TEMP91APPCOP.通路商,TEMP91APPCOP.指定到貨日期
                                         ,MA001,MA002,MA003,MA010,MA037,MA025,MA015,MA016
 
 
@@ -2800,6 +2800,7 @@ namespace TKBUSINESS
                         //
                         try
                         {
+
                             轉單日期時間 = DR["轉單日期時間"].ToString().Replace("'", "").Replace(" ", "");
                         }
                         catch
@@ -2809,7 +2810,22 @@ namespace TKBUSINESS
                         //
                         try
                         {
-                            預計出貨日期 = DR["預計出貨日期"].ToString().Replace("'", "").Replace(" ", "");
+                            string dateTimeString = DR["預計出貨日期"].ToString().Replace("'", "").Replace("上午", "").Replace("下午", "");
+                            DateTime SET_dateTime = Convert.ToDateTime(dateTimeString);
+                            SET_dateTime = SET_dateTime.AddDays(1);
+
+                            if (SET_dateTime.DayOfWeek == DayOfWeek.Saturday)
+                            {
+                                SET_dateTime = SET_dateTime.AddDays(2);
+                            }
+                            else if (SET_dateTime.DayOfWeek == DayOfWeek.Sunday)
+                            {
+                                SET_dateTime = SET_dateTime.AddDays(1);
+                            }
+
+
+                            //預計出貨日期 = DR["預計出貨日期"].ToString().Replace("'", "").Replace(" ", "");
+                            預計出貨日期 = SET_dateTime.ToString("yyyy/MM/dd");
                         }
                         catch
                         {
@@ -3304,7 +3320,30 @@ namespace TKBUSINESS
                         //
                         try
                         {
-                            指定到貨日期 = DR["指定到貨日期"].ToString().Replace("'", "").Replace(" ", "");
+                            if(!string.IsNullOrEmpty(DR["指定到貨日期"].ToString()))
+                            {
+                                string dateTimeString = DR["指定到貨日期"].ToString().Replace("'", "").Replace("上午", "").Replace("下午", "");
+                                DateTime SET_dateTime = Convert.ToDateTime(dateTimeString);
+
+                                //SET_dateTime = SET_dateTime.AddDays(1);
+
+                                //if (SET_dateTime.DayOfWeek == DayOfWeek.Saturday)
+                                //{
+                                //    SET_dateTime = SET_dateTime.AddDays(2);
+                                //}
+                                //else if (SET_dateTime.DayOfWeek == DayOfWeek.Sunday)
+                                //{
+                                //    SET_dateTime = SET_dateTime.AddDays(1);
+                                //}
+
+                                //指定到貨日期 = DR["指定到貨日期"].ToString().Replace("'", "").Replace(" ", "");
+                                指定到貨日期 = SET_dateTime.ToString("yyyy/MM/dd");
+                            }
+                            else
+                            {
+                                指定到貨日期 = "";
+                            }
+
                         }
                         catch
                         {
