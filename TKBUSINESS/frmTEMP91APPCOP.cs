@@ -2810,8 +2810,9 @@ namespace TKBUSINESS
                         //
                         try
                         {
-                            string dateTimeString = DR["預計出貨日期"].ToString().Replace("'", "").Replace("上午", "").Replace("下午", "");
-                            DateTime SET_dateTime = Convert.ToDateTime(dateTimeString);
+                            //string dateTimeString = DR["預計出貨日期"].ToString().Replace("'", "").Replace("上午", "").Replace("下午", "");
+                           
+                            DateTime SET_dateTime = dateTimePicker2.Value;
                             SET_dateTime = SET_dateTime.AddDays(1);
 
                             if (SET_dateTime.DayOfWeek == DayOfWeek.Saturday)
@@ -3341,7 +3342,20 @@ namespace TKBUSINESS
                             }
                             else
                             {
-                                指定到貨日期 = "";
+                                DateTime SET_dateTime = dateTimePicker2.Value;
+                                SET_dateTime = SET_dateTime.AddDays(1);
+
+                                if (SET_dateTime.DayOfWeek == DayOfWeek.Saturday)
+                                {
+                                    SET_dateTime = SET_dateTime.AddDays(2);
+                                }
+                                else if (SET_dateTime.DayOfWeek == DayOfWeek.Sunday)
+                                {
+                                    SET_dateTime = SET_dateTime.AddDays(1);
+                                }
+
+                                指定到貨日期 = SET_dateTime.ToString("yyyy/MM/dd");
+
                             }
 
                         }
