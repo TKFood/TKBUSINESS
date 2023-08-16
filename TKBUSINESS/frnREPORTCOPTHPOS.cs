@@ -37,8 +37,7 @@ namespace TKBUSINESS
         SqlCommandBuilder sqlCmdBuilder = new SqlCommandBuilder();
         SqlCommand cmd = new SqlCommand();
         DataSet ds = new DataSet();
-        DataSet ds2 = new DataSet();
-        DataTable dt = new DataTable();
+     
         string tablename = null;
         int rownum = 0;
         public frnREPORTCOPTHPOS()
@@ -127,6 +126,67 @@ namespace TKBUSINESS
 
         }
 
+        public void Search_INVMB(string MB001)
+        {
+            StringBuilder sbSql = new StringBuilder();
+            StringBuilder sbSqlQuery = new StringBuilder();
+            SqlDataAdapter adapter = new SqlDataAdapter();
+            SqlCommandBuilder sqlCmdBuilder = new SqlCommandBuilder();
+            DataSet ds = new DataSet();
+
+            try
+            {
+                sbSql.Clear();
+                sbSql.AppendFormat(@"
+                                    SELECT MB001 AS '品號',MB002  AS '品名'
+                                    FROM [TK].dbo.INVMB
+                                    WHERE (MB001 LIKE '%{0}%' OR MB002 LIKE '%{0}%')
+                                    ", MB001);
+
+
+                //20210902密
+                Class1 TKID = new Class1();//用new 建立類別實體
+                SqlConnectionStringBuilder sqlsb = new SqlConnectionStringBuilder(ConfigurationManager.ConnectionStrings["dberp"].ConnectionString);
+
+                //資料庫使用者密碼解密
+                sqlsb.Password = TKID.Decryption(sqlsb.Password);
+                sqlsb.UserID = TKID.Decryption(sqlsb.UserID);
+
+                String connectionString;
+                sqlConn = new SqlConnection(sqlsb.ConnectionString);
+
+                adapter = new SqlDataAdapter(sbSql.ToString(), sqlConn);
+                sqlCmdBuilder = new SqlCommandBuilder(adapter);
+
+                sqlConn.Open();
+                ds.Clear();
+                adapter.Fill(ds, "ds");
+                sqlConn.Close();
+
+
+                if (ds.Tables["ds"].Rows.Count == 0)
+                {
+                    dataGridView1.DataSource = null;
+                }
+                else
+                {
+                    dataGridView1.DataSource = ds.Tables["ds"];
+                    dataGridView1.AutoResizeColumns();
+
+                }
+
+            }
+            catch
+            {
+
+            }
+            finally
+            {
+
+            }
+        }
+
+
         #endregion
 
         #region BUTTON
@@ -136,7 +196,7 @@ namespace TKBUSINESS
         }
         private void button2_Click(object sender, EventArgs e)
         {
-
+            Search_INVMB(textBox1.Text.Trim());
         }
         #endregion
 
