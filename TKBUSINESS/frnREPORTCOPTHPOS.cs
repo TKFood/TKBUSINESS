@@ -123,6 +123,65 @@ namespace TKBUSINESS
 
         }
 
+        public void SETFASTREPORT_POSTB(string TB036)
+        {
+            //20210902密
+            Class1 TKID = new Class1();//用new 建立類別實體
+            SqlConnectionStringBuilder sqlsb = new SqlConnectionStringBuilder(ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString);
+
+            //資料庫使用者密碼解密
+            sqlsb.Password = TKID.Decryption(sqlsb.Password);
+            sqlsb.UserID = TKID.Decryption(sqlsb.UserID);
+
+            String connectionString;
+            sqlConn = new SqlConnection(sqlsb.ConnectionString);
+
+
+            StringBuilder SQL1 = new StringBuilder();
+            StringBuilder SQL2 = new StringBuilder();
+
+
+            SQL1 = SETSQL_POSTB(TB036);
+            Report report1 = new Report();
+            report1.Load(@"REPORT\POS活動業績.frx");
+
+            report1.Dictionary.Connections[0].ConnectionString = sqlsb.ConnectionString;
+
+            TableDataSource table = report1.GetDataSource("Table") as TableDataSource;
+            table.SelectCommand = SQL1.ToString();
+
+            //report1.SetParameterValue("P1", P1);
+            //report1.SetParameterValue("P2", P2);
+
+            report1.Preview = previewControl2;
+            report1.Show();
+        }
+
+        public StringBuilder SETSQL_POSTB(string TB036)
+        {
+            StringBuilder SB = new StringBuilder();
+
+            SB.AppendFormat(@" 
+                            SELECT 
+                            TB002 AS '門市代'
+                            ,MA002 AS '門市'
+                            ,TB010 AS '品號'
+                            ,MB002 AS '品名'
+                            ,SUM(TB019) AS '銷售數量'
+                            ,SUM(TB031) AS '未稅金額'
+                            FROM [TK].dbo.POSTB
+                            LEFT JOIN [TK].dbo.INVMB ON MB001=TB010
+                            LEFT JOIN [TK].dbo.WSCMA ON MA001=TB002 
+                            WHERE TB036='{0}'
+                            GROUP BY  TB002,MA002,TB010,MB002
+                            ORDER BY  TB002,MA002,TB010,MB002
+
+                            ", TB036);
+
+            return SB;
+
+        }
+
         public void Search_INVMB(string MB001)
         {
             StringBuilder sbSql = new StringBuilder();
@@ -170,7 +229,8 @@ namespace TKBUSINESS
                 {
                     dataGridView1.DataSource = ds.Tables["ds"];
                     dataGridView1.AutoResizeColumns();
-
+                    dataGridView1.ColumnHeadersDefaultCellStyle.Font = new Font("Tahoma", 9);
+                    dataGridView1.DefaultCellStyle.Font = new Font("Tahoma", 10);
                 }
 
             }
@@ -260,6 +320,8 @@ namespace TKBUSINESS
                 {
                     dataGridView2.DataSource = ds.Tables["ds"];
                     dataGridView2.AutoResizeColumns();
+                    dataGridView2.ColumnHeadersDefaultCellStyle.Font = new Font("Tahoma", 9);
+                    dataGridView2.DefaultCellStyle.Font = new Font("Tahoma", 10);
 
                 }
 
@@ -294,6 +356,25 @@ namespace TKBUSINESS
 
         }
 
+        private void dataGridView2_SelectionChanged(object sender, EventArgs e)
+        {
+            textBox6.Text = null;
+            textBox8.Text = null;
+
+            if (dataGridView2.CurrentRow != null)
+            {
+                int rowindex = dataGridView2.CurrentRow.Index;
+                if (rowindex >= 0)
+                {
+                    DataGridViewRow row = dataGridView2.Rows[rowindex];
+
+                    textBox6.Text = row.Cells["特價代號"].Value.ToString().Trim();
+                    textBox8.Text = row.Cells["特價名稱"].Value.ToString().Trim();
+                }
+            }
+        }
+
+
         #endregion
 
         #region BUTTON
@@ -323,7 +404,12 @@ namespace TKBUSINESS
         {
             Search_POSMA(textBox5.Text.Trim(), textBox7.Text.Trim());
         }
-    
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            SETFASTREPORT_POSTB(textBox6.Text.Trim());
+        }
+
         #endregion
 
 
