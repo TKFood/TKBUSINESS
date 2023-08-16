@@ -43,6 +43,8 @@ namespace TKBUSINESS
         public frnREPORTCOPTHPOS()
         {
             InitializeComponent();
+
+            textBox5.Text = DateTime.Now.Year.ToString();
         }
 
 
@@ -182,6 +184,97 @@ namespace TKBUSINESS
             }
         }
 
+        public void Search_POSMA(string MA001,string MA002)
+        {
+            StringBuilder sbSql = new StringBuilder();
+            StringBuilder sbSqlQuery = new StringBuilder();
+            SqlDataAdapter adapter = new SqlDataAdapter();
+            SqlCommandBuilder sqlCmdBuilder = new SqlCommandBuilder();
+            DataSet ds = new DataSet();
+
+            try
+            {
+                sbSqlQuery.Clear();
+                if(!string.IsNullOrEmpty(MA002))
+                {
+                    sbSqlQuery.AppendFormat(@"  AND (特價代號 LIKE '%{0}%' OR 特價名稱 LIKE '%{0}%' )", MA002);
+                }
+                else
+                {
+                    sbSqlQuery.AppendFormat(@" ");
+                }
+
+                sbSql.Clear();
+                sbSql.AppendFormat(@"
+                                   SELECT *
+                                    FROM
+                                    (
+                                    SELECT MA001 AS '活動代號',MA002 AS '活動名稱',MB003 AS  '特價代號',MB004 AS '特價名稱'
+                                    FROM [TK].dbo.POSMA
+                                    LEFT JOIN [TK].dbo.POSMB ON MB001=MA001
+                                    UNION ALL
+                                    SELECT MA001 AS '活動代號',MA002 AS '活動名稱',MI003 AS  '特價代號',MI004 AS '特價名稱'
+                                    FROM [TK].dbo.POSMA
+                                    LEFT JOIN [TK].dbo.POSMI ON MI001=MA001
+                                    UNION ALL
+                                    SELECT MA001 AS '活動代號',MA002 AS '活動名稱',MM003 AS  '特價代號',MM004 AS '特價名稱'
+                                    FROM [TK].dbo.POSMA
+                                    LEFT JOIN [TK].dbo.POSMM ON MM001=MA001
+                                    UNION ALL
+                                    SELECT MA001 AS '活動代號',MA002 AS '活動名稱',MO003 AS  '特價代號',MO004 AS '特價名稱'
+                                    FROM [TK].dbo.POSMA
+                                    LEFT JOIN [TK].dbo.POSMO ON MO001=MA001
+                                    ) AS TEMP
+                                    WHERE 活動代號 LIKE '{0}%' 
+                                    {1}
+                                    ORDER BY 活動代號,特價代號
+
+                                    ", MA001, sbSqlQuery.ToString());
+
+
+                //20210902密
+                Class1 TKID = new Class1();//用new 建立類別實體
+                SqlConnectionStringBuilder sqlsb = new SqlConnectionStringBuilder(ConfigurationManager.ConnectionStrings["dberp"].ConnectionString);
+
+                //資料庫使用者密碼解密
+                sqlsb.Password = TKID.Decryption(sqlsb.Password);
+                sqlsb.UserID = TKID.Decryption(sqlsb.UserID);
+
+                String connectionString;
+                sqlConn = new SqlConnection(sqlsb.ConnectionString);
+
+                adapter = new SqlDataAdapter(sbSql.ToString(), sqlConn);
+                sqlCmdBuilder = new SqlCommandBuilder(adapter);
+
+                sqlConn.Open();
+                ds.Clear();
+                adapter.Fill(ds, "ds");
+                sqlConn.Close();
+
+
+                if (ds.Tables["ds"].Rows.Count == 0)
+                {
+                    dataGridView2.DataSource = null;
+                }
+                else
+                {
+                    dataGridView2.DataSource = ds.Tables["ds"];
+                    dataGridView2.AutoResizeColumns();
+
+                }
+
+            }
+            catch
+            {
+
+            }
+            finally
+            {
+
+            }
+        }
+
+
         private void dataGridView1_SelectionChanged(object sender, EventArgs e)
         {
             textBox3.Text = null;
@@ -226,8 +319,13 @@ namespace TKBUSINESS
             textBox2.Text = null;
         }
 
+        private void button5_Click(object sender, EventArgs e)
+        {
+            Search_POSMA(textBox5.Text.Trim(), textBox7.Text.Trim());
+        }
+    
         #endregion
 
-       
+
     }
 }
