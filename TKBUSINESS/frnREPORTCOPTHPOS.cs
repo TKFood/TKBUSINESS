@@ -244,6 +244,68 @@ namespace TKBUSINESS
             }
         }
 
+        public void Search_INVMB_V2(string MB001)
+        {
+            StringBuilder sbSql = new StringBuilder();
+            StringBuilder sbSqlQuery = new StringBuilder();
+            SqlDataAdapter adapter = new SqlDataAdapter();
+            SqlCommandBuilder sqlCmdBuilder = new SqlCommandBuilder();
+            DataSet ds = new DataSet();
+
+            try
+            {
+                sbSql.Clear();
+                sbSql.AppendFormat(@"
+                                    SELECT MB001 AS '品號',MB002  AS '品名'
+                                    FROM [TK].dbo.INVMB
+                                    WHERE (MB001 LIKE '%{0}%' OR MB002 LIKE '%{0}%')
+                                    ORDER BY MB001
+                                    ", MB001);
+
+
+                //20210902密
+                Class1 TKID = new Class1();//用new 建立類別實體
+                SqlConnectionStringBuilder sqlsb = new SqlConnectionStringBuilder(ConfigurationManager.ConnectionStrings["dberp"].ConnectionString);
+
+                //資料庫使用者密碼解密
+                sqlsb.Password = TKID.Decryption(sqlsb.Password);
+                sqlsb.UserID = TKID.Decryption(sqlsb.UserID);
+
+                String connectionString;
+                sqlConn = new SqlConnection(sqlsb.ConnectionString);
+
+                adapter = new SqlDataAdapter(sbSql.ToString(), sqlConn);
+                sqlCmdBuilder = new SqlCommandBuilder(adapter);
+
+                sqlConn.Open();
+                ds.Clear();
+                adapter.Fill(ds, "ds");
+                sqlConn.Close();
+
+
+                if (ds.Tables["ds"].Rows.Count == 0)
+                {
+                    dataGridView3.DataSource = null;
+                }
+                else
+                {
+                    dataGridView3.DataSource = ds.Tables["ds"];
+                    dataGridView3.AutoResizeColumns();
+                    dataGridView3.ColumnHeadersDefaultCellStyle.Font = new Font("Tahoma", 9);
+                    dataGridView3.DefaultCellStyle.Font = new Font("Tahoma", 10);
+                }
+
+            }
+            catch
+            {
+
+            }
+            finally
+            {
+
+            }
+        }
+
         public void Search_POSMA(string MA001,string MA002)
         {
             StringBuilder sbSql = new StringBuilder();
@@ -373,7 +435,23 @@ namespace TKBUSINESS
                 }
             }
         }
+        private void dataGridView3_SelectionChanged(object sender, EventArgs e)
+        {
+            textBox10.Text = null;
+            textBox11.Text = null;
 
+            if (dataGridView3.CurrentRow != null)
+            {
+                int rowindex = dataGridView3.CurrentRow.Index;
+                if (rowindex >= 0)
+                {
+                    DataGridViewRow row = dataGridView3.Rows[rowindex];
+
+                    textBox10.Text = row.Cells["品號"].Value.ToString().Trim();
+                    textBox11.Text = row.Cells["品名"].Value.ToString().Trim();
+                }
+            }
+        }
 
         #endregion
 
@@ -410,6 +488,23 @@ namespace TKBUSINESS
             SETFASTREPORT_POSTB(textBox6.Text.Trim());
         }
 
+        private void button7_Click(object sender, EventArgs e)
+        {
+            Search_INVMB_V2(textBox9.Text.Trim());
+        }
+
+        private void button9_Click(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(textBox10.Text) && !string.IsNullOrEmpty(textBox11.Text))
+            {
+                textBox12.Text = textBox12.Text + "'" + textBox10.Text.Trim() + "','" + textBox11.Text.Trim() + "'," + Environment.NewLine;
+            }
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            textBox12.Text = null;
+        }
         #endregion
 
 
