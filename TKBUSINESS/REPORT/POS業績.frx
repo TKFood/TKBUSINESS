@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Report ScriptLanguage="CSharp" ReportInfo.Created="08/16/2023 14:08:15" ReportInfo.Modified="08/16/2023 14:16:26" ReportInfo.CreatorVersion="2016.4.4.0">
+<Report ScriptLanguage="CSharp" ReportInfo.Created="08/16/2023 14:08:15" ReportInfo.Modified="08/16/2023 17:03:35" ReportInfo.CreatorVersion="2016.4.4.0">
   <Dictionary>
-    <MsSqlDataConnection Name="Connection" ConnectionString="rijcmlqHwzMSgwTFaHpjtG3vsOj8Zy6q+uhwpDsytgWqwZQZyEQUQyQ022aWUGqU90pHzzNjHuzu89K+RQ2LIBVx1fpgNkNJhwC4eetn2/Uy0fMrO7zDUE5AmRb+0bcYI+lxqpN+i5gA3VDGcwlcfm6L9ZMsLrZ3U+wEDtHCQtd9vw2XUHucNsaNXAS1JK+c5MczCbV">
+    <MsSqlDataConnection Name="Connection" ConnectionString="rijcmlqHwzMSgwTFaHpjtG3vsOj8Zy6q+uhwpDsytgWqwZQZyEQUQyQ022aWUGqU90pHzzNjHuzu89K+RQ2LIBVx1fpgNkNJhwC4eetn2/Uy0fMrO7zDUE5AmRb+0bcYI+lxqpN+i5gA3VDGcwlcfm6L9ZMsLrZ3U+wEDtHCQtd9vw2XUEsOG8balrqhUffNEgwu6J5">
       <TableDataSource Name="Table" DataType="System.Int32" Enabled="true" SelectCommand="&#13;&#10;SELECT &#13;&#10;TB002 AS '門市代'&#13;&#10;,ME002 AS '門市'&#13;&#10;,TB010 AS '品號'&#13;&#10;,MB002 AS '品名'&#13;&#10;,SUM(TB019) AS '銷售數量'&#13;&#10;,SUM(TB031) AS '未稅金額'&#13;&#10;FROM [TK].dbo.POSTB&#13;&#10;LEFT JOIN [TK].dbo.INVMB ON MB001=TB010&#13;&#10;LEFT JOIN [TK].dbo.CMSME ON ME001=TB002 &#13;&#10;WHERE TB036='120230810001'&#13;&#10;GROUP BY  TB002,ME002,TB010,MB002&#13;&#10;ORDER BY  TB002,ME002,TB010,MB002">
         <Column Name="門市代" DataType="System.String"/>
         <Column Name="門市" DataType="System.String"/>

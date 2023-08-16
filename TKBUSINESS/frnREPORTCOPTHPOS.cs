@@ -182,6 +182,71 @@ namespace TKBUSINESS
 
         }
 
+        public void SETFASTREPORT_POSTB_V2(string SDATES,string EDATES,string MB001)
+        {
+            string P1 = SDATES;
+            string P2 = EDATES;
+            //20210902密
+            Class1 TKID = new Class1();//用new 建立類別實體
+            SqlConnectionStringBuilder sqlsb = new SqlConnectionStringBuilder(ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString);
+
+            //資料庫使用者密碼解密
+            sqlsb.Password = TKID.Decryption(sqlsb.Password);
+            sqlsb.UserID = TKID.Decryption(sqlsb.UserID);
+
+            String connectionString;
+            sqlConn = new SqlConnection(sqlsb.ConnectionString);
+
+
+            StringBuilder SQL1 = new StringBuilder();
+            StringBuilder SQL2 = new StringBuilder();
+
+
+            SQL1 = SETSQL_POSTB_V2(SDATES, EDATES, MB001);
+            Report report1 = new Report();
+            report1.Load(@"REPORT\POS業績.frx");
+
+            report1.Dictionary.Connections[0].ConnectionString = sqlsb.ConnectionString;
+
+            TableDataSource table = report1.GetDataSource("Table") as TableDataSource;
+            table.SelectCommand = SQL1.ToString();
+
+            report1.SetParameterValue("P1", P1);
+            report1.SetParameterValue("P2", P2);
+
+            report1.Preview = previewControl3;
+            report1.Show();
+        }
+
+        public StringBuilder SETSQL_POSTB_V2(string SDATES, string EDATES, string MB001)
+        {
+            StringBuilder SB = new StringBuilder();
+
+            SB.AppendFormat(@"                           
+                            SELECT 
+                            TB002 AS '門市代'
+                            ,MA002 AS '門市'
+                            ,TB010 AS '品號'
+                            ,MB002 AS '品名'
+                            ,SUM(TB019) AS '銷售數量'
+                            ,SUM(TB031) AS '未稅金額'
+                            FROM [TK].dbo.POSTB
+                            LEFT JOIN [TK].dbo.INVMB ON MB001=TB010
+                            LEFT JOIN [TK].dbo.WSCMA ON MA001=TB002 
+                            WHERE 1=1
+                            AND TB001>='{0}' AND TB001<='{1}'
+                            AND TB010 IN 
+                            (
+                            {2}
+                            )
+                            GROUP BY  TB002,MA002,TB010,MB002
+                            ORDER BY  TB002,MA002,TB010,MB002
+
+                            ", SDATES, EDATES, MB001);
+
+            return SB;
+
+        }
         public void Search_INVMB(string MB001)
         {
             StringBuilder sbSql = new StringBuilder();
@@ -505,6 +570,12 @@ namespace TKBUSINESS
         {
             textBox12.Text = null;
         }
+        private void button10_Click(object sender, EventArgs e)
+        {
+            string MB001 = textBox12.Text.Trim() + "''";
+            SETFASTREPORT_POSTB_V2(dateTimePicker1.Value.ToString("yyyyMMdd"), dateTimePicker2.Value.ToString("yyyyMMdd"), MB001);
+        }
+
         #endregion
 
 
