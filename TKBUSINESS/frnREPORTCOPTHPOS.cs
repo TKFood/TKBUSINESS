@@ -47,7 +47,7 @@ namespace TKBUSINESS
 
 
         #region FUNCTION
-        public void SETFASTREPORT(string SDATES, string EDATES)
+        public void SETFASTREPORT(string SDATES, string EDATES,string MB001)
         {       
             string P1 = SDATES;
             string P2 = EDATES;
@@ -68,7 +68,7 @@ namespace TKBUSINESS
             StringBuilder SQL2 = new StringBuilder();
 
 
-            SQL1 = SETSQL(SDATES, EDATES); 
+            SQL1 = SETSQL(SDATES, EDATES, MB001); 
             Report report1 = new Report();
             report1.Load(@"REPORT\銷貨單業績.frx");
 
@@ -85,7 +85,7 @@ namespace TKBUSINESS
             report1.Show();
         }
 
-        public StringBuilder SETSQL(string SDATES, string EDATES)
+        public StringBuilder SETSQL(string SDATES, string EDATES,string MB001)
         {
             StringBuilder SB = new StringBuilder();
 
@@ -108,19 +108,14 @@ namespace TKBUSINESS
                             WHERE 1=1
                             AND TG001=TH001 AND TG002=TH002
                             AND TH020='Y'
-                            AND TG003>='20230801' AND TG003<='20230930'
+                            AND TG003>='{0}' AND TG003<='{1}'
                             AND TH004 IN (
-                            '40106310850746',
-                            '40100310740866'
-                            --'40108121218000',
-                            --'40114421238000',
-                            --'40115831025470',
-                            --'40108121218000'
+                            {2}
                             )
                             GROUP BY TG006,MV002,TH004,TH005,TH025,MD003,MD004
                             ORDER BY MV002,TG006,TH004,TH005,TH025,MD003,MD004
 
-                            ", SDATES, EDATES);
+                            ", SDATES, EDATES, MB001);
 
             return SB;
 
@@ -141,6 +136,7 @@ namespace TKBUSINESS
                                     SELECT MB001 AS '品號',MB002  AS '品名'
                                     FROM [TK].dbo.INVMB
                                     WHERE (MB001 LIKE '%{0}%' OR MB002 LIKE '%{0}%')
+                                    ORDER BY MB001
                                     ", MB001);
 
 
@@ -186,20 +182,52 @@ namespace TKBUSINESS
             }
         }
 
+        private void dataGridView1_SelectionChanged(object sender, EventArgs e)
+        {
+            textBox3.Text = null;
+            textBox4.Text = null;
+
+            if (dataGridView1.CurrentRow != null)
+            {
+                int rowindex = dataGridView1.CurrentRow.Index;
+                if (rowindex >= 0)
+                {
+                    DataGridViewRow row = dataGridView1.Rows[rowindex];
+                  
+                    textBox3.Text = row.Cells["品號"].Value.ToString().Trim();
+                    textBox4.Text = row.Cells["品名"].Value.ToString().Trim();
+                }
+            }
+
+        }
 
         #endregion
 
         #region BUTTON
         private void button1_Click(object sender, EventArgs e)
         {
-            SETFASTREPORT(dateTimePicker3.Value.ToString("yyyyMMdd"), dateTimePicker4.Value.ToString("yyyyMMdd"));
+            string MB001 = textBox2.Text.Trim() + "''" ;
+            SETFASTREPORT(dateTimePicker3.Value.ToString("yyyyMMdd"), dateTimePicker4.Value.ToString("yyyyMMdd"), MB001);
         }
         private void button2_Click(object sender, EventArgs e)
         {
             Search_INVMB(textBox1.Text.Trim());
         }
+        private void button3_Click(object sender, EventArgs e)
+        {          
+            if (!string.IsNullOrEmpty(textBox3.Text)&& !string.IsNullOrEmpty(textBox4.Text))
+            {
+                textBox2.Text = textBox2.Text + "'" + textBox3.Text.Trim() + "','" + textBox4.Text.Trim()+"',"+Environment.NewLine;
+            }
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            textBox2.Text = null;
+        }
+
         #endregion
 
-     
+       
     }
 }
