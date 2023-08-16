@@ -51,7 +51,7 @@ namespace TKBUSINESS
 
         #region FUNCTION
 
-        #endregion
+     
         public void SETDATE()
         {
             DateTime FirstDay = DateTime.Now.AddDays(-DateTime.Now.Day + 1);
@@ -270,6 +270,7 @@ namespace TKBUSINESS
             }
         }
 
+        #endregion
         #region BUTTON
         private void button1_Click(object sender, EventArgs e)
         {

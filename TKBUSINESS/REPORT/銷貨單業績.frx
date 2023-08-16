@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report ScriptLanguage="CSharp" ReportInfo.Created="08/16/2023 14:03:31" ReportInfo.Modified="08/16/2023 14:39:37" ReportInfo.CreatorVersion="2016.4.4.0">
+  <Dictionary>
+    <MsSqlDataConnection Name="Connection" ConnectionString="rijcmlqHwzMSgwTFaHpjtG3vsOj8Zy6q+uhwpDsytgWqwZQZyEQUQyQ022aWUGqU90pHzzNjHuzu89K+RQ2LIBVx1fpgNkNJhwC4eetn2/Uy0fMrO7zDUE5AmRb+0bcYI+lxqpN+i5gA3VDGcwlcfm6L9ZMsLrZ3U+wEDtHCQtd9vw2XUEZ6j6i+DyUKkRSsr4+FDu6">
+      <TableDataSource Name="Table" DataType="System.Int32" Enabled="true" SelectCommand="&#13;&#10;SELECT &#13;&#10;MV002 AS '業務員'&#13;&#10;&#13;&#10;,TH004 AS '品號'&#13;&#10;,TH005 AS '品名'&#13;&#10;,SUM(TH008) TH008&#13;&#10;,SUM(TH037) AS '未稅金額'&#13;&#10;,TH025 AS 折扣率&#13;&#10;,MD003&#13;&#10;,MD004&#13;&#10;,(CASE WHEN ISNULL(MD004,0)&lt;&gt;0 THEN SUM(TH008)*MD004/MD003 ELSE SUM(TH008) END ) AS  '銷售數量'&#13;&#10;FROM [TK].dbo.COPTG&#13;&#10;LEFT JOIN [TK].dbo.CMSMV ON MV001=TG006&#13;&#10;,[TK].dbo.COPTH&#13;&#10;LEFT JOIN [TK].dbo.INVMD ON MD001=TH004 AND MD002=TH009&#13;&#10;WHERE 1=1&#13;&#10;AND TG001=TH001 AND TG002=TH002&#13;&#10;AND TH020='Y'&#13;&#10;AND TG003&gt;='20230801' AND TG003&lt;='20230930'&#13;&#10;AND TH004 IN (&#13;&#10;'40106310850746',&#13;&#10;'40100310740866'&#13;&#10;--'40108121218000',&#13;&#10;--'40114421238000',&#13;&#10;--'40115831025470',&#13;&#10;--'40108121218000'&#13;&#10;)&#13;&#10;GROUP BY TG006,MV002,TH004,TH005,TH025,MD003,MD004&#13;&#10;ORDER BY MV002,TG006,TH004,TH005,TH025,MD003,MD004&#13;&#10;">
+        <Column Name="業務員" DataType="System.String"/>
+        <Column Name="品號" DataType="System.String"/>
+        <Column Name="品名" DataType="System.String"/>
+        <Column Name="TH008" DataType="System.Decimal"/>
+        <Column Name="未稅金額" DataType="System.Decimal"/>
+        <Column Name="折扣率" DataType="System.Decimal"/>
+        <Column Name="MD003" DataType="System.Decimal"/>
+        <Column Name="MD004" DataType="System.Decimal"/>
+        <Column Name="銷售數量" DataType="System.Decimal"/>
+      </TableDataSource>
+    </MsSqlDataConnection>
+    <Parameter Name="P1" DataType="System.String"/>
+    <Parameter Name="P2" DataType="System.String"/>
+  </Dictionary>
+  <ReportPage Name="Page1" Landscape="true" PaperWidth="297" PaperHeight="210">
+    <ReportTitleBand Name="ReportTitle1" Width="1047.06" Height="18.9">
+      <TextObject Name="Text3" Width="576.45" Height="18.9" Text="銷貨單業績 日期:[P1]~[P2]" VertAlign="Center"/>
+    </ReportTitleBand>
+    <PageHeaderBand Name="PageHeader1" Top="23.5" Width="1047.06" Height="18.9">
+      <TextObject Name="Text2" Width="94.5" Height="18.9" Border.Lines="All" Text="業務員" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text5" Left="94.5" Width="151.2" Height="18.9" Border.Lines="All" Text="品號" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text7" Left="245.7" Width="519.75" Height="18.9" Border.Lines="All" Text="品名" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text9" Left="765.45" Width="94.5" Height="18.9" Border.Lines="All" Text="銷售數量" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text13" Left="954.45" Width="94.5" Height="18.9" Border.Lines="All" Text="折扣率" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text11" Left="859.95" Width="94.5" Height="18.9" Border.Lines="All" Text="未稅金額" HorzAlign="Center" VertAlign="Center"/>
+    </PageHeaderBand>
+    <DataBand Name="Data1" Top="47" Width="1047.06" Height="18.9" CanGrow="true" DataSource="Table">
+      <TextObject Name="Text1" Width="94.5" Height="18.9" Border.Lines="All" CanGrow="true" GrowToBottom="true" Text="[Table.業務員]" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text4" Left="94.5" Width="151.2" Height="18.9" Border.Lines="All" CanGrow="true" GrowToBottom="true" Text="[Table.品號]" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text6" Left="245.7" Width="519.75" Height="18.9" Border.Lines="All" CanGrow="true" GrowToBottom="true" Text="[Table.品名]" VertAlign="Center"/>
+      <TextObject Name="Text8" Left="765.45" Width="94.5" Height="18.9" Border.Lines="All" CanGrow="true" GrowToBottom="true" Text="[Table.銷售數量]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="0" Format.DecimalSeparator="." Format.GroupSeparator="," Format.NegativePattern="1" HorzAlign="Right" VertAlign="Center" WordWrap="false" Trimming="EllipsisCharacter"/>
+      <TextObject Name="Text12" Left="954.45" Width="94.5" Height="18.9" Border.Lines="All" CanGrow="true" GrowToBottom="true" Text="[Table.折扣率]" Format="Percent" Format.UseLocale="true" HorzAlign="Right" VertAlign="Center" WordWrap="false" Trimming="EllipsisCharacter"/>
+      <TextObject Name="Text10" Left="859.95" Width="94.5" Height="18.9" Border.Lines="All" CanGrow="true" GrowToBottom="true" Text="[Table.未稅金額]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="0" Format.DecimalSeparator="." Format.GroupSeparator="," Format.NegativePattern="1" HorzAlign="Right" VertAlign="Center" WordWrap="false" Trimming="EllipsisCharacter"/>
+    </DataBand>
+    <PageFooterBand Name="PageFooter1" Top="70.49" Width="1047.06" Height="18.9"/>
+  </ReportPage>
+</Report>
