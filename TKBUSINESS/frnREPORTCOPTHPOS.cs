@@ -261,7 +261,8 @@ namespace TKBUSINESS
                 sbSql.AppendFormat(@"
                                     SELECT MB001 AS '品號',MB002  AS '品名'
                                     FROM [TK].dbo.INVMB
-                                    WHERE (MB001 LIKE '%{0}%' OR MB002 LIKE '%{0}%')
+                                    WHERE (MB001 LIKE '3%' OR MB001 LIKE '4%' OR MB001 LIKE '5%' )
+                                    AND (MB001 LIKE '%{0}%' OR MB002 LIKE '%{0}%')
                                     ORDER BY MB001
                                     ", MB001);
 
@@ -323,7 +324,8 @@ namespace TKBUSINESS
                 sbSql.AppendFormat(@"
                                     SELECT MB001 AS '品號',MB002  AS '品名'
                                     FROM [TK].dbo.INVMB
-                                    WHERE (MB001 LIKE '%{0}%' OR MB002 LIKE '%{0}%')
+                                    WHERE (MB001 LIKE '3%' OR MB001 LIKE '4%' OR MB001 LIKE '5%' )
+                                    AND (MB001 LIKE '%{0}%' OR MB002 LIKE '%{0}%')
                                     ORDER BY MB001
                                     ", MB001);
 
