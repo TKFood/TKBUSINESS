@@ -49,7 +49,7 @@ namespace TKBUSINESS
 
 
         #region FUNCTION
-        public void SETFASTREPORT(string SDATES, string EDATES,string MB001)
+        public void SETFASTREPORT(string SDATES, string EDATES,string MB001,string COMMENTS)
         {       
             string P1 = SDATES;
             string P2 = EDATES;
@@ -70,7 +70,7 @@ namespace TKBUSINESS
             StringBuilder SQL2 = new StringBuilder();
 
 
-            SQL1 = SETSQL(SDATES, EDATES, MB001); 
+            SQL1 = SETSQL(SDATES, EDATES, MB001, COMMENTS); 
             Report report1 = new Report();
             report1.Load(@"REPORT\銷貨單業績.frx");
 
@@ -87,9 +87,21 @@ namespace TKBUSINESS
             report1.Show();
         }
 
-        public StringBuilder SETSQL(string SDATES, string EDATES,string MB001)
+        public StringBuilder SETSQL(string SDATES, string EDATES,string MB001,string COMMENTS)
         {
             StringBuilder SB = new StringBuilder();
+            StringBuilder SBQUERY = new StringBuilder();
+
+            if (!string.IsNullOrEmpty(COMMENTS))
+            {
+                SBQUERY.AppendFormat(@" 
+                                       AND ( COPTG.TG020 LIKE '%{0}%' OR  COPTG.UDF02 LIKE '%{0}%' OR  COPTG.UDF05 LIKE '%{0}%') 
+                                        ", COMMENTS);
+            }
+            else
+            {
+                SBQUERY.AppendFormat(@" ");
+            }
 
             SB.AppendFormat(@" 
                             SELECT 
@@ -112,12 +124,14 @@ namespace TKBUSINESS
                             AND TH020='Y'
                             AND TG003>='{0}' AND TG003<='{1}'
                             AND TH004 IN (
-                            {2}
+                            {2}                           
                             )
+                            {3}
+
                             GROUP BY TG006,MV002,TH004,TH005,TH025,MD003,MD004
                             ORDER BY MV002,TG006,TH004,TH005,TH025,MD003,MD004
 
-                            ", SDATES, EDATES, MB001);
+                            ", SDATES, EDATES, MB001, SBQUERY.ToString());
 
             return SB;
 
@@ -541,7 +555,7 @@ namespace TKBUSINESS
         private void button1_Click(object sender, EventArgs e)
         {
             string MB001 = textBox2.Text.Trim() + "''" ;
-            SETFASTREPORT(dateTimePicker3.Value.ToString("yyyyMMdd"), dateTimePicker4.Value.ToString("yyyyMMdd"), MB001);
+            SETFASTREPORT(dateTimePicker3.Value.ToString("yyyyMMdd"), dateTimePicker4.Value.ToString("yyyyMMdd"), MB001,textBox13.Text.Trim());
         }
         private void button2_Click(object sender, EventArgs e)
         {
