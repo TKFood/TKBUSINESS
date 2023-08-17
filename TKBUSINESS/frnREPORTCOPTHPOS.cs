@@ -517,6 +517,21 @@ namespace TKBUSINESS
                 }
             }
         }
+        private void dataGridView1_DoubleClick(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(textBox3.Text) && !string.IsNullOrEmpty(textBox4.Text))
+            {
+                textBox2.Text = textBox2.Text + "'" + textBox3.Text.Trim() + "','" + textBox4.Text.Trim() + "'," + Environment.NewLine;
+            }
+        }
+        private void dataGridView3_DoubleClick(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(textBox10.Text) && !string.IsNullOrEmpty(textBox11.Text))
+            {
+                textBox12.Text = textBox12.Text + "'" + textBox10.Text.Trim() + "','" + textBox11.Text.Trim() + "'," + Environment.NewLine;
+            }
+        }
+
 
         #endregion
 
@@ -576,8 +591,10 @@ namespace TKBUSINESS
             SETFASTREPORT_POSTB_V2(dateTimePicker1.Value.ToString("yyyyMMdd"), dateTimePicker2.Value.ToString("yyyyMMdd"), MB001);
         }
 
+
+
         #endregion
 
-
+        
     }
 }
