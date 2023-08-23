@@ -45,11 +45,41 @@ namespace TKBUSINESS
             InitializeComponent();
 
             textBox5.Text = DateTime.Now.Year.ToString();
+            comboBox1load();
         }
 
 
         #region FUNCTION
-        public void SETFASTREPORT(string SDATES, string EDATES,string MB001,string COMMENTS)
+        public void LoadComboBoxData(ComboBox comboBox, string query, string valueMember, string displayMember)
+        {
+            //20210902密
+            Class1 TKID = new Class1();//用new 建立類別實體
+            SqlConnectionStringBuilder sqlsb = new SqlConnectionStringBuilder(ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString);
+
+            //資料庫使用者密碼解密
+            sqlsb.Password = TKID.Decryption(sqlsb.Password);
+            sqlsb.UserID = TKID.Decryption(sqlsb.UserID);
+
+            using (SqlConnection connection = new SqlConnection(sqlsb.ConnectionString))
+            {
+                SqlCommand command = new SqlCommand(query, connection);
+                connection.Open();
+
+                SqlDataAdapter adapter = new SqlDataAdapter(command);
+                DataTable dataTable = new DataTable();
+                adapter.Fill(dataTable);
+
+                comboBox.DataSource = dataTable;
+                comboBox.ValueMember = valueMember;
+                comboBox.DisplayMember = displayMember;
+            }
+        }
+        public void comboBox1load()
+        {
+            LoadComboBoxData(comboBox1, "SELECT [KINDS],[NAMES],[VALUE] FROM [TKBUSINESS].[dbo].[TBPARA] WHERE [KINDS]='TH020' ORDER BY ID", "NAMES", "NAMES");
+        }
+
+        public void SETFASTREPORT(string SDATES, string EDATES,string MB001,string COMMENTS,string TH020)
         {       
             string P1 = SDATES;
             string P2 = EDATES;
@@ -70,7 +100,7 @@ namespace TKBUSINESS
             StringBuilder SQL2 = new StringBuilder();
 
 
-            SQL1 = SETSQL(SDATES, EDATES, MB001, COMMENTS); 
+            SQL1 = SETSQL(SDATES, EDATES, MB001, COMMENTS,TH020); 
             Report report1 = new Report();
             report1.Load(@"REPORT\銷貨單業績.frx");
 
@@ -87,10 +117,30 @@ namespace TKBUSINESS
             report1.Show();
         }
 
-        public StringBuilder SETSQL(string SDATES, string EDATES,string MB001,string COMMENTS)
+        public StringBuilder SETSQL(string SDATES, string EDATES,string MB001,string COMMENTS,string TH020)
         {
             StringBuilder SB = new StringBuilder();
             StringBuilder SBQUERY = new StringBuilder();
+            StringBuilder SBQUERY2 = new StringBuilder();
+
+            if(!string.IsNullOrEmpty(TH020)&& TH020.Equals("Y"))
+            {
+                SBQUERY2.AppendFormat(@" 
+                                       AND TH020='Y' 
+                                        ");
+            }
+            else  if(!string.IsNullOrEmpty(TH020)&& TH020.Equals("N"))
+            {
+                SBQUERY2.AppendFormat(@" 
+                                       AND TH020='N' 
+                                        ");
+            }
+            else if (!string.IsNullOrEmpty(TH020) && TH020.Equals("全部"))
+            {
+                SBQUERY2.AppendFormat(@" 
+                                    
+                                        ");
+            }
 
             if (!string.IsNullOrEmpty(COMMENTS))
             {
@@ -121,7 +171,7 @@ namespace TKBUSINESS
                             LEFT JOIN [TK].dbo.INVMD ON MD001=TH004 AND MD002=TH009
                             WHERE 1=1
                             AND TG001=TH001 AND TG002=TH002
-                            AND TH020='Y'
+                            {4}
                             AND TG003>='{0}' AND TG003<='{1}'
                             AND TH004 IN (
                             {2}                           
@@ -131,7 +181,7 @@ namespace TKBUSINESS
                             GROUP BY TG006,MV002,TH004,TH005,TH025,MD003,MD004
                             ORDER BY MV002,TG006,TH004,TH005,TH025,MD003,MD004
 
-                            ", SDATES, EDATES, MB001, SBQUERY.ToString());
+                            ", SDATES, EDATES, MB001, SBQUERY.ToString(), SBQUERY2.ToString());
 
             return SB;
 
@@ -555,7 +605,7 @@ namespace TKBUSINESS
         private void button1_Click(object sender, EventArgs e)
         {
             string MB001 = textBox2.Text.Trim() + "''" ;
-            SETFASTREPORT(dateTimePicker3.Value.ToString("yyyyMMdd"), dateTimePicker4.Value.ToString("yyyyMMdd"), MB001,textBox13.Text.Trim());
+            SETFASTREPORT(dateTimePicker3.Value.ToString("yyyyMMdd"), dateTimePicker4.Value.ToString("yyyyMMdd"), MB001,textBox13.Text.Trim(),comboBox1.Text.ToString());
         }
         private void button2_Click(object sender, EventArgs e)
         {
