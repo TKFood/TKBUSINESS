@@ -171,6 +171,7 @@ namespace TKBUSINESS
                             LEFT JOIN [TK].dbo.INVMD ON MD001=TH004 AND MD002=TH009
                             WHERE 1=1
                             AND TG001=TH001 AND TG002=TH002
+                            AND TG023 IN ('Y','N')
                             {4}
                             AND TG003>='{0}' AND TG003<='{1}'
                             AND TH004 IN (
