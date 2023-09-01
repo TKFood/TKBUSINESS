@@ -47,8 +47,11 @@ namespace TKBUSINESS
 
             comboBox1load();
             comboBox2load();
+            comboBox3load();
 
             comboBox1.Text = "全部";
+
+            textBox1.Text = "220056";
         }
 
         #region FUNCTION
@@ -84,8 +87,12 @@ namespace TKBUSINESS
         {
             LoadComboBoxData(comboBox2, "SELECT [KINDS],[NAMES],[VALUE] FROM [TKBUSINESS].[dbo].[TBPARA] WHERE [KINDS]='REPORT1' ORDER BY ID", "NAMES", "NAMES");
         }
+        public void comboBox3load()
+        {
+            LoadComboBoxData(comboBox3, "SELECT [KINDS],[NAMES],[VALUE] FROM [TKBUSINESS].[dbo].[TBPARA] WHERE [KINDS]='TG001' ORDER BY ID", "NAMES", "NAMES");
+        }
 
-        public void SETFASTREPORT(string REPORTSKIND,string SDATES, string EDATES, string TG023)
+        public void SETFASTREPORT(string REPORTSKIND,string SDATES, string EDATES, string TG023,string TG001,string TG006)
         {
             string P1 = SDATES;
             string P2 = EDATES;
@@ -108,13 +115,13 @@ namespace TKBUSINESS
 
             if (REPORTSKIND.Equals("官網銷貨備貨"))
             {
-                SQL1 = SETSQL1(SDATES, EDATES, TG023);
+                SQL1 = SETSQL1(SDATES, EDATES, TG023,TG001,TG006);
 
                 report1.Load(@"REPORT\銷貨備貨V1.frx");
             }
             else if (REPORTSKIND.Equals("官網銷貨備貨明細"))
             {
-                SQL1 = SETSQL2(SDATES, EDATES, TG023);
+                SQL1 = SETSQL2(SDATES, EDATES, TG023, TG001, TG006);
 
                 report1.Load(@"REPORT\銷貨備貨明細.frx");
             }          
@@ -132,11 +139,13 @@ namespace TKBUSINESS
             report1.Show();
         }
 
-        public StringBuilder SETSQL1(string SDATES, string EDATES, string TG023)
+        public StringBuilder SETSQL1(string SDATES, string EDATES, string TG023,string TG001, string TG006)
         {
             StringBuilder SB = new StringBuilder();
             StringBuilder SBQUERY = new StringBuilder();
             StringBuilder SBQUERY2 = new StringBuilder();
+            StringBuilder SBQUERY3 = new StringBuilder();
+
 
             if (!string.IsNullOrEmpty(TG023) && TG023.Equals("Y"))
             {
@@ -157,6 +166,31 @@ namespace TKBUSINESS
                                         ");
             }
 
+            if (!string.IsNullOrEmpty(TG001))
+            {
+                SBQUERY2.AppendFormat(@" 
+                                    AND TG001 IN ('{0}')
+                                        ", TG001);
+            }
+            else
+            {
+                SBQUERY2.AppendFormat(@" 
+                                   
+                                        ");
+            }
+
+            if (!string.IsNullOrEmpty(TG006))
+            {
+                SBQUERY3.AppendFormat(@" 
+                                    AND TG006 IN ('{0}')
+                                        ", TG006);
+            }
+            else
+            {
+                SBQUERY3.AppendFormat(@" 
+                                   
+                                        ");
+            }
 
             SB.AppendFormat(@" 
                            SELECT TH004 AS '品號',TH005 AS '品名',TH009 AS '單位',SUM(TH008+TH024) AS '數量'
@@ -166,21 +200,23 @@ namespace TKBUSINESS
                             AND TG001='A233'
                             AND TG003>='{0}' AND TG003<='{1}'
                             {2}
-
+                            {3}
+                            {4}
                             GROUP BY TH004,TH005,TH009
                             ORDER BY TH004
 
 
-                            ",SDATES,EDATES, SBQUERY.ToString());
+                            ", SDATES,EDATES, SBQUERY.ToString(), SBQUERY2.ToString(), SBQUERY3.ToString());
 
             return SB;
         }
 
-        public StringBuilder SETSQL2(string SDATES, string EDATES, string TG023)
+        public StringBuilder SETSQL2(string SDATES, string EDATES, string TG023, string TG001, string TG006)
         {
             StringBuilder SB = new StringBuilder();
             StringBuilder SBQUERY = new StringBuilder();
             StringBuilder SBQUERY2 = new StringBuilder();
+            StringBuilder SBQUERY3 = new StringBuilder();
 
             if (!string.IsNullOrEmpty(TG023) && TG023.Equals("Y"))
             {
@@ -201,6 +237,32 @@ namespace TKBUSINESS
                                         ");
             }
 
+            if(!string.IsNullOrEmpty(TG001))
+            {
+                SBQUERY2.AppendFormat(@" 
+                                    AND TG001 IN ('{0}')
+                                        ", TG001);
+            }
+            else
+            {
+                SBQUERY2.AppendFormat(@" 
+                                   
+                                        ");
+            }
+
+            if (!string.IsNullOrEmpty(TG006))
+            {
+                SBQUERY3.AppendFormat(@" 
+                                    AND TG006 IN ('{0}')
+                                        ", TG006);
+            }
+            else
+            {
+                SBQUERY3.AppendFormat(@" 
+                                   
+                                        ");
+            }
+
 
             SB.AppendFormat(@" 
                             SELECT TG001 AS '銷貨單',TG002 AS '銷貨單號',TH004 AS '品號',TH005 AS '品名',TH009 AS '單位',SUM(TH008+TH024) AS '數量'
@@ -210,12 +272,13 @@ namespace TKBUSINESS
                             AND TG001='A233'
                             AND TG003>='{0}' AND TG003<='{1}'
                             {2}
-
+                            {3}
+                            {4}
                             GROUP BY  TG001,TG002,TH004,TH005,TH009
                             ORDER BY  TG001,TG002,TH004
 
 
-                            ", SDATES, EDATES, SBQUERY.ToString());
+                            ", SDATES, EDATES, SBQUERY.ToString(), SBQUERY2.ToString(), SBQUERY3.ToString());
 
             return SB;
         }
@@ -227,7 +290,7 @@ namespace TKBUSINESS
 
         private void button1_Click(object sender, EventArgs e)
         {
-            SETFASTREPORT(comboBox2.Text.ToString(),dateTimePicker3.Value.ToString("yyyyMMdd"), dateTimePicker4.Value.ToString("yyyyMMdd"), comboBox1.Text.ToString());
+            SETFASTREPORT(comboBox2.Text.ToString(),dateTimePicker3.Value.ToString("yyyyMMdd"), dateTimePicker4.Value.ToString("yyyyMMdd"), comboBox1.Text.ToString(),comboBox3.Text.ToString(),textBox1.Text);
         }
 
         #endregion
