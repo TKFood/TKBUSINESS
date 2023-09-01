@@ -196,8 +196,7 @@ namespace TKBUSINESS
                            SELECT TH004 AS '品號',TH005 AS '品名',TH009 AS '單位',SUM(TH008+TH024) AS '數量'
                             FROM [TK].dbo.COPTG,[TK].dbo.COPTH
                             WHERE 1=1
-                            AND TG001=TH001 AND TG002=TH002
-                            AND TG001='A233'
+                            AND TG001=TH001 AND TG002=TH002                          
                             AND TG003>='{0}' AND TG003<='{1}'
                             {2}
                             {3}
@@ -268,8 +267,7 @@ namespace TKBUSINESS
                             SELECT TG001 AS '銷貨單',TG002 AS '銷貨單號',TH004 AS '品號',TH005 AS '品名',TH009 AS '單位',SUM(TH008+TH024) AS '數量'
                             FROM [TK].dbo.COPTG,[TK].dbo.COPTH
                             WHERE 1=1
-                            AND TG001=TH001 AND TG002=TH002
-                            AND TG001='A233'
+                            AND TG001=TH001 AND TG002=TH002                           
                             AND TG003>='{0}' AND TG003<='{1}'
                             {2}
                             {3}
