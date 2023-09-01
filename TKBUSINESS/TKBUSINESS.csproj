@@ -218,6 +218,12 @@
     <Compile Include="frmREPORTCOPTDTH.Designer.cs">
       <DependentUpon>frmREPORTCOPTDTH.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmREPORTCOPTGHGSET.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmREPORTCOPTGHGSET.Designer.cs">
+      <DependentUpon>frmREPORTCOPTGHGSET.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmREPORTCOPTH.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -330,6 +336,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmREPORTCOPTDTH.resx">
       <DependentUpon>frmREPORTCOPTDTH.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmREPORTCOPTGHGSET.resx">
+      <DependentUpon>frmREPORTCOPTGHGSET.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmREPORTCOPTH.resx">
       <DependentUpon>frmREPORTCOPTH.cs</DependentUpon>
