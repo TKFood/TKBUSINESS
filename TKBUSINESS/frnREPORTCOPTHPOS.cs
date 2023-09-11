@@ -684,7 +684,74 @@ namespace TKBUSINESS
                 textBox12.Text = textBox12.Text + "'" + textBox10.Text.Trim() + "','" + textBox11.Text.Trim() + "'," + Environment.NewLine;
             }
         }
+        public void SETFASTREPORT_SASLA(string SDATES, string EDATES, string LA005, string LA007)
+        {
+            string P1 = SDATES;
+            string P2 = EDATES;
 
+            //20210902密
+            Class1 TKID = new Class1();//用new 建立類別實體
+            SqlConnectionStringBuilder sqlsb = new SqlConnectionStringBuilder(ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString);
+
+            //資料庫使用者密碼解密
+            sqlsb.Password = TKID.Decryption(sqlsb.Password);
+            sqlsb.UserID = TKID.Decryption(sqlsb.UserID);
+
+            String connectionString;
+            sqlConn = new SqlConnection(sqlsb.ConnectionString);
+
+
+            StringBuilder SQL1 = new StringBuilder();
+            StringBuilder SQL2 = new StringBuilder();
+
+            Report report1 = new Report();
+
+            SQL1 = SETSQL_SETFASTREPORT_SASLA(SDATES, EDATES, LA005, LA007);
+            report1.Load(@"REPORT\銷貨月報.frx");
+
+            report1.Dictionary.Connections[0].ConnectionString = sqlsb.ConnectionString;
+
+            TableDataSource table = report1.GetDataSource("Table") as TableDataSource;
+            table.SelectCommand = SQL1.ToString();
+
+
+
+
+            report1.SetParameterValue("P1", P1);
+            report1.SetParameterValue("P2", P2);
+
+            report1.Preview = previewControl4;
+            report1.Show();
+        }
+
+        public StringBuilder SETSQL_SETFASTREPORT_SASLA(string SDATES, string EDATES, string LA005, string LA007)
+        {
+            StringBuilder SB = new StringBuilder();
+            StringBuilder SBQUERY = new StringBuilder();
+            StringBuilder SBQUERY2 = new StringBuilder();
+
+         
+            SB.AppendFormat(@" 
+                            SELECT LA005 AS '品號',MB002 AS '品名',MB003 AS '規格'
+                            ,SUM(LA016-LA019+LA025) AS '銷售淨量',SUM(LA017-LA020-LA022-LA023) AS '銷貨淨額',SUM(LA024) AS '成本'
+                            ,(SUM(LA017-LA020-LA022-LA023)-SUM(LA024)) AS '毛利'
+                            ,(SUM(LA017-LA020-LA022-LA023)-SUM(LA024))/SUM(LA017-LA020-LA022-LA023) AS '毛利率'
+                            FROM [TK].dbo.SASLA
+                            LEFT JOIN [TK].dbo.INVMB ON MB001=LA005
+                            WHERE LA005 IN 
+                            (
+                            '40117610801160',''
+                            )
+                            AND LA007 LIKE '117%'
+                            AND CONVERT(NVARCHAR,LA015,112)>='20230101' AND  CONVERT(NVARCHAR,LA015,112)<='20230930'
+                            GROUP BY LA005,MB002,MB003
+                            ORDER BY LA005
+
+                            ", SDATES, EDATES, LA005, SBQUERY.ToString(), SBQUERY2.ToString());
+
+            return SB;
+
+        }
 
         #endregion
 
@@ -745,9 +812,14 @@ namespace TKBUSINESS
         }
 
 
+        private void button14_Click(object sender, EventArgs e)
+        {
+            string MB001 = textBox17.Text.Trim() + "''";
+            SETFASTREPORT_SASLA(dateTimePicker5.Value.ToString("yyyyMMdd"), dateTimePicker6.Value.ToString("yyyyMMdd"), MB001, textBox18.Text.Trim());
+        }
 
         #endregion
 
-        
+
     }
 }
