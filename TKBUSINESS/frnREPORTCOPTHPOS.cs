@@ -730,6 +730,14 @@ namespace TKBUSINESS
             StringBuilder SBQUERY = new StringBuilder();
             StringBuilder SBQUERY2 = new StringBuilder();
 
+            if(!string.IsNullOrEmpty(LA007))
+            {
+                SBQUERY.AppendFormat(@"   AND LA007 LIKE '{0}%' ", LA007);
+            }
+            else
+            {
+                SBQUERY.AppendFormat(@"  ");
+            }
          
             SB.AppendFormat(@" 
                             SELECT LA005 AS '品號',MB002 AS '品名',MB003 AS '規格'
@@ -740,18 +748,99 @@ namespace TKBUSINESS
                             LEFT JOIN [TK].dbo.INVMB ON MB001=LA005
                             WHERE LA005 IN 
                             (
-                            '40117610801160',''
+                            {2}
                             )
-                            AND LA007 LIKE '117%'
-                            AND CONVERT(NVARCHAR,LA015,112)>='20230101' AND  CONVERT(NVARCHAR,LA015,112)<='20230930'
+
+                            {3}
+                            AND CONVERT(NVARCHAR,LA015,112)>='{0}' AND  CONVERT(NVARCHAR,LA015,112)<='{1}'
                             GROUP BY LA005,MB002,MB003
                             ORDER BY LA005
 
-                            ", SDATES, EDATES, LA005, SBQUERY.ToString(), SBQUERY2.ToString());
+                            ", SDATES, EDATES, LA005, SBQUERY.ToString());
 
             return SB;
 
         }
+        public void Search_INVMB_DG4(string MB001)
+        {
+            StringBuilder sbSql = new StringBuilder();
+            StringBuilder sbSqlQuery = new StringBuilder();
+            SqlDataAdapter adapter = new SqlDataAdapter();
+            SqlCommandBuilder sqlCmdBuilder = new SqlCommandBuilder();
+            DataSet ds = new DataSet();
+
+            try
+            {
+                sbSql.Clear();
+                sbSql.AppendFormat(@"
+                                    SELECT MB001 AS '品號',MB002  AS '品名'
+                                    FROM [TK].dbo.INVMB
+                                    WHERE (MB001 LIKE '3%' OR MB001 LIKE '4%' OR MB001 LIKE '5%' )
+                                    AND (MB001 LIKE '%{0}%' OR MB002 LIKE '%{0}%')
+                                    ORDER BY MB001
+                                    ", MB001);
+
+
+                //20210902密
+                Class1 TKID = new Class1();//用new 建立類別實體
+                SqlConnectionStringBuilder sqlsb = new SqlConnectionStringBuilder(ConfigurationManager.ConnectionStrings["dberp"].ConnectionString);
+
+                //資料庫使用者密碼解密
+                sqlsb.Password = TKID.Decryption(sqlsb.Password);
+                sqlsb.UserID = TKID.Decryption(sqlsb.UserID);
+
+                String connectionString;
+                sqlConn = new SqlConnection(sqlsb.ConnectionString);
+
+                adapter = new SqlDataAdapter(sbSql.ToString(), sqlConn);
+                sqlCmdBuilder = new SqlCommandBuilder(adapter);
+
+                sqlConn.Open();
+                ds.Clear();
+                adapter.Fill(ds, "ds");
+                sqlConn.Close();
+
+
+                if (ds.Tables["ds"].Rows.Count == 0)
+                {
+                    dataGridView4.DataSource = null;
+                }
+                else
+                {
+                    dataGridView4.DataSource = ds.Tables["ds"];
+                    dataGridView4.AutoResizeColumns();
+                    dataGridView4.ColumnHeadersDefaultCellStyle.Font = new Font("Tahoma", 9);
+                    dataGridView4.DefaultCellStyle.Font = new Font("Tahoma", 10);
+                }
+
+            }
+            catch
+            {
+
+            }
+            finally
+            {
+
+            }
+        }
+        private void dataGridView4_SelectionChanged(object sender, EventArgs e)
+        {
+            textBox15.Text = null;
+            textBox16.Text = null;
+
+            if (dataGridView4.CurrentRow != null)
+            {
+                int rowindex = dataGridView4.CurrentRow.Index;
+                if (rowindex >= 0)
+                {
+                    DataGridViewRow row = dataGridView4.Rows[rowindex];
+
+                    textBox15.Text = row.Cells["品號"].Value.ToString().Trim();
+                    textBox16.Text = row.Cells["品名"].Value.ToString().Trim();
+                }
+            }
+        }
+
 
         #endregion
 
@@ -817,9 +906,26 @@ namespace TKBUSINESS
             string MB001 = textBox17.Text.Trim() + "''";
             SETFASTREPORT_SASLA(dateTimePicker5.Value.ToString("yyyyMMdd"), dateTimePicker6.Value.ToString("yyyyMMdd"), MB001, textBox18.Text.Trim());
         }
+        private void button11_Click(object sender, EventArgs e)
+        {
+            Search_INVMB_DG4(textBox14.Text.Trim());
+        }
+
+        private void button13_Click(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(textBox15.Text) && !string.IsNullOrEmpty(textBox16.Text))
+            {
+                textBox17.Text = textBox17.Text + "'" + textBox15.Text.Trim() + "','" + textBox16.Text.Trim() + "'," + Environment.NewLine;
+            }
+        }
+
+        private void button12_Click(object sender, EventArgs e)
+        {
+            textBox17.Text = null;
+        }
+
 
         #endregion
-
 
     }
 }

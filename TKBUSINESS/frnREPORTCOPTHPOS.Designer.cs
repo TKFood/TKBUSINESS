@@ -1396,6 +1396,7 @@
             this.button11.TabIndex = 26;
             this.button11.Text = "查詢";
             this.button11.UseVisualStyleBackColor = true;
+            this.button11.Click += new System.EventHandler(this.button11_Click);
             // 
             // dataGridView4
             // 
@@ -1408,6 +1409,7 @@
             this.dataGridView4.RowTemplate.Height = 24;
             this.dataGridView4.Size = new System.Drawing.Size(362, 207);
             this.dataGridView4.TabIndex = 1;
+            this.dataGridView4.SelectionChanged += new System.EventHandler(this.dataGridView4_SelectionChanged);
             // 
             // tableLayoutPanel10
             // 
@@ -1416,10 +1418,10 @@
             this.tableLayoutPanel10.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 120F));
             this.tableLayoutPanel10.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 120F));
             this.tableLayoutPanel10.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 122F));
-            this.tableLayoutPanel10.Controls.Add(this.textBox15, 0, 0);
             this.tableLayoutPanel10.Controls.Add(this.button12, 2, 1);
             this.tableLayoutPanel10.Controls.Add(this.button13, 1, 1);
             this.tableLayoutPanel10.Controls.Add(this.textBox16, 1, 0);
+            this.tableLayoutPanel10.Controls.Add(this.textBox15, 0, 0);
             this.tableLayoutPanel10.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel10.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel10.Name = "tableLayoutPanel10";
@@ -1450,6 +1452,7 @@
             this.button12.TabIndex = 29;
             this.button12.Text = "清空查詢品";
             this.button12.UseVisualStyleBackColor = true;
+            this.button12.Click += new System.EventHandler(this.button12_Click);
             // 
             // button13
             // 
@@ -1461,6 +1464,7 @@
             this.button13.TabIndex = 27;
             this.button13.Text = "加入查詢品";
             this.button13.UseVisualStyleBackColor = true;
+            this.button13.Click += new System.EventHandler(this.button13_Click);
             // 
             // textBox16
             // 
