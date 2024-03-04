@@ -242,6 +242,12 @@
     <Compile Include="frmREPORTSASLA.Designer.cs">
       <DependentUpon>frmREPORTSASLA.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmREPORTSASLARANKS.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmREPORTSASLARANKS.Designer.cs">
+      <DependentUpon>frmREPORTSASLARANKS.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmRPPORTCOPTHINVLA.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -348,6 +354,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmREPORTSASLA.resx">
       <DependentUpon>frmREPORTSASLA.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmREPORTSASLARANKS.resx">
+      <DependentUpon>frmREPORTSASLARANKS.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmRPPORTCOPTHINVLA.resx">
       <DependentUpon>frmRPPORTCOPTHINVLA.cs</DependentUpon>

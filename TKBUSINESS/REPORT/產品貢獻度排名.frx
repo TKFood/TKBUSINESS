@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report ScriptLanguage="CSharp" ReportInfo.Created="03/04/2024 15:16:14" ReportInfo.Modified="03/04/2024 15:22:00" ReportInfo.CreatorVersion="2016.4.4.0">
+  <Dictionary>
+    <MsSqlDataConnection Name="Connection" ConnectionString="rijcmlqHwzMSgwTFaHpjtG3vsOj8Zy6q+uhwpDsytgWqwZQZyEQUQyQ022aWUGqU90pHzzNjHuzu89K+RQ2LIBVx1fpgNkNJhwC4eetn2/Uy0fMrO7zDUE5AmRb+0bcYI+lxqpN+i5gA3VDGcwlcfm6L9ZMsLrZ3U+wEDtHCQtd9vw2XUGXgi1+2yQRLsAhV+ttf9s7">
+      <TableDataSource Name="Table" DataType="System.Int32" Enabled="true" SelectCommand="&#13;&#10;SELECT &#13;&#10;LA005 AS '品號'&#13;&#10;,LA007 AS '部門'&#13;&#10;,ME002 AS '部門名'&#13;&#10;,MB002 AS '品名'&#13;&#10;,NUMS AS '銷售數量'&#13;&#10;,MONEYS AS '銷售金額'&#13;&#10;,COSTS AS '成本'&#13;&#10;,EARNSMONEYS AS '毛利'&#13;&#10;,EARNSMONEYSRATES AS '毛利率'&#13;&#10;,MONEYSPCTS AS '個別銷售'&#13;&#10;,EARNSMONEYSPCTS AS '毛利貢獻'&#13;&#10;,RANKS AS '貢獻比'&#13;&#10;,ROW_NUMBER() OVER (ORDER BY  RANKS DESC) AS '貢獻比排名'&#13;&#10;FROM &#13;&#10;(&#13;&#10;SELECT *&#13;&#10;,(MONEYS-COSTS) AS EARNSMONEYS&#13;&#10;,(CASE WHEN MONEYS&gt;0 AND COSTS&gt;0 THEN ((MONEYS-COSTS)/COSTS) ELSE 0 END ) AS EARNSMONEYSRATES&#13;&#10;,(MONEYS/SUM(MONEYS) OVER ()) AS MONEYSPCTS&#13;&#10;,((MONEYS-COSTS)/SUM((MONEYS-COSTS)) OVER ()) AS EARNSMONEYSPCTS&#13;&#10;,((MONEYS/SUM(MONEYS) OVER ())*((MONEYS-COSTS)/SUM((MONEYS-COSTS)) OVER ())) AS RANKS&#13;&#10;FROM&#13;&#10;(&#13;&#10;SELECT LA005,LA007,ME002,MB002,SUM(LA016-LA019+LA025) AS NUMS,SUM(LA017-LA020-LA022-LA023) AS MONEYS,SUM(LA024) AS COSTS&#13;&#10;FROM [TK].dbo.SASLA,[TK].dbo.INVMB,[TK].dbo.CMSME&#13;&#10;WHERE 1=1&#13;&#10;AND LA005=MB001&#13;&#10;AND LA007=ME001&#13;&#10;AND (LA005 LIKE '4%' OR  LA005 LIKE '5%')&#13;&#10;AND LA005 NOT LIKE '599%'&#13;&#10;AND ((MB002 NOT LIKE '%試吃%') OR (MB002  LIKE '%試吃%' AND (LA017-LA020-LA022-LA023)&gt;0)) &#13;&#10;AND CONVERT(NVARCHAR,LA015,112)&gt;='20230101'&#13;&#10;AND CONVERT(NVARCHAR,LA015,112)&lt;='20231231'&#13;&#10;AND LA007 IN  (&#13;&#10;SELECT [NAMES]&#13;&#10;FROM [TKBUSINESS].[dbo].[TBPARA]&#13;&#10;WHERE [KINDS]='硯微墨'&#13;&#10;)&#13;&#10;GROUP BY LA005,LA007,ME002,MB002&#13;&#10;) AS TEMP&#13;&#10;) AS TMEP2&#13;&#10;ORDER BY RANKS DESC&#13;&#10;">
+        <Column Name="品號" DataType="System.String"/>
+        <Column Name="部門" DataType="System.String"/>
+        <Column Name="部門名" DataType="System.String"/>
+        <Column Name="品名" DataType="System.String"/>
+        <Column Name="銷售數量" DataType="System.Decimal"/>
+        <Column Name="銷售金額" DataType="System.Decimal"/>
+        <Column Name="成本" DataType="System.Decimal"/>
+        <Column Name="毛利" DataType="System.Decimal"/>
+        <Column Name="毛利率" DataType="System.Decimal"/>
+        <Column Name="個別銷售" DataType="System.Decimal"/>
+        <Column Name="毛利貢獻" DataType="System.Decimal"/>
+        <Column Name="貢獻比" DataType="System.Decimal"/>
+        <Column Name="貢獻比排名" DataType="System.Int64"/>
+      </TableDataSource>
+    </MsSqlDataConnection>
+  </Dictionary>
+  <ReportPage Name="Page1" Landscape="true" PaperWidth="400" PaperHeight="210">
+    <ReportTitleBand Name="ReportTitle1" Width="1436.4" Height="18.9">
+      <TextObject Name="Text1" Width="94.5" Height="18.9" Text="產品貢獻度" HorzAlign="Center" VertAlign="Center"/>
+    </ReportTitleBand>
+    <PageHeaderBand Name="PageHeader1" Top="23.5" Width="1436.4" Height="18.9">
+      <TextObject Name="Text3" Width="85.05" Height="18.9" Border.Lines="All" Text="部門" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text5" Left="85.05" Width="151.2" Height="18.9" Border.Lines="All" Text="部門名" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text7" Left="236.25" Width="141.75" Height="18.9" Border.Lines="All" Text="品號" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text9" Left="378" Width="207.9" Height="18.9" Border.Lines="All" Text="品名" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text11" Left="585.9" Width="94.5" Height="18.9" Border.Lines="All" Text="銷售數量" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text13" Left="680.4" Width="94.5" Height="18.9" Border.Lines="All" Text="銷售金額" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text15" Left="774.9" Width="94.5" Height="18.9" Border.Lines="All" Text="成本" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text17" Left="869.4" Width="94.5" Height="18.9" Border.Lines="All" Text="毛利" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text19" Left="963.9" Width="94.5" Height="18.9" Border.Lines="All" Text="毛利率" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text21" Left="1058.4" Width="94.5" Height="18.9" Border.Lines="All" Text="個別銷售" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text23" Left="1152.9" Width="94.5" Height="18.9" Border.Lines="All" Text="毛利貢獻" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text25" Left="1247.4" Width="94.5" Height="18.9" Border.Lines="All" Text="貢獻比" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text27" Left="1341.9" Width="94.5" Height="18.9" Border.Lines="All" Text="貢獻比排名" HorzAlign="Center" VertAlign="Center"/>
+    </PageHeaderBand>
+    <DataBand Name="Data1" Top="47" Width="1436.4" Height="18.9" CanGrow="true" DataSource="Table">
+      <TextObject Name="Text2" Width="85.05" Height="18.9" Border.Lines="All" CanGrow="true" GrowToBottom="true" Text="[Table.部門]" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text4" Left="85.05" Width="151.2" Height="18.9" Border.Lines="All" CanGrow="true" GrowToBottom="true" Text="[Table.部門名]" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text6" Left="236.25" Width="141.75" Height="18.9" Border.Lines="All" CanGrow="true" GrowToBottom="true" Text="[Table.品號]" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text8" Left="378" Width="207.9" Height="18.9" Border.Lines="All" CanGrow="true" GrowToBottom="true" Text="[Table.品名]" VertAlign="Center"/>
+      <TextObject Name="Text10" Left="585.9" Width="94.5" Height="18.9" Border.Lines="All" CanGrow="true" GrowToBottom="true" Text="[Table.銷售數量]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="0" Format.DecimalSeparator="." Format.GroupSeparator="," Format.NegativePattern="1" HorzAlign="Right" VertAlign="Center" WordWrap="false" Trimming="EllipsisCharacter"/>
+      <TextObject Name="Text12" Left="680.4" Width="94.5" Height="18.9" Border.Lines="All" CanGrow="true" GrowToBottom="true" Text="[Table.銷售金額]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="0" Format.DecimalSeparator="." Format.GroupSeparator="," Format.NegativePattern="1" HorzAlign="Right" VertAlign="Center" WordWrap="false" Trimming="EllipsisCharacter"/>
+      <TextObject Name="Text14" Left="774.9" Width="94.5" Height="18.9" Border.Lines="All" CanGrow="true" GrowToBottom="true" Text="[Table.成本]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="0" Format.DecimalSeparator="." Format.GroupSeparator="," Format.NegativePattern="1" HorzAlign="Right" VertAlign="Center" WordWrap="false" Trimming="EllipsisCharacter"/>
+      <TextObject Name="Text16" Left="869.4" Width="94.5" Height="18.9" Border.Lines="All" CanGrow="true" GrowToBottom="true" Text="[Table.毛利]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="0" Format.DecimalSeparator="." Format.GroupSeparator="," Format.NegativePattern="1" HorzAlign="Right" VertAlign="Center" WordWrap="false" Trimming="EllipsisCharacter"/>
+      <TextObject Name="Text18" Left="963.9" Width="94.5" Height="18.9" Border.Lines="All" CanGrow="true" GrowToBottom="true" Text="[Table.毛利率]" Format="Percent" Format.UseLocale="true" HorzAlign="Right" VertAlign="Center" WordWrap="false" Trimming="EllipsisCharacter"/>
+      <TextObject Name="Text20" Left="1058.4" Width="94.5" Height="18.9" Border.Lines="All" CanGrow="true" GrowToBottom="true" Text="[Table.個別銷售]" Format="Percent" Format.UseLocale="true" HorzAlign="Right" VertAlign="Center" WordWrap="false" Trimming="EllipsisCharacter"/>
+      <TextObject Name="Text22" Left="1152.9" Width="94.5" Height="18.9" Border.Lines="All" CanGrow="true" GrowToBottom="true" Text="[Table.毛利貢獻]" Format="Percent" Format.UseLocale="true" HorzAlign="Right" VertAlign="Center" WordWrap="false" Trimming="EllipsisCharacter"/>
+      <TextObject Name="Text24" Left="1247.4" Width="94.5" Height="18.9" Border.Lines="All" CanGrow="true" GrowToBottom="true" Text="[Table.貢獻比]" Format="Percent" Format.UseLocale="true" HorzAlign="Right" VertAlign="Center" WordWrap="false" Trimming="EllipsisCharacter"/>
+      <TextObject Name="Text26" Left="1341.9" Width="94.5" Height="18.9" Border.Lines="All" CanGrow="true" GrowToBottom="true" Text="[Table.貢獻比排名]" HorzAlign="Center" VertAlign="Center"/>
+    </DataBand>
+    <PageFooterBand Name="PageFooter1" Top="70.49" Width="1436.4" Height="18.9"/>
+  </ReportPage>
+</Report>
