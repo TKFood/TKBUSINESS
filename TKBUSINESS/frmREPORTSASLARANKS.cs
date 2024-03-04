@@ -47,9 +47,43 @@ namespace TKBUSINESS
             InitializeComponent();
 
             SETDATES();
+            comboBox1load();
         }
 
         #region FUNCTION
+        public void comboBox1load()
+        {
+            DataTable dt = new DataTable();
+            //20210902密
+            Class1 TKID = new Class1();//用new 建立類別實體
+            SqlConnectionStringBuilder sqlsb = new SqlConnectionStringBuilder(ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString);
+
+            //資料庫使用者密碼解密
+            sqlsb.Password = TKID.Decryption(sqlsb.Password);
+            sqlsb.UserID = TKID.Decryption(sqlsb.UserID);
+
+            String connectionString;
+            sqlConn = new SqlConnection(sqlsb.ConnectionString);
+
+
+            StringBuilder Sequel = new StringBuilder();
+            Sequel.AppendFormat(@"
+                                SELECT [NAMES]
+                                FROM [TKBUSINESS].[dbo].[TBPARA]
+                                WHERE [KINDS]='SASLALA007'
+                                ");
+            SqlDataAdapter da = new SqlDataAdapter(Sequel.ToString(), sqlConn);
+           
+            sqlConn.Open();
+           
+            dt.Columns.Add("NAMES", typeof(string));
+            da.Fill(dt);
+            comboBox1.DataSource = dt.DefaultView;
+            comboBox1.DisplayMember = "NAMES";
+            sqlConn.Close();
+
+
+        }
         public void SETDATES()
         {
             DateTime currentDate = DateTime.Now;
