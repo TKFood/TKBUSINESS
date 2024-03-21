@@ -209,7 +209,7 @@ namespace TKBUSINESS
                             (
                             SELECT *
                             ,(MONEYS-COSTS) AS EARNSMONEYS
-                            ,(CASE WHEN MONEYS>0 AND COSTS>0 THEN ((MONEYS-COSTS)/COSTS) ELSE 0 END ) AS EARNSMONEYSRATES
+                            ,(CASE WHEN MONEYS>0 AND COSTS>0 THEN ((MONEYS-COSTS)/MONEYS) ELSE 0 END ) AS EARNSMONEYSRATES
                             ,(MONEYS/SUM(MONEYS) OVER ()) AS MONEYSPCTS
                             ,((MONEYS-COSTS)/SUM((MONEYS-COSTS)) OVER ()) AS EARNSMONEYSPCTS
                             ,((MONEYS/SUM(MONEYS) OVER ())*((MONEYS-COSTS)/SUM((MONEYS-COSTS)) OVER ())) AS RANKS
@@ -265,7 +265,7 @@ namespace TKBUSINESS
                             (
                             SELECT *
                             ,(MONEYS-COSTS) AS EARNSMONEYS
-                            ,(CASE WHEN MONEYS>0 AND COSTS>0 THEN ((MONEYS-COSTS)/COSTS) ELSE 0 END ) AS EARNSMONEYSRATES
+                            ,(CASE WHEN MONEYS>0 AND COSTS>0 THEN ((MONEYS-COSTS)/MONEYS) ELSE 0 END ) AS EARNSMONEYSRATES
                             ,(MONEYS/SUM(MONEYS) OVER ()) AS MONEYSPCTS
                             ,((MONEYS-COSTS)/SUM((MONEYS-COSTS)) OVER ()) AS EARNSMONEYSPCTS
                             ,((MONEYS/SUM(MONEYS) OVER ())*((MONEYS-COSTS)/SUM((MONEYS-COSTS)) OVER ())) AS RANKS
@@ -321,7 +321,7 @@ namespace TKBUSINESS
                             (
                             SELECT *
                             ,(MONEYS-COSTS) AS EARNSMONEYS
-                            ,(CASE WHEN MONEYS>0 AND COSTS>0 THEN ((MONEYS-COSTS)/COSTS) ELSE 0 END ) AS EARNSMONEYSRATES
+                            ,(CASE WHEN MONEYS>0 AND COSTS>0 THEN ((MONEYS-COSTS)/MONEYS) ELSE 0 END ) AS EARNSMONEYSRATES
                             ,(MONEYS/SUM(MONEYS) OVER ()) AS MONEYSPCTS
                             ,((MONEYS-COSTS)/SUM((MONEYS-COSTS)) OVER ()) AS EARNSMONEYSPCTS
                             ,((MONEYS/SUM(MONEYS) OVER ())*((MONEYS-COSTS)/SUM((MONEYS-COSTS)) OVER ())) AS RANKS

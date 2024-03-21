@@ -172,21 +172,24 @@ namespace TKBUSINESS
             }
 
             SB.AppendFormat(@" 
-                            SELECT 
+                           SELECT 
                             MV002 AS '業務員'
-
                             ,TH004 AS '品號'
                             ,TH005 AS '品名'
-                            ,SUM(TH008) TH008
-                            ,SUM(TH037) AS '未稅金額'
+                            ,ISNULL(SUM(LA1.LA011),0) TH008
+                            ,ISNULL(SUM(LA2.LA011),0) TJ007
+                            ,(ISNULL(SUM(TH037),0)) 
+                            ,(ISNULL(SUM(TJ033),0)) 
+                            ,(ISNULL(SUM(TH037),0)-ISNULL(SUM(TJ033),0)) AS '未稅金額'
                             ,TH025 AS 折扣率
-                            ,MD003
-                            ,MD004
-                            ,(CASE WHEN ISNULL(MD004,0)<>0 THEN SUM(TH008)*MD004/MD003 ELSE SUM(TH008) END ) AS  '銷售數量'
+                            ,(ISNULL(SUM(LA1.LA011),0)-ISNULL(SUM(LA2.LA011),0)) AS  '銷售數量'
                             FROM [TK].dbo.COPTG
                             LEFT JOIN [TK].dbo.CMSMV ON MV001=TG006
                             ,[TK].dbo.COPTH
-                            LEFT JOIN [TK].dbo.INVMD ON MD001=TH004 AND MD002=TH009
+                            LEFT JOIN [TK].dbo.INVLA LA1 ON LA1.LA006=TH001 AND LA1.LA007=TH002 AND LA1.LA008=TH003
+                            LEFT JOIN [TK].dbo.COPTJ ON TJ015=TH001 AND TJ016=TH002 AND TJ017=TH003 AND TJ004=TH004
+                            LEFT JOIN [TK].dbo.INVLA LA2 ON LA2.LA006=TJ001 AND LA2.LA007=TJ002 AND LA2.LA008=TJ003
+                            LEFT  JOIN [TK].dbo.COPTI ON TI001=TJ001 AND TI002=TJ002 AND TI019='Y'
                             WHERE 1=1
                             AND TG001=TH001 AND TG002=TH002
                             AND TG023 IN ('Y','N')
@@ -197,8 +200,8 @@ namespace TKBUSINESS
                             )
                             {3}
 
-                            GROUP BY TG006,MV002,TH004,TH005,TH025,MD003,MD004
-                            ORDER BY MV002,TG006,TH004,TH005,TH025,MD003,MD004
+                            GROUP BY TG006,MV002,TH004,TH005,TH025
+                            ORDER BY MV002,TG006,TH004,TH005,TH025
 
                             ", SDATES, EDATES, MB001, SBQUERY.ToString(), SBQUERY2.ToString());
 
@@ -245,15 +248,18 @@ namespace TKBUSINESS
                              SELECT      
                             TH004 AS '品號'
                             ,TH005 AS '品名'
-                            ,SUM(TH008) TH008
-                            ,SUM(TH037) AS '未稅金額'                         
-                            ,MD003
-                            ,MD004
-                            ,(CASE WHEN ISNULL(MD004,0)<>0 THEN SUM(TH008)*MD004/MD003 ELSE SUM(TH008) END ) AS  '銷售數量'
+                            ,ISNULL(SUM(LA1.LA011),0) TH008
+                            ,ISNULL(SUM(LA2.LA011),0) TJ007
+                            ,(ISNULL(SUM(TH037),0)-ISNULL(SUM(TJ033),0)) AS '未稅金額'             
+
+                            ,(ISNULL(SUM(LA1.LA011),0)-ISNULL(SUM(LA2.LA011),0)) AS  '銷售數量'
                             FROM [TK].dbo.COPTG
                             LEFT JOIN [TK].dbo.CMSMV ON MV001=TG006
                             ,[TK].dbo.COPTH
-                            LEFT JOIN [TK].dbo.INVMD ON MD001=TH004 AND MD002=TH009
+                            LEFT JOIN [TK].dbo.INVLA LA1 ON LA1.LA006=TH001 AND LA1.LA007=TH002 AND LA1.LA008=TH003
+                            LEFT JOIN [TK].dbo.COPTJ ON TJ015=TH001 AND TJ016=TH002 AND TJ017=TH003 AND TJ004=TH004
+                            LEFT JOIN [TK].dbo.INVLA LA2 ON LA2.LA006=TJ001 AND LA2.LA007=TJ002 AND LA2.LA008=TJ003
+                            LEFT  JOIN [TK].dbo.COPTI ON TI001=TJ001 AND TI002=TJ002 AND TI019='Y'
                             WHERE 1=1
                             AND TG001=TH001 AND TG002=TH002
                             AND TG023 IN ('Y','N')
@@ -264,8 +270,8 @@ namespace TKBUSINESS
                             )
                             {3}
 
-                            GROUP BY TH004,TH005,MD003,MD004
-                            ORDER BY TH004,TH005,MD003,MD004
+                            GROUP BY TH004,TH005
+                            ORDER BY TH004,TH005
 
 
                             ", SDATES, EDATES, MB001, SBQUERY.ToString(), SBQUERY2.ToString());
