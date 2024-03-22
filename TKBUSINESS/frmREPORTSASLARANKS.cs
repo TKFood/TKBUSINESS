@@ -328,17 +328,16 @@ namespace TKBUSINESS
                             FROM
                             (
                             SELECT LA005,'' LA007,'全公司' ME002,MB002,SUM(LA016-LA019+LA025) AS NUMS,SUM(LA017-LA020-LA022-LA023) AS MONEYS,SUM(LA024) AS COSTS
-                            FROM [TK].dbo.SASLA,[TK].dbo.INVMB,[TK].dbo.CMSME
+                            FROM [TK].dbo.SASLA,[TK].dbo.INVMB
                             WHERE 1=1
                             AND LA005=MB001
-                            AND LA007=ME001
                             AND (LA005 LIKE '4%' OR  LA005 LIKE '5%')
                             AND LA005 NOT LIKE '599%'
                             AND ((MB002 NOT LIKE '%試吃%') OR (MB002  LIKE '%試吃%' AND (LA017-LA020-LA022-LA023)>0)) 
                             AND CONVERT(NVARCHAR,LA015,112)>='{0}'
-                            AND CONVERT(NVARCHAR,LA015,112)<='{1}'
-                         
-                            GROUP BY LA005,LA007,ME002,MB002
+                            AND CONVERT(NVARCHAR,LA015,112)<='{1}'                            
+
+                            GROUP BY LA005,MB002
                             ) AS TEMP
                             ) AS TMEP2
                             ORDER BY RANKS DESC
