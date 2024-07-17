@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report ScriptLanguage="CSharp" ReportInfo.Created="09/11/2023 16:14:55" ReportInfo.Modified="07/17/2024 15:48:39" ReportInfo.CreatorVersion="2016.4.4.0">
+  <Dictionary>
+    <MsSqlDataConnection Name="Connection" ConnectionString="rijcmlqHwzMSgwTFaHpjtG3vsOj8Zy6q+uhwpDsytgWqwZQZyEQUQyQ022aWUGqU90pHzzNjHuzu89K+RQ2LIBVx1fpgNkNJhwC4eetn2/Uy0fMrO7zDUE5AmRb+0bcYI+lxqpN+i5gA3VDGcwlcfm6L9ZMsLrZ3U+wEDtHCQtd9vw2XUGwExewDwbljw6wvqYrsMUK">
+      <TableDataSource Name="Table" DataType="System.Int32" Enabled="true" SelectCommand="--20240715 分月的SASLA&#13;&#10;SELECT YEAR(LA015) AS 'YEARS',MONTH(LA015) AS 'MONTHS',LA005 AS '品號',MB002 AS '品名',MB003 AS '規格'&#13;&#10;,SUM(LA016-LA019+LA025) AS '銷售淨量',SUM(LA017-LA020-LA022-LA023) AS '銷貨淨額',SUM(LA024) AS '成本'&#13;&#10;,(SUM(LA017-LA020-LA022-LA023)-SUM(LA024)) AS '毛利'&#13;&#10;,(SUM(LA017-LA020-LA022-LA023)-SUM(LA024))/SUM(LA017-LA020-LA022-LA023) AS '毛利率'&#13;&#10;,MB002+'-'+CONVERT(NVARCHAR,MONTH(LA015))+'月' AS '品名月'&#13;&#10;FROM [TK].dbo.SASLA&#13;&#10;LEFT JOIN [TK].dbo.INVMB ON MB001=LA005&#13;&#10;WHERE LA005 IN &#13;&#10;(&#13;&#10;'40100310740866'&#13;&#10;,'40100310740036'&#13;&#10;)&#13;&#10;&#13;&#10;AND CONVERT(NVARCHAR,LA015,112)&gt;='20240101' AND  CONVERT(NVARCHAR,LA015,112)&lt;='20240631'&#13;&#10;GROUP BY YEAR(LA015),MONTH(LA015),LA005,MB002,MB003&#13;&#10;ORDER BY YEAR(LA015),MONTH(LA015),LA005">
+        <Column Name="YEARS" DataType="System.Int32"/>
+        <Column Name="MONTHS" DataType="System.Int32"/>
+        <Column Name="品號" DataType="System.String"/>
+        <Column Name="品名" DataType="System.String"/>
+        <Column Name="規格" DataType="System.String"/>
+        <Column Name="銷售淨量" DataType="System.Decimal"/>
+        <Column Name="銷貨淨額" DataType="System.Decimal"/>
+        <Column Name="成本" DataType="System.Decimal"/>
+        <Column Name="毛利" DataType="System.Decimal"/>
+        <Column Name="毛利率" DataType="System.Decimal"/>
+        <Column Name="品名月" DataType="System.String"/>
+      </TableDataSource>
+    </MsSqlDataConnection>
+    <Parameter Name="P1" DataType="System.String"/>
+    <Parameter Name="P2" DataType="System.String"/>
+  </Dictionary>
+  <ReportPage Name="Page1" Landscape="true" PaperWidth="297" PaperHeight="210">
+    <ReportTitleBand Name="ReportTitle1" Width="1047.06" Height="529.2">
+      <TextObject Name="Text1" Width="321.3" Height="18.9" Text="銷貨月報"/>
+      <TextObject Name="Text18" Top="18.9" Width="321.3" Height="18.9" Text="日期: [P1] ~ [P2]" VertAlign="Center"/>
+      <MSChartObject Name="MSChart1" Left="47.25" Top="56.7" Width="992.25" Height="189" DataSource="Table" AutoSeriesColumn="[Table.品名]" ChartData="PENoYXJ0IEJvcmRlcmxpbmVDb2xvcj0iRGFya0dyYXkiIEJvcmRlcmxpbmVXaWR0aD0iMiIgQm9yZGVybGluZURhc2hTdHlsZT0iU29saWQiPg0KICA8U2VyaWVzPg0KICAgIDxTZXJpZXMgTmFtZT0iU2VyaWVzMSIgTGVnZW5kPSJEZWZhdWx0IiBYVmFsdWVUeXBlPSJTdHJpbmciIFlWYWx1ZVR5cGU9IkRvdWJsZSIgQ2hhcnRBcmVhPSJEZWZhdWx0IiBMYWJlbD0iI1ZBTFkiPg0KICAgICAgPFBvaW50cz4NCiAgICAgICAgPERhdGFQb2ludCBZVmFsdWVzPSIxIiBBeGlzTGFiZWw9IkEiIC8+DQogICAgICAgIDxEYXRhUG9pbnQgWVZhbHVlcz0iMyIgQXhpc0xhYmVsPSJCIiAvPg0KICAgICAgICA8RGF0YVBvaW50IFlWYWx1ZXM9IjIiIEF4aXNMYWJlbD0iQyIgLz4NCiAgICAgICAgPERhdGFQb2ludCBZVmFsdWVzPSI0IiBBeGlzTGFiZWw9IkQiIC8+DQogICAgICA8L1BvaW50cz4NCiAgICA8L1Nlcmllcz4NCiAgPC9TZXJpZXM+DQogIDxMZWdlbmRzPg0KICAgIDxMZWdlbmQgTmFtZT0iRGVmYXVsdCI+DQogICAgPC9MZWdlbmQ+DQogIDwvTGVnZW5kcz4NCiAgPFRpdGxlcz4NCiAgICA8VGl0bGUgTmFtZT0iVGl0bGUxIiBWaXNpYmxlPSJGYWxzZSI+DQogICAgPC9UaXRsZT4NCiAgPC9UaXRsZXM+DQogIDxDaGFydEFyZWFzPg0KICAgIDxDaGFydEFyZWEgTmFtZT0iRGVmYXVsdCI+DQogICAgICA8QXhpc1k+DQogICAgICAgIDxNYWpvckdyaWQgTGluZUNvbG9yPSI2NCwgNjQsIDY0LCA2NCIgLz4NCiAgICAgIDwvQXhpc1k+DQogICAgICA8QXhpc1g+DQogICAgICAgIDxNYWpvckdyaWQgTGluZUNvbG9yPSI2NCwgNjQsIDY0LCA2NCIgLz4NCiAgICAgIDwvQXhpc1g+DQogICAgICA8QXhpc1gyPg0KICAgICAgICA8TWFqb3JHcmlkIExpbmVDb2xvcj0iNjQsIDY0LCA2NCwgNjQiIC8+DQogICAgICA8L0F4aXNYMj4NCiAgICAgIDxBeGlzWTI+DQogICAgICAgIDxNYWpvckdyaWQgTGluZUNvbG9yPSI2NCwgNjQsIDY0LCA2NCIgLz4NCiAgICAgIDwvQXhpc1kyPg0KICAgIDwvQ2hhcnRBcmVhPg0KICA8L0NoYXJ0QXJlYXM+DQogIDxCb3JkZXJTa2luIFNraW5TdHlsZT0iRW1ib3NzIiAvPg0KPC9DaGFydD4=">
+        <MSChartSeries Name="Series2" SortBy="XValue" XValue="[Table.MONTHS]" YValue1="[Table.銷售淨量]"/>
+      </MSChartObject>
+      <SparklineObject Name="Sparkline1" Left="47.25" Top="283.5" Width="973.35" Height="179.55" DataSource="Table" AutoSeriesColumn="[Table.品名]" ChartData="PENoYXJ0IEJvcmRlcmxpbmVDb2xvcj0iRGFya0dyYXkiIEJvcmRlcmxpbmVXaWR0aD0iMiI+DQogIDxTZXJpZXM+DQogICAgPFNlcmllcyBOYW1lPSJTZXJpZXMxIiBMZWdlbmQ9IkRlZmF1bHQiIFhWYWx1ZVR5cGU9IlN0cmluZyIgWVZhbHVlVHlwZT0iRG91YmxlIiBDaGFydFR5cGU9IkxpbmUiIENoYXJ0QXJlYT0iRGVmYXVsdCI+DQogICAgICA8UG9pbnRzPg0KICAgICAgICA8RGF0YVBvaW50IFlWYWx1ZXM9IjEiIEF4aXNMYWJlbD0iQSIgLz4NCiAgICAgICAgPERhdGFQb2ludCBZVmFsdWVzPSIzIiBBeGlzTGFiZWw9IkIiIC8+DQogICAgICAgIDxEYXRhUG9pbnQgWVZhbHVlcz0iMiIgQXhpc0xhYmVsPSJDIiAvPg0KICAgICAgICA8RGF0YVBvaW50IFlWYWx1ZXM9IjQiIEF4aXNMYWJlbD0iRCIgLz4NCiAgICAgIDwvUG9pbnRzPg0KICAgIDwvU2VyaWVzPg0KICA8L1Nlcmllcz4NCiAgPExlZ2VuZHM+DQogICAgPExlZ2VuZCBOYW1lPSJEZWZhdWx0IiBFbmFibGVkPSJGYWxzZSI+DQogICAgPC9MZWdlbmQ+DQogIDwvTGVnZW5kcz4NCiAgPFRpdGxlcz4NCiAgICA8VGl0bGUgTmFtZT0iVGl0bGUxIiBWaXNpYmxlPSJGYWxzZSI+DQogICAgPC9UaXRsZT4NCiAgPC9UaXRsZXM+DQogIDxDaGFydEFyZWFzPg0KICAgIDxDaGFydEFyZWEgTmFtZT0iRGVmYXVsdCI+DQogICAgICA8QXhpc1k+DQogICAgICAgIDxNYWpvckdyaWQgTGluZUNvbG9yPSI2NCwgNjQsIDY0LCA2NCIgLz4NCiAgICAgIDwvQXhpc1k+DQogICAgICA8QXhpc1g+DQogICAgICAgIDxNYWpvckdyaWQgTGluZUNvbG9yPSI2NCwgNjQsIDY0LCA2NCIgLz4NCiAgICAgIDwvQXhpc1g+DQogICAgICA8QXhpc1gyPg0KICAgICAgICA8TWFqb3JHcmlkIExpbmVDb2xvcj0iNjQsIDY0LCA2NCwgNjQiIC8+DQogICAgICA8L0F4aXNYMj4NCiAgICAgIDxBeGlzWTI+DQogICAgICAgIDxNYWpvckdyaWQgTGluZUNvbG9yPSI2NCwgNjQsIDY0LCA2NCIgLz4NCiAgICAgIDwvQXhpc1kyPg0KICAgIDwvQ2hhcnRBcmVhPg0KICA8L0NoYXJ0QXJlYXM+DQo8L0NoYXJ0Pg==">
+        <MSChartSeries Name="Series3" XValue="[Table.MONTHS]" YValue1="[Table.銷售淨量]"/>
+      </SparklineObject>
+    </ReportTitleBand>
+    <DataBand Name="Data1" Top="533.8" Width="1047.06" Height="37.8" CanGrow="true" DataSource="Table"/>
+    <PageFooterBand Name="PageFooter1" Top="576.2" Width="1047.06" Height="18.9"/>
+  </ReportPage>
+</Report>
