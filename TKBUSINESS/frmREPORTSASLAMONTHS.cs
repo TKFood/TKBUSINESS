@@ -69,7 +69,7 @@ namespace TKBUSINESS
                 sbSql.AppendFormat(@"
                                     SELECT RTRIM(LTRIM(MB001)) AS '品號',RTRIM(LTRIM(MB002))  AS '品名'
                                     FROM [TK].dbo.INVMB
-                                    WHERE (MB001 LIKE '3%' OR MB001 LIKE '4%' OR MB001 LIKE '5%' )
+                                    WHERE (MB001 LIKE '4%' OR MB001 LIKE '5%' )
                                     AND (MB001 LIKE '%{0}%' OR MB002 LIKE '%{0}%')
                                     ORDER BY MB001
                                     ", MB001);
@@ -218,13 +218,93 @@ namespace TKBUSINESS
             }
         }
 
+        public void SETFASTREPORT_SASLA(string SDATES, string EDATES, string LA005, string LA007)
+        {
+            string P1 = SDATES;
+            string P2 = EDATES;
+
+            //20210902密
+            Class1 TKID = new Class1();//用new 建立類別實體
+            SqlConnectionStringBuilder sqlsb = new SqlConnectionStringBuilder(ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString);
+
+            //資料庫使用者密碼解密
+            sqlsb.Password = TKID.Decryption(sqlsb.Password);
+            sqlsb.UserID = TKID.Decryption(sqlsb.UserID);
+
+            String connectionString;
+            sqlConn = new SqlConnection(sqlsb.ConnectionString);
+
+
+            StringBuilder SQL1 = new StringBuilder();
+            StringBuilder SQL2 = new StringBuilder();
+
+            Report report1 = new Report();
+
+            SQL1 = SETSQL_SETFASTREPORT_SASLA(SDATES, EDATES, LA005, LA007);
+            report1.Load(@"REPORT\銷貨月報v3.frx");
+
+            report1.Dictionary.Connections[0].ConnectionString = sqlsb.ConnectionString;
+
+            TableDataSource table = report1.GetDataSource("Table") as TableDataSource;
+            table.SelectCommand = SQL1.ToString();
+
+
+
+
+            report1.SetParameterValue("P1", P1);
+            report1.SetParameterValue("P2", P2);
+
+            report1.Preview = previewControl4;
+            report1.Show();
+        }
+
+        public StringBuilder SETSQL_SETFASTREPORT_SASLA(string SDATES, string EDATES, string LA005, string LA007)
+        {
+            StringBuilder SB = new StringBuilder();
+            StringBuilder SBQUERY = new StringBuilder();
+            StringBuilder SBQUERY2 = new StringBuilder();
+
+            if (!string.IsNullOrEmpty(LA007)&&!LA007.Equals("''"))
+            {
+                SBQUERY.AppendFormat(@"   AND LA007 IN ({0}) ", LA007);
+            }
+            else
+            {
+                SBQUERY.AppendFormat(@"  ");
+            }
+
+            SB.AppendFormat(@" 
+                            SELECT 
+                            YEAR(LA015) AS 'YEARS',MONTH(LA015) AS 'MONTHS',LA005 AS '品號',MB002 AS '品名',MB003 AS '規格'
+                            ,SUM(LA016-LA019+LA025) AS '銷售淨量',SUM(LA017-LA020-LA022-LA023) AS '銷貨淨額',SUM(LA024) AS '成本'
+                            ,(SUM(LA017-LA020-LA022-LA023)-SUM(LA024)) AS '毛利'
+                            ,(SUM(LA017-LA020-LA022-LA023)-SUM(LA024))/SUM(LA017-LA020-LA022-LA023) AS '毛利率'
+                            FROM [TK].dbo.SASLA
+                            LEFT JOIN [TK].dbo.INVMB ON MB001=LA005
+                            WHERE LA005 IN 
+                            (
+                            {2}
+                            )
+                            {3}
+                            AND CONVERT(NVARCHAR,LA015,112)>='{0}' AND  CONVERT(NVARCHAR,LA015,112)<='{1}'
+                            GROUP BY YEAR(LA015),MONTH(LA015),LA005,MB002,MB003
+                            ORDER BY YEAR(LA015),MONTH(LA015),LA005
+
+                            ", SDATES, EDATES, LA005, SBQUERY.ToString());
+
+            return SB;
+
+        }
         #endregion
 
         #region BUTTON
 
         private void button1_Click(object sender, EventArgs e)
         {
+            string MB001 = textBox4.Text.Trim() + "''";
+            string ME001= textBox8.Text.Trim() + "''";
 
+            SETFASTREPORT_SASLA(dateTimePicker1.Value.ToString("yyyyMMdd"), dateTimePicker2.Value.ToString("yyyyMMdd"), MB001, ME001);
         }
         private void button2_Click(object sender, EventArgs e)
         {
