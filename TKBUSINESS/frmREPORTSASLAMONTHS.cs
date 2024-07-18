@@ -303,7 +303,7 @@ namespace TKBUSINESS
         {
             string MB001 = textBox4.Text.Trim() + "''";
             string ME001= textBox8.Text.Trim() + "''";
-             
+              
             SETFASTREPORT_SASLA(dateTimePicker1.Value.ToString("yyyyMMdd"), dateTimePicker2.Value.ToString("yyyyMMdd"), MB001, ME001);
         }
         private void button2_Click(object sender, EventArgs e)
