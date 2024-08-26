@@ -241,7 +241,7 @@ namespace TKBUSINESS
             Report report1 = new Report();
 
             SQL1 = SETSQL_SETFASTREPORT_SASLA(SDATES, EDATES, LA005, LA007);
-            report1.Load(@"REPORT\銷貨月報v3.frx");
+            report1.Load(@"REPORT\銷貨月報v4.frx");
 
             report1.Dictionary.Connections[0].ConnectionString = sqlsb.ConnectionString;
 
@@ -279,6 +279,8 @@ namespace TKBUSINESS
                             ,SUM(LA016-LA019+LA025) AS '銷售淨量',SUM(LA017-LA020-LA022-LA023) AS '銷貨淨額',SUM(LA024) AS '成本'
                             ,(SUM(LA017-LA020-LA022-LA023)-SUM(LA024)) AS '毛利'
                             ,(SUM(LA017-LA020-LA022-LA023)-SUM(LA024))/SUM(LA017-LA020-LA022-LA023) AS '毛利率'
+                            ,CONVERT(NVARCHAR,YEAR(LA015))+'/'+CONVERT(NVARCHAR,MONTH(LA015)) AS 'YMS'
+
                             FROM [TK].dbo.SASLA
                             LEFT JOIN [TK].dbo.INVMB ON MB001=LA005
                             WHERE LA005 IN 

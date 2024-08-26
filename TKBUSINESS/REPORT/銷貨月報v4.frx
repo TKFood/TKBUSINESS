@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report ScriptLanguage="CSharp" ReportInfo.Created="09/11/2023 16:14:55" ReportInfo.Modified="08/26/2024 16:01:32" ReportInfo.CreatorVersion="2016.4.4.0">
+  <Dictionary>
+    <MsSqlDataConnection Name="Connection" ConnectionString="rijcmlqHwzMSgwTFaHpjtG3vsOj8Zy6q+uhwpDsytgWqwZQZyEQUQyQ022aWUGqU90pHzzNjHuzu89K+RQ2LIBVx1fpgNkNJhwC4eetn2/Uy0fMrO7zDUE5AmRb+0bcYI+lxqpN+i5gA3VDGcwlcfm6L9ZMsLrZ3U+wEDtHCQtd9vw2XUH7HZdejOYpb92aemv3CxVZ">
+      <TableDataSource Name="Table" DataType="System.Int32" Enabled="true" SelectCommand="--20240715 分月的SASLA&#13;&#10;SELECT YEAR(LA015) AS 'YEARS',MONTH(LA015) AS 'MONTHS',LA005 AS '品號',MB002 AS '品名',MB003 AS '規格'&#13;&#10;,SUM(LA016-LA019+LA025) AS '銷售淨量',SUM(LA017-LA020-LA022-LA023) AS '銷貨淨額',SUM(LA024) AS '成本'&#13;&#10;,(SUM(LA017-LA020-LA022-LA023)-SUM(LA024)) AS '毛利'&#13;&#10;,(SUM(LA017-LA020-LA022-LA023)-SUM(LA024))/SUM(LA017-LA020-LA022-LA023) AS '毛利率'&#13;&#10;,MB002+'-'+CONVERT(NVARCHAR,MONTH(LA015))+'月' AS '品名月'&#13;&#10;,CONVERT(NVARCHAR,YEAR(LA015))+'/'+CONVERT(NVARCHAR,MONTH(LA015)) AS 'YMS'&#13;&#10;FROM [TK].dbo.SASLA&#13;&#10;LEFT JOIN [TK].dbo.INVMB ON MB001=LA005&#13;&#10;WHERE LA005 IN &#13;&#10;(&#13;&#10;'40100310740866'&#13;&#10;,'40100310740036'&#13;&#10;)&#13;&#10;&#13;&#10;AND CONVERT(NVARCHAR,LA015,112)&gt;='20230101' AND  CONVERT(NVARCHAR,LA015,112)&lt;='20240631'&#13;&#10;GROUP BY YEAR(LA015),MONTH(LA015),LA005,MB002,MB003&#13;&#10;ORDER BY YEAR(LA015),MONTH(LA015),LA005">
+        <Column Name="品號" DataType="System.String"/>
+        <Column Name="品名" DataType="System.String"/>
+        <Column Name="規格" DataType="System.String"/>
+        <Column Name="銷售淨量" DataType="System.Decimal"/>
+        <Column Name="銷貨淨額" DataType="System.Decimal"/>
+        <Column Name="成本" DataType="System.Decimal"/>
+        <Column Name="毛利" DataType="System.Decimal"/>
+        <Column Name="毛利率" DataType="System.Decimal"/>
+        <Column Name="YEARS" DataType="System.Int32"/>
+        <Column Name="MONTHS" DataType="System.Int32"/>
+        <Column Name="品名月" DataType="System.String"/>
+        <Column Name="YMS" DataType="System.String"/>
+      </TableDataSource>
+    </MsSqlDataConnection>
+    <Parameter Name="P1" DataType="System.String"/>
+    <Parameter Name="P2" DataType="System.String"/>
+    <Total Name="Total銷售淨量" Expression="[Table.銷售淨量]" Evaluator="Data1" PrintOn="GroupFooter1"/>
+    <Total Name="Total銷貨淨額" Expression="[Table.銷貨淨額]" Evaluator="Data1" PrintOn="GroupFooter1"/>
+    <Total Name="Total成本" Expression="[Table.成本]" Evaluator="Data1" PrintOn="GroupFooter1"/>
+    <Total Name="Total毛利" Expression="[Table.毛利]" Evaluator="Data1" PrintOn="GroupFooter1"/>
+    <Total Name="AVG毛利率" TotalType="Avg" Expression="[Table.毛利率]" Evaluator="Data1" PrintOn="GroupFooter1"/>
+  </Dictionary>
+  <ReportPage Name="Page1" Landscape="true" PaperWidth="400" PaperHeight="210">
+    <ReportTitleBand Name="ReportTitle1" Width="1436.4" Height="56.7">
+      <TextObject Name="Text1" Width="321.3" Height="18.9" Text="銷貨月報"/>
+      <TextObject Name="Text18" Top="18.9" Width="321.3" Height="18.9" Text="日期: [P1] ~ [P2]" VertAlign="Center"/>
+      <TextObject Name="Text5" Left="387.45" Top="37.8" Width="330.75" Height="18.9" Border.Lines="All" Text="品名" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text3" Left="189" Top="37.8" Width="198.45" Height="18.9" Border.Lines="All" Text="品號" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text7" Left="718.2" Top="37.8" Width="245.7" Height="18.9" Border.Lines="All" Text="規格" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text9" Left="963.9" Top="37.8" Width="94.5" Height="18.9" Border.Lines="All" Text="銷售淨量" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text11" Left="1058.4" Top="37.8" Width="94.5" Height="18.9" Border.Lines="All" Text="銷貨淨額" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text13" Left="1152.9" Top="37.8" Width="94.5" Height="18.9" Border.Lines="All" Text="成本" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text15" Left="1247.4" Top="37.8" Width="94.5" Height="18.9" Border.Lines="All" Text="毛利" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text17" Left="1341.9" Top="37.8" Width="94.5" Height="18.9" Border.Lines="All" Text="毛利率" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text21" Top="37.8" Width="94.5" Height="18.9" Border.Lines="All" Text="年" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text22" Left="94.5" Top="37.8" Width="94.5" Height="18.9" Border.Lines="All" Text="月" HorzAlign="Center" VertAlign="Center"/>
+    </ReportTitleBand>
+    <GroupHeaderBand Name="GroupHeader1" Top="61.3" Width="1436.4" Condition="[Table.品號]">
+      <DataBand Name="Data1" Top="65.9" Width="1436.4" Height="18.9" CanGrow="true" DataSource="Table">
+        <TextObject Name="Text2" Left="189" Width="198.45" Height="18.9" Border.Lines="All" CanGrow="true" GrowToBottom="true" Text="[Table.品號]" VertAlign="Center"/>
+        <TextObject Name="Text4" Left="387.45" Width="330.75" Height="18.9" Border.Lines="All" CanGrow="true" GrowToBottom="true" Text="[Table.品名]" VertAlign="Center"/>
+        <TextObject Name="Text6" Left="718.2" Width="245.7" Height="18.9" Border.Lines="All" CanGrow="true" GrowToBottom="true" Text="[Table.規格]" VertAlign="Center"/>
+        <TextObject Name="Text8" Left="963.9" Width="94.5" Height="18.9" Border.Lines="All" CanGrow="true" GrowToBottom="true" Text="[Table.銷售淨量]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="0" Format.DecimalSeparator="." Format.GroupSeparator="," Format.NegativePattern="1" HorzAlign="Right" VertAlign="Center" WordWrap="false" Trimming="EllipsisCharacter"/>
+        <TextObject Name="Text10" Left="1058.4" Width="94.5" Height="18.9" Border.Lines="All" CanGrow="true" GrowToBottom="true" Text="[Table.銷貨淨額]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="0" Format.DecimalSeparator="." Format.GroupSeparator="," Format.NegativePattern="1" HorzAlign="Right" VertAlign="Center" WordWrap="false" Trimming="EllipsisCharacter"/>
+        <TextObject Name="Text12" Left="1152.9" Width="94.5" Height="18.9" Border.Lines="All" CanGrow="true" GrowToBottom="true" Text="[Table.成本]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="0" Format.DecimalSeparator="." Format.GroupSeparator="," Format.NegativePattern="1" HorzAlign="Right" VertAlign="Center" WordWrap="false" Trimming="EllipsisCharacter"/>
+        <TextObject Name="Text14" Left="1247.4" Width="94.5" Height="18.9" Border.Lines="All" CanGrow="true" GrowToBottom="true" Text="[Table.毛利]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="0" Format.DecimalSeparator="." Format.GroupSeparator="," Format.NegativePattern="1" HorzAlign="Right" VertAlign="Center" WordWrap="false" Trimming="EllipsisCharacter"/>
+        <TextObject Name="Text16" Left="1341.9" Width="94.5" Height="18.9" Border.Lines="All" CanGrow="true" GrowToBottom="true" Text="[Table.毛利率]" Format="Percent" Format.UseLocale="true" HorzAlign="Right" VertAlign="Center" WordWrap="false" Trimming="EllipsisCharacter"/>
+        <TextObject Name="Text19" Width="94.5" Height="18.9" Border.Lines="All" Text="[Table.YEARS]" VertAlign="Center"/>
+        <TextObject Name="Text20" Left="94.5" Width="94.5" Height="18.9" Border.Lines="All" Text="[Table.MONTHS]" VertAlign="Center"/>
+        <Sort>
+          <Sort Expression="[Table.YEARS]"/>
+          <Sort Expression="[Table.MONTHS]"/>
+        </Sort>
+      </DataBand>
+      <GroupFooterBand Name="GroupFooter1" Top="89.39" Width="1436.4" Height="18.9">
+        <TextObject Name="Text23" Left="963.9" Width="94.5" Height="18.9" Border.Lines="All" Fill.Color="LightGreen" Text="[Total銷售淨量]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="0" Format.DecimalSeparator="." Format.GroupSeparator="," Format.NegativePattern="1" HorzAlign="Right" VertAlign="Center"/>
+        <TextObject Name="Text24" Left="1058.4" Width="94.5" Height="18.9" Border.Lines="All" Fill.Color="LightGreen" Text="[Total銷貨淨額]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="0" Format.DecimalSeparator="." Format.GroupSeparator="," Format.NegativePattern="1" HorzAlign="Right" VertAlign="Center"/>
+        <TextObject Name="Text25" Left="1152.9" Width="94.5" Height="18.9" Border.Lines="All" Fill.Color="LightGreen" Text="[Total成本]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="0" Format.DecimalSeparator="." Format.GroupSeparator="," Format.NegativePattern="1" HorzAlign="Right" VertAlign="Center"/>
+        <TextObject Name="Text26" Left="1247.4" Width="94.5" Height="18.9" Border.Lines="All" Fill.Color="LightGreen" Text="[Total毛利]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="0" Format.DecimalSeparator="." Format.GroupSeparator="," Format.NegativePattern="1" HorzAlign="Right" VertAlign="Center"/>
+        <TextObject Name="Text27" Left="1341.9" Width="94.5" Height="18.9" Border.Lines="All" Fill.Color="LightGreen" Text="[AVG毛利率]" Format="Percent" Format.UseLocale="true" HorzAlign="Center" VertAlign="Center"/>
+        <TextObject Name="Text28" Width="189" Height="18.9" Border.Lines="All" Fill.Color="LightGreen" Text="小計" HorzAlign="Center" VertAlign="Center"/>
+        <TextObject Name="Text29" Left="189" Width="198.45" Height="18.9" Border.Lines="All" Fill.Color="LightGreen" CanGrow="true" GrowToBottom="true" Text="[Table.品號]" VertAlign="Center"/>
+        <TextObject Name="Text30" Left="387.45" Width="330.75" Height="18.9" Border.Lines="All" Fill.Color="LightGreen" CanGrow="true" GrowToBottom="true" Text="[Table.品名]" VertAlign="Center"/>
+        <TextObject Name="Text31" Left="718.2" Width="245.7" Height="18.9" Border.Lines="All" Fill.Color="LightGreen" CanGrow="true" GrowToBottom="true" Text="[Table.規格]" VertAlign="Center"/>
+      </GroupFooterBand>
+    </GroupHeaderBand>
+    <ReportSummaryBand Name="ReportSummary1" Top="112.89" Width="1436.4" Height="595.35">
+      <MSChartObject Name="MSChart1" Left="-1.15" Top="18.9" Width="1426.95" Height="274.05" DataSource="Table" AutoSeriesColumn="[Table.品名]" ChartData="PENoYXJ0IFNpemU9IjI4OCwgMjMyIiBCb3JkZXJsaW5lQ29sb3I9IkRhcmtHcmF5IiBCb3JkZXJsaW5lV2lkdGg9IjIiIEJvcmRlcmxpbmVEYXNoU3R5bGU9IlNvbGlkIj4NCiAgPFNlcmllcz4NCiAgICA8U2VyaWVzIE5hbWU9IlNlcmllczIiIExlZ2VuZD0iRGVmYXVsdCIgWFZhbHVlVHlwZT0iU3RyaW5nIiBZVmFsdWVUeXBlPSJEb3VibGUiIENoYXJ0VHlwZT0iTGluZSIgQ2hhcnRBcmVhPSJEZWZhdWx0IiBMYWJlbD0iI1ZBTFkiIEJvcmRlcldpZHRoPSI1Ij4NCiAgICAgIDxQb2ludHM+DQogICAgICAgIDxEYXRhUG9pbnQgWVZhbHVlcz0iMSIgQXhpc0xhYmVsPSJBIiAvPg0KICAgICAgICA8RGF0YVBvaW50IFlWYWx1ZXM9IjMiIEF4aXNMYWJlbD0iQiIgLz4NCiAgICAgICAgPERhdGFQb2ludCBZVmFsdWVzPSIyIiBBeGlzTGFiZWw9IkMiIC8+DQogICAgICAgIDxEYXRhUG9pbnQgWVZhbHVlcz0iNCIgQXhpc0xhYmVsPSJEIiAvPg0KICAgICAgPC9Qb2ludHM+DQogICAgPC9TZXJpZXM+DQogIDwvU2VyaWVzPg0KICA8TGVnZW5kcz4NCiAgICA8TGVnZW5kIE5hbWU9IkRlZmF1bHQiIEFsaWdubWVudD0iQ2VudGVyIiBEb2NraW5nPSJMZWZ0Ij4NCiAgICA8L0xlZ2VuZD4NCiAgPC9MZWdlbmRzPg0KICA8VGl0bGVzPg0KICAgIDxUaXRsZSBOYW1lPSJUaXRsZTEiIFRleHQ9IumKt+WUruaVuOmHjyI+DQogICAgPC9UaXRsZT4NCiAgPC9UaXRsZXM+DQogIDxDaGFydEFyZWFzPg0KICAgIDxDaGFydEFyZWEgTmFtZT0iRGVmYXVsdCI+DQogICAgICA8QXhpc1kgVGl0bGU9IumKt+WUruaVuOmHjyI+DQogICAgICAgIDxNYWpvckdyaWQgTGluZUNvbG9yPSI2NCwgNjQsIDY0LCA2NCIgLz4NCiAgICAgIDwvQXhpc1k+DQogICAgICA8QXhpc1ggVGl0bGU9IuaciOS7vSIgSW50ZXJ2YWw9IjEiPg0KICAgICAgICA8TWFqb3JHcmlkIExpbmVDb2xvcj0iNjQsIDY0LCA2NCwgNjQiIC8+DQogICAgICA8L0F4aXNYPg0KICAgICAgPEF4aXNYMj4NCiAgICAgICAgPE1ham9yR3JpZCBMaW5lQ29sb3I9IjY0LCA2NCwgNjQsIDY0IiAvPg0KICAgICAgPC9BeGlzWDI+DQogICAgICA8QXhpc1kyPg0KICAgICAgICA8TWFqb3JHcmlkIExpbmVDb2xvcj0iNjQsIDY0LCA2NCwgNjQiIC8+DQogICAgICA8L0F4aXNZMj4NCiAgICA8L0NoYXJ0QXJlYT4NCiAgPC9DaGFydEFyZWFzPg0KICA8Qm9yZGVyU2tpbiBTa2luU3R5bGU9IkVtYm9zcyIgLz4NCjwvQ2hhcnQ+">
+        <MSChartSeries Name="Series3" XValue="[Table.YMS]" YValue1="[Table.銷售淨量]"/>
+      </MSChartObject>
+      <MSChartObject Name="MSChart2" Left="-1.15" Top="321.3" Width="1426.95" Height="274.05" DataSource="Table" AutoSeriesColumn="[Table.品名]" ChartData="PENoYXJ0IFNpemU9IjI4OCwgMjMyIiBCb3JkZXJsaW5lQ29sb3I9IkRhcmtHcmF5IiBCb3JkZXJsaW5lV2lkdGg9IjIiIEJvcmRlcmxpbmVEYXNoU3R5bGU9IlNvbGlkIj4NCiAgPFNlcmllcz4NCiAgICA8U2VyaWVzIE5hbWU9IlNlcmllczEiIExlZ2VuZD0iRGVmYXVsdCIgWFZhbHVlVHlwZT0iU3RyaW5nIiBZVmFsdWVUeXBlPSJEb3VibGUiIENoYXJ0VHlwZT0iTGluZSIgQ2hhcnRBcmVhPSJEZWZhdWx0IiBMYWJlbD0iI1ZBTFkiIEJvcmRlcldpZHRoPSI1IiBNYXJrZXJCb3JkZXJXaWR0aD0iNCI+DQogICAgICA8UG9pbnRzPg0KICAgICAgICA8RGF0YVBvaW50IFlWYWx1ZXM9IjEiIEF4aXNMYWJlbD0iQSIgLz4NCiAgICAgICAgPERhdGFQb2ludCBZVmFsdWVzPSIzIiBBeGlzTGFiZWw9IkIiIC8+DQogICAgICAgIDxEYXRhUG9pbnQgWVZhbHVlcz0iMiIgQXhpc0xhYmVsPSJDIiAvPg0KICAgICAgICA8RGF0YVBvaW50IFlWYWx1ZXM9IjQiIEF4aXNMYWJlbD0iRCIgLz4NCiAgICAgIDwvUG9pbnRzPg0KICAgIDwvU2VyaWVzPg0KICA8L1Nlcmllcz4NCiAgPExlZ2VuZHM+DQogICAgPExlZ2VuZCBOYW1lPSJEZWZhdWx0IiBBbGlnbm1lbnQ9IkNlbnRlciIgRG9ja2luZz0iTGVmdCI+DQogICAgPC9MZWdlbmQ+DQogIDwvTGVnZW5kcz4NCiAgPFRpdGxlcz4NCiAgICA8VGl0bGUgTmFtZT0iVGl0bGUxIiBUZXh0PSLpirfllK7mt6jpoY0iPg0KICAgIDwvVGl0bGU+DQogIDwvVGl0bGVzPg0KICA8Q2hhcnRBcmVhcz4NCiAgICA8Q2hhcnRBcmVhIE5hbWU9IkRlZmF1bHQiPg0KICAgICAgPEF4aXNZIFRpdGxlPSLpirfllK7mt6jph48iPg0KICAgICAgICA8TWFqb3JHcmlkIExpbmVDb2xvcj0iNjQsIDY0LCA2NCwgNjQiIC8+DQogICAgICA8L0F4aXNZPg0KICAgICAgPEF4aXNYIFRpdGxlPSLmnIjku70iIEludGVydmFsPSIxIj4NCiAgICAgICAgPE1ham9yR3JpZCBMaW5lQ29sb3I9IjY0LCA2NCwgNjQsIDY0IiAvPg0KICAgICAgPC9BeGlzWD4NCiAgICAgIDxBeGlzWDI+DQogICAgICAgIDxNYWpvckdyaWQgTGluZUNvbG9yPSI2NCwgNjQsIDY0LCA2NCIgLz4NCiAgICAgIDwvQXhpc1gyPg0KICAgICAgPEF4aXNZMj4NCiAgICAgICAgPE1ham9yR3JpZCBMaW5lQ29sb3I9IjY0LCA2NCwgNjQsIDY0IiAvPg0KICAgICAgPC9BeGlzWTI+DQogICAgPC9DaGFydEFyZWE+DQogIDwvQ2hhcnRBcmVhcz4NCiAgPEJvcmRlclNraW4gU2tpblN0eWxlPSJFbWJvc3MiIC8+DQo8L0NoYXJ0Pg==">
+        <MSChartSeries Name="Series1" XValue="[Table.YMS]" YValue1="[Table.銷貨淨額]"/>
+      </MSChartObject>
+    </ReportSummaryBand>
+    <PageFooterBand Name="PageFooter1" Top="712.84" Width="1436.4" Height="37.8"/>
+  </ReportPage>
+</Report>
