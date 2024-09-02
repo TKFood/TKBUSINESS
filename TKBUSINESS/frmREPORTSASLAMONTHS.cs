@@ -284,7 +284,7 @@ namespace TKBUSINESS
                             FROM [TK].dbo.SASLA
                             LEFT JOIN [TK].dbo.INVMB ON MB001=LA005
                             WHERE LA005 IN 
-                            (
+                            ( 
                             {2}
                             )
                             {3}
