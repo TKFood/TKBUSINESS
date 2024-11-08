@@ -91,9 +91,9 @@ namespace TKBUSINESS
             if(!string.IsNullOrEmpty(MA001))
             {
                 SB.AppendFormat(@" 
-                            SELECT YM,LA006,MA002,LA005,MB002,NUMS,MMS
+                            SELECT YM,LA006,MA002,LA005,MB002,NUMS,MMS,LA025NUMS
                             FROM (
-                            SELECT SUBSTRING(CONVERT(NVARCHAR,LA015,112),1,6) AS 'YM',LA006,LA005,SUM(LA016-LA019) AS 'NUMS',SUM(LA017-LA020-LA022-LA023) AS 'MMS'
+                            SELECT SUBSTRING(CONVERT(NVARCHAR,LA015,112),1,6) AS 'YM',LA006,LA005,SUM(LA016-LA019) AS 'NUMS',SUM(LA017-LA020-LA022-LA023) AS 'MMS',SUM(LA025) AS 'LA025NUMS'
                             FROM [TK].dbo.SASLA
                             WHERE CONVERT(NVARCHAR,LA015,112)>='{0}' AND CONVERT(NVARCHAR,LA015,112)<='{1}' 
                             AND LA005 NOT LIKE '1%'
