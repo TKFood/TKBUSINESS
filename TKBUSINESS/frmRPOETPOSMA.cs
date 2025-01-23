@@ -113,7 +113,7 @@ namespace TKBUSINESS
                                     WHERE 1=1
                                     ORDER BY 類型,活動代號
 
---
+
 
                                     ", SYEARS);
 
