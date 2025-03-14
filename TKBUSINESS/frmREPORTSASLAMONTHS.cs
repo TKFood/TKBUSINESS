@@ -236,7 +236,7 @@ namespace TKBUSINESS
 
 
             StringBuilder SQL1 = new StringBuilder();
-            StringBuilder SQL2 = new StringBuilder();
+            StringBuilder SQL2 = new StringBuilder(); 
 
             Report report1 = new Report();
 
@@ -296,7 +296,7 @@ namespace TKBUSINESS
 
                             ", SDATES, EDATES, LA005, SBQUERY.ToString());
 
-            return SB;
+            return SB; 
 
         }
         #endregion
