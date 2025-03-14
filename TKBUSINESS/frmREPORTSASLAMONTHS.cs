@@ -261,9 +261,9 @@ namespace TKBUSINESS
         public StringBuilder SETSQL_SETFASTREPORT_SASLA(string SDATES, string EDATES, string LA005, string LA007)
         {
             StringBuilder SB = new StringBuilder();
-            StringBuilder SBQUERY = new StringBuilder();
+            StringBuilder SBQUERY = new StringBuilder(); 
             StringBuilder SBQUERY2 = new StringBuilder();
-
+             
             if (!string.IsNullOrEmpty(LA007)&&!LA007.Equals("''"))
             {
                 SBQUERY.AppendFormat(@"   AND LA007 IN ({0}) ", LA007);

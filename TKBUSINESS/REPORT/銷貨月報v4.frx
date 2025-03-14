@@ -1,7 +1,56 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Report ScriptLanguage="CSharp" ReportInfo.Created="09/11/2023 16:14:55" ReportInfo.Modified="03/14/2025 11:18:25" ReportInfo.CreatorVersion="2016.4.4.0">
+<Report ScriptLanguage="CSharp" ReportInfo.Created="09/11/2023 16:14:55" ReportInfo.Modified="03/14/2025 11:34:42" ReportInfo.CreatorVersion="2016.4.4.0">
+  <ScriptText>using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Windows.Forms;
+using System.Drawing;
+using System.Data;
+using FastReport;
+using FastReport.Data;
+using FastReport.Dialog;
+using FastReport.Barcode;
+using FastReport.Table;
+using FastReport.Utils;
+
+namespace FastReport
+{
+  public class ReportScript
+  {
+
+    private void Text27_BeforePrint(object sender, EventArgs e)
+    {
+      
+      decimal moneys = 0;
+      decimal earns = 0;
+
+      // 嘗試取得總值，並確保不為 null
+      object totalMoneys = Report.GetTotalValue(&quot;Total銷貨淨額&quot;);
+      object totalEarns = Report.GetTotalValue(&quot;Total毛利&quot;);
+
+      if (totalMoneys != null) 
+        decimal.TryParse(totalMoneys.ToString(), out moneys);
+
+      if (totalEarns != null) 
+        decimal.TryParse(totalEarns.ToString(), out earns);
+
+      // 檢查 moneys 是否為 0，避免除零錯誤
+      if (moneys != 0)
+      {  
+        decimal PCTS = earns / moneys;
+        Text27.Text = PCTS.ToString(&quot;P2&quot;); // 顯示為百分比格式
+      }
+      else
+      {
+        Text27.Text = &quot;0&quot;;
+      }
+    }
+  }
+}
+</ScriptText>
   <Dictionary>
-    <MsSqlDataConnection Name="Connection" ConnectionString="rijcmlqHwzMSgwTFaHpjtG3vsOj8Zy6q+uhwpDsytgWqwZQZyEQUQyQ022aWUGqU90pHzzNjHuzu89K+RQ2LIBVx1fpgNkNJhwC4eetn2/Uy0fMrO7zDUE5AmRb+0bcYI+lxqpN+i5gA3VDGcwlcfm6L9ZMsLrZ3U+wEDtHCQtd9vw2XUFQCuRsEuGuezubF5cmVEiZ">
+    <MsSqlDataConnection Name="Connection" ConnectionString="rijcmlqHwzMSgwTFaHpjtG3vsOj8Zy6q+uhwpDsytgWqwZQZyEQUQyQ022aWUGqU90pHzzNjHuzu89K+RQ2LIBVx1fpgNkNJhwC4eetn2/Uy0fMrO7zDUE5AmRb+0bcYI+lxqpN+i5gA3VDGcwlcfm6L9ZMsLrZ3U+wEDtHCQtd9vw2XUGZBryPxsUMSwLVA0gISbiQ">
       <TableDataSource Name="Table" DataType="System.Int32" Enabled="true" SelectCommand=" SELECT &#13;&#10;                            YEAR(LA015) AS 'YEARS',MONTH(LA015) AS 'MONTHS',LA005 AS '品號',MB002 AS '品名',MB003 AS '規格'&#13;&#10;                            ,SUM(LA016-LA019+LA025) AS '銷售淨量',SUM(LA017-LA020-LA022-LA023) AS '銷貨淨額',SUM(LA024) AS '成本'&#13;&#10;                            ,(SUM(LA017-LA020-LA022-LA023)-SUM(LA024)) AS '毛利'&#13;&#10;                            ,(SUM(LA017-LA020-LA022-LA023)-SUM(LA024))/SUM(LA017-LA020-LA022-LA023) AS '毛利率'&#13;&#10;                            ,CONVERT(NVARCHAR,YEAR(LA015))+'/'+CONVERT(NVARCHAR,MONTH(LA015)) AS 'YMS'&#13;&#10;&#13;&#10;                            FROM [TK].dbo.SASLA&#13;&#10;                            LEFT JOIN [TK].dbo.INVMB ON MB001=LA005&#13;&#10;                            WHERE LA005 IN &#13;&#10;                            (&#13;&#10;                            '40101410340490','40101410340491','40101410340500','40101410340501'&#13;&#10;                            )&#13;&#10;                         &#13;&#10;                            AND CONVERT(NVARCHAR,LA015,112)&gt;='20240101' AND  CONVERT(NVARCHAR,LA015,112)&lt;='20240831'&#13;&#10;                            GROUP BY YEAR(LA015),MONTH(LA015),LA005,MB002,MB003&#13;&#10;                            ORDER BY YEAR(LA015),MONTH(LA015),LA005&#13;&#10;">
         <Column Name="品號" DataType="System.String"/>
         <Column Name="品名" DataType="System.String"/>
@@ -61,7 +110,7 @@
         <TextObject Name="Text24" Left="1058.4" Width="94.5" Height="18.9" Border.Lines="All" Fill.Color="LightGreen" Text="[Total銷貨淨額]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="0" Format.DecimalSeparator="." Format.GroupSeparator="," Format.NegativePattern="1" HorzAlign="Right" VertAlign="Center"/>
         <TextObject Name="Text25" Left="1152.9" Width="94.5" Height="18.9" Border.Lines="All" Fill.Color="LightGreen" Text="[Total成本]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="0" Format.DecimalSeparator="." Format.GroupSeparator="," Format.NegativePattern="1" HorzAlign="Right" VertAlign="Center"/>
         <TextObject Name="Text26" Left="1247.4" Width="94.5" Height="18.9" Border.Lines="All" Fill.Color="LightGreen" Text="[Total毛利]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="0" Format.DecimalSeparator="." Format.GroupSeparator="," Format.NegativePattern="1" HorzAlign="Right" VertAlign="Center"/>
-        <TextObject Name="Text27" Left="1341.9" Width="94.5" Height="18.9" Border.Lines="All" Fill.Color="LightGreen" Text="[[Total毛利]/[Total銷貨淨額]]" Format="Percent" Format.UseLocale="true" HorzAlign="Center" VertAlign="Center"/>
+        <TextObject Name="Text27" Left="1341.9" Width="94.5" Height="18.9" Border.Lines="All" Fill.Color="LightGreen" BeforePrintEvent="Text27_BeforePrint" Text="[[Total毛利]/[Total銷貨淨額]]" Format="Percent" Format.UseLocale="true" HorzAlign="Center" VertAlign="Center"/>
         <TextObject Name="Text28" Width="189" Height="18.9" Border.Lines="All" Fill.Color="LightGreen" Text="小計" HorzAlign="Center" VertAlign="Center"/>
         <TextObject Name="Text29" Left="189" Width="198.45" Height="18.9" Border.Lines="All" Fill.Color="LightGreen" CanGrow="true" GrowToBottom="true" Text="[Table.品號]" VertAlign="Center"/>
         <TextObject Name="Text30" Left="387.45" Width="330.75" Height="18.9" Border.Lines="All" Fill.Color="LightGreen" CanGrow="true" GrowToBottom="true" Text="[Table.品名]" VertAlign="Center"/>
