@@ -276,9 +276,11 @@ namespace TKBUSINESS
             SB.AppendFormat(@" 
                             SELECT 
                             YEAR(LA015) AS 'YEARS',MONTH(LA015) AS 'MONTHS',LA005 AS '品號',MB002 AS '品名',MB003 AS '規格'
-                            ,SUM(LA016-LA019+LA025) AS '銷售淨量',SUM(LA017-LA020-LA022-LA023) AS '銷貨淨額',SUM(LA024) AS '成本'
+                            ,SUM(LA016-LA019+LA025) AS '銷售淨量'
+                            ,SUM(LA017-LA020-LA022-LA023) AS '銷貨淨額'
+                            ,SUM(LA024) AS '成本'
                             ,(SUM(LA017-LA020-LA022-LA023)-SUM(LA024)) AS '毛利'
-                            ,(SUM(LA017-LA020-LA022-LA023)-SUM(LA024))/SUM(LA017-LA020-LA022-LA023) AS '毛利率'
+                            ,(CASE WHEN (SUM(LA017-LA020-LA022-LA023)-SUM(LA024))>0 AND SUM(LA017-LA020-LA022-LA023)>0 THEN  (SUM(LA017-LA020-LA022-LA023)-SUM(LA024))/SUM(LA017-LA020-LA022-LA023) ELSE 0 END ) AS '毛利率'
                             ,CONVERT(NVARCHAR,YEAR(LA015))+'/'+CONVERT(NVARCHAR,MONTH(LA015)) AS 'YMS'
 
                             FROM [TK].dbo.SASLA
