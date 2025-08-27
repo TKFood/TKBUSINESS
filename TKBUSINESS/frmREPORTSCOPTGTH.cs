@@ -100,14 +100,15 @@ namespace TKBUSINESS
                             ,TH006 AS '規格'
                             ,TH007 AS '庫別ID'
                             ,MC002 AS '庫別'
+                            ,TH017 AS '批號'
                             ,SUM(TH008+TH024) AS '數量'
                             FROM [TK].dbo.COPTG,[TK].dbo.COPTH,[TK].dbo.CMSMC
                             WHERE TG001=TH001 AND TG002=TH002
                             AND MC001=TH007
                             AND TH004 NOT LIKE '599%' 
-                            AND TG001 IN ('A233')
+                            AND TG001 IN ('A233','A234')
                             AND TG003>='{0}' AND TG003<='{1}'
-                            GROUP BY TH004,TH005,TH006,TH007,MC002
+                            GROUP BY TH004,TH005,TH006,TH007,MC002,TH017
                             ORDER BY MC002,TH004,TH005,TH006,TH007
  
                             ", SDATES, EDATES);
@@ -171,12 +172,13 @@ namespace TKBUSINESS
                             ,TH006 AS '規格'
                             ,TH007 AS '庫別ID'
                             ,MC002 AS '庫別'
+                            ,TH017 AS '批號'
                             ,(TH008+TH024) AS '數量'
                             FROM [TK].dbo.COPTG,[TK].dbo.COPTH,[TK].dbo.CMSMC
                             WHERE TG001=TH001 AND TG002=TH002
                             AND MC001=TH007
                             AND TH004 NOT LIKE '599%'
-                            AND TG001 IN ('A233')
+                            AND TG001 IN ('A233','A234')
                             AND TG003>='{0}' AND TG003<='{1}'
                             ORDER BY TG003,TH001,TH002,TH003
 
