@@ -254,6 +254,12 @@
     <Compile Include="frmREPORTSASLARANKS.Designer.cs">
       <DependentUpon>frmREPORTSASLARANKS.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmREPORTSCOPTGTH.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmREPORTSCOPTGTH.Designer.cs">
+      <DependentUpon>frmREPORTSCOPTGTH.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmRPOETPOSMA.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -372,6 +378,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmREPORTSASLARANKS.resx">
       <DependentUpon>frmREPORTSASLARANKS.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmREPORTSCOPTGTH.resx">
+      <DependentUpon>frmREPORTSCOPTGTH.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmRPOETPOSMA.resx">
       <DependentUpon>frmRPOETPOSMA.cs</DependentUpon>
