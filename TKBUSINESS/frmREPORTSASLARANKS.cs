@@ -88,7 +88,11 @@ namespace TKBUSINESS
         public void SETDATES()
         {
             DateTime currentDate = DateTime.Now;
-            DateTime firstDayOfLastMonth = new DateTime(currentDate.Year, currentDate.Month - 1, 1);
+
+            // 使用 AddMonths(-1) 取得上個月的日期，再取該月的第一天
+            DateTime lastMonth = currentDate.AddMonths(-1);
+            DateTime firstDayOfLastMonth = new DateTime(lastMonth.Year, lastMonth.Month, 1);
+
             dateTimePicker1.Value = firstDayOfLastMonth;
             dateTimePicker2.Value = firstDayOfLastMonth;
         }
@@ -103,39 +107,58 @@ namespace TKBUSINESS
         public void CHECKDATE_SDAYS(DateTime SDAYS)
         {
             DateTime currentDate = DateTime.Now;
+
+            // 1. 取得本月 1 號
             DateTime firstDayOfMonth = new DateTime(currentDate.Year, currentDate.Month, 1);
-            DateTime firstDayOfLastMonth = new DateTime(currentDate.Year, currentDate.Month-1, 1);
 
-            DateTime yourDateTime = SDAYS;// 設定您想要檢查的 DateTime 物件
+            // 2. 安全取得上個月 1 號 (解決 1 月份會報錯的問題)
+            DateTime lastMonth = currentDate.AddMonths(-1);
+            DateTime firstDayOfLastMonth = new DateTime(lastMonth.Year, lastMonth.Month, 1);
 
-            if (yourDateTime > firstDayOfMonth)
+            // 假設 SDAYS 是傳入的日期
+            DateTime yourDateTime = SDAYS;
+
+            // 3. 邏輯檢查：如果選擇的日期「大於或等於」本月第一天（即：選到本月）
+            if (yourDateTime >= firstDayOfMonth)
             {
-                // 您的 DateTime 大於或等於本月第一天
+                // 強制將日期跳回上個月 1 號
                 dateTimePicker1.Value = firstDayOfLastMonth;
-                MessageBox.Show("日期只能在上個月之前");
+
+                // 提示訊息建議更直覺一點
+                MessageBox.Show("日期限制：只能選擇「上個月（含）之前」的日期。");
             }
             else
             {
-               
+                // 日期合格，將選定的日期賦值給 dateTimePicker
+                dateTimePicker1.Value = yourDateTime;
             }
         }
         public void CHECKDATE_EDAYS(DateTime EDAYS)
         {
             DateTime currentDate = DateTime.Now;
+
+            // 1. 取得本月 1 號 (例如 2026/01/01)
             DateTime firstDayOfMonth = new DateTime(currentDate.Year, currentDate.Month, 1);
-            DateTime firstDayOfLastMonth = new DateTime(currentDate.Year, currentDate.Month - 1, 1);
 
-            DateTime yourDateTime = EDAYS;// 設定您想要檢查的 DateTime 物件
+            // 2. 使用 AddMonths(-1) 安全取得上個月 (例如從 2026/01 變成 2025/12)
+            DateTime lastMonth = currentDate.AddMonths(-1);
+            DateTime firstDayOfLastMonth = new DateTime(lastMonth.Year, lastMonth.Month, 1);
 
-            if (yourDateTime > firstDayOfMonth)
+            // 假設 EDAYS 是您要檢查的結束日期
+            DateTime yourDateTime = EDAYS;
+
+            // 3. 邏輯檢查：如果選定的日期落在「本月」或「未來」
+            if (yourDateTime >= firstDayOfMonth)
             {
-                // 您的 DateTime 大於或等於本月第一天
+                // 將控制項強制跳回上個月 1 號
                 dateTimePicker2.Value = firstDayOfLastMonth;
-                MessageBox.Show("日期只能在上個月之前");
+
+                MessageBox.Show("結束日期不合法！只能選擇「上個月（含）之前」的日期。");
             }
             else
             {
-
+                // 日期合格，更新控制項
+                dateTimePicker2.Value = yourDateTime;
             }
         }
 

@@ -1,11 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio Version 18
+VisualStudioVersion = 18.4.11605.240 stable
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TKBUSINESS", "TKBUSINESS\TKBUSINESS.csproj", "{8940CD74-BEE0-4D16-A00F-E5445FFCA932}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Calendar.NET", "..\CalendarNETSource\Calendar.NET.csproj", "{6CBC43B6-E950-49B2-B14A-563C50FCD5C3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,12 +15,11 @@ Global
 		{8940CD74-BEE0-4D16-A00F-E5445FFCA932}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8940CD74-BEE0-4D16-A00F-E5445FFCA932}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8940CD74-BEE0-4D16-A00F-E5445FFCA932}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6CBC43B6-E950-49B2-B14A-563C50FCD5C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6CBC43B6-E950-49B2-B14A-563C50FCD5C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6CBC43B6-E950-49B2-B14A-563C50FCD5C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6CBC43B6-E950-49B2-B14A-563C50FCD5C3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A11C80D9-6AD7-43A6-B66C-64208CF266CF}
 	EndGlobalSection
 EndGlobal
