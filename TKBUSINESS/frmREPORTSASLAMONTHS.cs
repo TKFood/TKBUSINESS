@@ -270,7 +270,7 @@ namespace TKBUSINESS
             }
             else
             {
-                SBQUERY.AppendFormat(@"  ");
+                SBQUERY.AppendFormat(@"  "); 
             }
 
             SB.AppendFormat(@" 
@@ -282,6 +282,8 @@ namespace TKBUSINESS
                             ,(SUM(LA017-LA020-LA022-LA023)-SUM(LA024)) AS '毛利'
                             ,(CASE WHEN (SUM(LA017-LA020-LA022-LA023)-SUM(LA024))<>0 AND SUM(LA017-LA020-LA022-LA023)<>0 THEN  (SUM(LA017-LA020-LA022-LA023)-SUM(LA024))/SUM(LA017-LA020-LA022-LA023) ELSE 0 END ) AS '毛利率'
                             ,CONVERT(NVARCHAR,YEAR(LA015))+'/'+CONVERT(NVARCHAR,MONTH(LA015)) AS 'YMS'
+                            ,(SELECT SUM(LA2.LA017-LA2.LA020-LA2.LA022-LA2.LA023) FROM [TK].dbo.SASLA  LA2 WHERE YEAR(LA2.LA015)=YEAR(SASLA.LA015) AND MONTH(LA2.LA015)=MONTH(SASLA.LA015)) AS '月銷貨淨額'
+                            ,CONVERT(DECIMAL(16,6),SUM(LA017-LA020-LA022-LA023)/(SELECT SUM(LA2.LA017-LA2.LA020-LA2.LA022-LA2.LA023) FROM [TK].dbo.SASLA  LA2 WHERE YEAR(LA2.LA015)=YEAR(SASLA.LA015) AND MONTH(LA2.LA015)=MONTH(SASLA.LA015))) AS '佔比'
 
                             FROM [TK].dbo.SASLA
                             LEFT JOIN [TK].dbo.INVMB ON MB001=LA005
