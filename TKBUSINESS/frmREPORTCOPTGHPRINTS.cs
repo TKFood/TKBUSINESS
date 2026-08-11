@@ -36,6 +36,62 @@ namespace TKBUSINESS
 
         #region FUNCTION
 
+        //
+        public void SEARCH_DG1(string SDATE, string EDATE)
+        {
+            StringBuilder sbSql = new StringBuilder();
+            StringBuilder sbSqlQuery = new StringBuilder();
+            try
+            {
+                //20210902密
+                Class1 TKID = new Class1();//用new 建立類別實體
+                SqlConnectionStringBuilder sqlsb = new SqlConnectionStringBuilder(ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString);
+
+                //資料庫使用者密碼解密
+                sqlsb.Password = TKID.Decryption(sqlsb.Password);
+                sqlsb.UserID = TKID.Decryption(sqlsb.UserID);
+
+                String connectionString;
+                SqlConnection sqlConn = new SqlConnection(sqlsb.ConnectionString);
+
+
+                sbSql.Clear();
+                sbSqlQuery.Clear();
+
+                sbSql.AppendFormat(@"  
+                                    SELECT
+                                    TG001 AS '銷貨單別'
+                                    ,TG002 AS '銷貨單號'
+                                    ,MV002 AS '業務員'
+                                    ,TG004 AS '客戶代號'
+                                    ,TG007 AS '客戶名稱'
+
+                                    FROM [TK].[dbo].[COPTG]
+                                    INNER JOIN [TK].dbo.CMSMV ON MV001=TG006
+                                    INNER JOIN [TK].dbo.COPMA ON MA001=TG004
+                                    INNER JOIN [TK].dbo.CMSNA ON NA002=TG047
+                                    WHERE  TG003>='{0}' AND TG003<='{1} '
+                                    ORDER BY TG001,TG002
+
+                                    ", SDATE, EDATE);
+                SqlDataAdapter da = new SqlDataAdapter(@"" + sbSql, sqlConn);
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+                dataGridView1.DataSource = dt;
+
+                
+
+
+            }
+            catch
+            {
+
+            }
+            finally
+            {
+
+            }
+        }
         public void SETFASTREPORT()
         {
 
@@ -168,7 +224,9 @@ namespace TKBUSINESS
         #region BUTTON
         private void button1_Click(object sender, EventArgs e)
         {
-
+            string SDATES=dateTimePicker1.Value.ToString("yyyyMMdd");
+            string EDATES = dateTimePicker1.Value.ToString("yyyyMMdd");
+            SEARCH_DG1(SDATES, EDATES);
         }
 
         private void button2_Click(object sender, EventArgs e)
