@@ -33,10 +33,39 @@ namespace TKBUSINESS
             InitializeComponent();
         }
 
-
+        private void frmREPORTCOPTGHPRINTS_Load(object sender, EventArgs e)
+        {
+            AddCheckBoxColumn(dataGridView1);
+        }
         #region FUNCTION
 
-        //
+        //在gridview新增checkbox欄位
+        public void AddCheckBoxColumn(DataGridView dgv)
+        {
+            DataGridViewCheckBoxColumn chk = new DataGridViewCheckBoxColumn();
+            chk.HeaderText = "選擇";
+            chk.Name = "chk";
+            chk.Width = 50;
+            dgv.Columns.Insert(0, chk);
+        }
+
+        //記錄gridview被勾選的chekcbox
+        public List<string> GetCheckedRows(DataGridView dgv)
+        {
+            List<string> checkedRows = new List<string>();
+            foreach (DataGridViewRow row in dgv.Rows)
+            {
+                DataGridViewCheckBoxCell chkCell = row.Cells["chk"] as DataGridViewCheckBoxCell;
+                if (chkCell != null && chkCell.Value != null && (bool)chkCell.Value)
+                {
+                    //假設你想要取得第一欄的值
+                    string value = row.Cells[1].Value.ToString()+row.Cells[2].Value.ToString();
+                    checkedRows.Add(value);
+                }
+            }
+            return checkedRows;
+        }
+
         public void SEARCH_DG1(string SDATE, string EDATE)
         {
             StringBuilder sbSql = new StringBuilder();
@@ -77,9 +106,7 @@ namespace TKBUSINESS
                 SqlDataAdapter da = new SqlDataAdapter(@"" + sbSql, sqlConn);
                 DataTable dt = new DataTable();
                 da.Fill(dt);
-                dataGridView1.DataSource = dt;
-
-                
+                dataGridView1.DataSource = dt;              
 
 
             }
@@ -92,14 +119,20 @@ namespace TKBUSINESS
 
             }
         }
-        public void SETFASTREPORT()
+        public void SETFASTREPORT(List<string> checkedRows)
         {
-
-
+            string SELECTED_ROWS = null;
+            if (checkedRows!=null && checkedRows.Count>0)
+            {
+                SELECTED_ROWS = string.Join(",", checkedRows.Select(x => $"'{x}'"));
+            }
+            
+           
+            
             StringBuilder SQL1 = new StringBuilder();
             StringBuilder SQL2 = new StringBuilder();
 
-            SQL1 = SETSQL1();
+            SQL1 = SETSQL1(SELECTED_ROWS);
 
             Report report1 = new Report();
             report1.Load(@"REPORT\銷貨單憑証-直式.frx");
@@ -121,7 +154,7 @@ namespace TKBUSINESS
             report1.Show();
         }
 
-        public StringBuilder SETSQL1()
+        public StringBuilder SETSQL1(string SELECTED_ROWS)
         {
             StringBuilder SB = new StringBuilder();
 
@@ -209,10 +242,10 @@ namespace TKBUSINESS
                             INNER JOIN [TK].dbo.COPMA ON MA001=TG004
                             INNER JOIN [TK].dbo.CMSNA ON NA002=TG047
                             WHERE TG001=TH001 AND TG002=TH002
-                            AND TG002 LIKE '20260811%'
+                            AND TG001+TG002 IN ({0})
                             ORDER BY TG001,TG002,TH003
 
-                            ");
+                            ", SELECTED_ROWS);
 
             return SB;
 
@@ -231,8 +264,11 @@ namespace TKBUSINESS
 
         private void button2_Click(object sender, EventArgs e)
         {
-            SETFASTREPORT();
+            var checkedRows = GetCheckedRows(dataGridView1);
+            SETFASTREPORT(checkedRows);
         }
         #endregion
+
+        
     }
 }
