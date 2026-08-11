@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report ScriptLanguage="CSharp" ReportInfo.Created="08/11/2026 10:19:23" ReportInfo.Modified="08/11/2026 12:00:00" ReportInfo.CreatorVersion="2017.4.1.0">
+  <Dictionary>
+    <MsSqlDataConnection Name="Connection" ConnectionString="rijcmlqHwzMSgwTFaHpjtG3vsOj8Zy6q+uhwpDsytgWqwZQZyEQUQyQ022aWUGqU90pHzzNS8V+op55d8q+MyIM1gh0M9zlGOgK4zWs8Nahyki0xHW6v1SoNjLsQ40hUEIevZodc4nZn1VMr9PyrOeyOFQcW49yN37Wommt8wACdM4FKHAeO5qqwIh8UI3n9QTXxqWw+dyrtVaBaTwq8PQRA43vOw==">
+      <TableDataSource Name="Table" DataType="System.Int32" Enabled="true" SelectCommand="--20260811 銷貨單憑証&#13;&#10;&#13;&#10;SELECT &#13;&#10;&#13;&#10;TG010+MB002 AS '廠別'&#13;&#10;,TG001+MQ002 AS '銷貨單別'&#13;&#10;,TG002 AS '銷貨單號'&#13;&#10;,TG015 AS '統一編號'&#13;&#10;--1.應稅內含、2.應稅外加、3.零稅率、4.免稅、9.不計稅&#13;&#10;,(CASE WHEN TG017='1' THEN '應稅內含' WHEN TG017='2' THEN '應稅外加'WHEN TG017='3' THEN '零稅率'WHEN TG017='4' THEN '免稅'WHEN TG017='9' THEN '不計稅' END  ) AS '課稅別'&#13;&#10;,TG044 AS '營業稅率'&#13;&#10;,TG005 AS '部門'&#13;&#10;,CONVERT(NVARCHAR,CONVERT(datetime,TG003),111) AS '單據日期'&#13;&#10;--1.二聯式、2.三聯式、3.二聯式收銀機發票、4.三聯式收銀機發票、5.電子計算機發票、6.免用統一發票、A.增值稅專用發票、B.普通發票、C.免用發票   //890623 ADD 'A,B,C' BY 349 FOR 大陸用&#13;&#10;,(CASE WHEN TG016='1' THEN '二聯式'  WHEN TG016='2' THEN '三聯式' WHEN TG016='3' THEN '二聯式收銀機發票' WHEN TG016='4' THEN '三聯式收銀機發票' WHEN TG016='5' THEN '電子計算機發票' WHEN TG016='6' THEN '免用統一發票' WHEN TG016='7' THEN '電子發票' WHEN TG016='A' THEN '增值稅專用發票' WHEN TG016='B' THEN '普通發票' WHEN TG016='C' THEN '免用發票'  ELSE TG016 END ) AS '發票聯數'&#13;&#10;,MV002 AS '業務員'&#13;&#10;,TG032 AS '件數'&#13;&#10;,TG004 AS '客戶代號'&#13;&#10;,TG007 AS '客戶名稱'&#13;&#10;,CONVERT(NVARCHAR,CONVERT(datetime,TG021),111)  AS '發票日期'&#13;&#10;,TG014 AS '發票號碼'&#13;&#10;,TG012 AS '匯率'&#13;&#10;,TG011 AS '幣別'&#13;&#10;,MA008 AS '傳真'&#13;&#10;,TG106 AS '電話(一)'&#13;&#10;,TG107 AS '電話(二)'&#13;&#10;,TG008 AS '送貨地址'&#13;&#10;,TG047+NA003 AS '付款條件'&#13;&#10;,TG075 AS '收貨部門'&#13;&#10;,TG110 AS '指定日期'&#13;&#10;--1.不分時段 2.早上(09~12點) 3.中午(12~17點) 4.下午(17~20點) &#13;&#10;--5.09點 6.10點 7.11點 8.12點 9.13點 A.14點 B.15點 C.16點 D.17點 E.18點 F.19點 G.20點  [DEF&quot;1&quot;]  //20101230 9.3 網購功能&#13;&#10;,(CASE WHEN TG111='1' THEN '不分時段' &#13;&#10;WHEN TG111='2' THEN '早上(09~12點)'&#13;&#10;WHEN TG111='3' THEN '中午(12~17點)'&#13;&#10;WHEN TG111='4' THEN '下午(17~20點)'&#13;&#10;WHEN TG111='5' THEN '09點'&#13;&#10;WHEN TG111='6' THEN '10點'&#13;&#10;WHEN TG111='7' THEN '11點'&#13;&#10;WHEN TG111='8' THEN '12點'&#13;&#10;WHEN TG111='9' THEN '13點'&#13;&#10;WHEN TG111='A' THEN '14點'&#13;&#10;WHEN TG111='B' THEN '15點'&#13;&#10;WHEN TG111='C' THEN '16點'&#13;&#10;WHEN TG111='D' THEN '17點'&#13;&#10;WHEN TG111='E' THEN '18點'&#13;&#10;WHEN TG111='F' THEN '19點'&#13;&#10;WHEN TG111='G' THEN '20點'&#13;&#10;END) AS '配送時段'&#13;&#10;,TG113 AS '代收貨款'&#13;&#10;,TG027 AS '備註'&#13;&#10;,TH003 AS '序號'&#13;&#10;,TH004 AS '品號'&#13;&#10;,TH005 AS '品名'&#13;&#10;,TH006 AS '規格'&#13;&#10;,TH008 AS '銷貨數量'&#13;&#10;--1.贈品量、2.備品量&amp;&amp;88-06-23&#13;&#10;,(CASE WHEN TH031='1' THEN '贈品量' WHEN TH031='2' THEN '備品量'  END ) AS '類型'&#13;&#10;,TH024 AS '贈/備品量'&#13;&#10;,TH009 AS '單位'&#13;&#10;,TH025 AS '折扣率%'&#13;&#10;,TH012 AS '單價'&#13;&#10;,TH013 AS '金額'&#13;&#10;,TH007 AS '銷貨庫別'&#13;&#10;,TH014+TH015 AS '訂單單號'&#13;&#10;,TH027+TH028+TH029 AS '結帳單號'&#13;&#10;,TH017 AS '批號'&#13;&#10;,TH026 AS '結帳碼'&#13;&#10;,TH018 AS '單身備註'&#13;&#10;&#13;&#10;FROM [TK].[dbo].[COPTH],[TK].[dbo].[COPTG]&#13;&#10;INNER JOIN [TK].dbo.[CMSMB] ON MB001=TG010&#13;&#10;INNER JOIN [TK].dbo.CMSMQ ON MQ001= TG001&#13;&#10;INNER JOIN [TK].dbo.CMSMV ON MV001=TG006&#13;&#10;INNER JOIN [TK].dbo.COPMA ON MA001=TG004&#13;&#10;INNER JOIN [TK].dbo.CMSNA ON NA002=TG047&#13;&#10;WHERE TG001=TH001 AND TG002=TH002&#13;&#10;AND TG002 LIKE '20260811%'&#13;&#10;ORDER BY TG001,TG002,TH003">
+        <Column Name="發票聯數" DataType="System.String"/>
+        <Column Name="序號" DataType="System.String"/>
+        <Column Name="品號" DataType="System.String"/>
+        <Column Name="品名" DataType="System.String"/>
+        <Column Name="規格" DataType="System.String"/>
+        <Column Name="銷貨數量" DataType="System.Decimal"/>
+        <Column Name="類型" DataType="System.String"/>
+        <Column Name="贈/備品量" DataType="System.Decimal"/>
+        <Column Name="單位" DataType="System.String"/>
+        <Column Name="折扣率%" DataType="System.Decimal"/>
+        <Column Name="單價" DataType="System.Decimal"/>
+        <Column Name="金額" DataType="System.Decimal"/>
+        <Column Name="銷貨庫別" DataType="System.String"/>
+        <Column Name="訂單單號" DataType="System.String"/>
+        <Column Name="結帳單號" DataType="System.String"/>
+        <Column Name="批號" DataType="System.String"/>
+        <Column Name="結帳碼" DataType="System.String"/>
+        <Column Name="單身備註" DataType="System.String"/>
+        <Column Name="廠別" DataType="System.String"/>
+        <Column Name="銷貨單別" DataType="System.String"/>
+        <Column Name="銷貨單號" DataType="System.String"/>
+        <Column Name="統一編號" DataType="System.String"/>
+        <Column Name="課稅別" DataType="System.String"/>
+        <Column Name="營業稅率" DataType="System.Decimal"/>
+        <Column Name="部門" DataType="System.String"/>
+        <Column Name="單據日期" DataType="System.String"/>
+        <Column Name="業務員" DataType="System.String"/>
+        <Column Name="件數" DataType="System.Decimal"/>
+        <Column Name="客戶代號" DataType="System.String"/>
+        <Column Name="客戶名稱" DataType="System.String"/>
+        <Column Name="發票日期" DataType="System.String"/>
+        <Column Name="發票號碼" DataType="System.String"/>
+        <Column Name="匯率" DataType="System.Decimal"/>
+        <Column Name="幣別" DataType="System.String"/>
+        <Column Name="傳真" DataType="System.String"/>
+        <Column Name="電話(一)" DataType="System.String"/>
+        <Column Name="電話(二)" DataType="System.String"/>
+        <Column Name="送貨地址" DataType="System.String"/>
+        <Column Name="付款條件" DataType="System.String"/>
+        <Column Name="收貨部門" DataType="System.String"/>
+        <Column Name="指定日期" DataType="System.String"/>
+        <Column Name="配送時段" DataType="System.String"/>
+        <Column Name="代收貨款" DataType="System.Decimal"/>
+        <Column Name="備註" DataType="System.String"/>
+      </TableDataSource>
+    </MsSqlDataConnection>
+  </Dictionary>
+  <ReportPage Name="Page1" Landscape="true" PaperWidth="297" PaperHeight="210" RawPaperSize="9">
+    <PageHeaderBand Name="PageHeader1" Width="1047.06" Height="85.05">
+      <TextObject Name="Text1" Width="1048.95" Height="37.8" Text="老楊食品股份有限公司" HorzAlign="Center" VertAlign="Center" Font="標楷體, 18pt"/>
+      <TextObject Name="Text2" Top="28.35" Width="1048.95" Height="37.8" Text="國內銷貨單" HorzAlign="Center" VertAlign="Center" Font="標楷體, 12pt"/>
+      <TextObject Name="Text3" Top="56.7" Width="151.2" Height="28.35" Text="製表日期:[Year([Date])]/[Month([Date])]/[Day([Date])]" VertAlign="Center" Font="標楷體, 10pt"/>
+      <TextObject Name="Text4" Left="406.35" Top="56.7" Width="245.7" Height="28.35" Text="廠別:[Table.廠別]" HorzAlign="Center" VertAlign="Center" Font="標楷體, 10pt"/>
+      <TextObject Name="Text5" Left="897.75" Top="56.7" Width="151.2" Height="28.35" Text="頁次:[Page#]/[TotalPages#]" HorzAlign="Right" VertAlign="Center" Font="標楷體, 10pt"/>
+    </PageHeaderBand>
+    <ColumnHeaderBand Name="ColumnHeader1" Top="90.38" Width="1047.06" Height="151.2">
+      <TextObject Name="Text6" Width="217.35" Height="18.9" Text="銷貨單別:[Table.銷貨單別]" VertAlign="Center" Font="標楷體, 10pt"/>
+      <TextObject Name="Text7" Top="18.9" Width="217.35" Height="18.9" Text="部門:[Table.部門]" VertAlign="Center" Font="標楷體, 10pt"/>
+      <TextObject Name="Text8" Top="37.8" Width="217.35" Height="18.9" Text="客戶代號:[Table.客戶代號]" VertAlign="Center" Font="標楷體, 10pt"/>
+      <TextObject Name="Text9" Top="56.7" Width="217.35" Height="18.9" Text="客戶名稱:[Table.客戶名稱]" VertAlign="Center" Font="標楷體, 10pt"/>
+      <TextObject Name="Text10" Top="94.5" Width="217.35" Height="18.9" Text="收貨部門:[Table.收貨部門]" VertAlign="Center" Font="標楷體, 10pt"/>
+      <TextObject Name="Text11" Top="113.4" Width="217.35" Height="18.9" Text="指定日期:[Table.指定日期]" VertAlign="Center" Font="標楷體, 10pt"/>
+      <TextObject Name="Text12" Top="75.6" Width="661.5" Height="18.9" CanBreak="false" Text="送貨地址:[Table.送貨地址]" VertAlign="Center" Font="標楷體, 10pt"/>
+      <TextObject Name="Text14" Left="217.35" Top="18.9" Width="226.8" Height="18.9" Text="單據日期:[Table.單據日期]" VertAlign="Center" Font="標楷體, 10pt"/>
+      <TextObject Name="Text15" Left="217.35" Top="37.8" Width="226.8" Height="18.9" Text="發票日期:[Table.發票日期]" VertAlign="Center" Font="標楷體, 10pt"/>
+      <TextObject Name="Text16" Left="217.35" Top="56.7" Width="226.8" Height="18.9" Text="傳真:[Table.傳真]" VertAlign="Center" Font="標楷體, 10pt"/>
+      <TextObject Name="Text13" Left="217.35" Width="226.8" Height="18.9" Text="銷貨單號:[Table.銷貨單號]" VertAlign="Center" Font="標楷體, 10pt"/>
+      <TextObject Name="Text17" Left="444.15" Width="226.8" Height="18.9" Text="課稅別:[Table.課稅別]" VertAlign="Center" Font="標楷體, 10pt"/>
+      <TextObject Name="Text18" Left="444.15" Top="18.9" Width="226.8" Height="18.9" Text="發票聯數:[Table.發票聯數]" VertAlign="Center" Font="標楷體, 10pt"/>
+      <TextObject Name="Text19" Left="444.15" Top="37.8" Width="226.8" Height="18.9" Text="發票號碼:[Table.發票號碼]" VertAlign="Center" Font="標楷體, 10pt"/>
+      <TextObject Name="Text20" Left="444.15" Top="56.7" Width="226.8" Height="18.9" Text="電話(一):[Table.電話(一)]" VertAlign="Center" Font="標楷體, 10pt"/>
+      <TextObject Name="Text21" Left="670.95" Top="18.9" Width="207.9" Height="18.9" Text="業務員:[Table.業務員]" VertAlign="Center" Font="標楷體, 10pt"/>
+      <TextObject Name="Text22" Left="670.95" Width="207.9" Height="18.9" Text="課稅別:[Table.課稅別]" VertAlign="Center" Font="標楷體, 10pt"/>
+      <TextObject Name="Text23" Left="670.95" Top="37.8" Width="207.9" Height="18.9" Text="匯率:[Table.匯率]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="3" Format.DecimalSeparator="." Format.GroupSeparator="," Format.NegativePattern="1" VertAlign="Center" WordWrap="false" Font="標楷體, 10pt" Trimming="EllipsisCharacter"/>
+      <TextObject Name="Text24" Left="670.95" Top="56.7" Width="207.9" Height="18.9" Text="電話(二):[Table.電話(二)]" VertAlign="Center" Font="標楷體, 10pt"/>
+      <TextObject Name="Text25" Left="878.85" Width="170.1" Height="18.9" Text="營業稅率:[Table.營業稅率]" Format="Percent" Format.UseLocale="true" VertAlign="Center" WordWrap="false" Font="標楷體, 10pt" Trimming="EllipsisCharacter"/>
+      <TextObject Name="Text26" Left="878.85" Top="18.9" Width="170.1" Height="18.9" Text="件數:[Table.件數]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="0" Format.DecimalSeparator="." Format.GroupSeparator="," Format.NegativePattern="1" VertAlign="Center" WordWrap="false" Font="標楷體, 10pt" Trimming="EllipsisCharacter"/>
+      <TextObject Name="Text27" Left="878.85" Top="37.8" Width="170.1" Height="18.9" Text="幣別:[Table.幣別]" VertAlign="Center" Font="標楷體, 10pt"/>
+    </ColumnHeaderBand>
+    <DataBand Name="Data1" Top="246.92" Width="1047.06" Height="75.6" DataSource="Table"/>
+    <ColumnFooterBand Name="ColumnFooter1" Top="327.85" Width="1047.06" Height="37.8"/>
+  </ReportPage>
+</Report>
