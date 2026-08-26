@@ -335,6 +335,12 @@
     <Compile Include="frmREPORTSCOPTGTHSALES.Designer.cs">
       <DependentUpon>frmREPORTSCOPTGTHSALES.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmREPORT_PACKAGES.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmREPORT_PACKAGES.Designer.cs">
+      <DependentUpon>frmREPORT_PACKAGES.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmRPOETPOSMA.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -462,6 +468,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmREPORTSCOPTGTHSALES.resx">
       <DependentUpon>frmREPORTSCOPTGTHSALES.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmREPORT_PACKAGES.resx">
+      <DependentUpon>frmREPORT_PACKAGES.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmRPOETPOSMA.resx">
       <DependentUpon>frmRPOETPOSMA.cs</DependentUpon>
