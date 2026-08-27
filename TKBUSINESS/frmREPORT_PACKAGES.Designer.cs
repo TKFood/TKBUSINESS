@@ -85,6 +85,7 @@
             this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton4 = new System.Windows.Forms.ToolStripButton();
+            this.previewControl1 = new FastReport.Preview.PreviewControl();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -99,6 +100,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.tabControl2.SuspendLayout();
             this.tabPage3.SuspendLayout();
+            this.tabPage4.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -252,6 +254,7 @@
             this.dataGridView1.RowTemplate.Height = 24;
             this.dataGridView1.Size = new System.Drawing.Size(1264, 198);
             this.dataGridView1.TabIndex = 6;
+            this.dataGridView1.SelectionChanged += new System.EventHandler(this.dataGridView1_SelectionChanged);
             // 
             // tabControl2
             // 
@@ -277,10 +280,11 @@
             // 
             // tabPage4
             // 
+            this.tabPage4.Controls.Add(this.previewControl1);
             this.tabPage4.Location = new System.Drawing.Point(4, 26);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(192, 70);
+            this.tabPage4.Size = new System.Drawing.Size(1256, 554);
             this.tabPage4.TabIndex = 1;
             this.tabPage4.Text = "tabPage4";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -298,7 +302,6 @@
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 120F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 120F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 120F));
-            this.tableLayoutPanel2.Controls.Add(this.textBoxID, 3, 0);
             this.tableLayoutPanel2.Controls.Add(this.label2, 0, 0);
             this.tableLayoutPanel2.Controls.Add(this.dateTimePicker2, 1, 0);
             this.tableLayoutPanel2.Controls.Add(this.label3, 0, 1);
@@ -321,7 +324,6 @@
             this.tableLayoutPanel2.Controls.Add(this.textBox8, 3, 6);
             this.tableLayoutPanel2.Controls.Add(this.textBox9, 3, 7);
             this.tableLayoutPanel2.Controls.Add(this.textBox10, 3, 8);
-            this.tableLayoutPanel2.Controls.Add(this.label7, 2, 0);
             this.tableLayoutPanel2.Controls.Add(this.toolStrip1, 5, 0);
             this.tableLayoutPanel2.Controls.Add(this.textBox16, 5, 7);
             this.tableLayoutPanel2.Controls.Add(this.label19, 4, 7);
@@ -335,6 +337,8 @@
             this.tableLayoutPanel2.Controls.Add(this.label15, 4, 3);
             this.tableLayoutPanel2.Controls.Add(this.label14, 4, 2);
             this.tableLayoutPanel2.Controls.Add(this.textBox11, 5, 2);
+            this.tableLayoutPanel2.Controls.Add(this.textBoxID, 7, 0);
+            this.tableLayoutPanel2.Controls.Add(this.label7, 6, 0);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 3);
             this.tableLayoutPanel2.Margin = new System.Windows.Forms.Padding(4);
@@ -740,7 +744,7 @@
             this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("PMingLiU", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.label7.Location = new System.Drawing.Point(364, 12);
+            this.label7.Location = new System.Drawing.Point(1084, 12);
             this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(112, 16);
@@ -752,10 +756,10 @@
             // 
             this.textBoxID.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxID.Location = new System.Drawing.Point(483, 3);
+            this.textBoxID.Location = new System.Drawing.Point(1203, 3);
             this.textBoxID.Name = "textBoxID";
             this.textBoxID.ReadOnly = true;
-            this.textBoxID.Size = new System.Drawing.Size(234, 27);
+            this.textBoxID.Size = new System.Drawing.Size(114, 27);
             this.textBoxID.TabIndex = 37;
             // 
             // toolStrip1
@@ -813,6 +817,18 @@
             this.toolStripButton4.Text = "存檔";
             this.toolStripButton4.Click += new System.EventHandler(this.btnTSSave_Click);
             // 
+            // previewControl1
+            // 
+            this.previewControl1.BackColor = System.Drawing.SystemColors.AppWorkspace;
+            this.previewControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.previewControl1.Font = new System.Drawing.Font("SimSun", 9F);
+            this.previewControl1.Location = new System.Drawing.Point(3, 3);
+            this.previewControl1.Name = "previewControl1";
+            this.previewControl1.PageOffset = new System.Drawing.Point(10, 10);
+            this.previewControl1.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.previewControl1.Size = new System.Drawing.Size(1250, 548);
+            this.previewControl1.TabIndex = 3;
+            // 
             // frmREPORT_PACKAGES
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 16F);
@@ -838,6 +854,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.tabControl2.ResumeLayout(false);
             this.tabPage3.ResumeLayout(false);
+            this.tabPage4.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel2.PerformLayout();
             this.toolStrip1.ResumeLayout(false);
@@ -903,5 +920,6 @@
         private System.Windows.Forms.ToolStripButton toolStripButton2;
         private System.Windows.Forms.ToolStripButton toolStripButton3;
         private System.Windows.Forms.ToolStripButton toolStripButton4;
+        private FastReport.Preview.PreviewControl previewControl1;
     }
 }
