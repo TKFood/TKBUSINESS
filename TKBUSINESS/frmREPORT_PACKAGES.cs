@@ -145,6 +145,125 @@ namespace TKBUSINESS
 
         }
 
+        public void SEARCH_DG2(string SDATE)
+        {
+            StringBuilder sbSql = new StringBuilder();
+            StringBuilder sbSqlQuery = new StringBuilder();
+            try
+            {
+                //20210902密
+                Class1 TKID = new Class1();//用new 建立類別實體
+                SqlConnectionStringBuilder sqlsb = new SqlConnectionStringBuilder(ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString);
+
+                //資料庫使用者密碼解密
+                sqlsb.Password = TKID.Decryption(sqlsb.Password);
+                sqlsb.UserID = TKID.Decryption(sqlsb.UserID);
+
+                String connectionString;
+                SqlConnection sqlConn = new SqlConnection(sqlsb.ConnectionString);
+
+
+                sbSql.Clear();
+                sbSqlQuery.Clear();
+
+                sbSql.AppendFormat(@"  
+                                    SELECT 
+                                    [ID]
+                                    ,[LOT]
+                                    ,[SHIPDATES]                                    
+                                    FROM [TKBUSINESS].[dbo].[REPORT_PACKAGES]
+                                    WHERE [SHIPDATES]='{0}'
+                                    ORDER BY  [ID]
+
+
+                                    ", SDATE);
+                SqlDataAdapter da = new SqlDataAdapter(@"" + sbSql, sqlConn);
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+                dataGridView2.DataSource = dt;
+
+
+            }
+            catch
+            {
+
+            }
+            finally
+            {
+
+            }
+        }
+
+        private void dataGridView2_SelectionChanged(object sender, EventArgs e)
+        {
+            if (dataGridView2.CurrentRow != null)
+            {
+                string LOT = dataGridView2.CurrentRow.Cells["LOT"].Value?.ToString();
+                SEARCH_DG3(LOT);
+            }
+        }
+
+        public void SEARCH_DG3(string LOT)
+        {
+            StringBuilder sbSql = new StringBuilder();
+            StringBuilder sbSqlQuery = new StringBuilder();
+            try
+            {
+                //20210902密
+                Class1 TKID = new Class1();//用new 建立類別實體
+                SqlConnectionStringBuilder sqlsb = new SqlConnectionStringBuilder(ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString);
+
+                //資料庫使用者密碼解密
+                sqlsb.Password = TKID.Decryption(sqlsb.Password);
+                sqlsb.UserID = TKID.Decryption(sqlsb.UserID);
+
+                String connectionString;
+                SqlConnection sqlConn = new SqlConnection(sqlsb.ConnectionString);
+
+
+                sbSql.Clear();
+                sbSqlQuery.Clear();
+
+                sbSql.AppendFormat(@"  
+                                    SELECT                                     
+                                    [LOT]
+                                    ,[LABELS]
+                                    ,[SSCC]
+                                    FROM [TKBUSINESS].[dbo].[REPORT_PACKAGES_DETAILS]
+                                    WHERE [LOT]='{0}'
+                                    ORDER BY LOT,LABELS
+
+
+                                    ", LOT);
+                SqlDataAdapter da = new SqlDataAdapter(@"" + sbSql, sqlConn);
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+                dataGridView3.DataSource = dt;
+
+
+            }
+            catch
+            {
+
+            }
+            finally
+            {
+
+            }
+        }
+
+        private void dataGridView3_SelectionChanged(object sender, EventArgs e)
+        {
+            ClearInputs_tab2();
+
+            if (dataGridView3.CurrentRow != null)
+            {
+                DataGridViewRow selectedRow = dataGridView3.CurrentRow;
+                textBox17.Text = selectedRow.Cells["LOT"].Value?.ToString();
+                textBox18.Text = selectedRow.Cells["LABELS"].Value?.ToString();
+
+            }
+        }
 
         private void SwitchState(EditState newState)
         {
@@ -569,6 +688,15 @@ namespace TKBUSINESS
 
         }
 
+        private void ClearInputs_tab2()
+        {
+            textBox17.Clear();
+            textBox18.Clear();
+            textBox19.Clear();
+
+
+        }
+
 
         #endregion
 
@@ -700,8 +828,16 @@ namespace TKBUSINESS
             }
         }
 
+        private void button2_Click(object sender, EventArgs e)
+        {
+            string SDATES = dateTimePicker3.Value.ToString("yyyyMMdd");
+            SEARCH_DG2(SDATES);
+        }
+
+
 
         #endregion
 
+       
     }
 }
