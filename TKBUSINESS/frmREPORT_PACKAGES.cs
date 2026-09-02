@@ -37,8 +37,16 @@ namespace TKBUSINESS
             Add,    // 新增狀態
             Edit    // 修改狀態
         }
+        private enum EditState_tab2
+        {
+            Browse, // 瀏覽狀態
+            Add,    // 新增狀態
+            Edit    // 修改狀態
+        }
 
         private EditState currentState = EditState.Browse;
+        private EditState_tab2 currentState_tab2 = EditState_tab2.Browse;
+
         private DataTable dataTable = new DataTable();
 
         public frmREPORT_PACKAGES()
@@ -46,6 +54,7 @@ namespace TKBUSINESS
             InitializeComponent();
 
             SwitchState(EditState.Browse); // 預設進入瀏覽模式
+            SwitchState_tab2(EditState_tab2.Browse); // 預設進入瀏覽模式
         }
 
         #region FUNCTION
@@ -198,12 +207,13 @@ namespace TKBUSINESS
         {
             if (dataGridView2.CurrentRow != null)
             {
+                string SHIPDATES = dataGridView2.CurrentRow.Cells["SHIPDATES"].Value?.ToString();
                 string LOT = dataGridView2.CurrentRow.Cells["LOT"].Value?.ToString();
-                SEARCH_DG3(LOT);
+                SEARCH_DG3(SHIPDATES, LOT);
             }
         }
 
-        public void SEARCH_DG3(string LOT)
+        public void SEARCH_DG3(string SHIPDATES, string LOT)
         {
             StringBuilder sbSql = new StringBuilder();
             StringBuilder sbSqlQuery = new StringBuilder();
@@ -226,15 +236,16 @@ namespace TKBUSINESS
 
                 sbSql.AppendFormat(@"  
                                     SELECT                                     
-                                    [LOT]
+                                    [SHIPDATES]
+                                    ,[LOT]
                                     ,[LABELS]
                                     ,[SSCC]
                                     FROM [TKBUSINESS].[dbo].[REPORT_PACKAGES_DETAILS]
-                                    WHERE [LOT]='{0}'
+                                    WHERE [SHIPDATES]='{0}' AND [LOT]='{1}'
                                     ORDER BY LOT,LABELS
 
 
-                                    ", LOT);
+                                    ", SHIPDATES, LOT);
                 SqlDataAdapter da = new SqlDataAdapter(@"" + sbSql, sqlConn);
                 DataTable dt = new DataTable();
                 da.Fill(dt);
@@ -259,8 +270,10 @@ namespace TKBUSINESS
             if (dataGridView3.CurrentRow != null)
             {
                 DataGridViewRow selectedRow = dataGridView3.CurrentRow;
+                dateTimePicker4.Value = DateTime.TryParseExact(selectedRow.Cells["SHIPDATES"].Value?.ToString(), "yyyyMMdd", null, System.Globalization.DateTimeStyles.None, out DateTime shipDate) ? shipDate : DateTime.Now;
                 textBox17.Text = selectedRow.Cells["LOT"].Value?.ToString();
                 textBox18.Text = selectedRow.Cells["LABELS"].Value?.ToString();
+                textBox19.Text = selectedRow.Cells["SSCC"].Value?.ToString();
 
             }
         }
@@ -309,6 +322,57 @@ namespace TKBUSINESS
                     SetInputsReadOnly(false);
                     textBoxID.ReadOnly = true; // 主鍵不可修改
                     
+                    break;
+            }
+
+
+            string SDATES = dateTimePicker1.Value.ToString("yyyyMMdd");
+            SEARCH_DG1(SDATES);
+        }
+
+        private void SwitchState_tab2(EditState_tab2 newState)
+        {
+            currentState_tab2 = newState;
+
+            switch (currentState_tab2)
+            {
+                case EditState_tab2.Browse:
+                    // 瀏覽模式：允許點選與觸發編輯動作；禁止存檔取消
+                    toolStripButton5.Enabled = true;
+                    toolStripButton6.Enabled = true;
+                    toolStripButton7.Enabled = true;
+                    toolStripButton8.Enabled = false;
+
+                    dataGridView3.Enabled = true;
+                    SetInputsReadOnly_tab2(true);
+
+                    break;
+
+                case EditState_tab2.Add:
+                    // 新增模式：主鍵 (ID) 開放輸入
+                    toolStripButton5.Enabled = false;
+                    toolStripButton6.Enabled = false;
+                    toolStripButton7.Enabled = false;
+                    toolStripButton8.Enabled = true;
+
+
+                    dataGridView3.Enabled = false; // 鎖定 Grid，避免切換資料列
+                    ClearInputs_tab2();
+                    SetInputsReadOnly_tab2(false);
+                   
+                    break;
+
+                case EditState_tab2.Edit:
+                    // 修改模式：主鍵 (ID) 鎖定唯讀
+                    toolStripButton5.Enabled = false;
+                    toolStripButton6.Enabled = false;
+                    toolStripButton7.Enabled = false;
+                    toolStripButton8.Enabled = true;
+
+                    dataGridView3.Enabled = false;
+                    SetInputsReadOnly_tab2(false);
+                   
+
                     break;
             }
 
@@ -606,6 +670,202 @@ namespace TKBUSINESS
 
         }
 
+        public void ADD_REPORT_PACKAGES_DETAILS(
+            string SHIPDATES,
+            string LOT,
+            string LABELS,
+            string SSCC
+            )
+        {
+            // 1. 處理連線字串與解密
+            Class1 tkId = new Class1();
+            SqlConnectionStringBuilder sqlsb = new SqlConnectionStringBuilder(ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString);
+            sqlsb.Password = tkId.Decryption(sqlsb.Password);
+            sqlsb.UserID = tkId.Decryption(sqlsb.UserID);
+
+            // 2. 使用 using 確保資源自動釋放
+            using (SqlConnection conn = new SqlConnection(sqlsb.ConnectionString))
+            {
+                conn.Open();
+                // 開啟交易
+                using (SqlTransaction trans = conn.BeginTransaction())
+                {
+                    try
+                    {
+                        string sql = @"                                    
+                                        INSERT INTO [TKBUSINESS].[dbo].[REPORT_PACKAGES_DETAILS]
+                                        (
+                                        [SHIPDATES]
+                                        ,[LOT]
+                                        ,[LABELS]
+                                        ,[SSCC]
+                                        )
+                                        VALUES
+                                        (
+                                        @SHIPDATES
+                                        ,@LOT
+                                        ,@LABELS
+                                        ,@SSCC
+                                        )
+                                    
+                                        ";
+
+                        using (SqlCommand command = new SqlCommand(sql, conn, trans))
+                        {
+                            command.CommandTimeout = 60;
+                            // 使用參數化查詢，避免 SQL Injection
+                            command.Parameters.AddWithValue("@SHIPDATES", SHIPDATES ?? (object)DBNull.Value);
+                            command.Parameters.AddWithValue("@LOT", LOT ?? (object)DBNull.Value);
+                            command.Parameters.AddWithValue("@LABELS", LABELS ?? (object)DBNull.Value);
+                            command.Parameters.AddWithValue("@SSCC", SSCC ?? (object)DBNull.Value);
+
+                            int rowsAffected = command.ExecuteNonQuery();
+
+                            if (rowsAffected > 0)
+                            {
+                                trans.Commit();
+                            }
+                            else
+                            {
+                                // 若更新筆數為 0，通常代表 ID 不存在
+                                trans.Rollback();
+                                MessageBox.Show("更新失敗。");
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        // 發生錯誤時回滾
+                        if (trans.Connection != null) trans.Rollback();
+                        MessageBox.Show("系統錯誤：" + ex.Message);
+                    }
+                }
+            }
+        }
+
+        public void UPDATE_REPORT_PACKAGES_DETAILS(
+            string SHIPDATES,
+            string LOT,
+            string LABELS,
+            string SSCC
+            )
+        {
+            // 1. 處理連線字串與解密
+            Class1 tkId = new Class1();
+            SqlConnectionStringBuilder sqlsb = new SqlConnectionStringBuilder(ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString);
+            sqlsb.Password = tkId.Decryption(sqlsb.Password);
+            sqlsb.UserID = tkId.Decryption(sqlsb.UserID);
+
+            // 2. 使用 using 確保資源自動釋放
+            using (SqlConnection conn = new SqlConnection(sqlsb.ConnectionString))
+            {
+                conn.Open();
+                // 開啟交易
+                using (SqlTransaction trans = conn.BeginTransaction())
+                {
+                    try
+                    {
+                        string sql = @"                                    
+                                        UPDATE [TKBUSINESS].[dbo].[REPORT_PACKAGES_DETAILS]
+                                        SET SSCC=@SSCC
+                                        WHERE SHIPDATES=@SHIPDATES AND LOT=@LOT AND LABELS=@LABELS 
+                                    
+                                        ";
+
+                        using (SqlCommand command = new SqlCommand(sql, conn, trans))
+                        {
+                            command.CommandTimeout = 60;
+                            // 使用參數化查詢，避免 SQL Injection
+                            command.Parameters.AddWithValue("@SHIPDATES", SHIPDATES ?? (object)DBNull.Value);
+                            command.Parameters.AddWithValue("@LOT", LOT ?? (object)DBNull.Value);
+                            command.Parameters.AddWithValue("@LABELS", LABELS ?? (object)DBNull.Value);
+                            command.Parameters.AddWithValue("@SSCC", SSCC ?? (object)DBNull.Value);
+
+                            int rowsAffected = command.ExecuteNonQuery();
+
+                            if (rowsAffected > 0)
+                            {
+                                trans.Commit();
+                            }
+                            else
+                            {
+                                // 若更新筆數為 0，通常代表 ID 不存在
+                                trans.Rollback();
+                                MessageBox.Show("更新失敗。");
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        // 發生錯誤時回滾
+                        if (trans.Connection != null) trans.Rollback();
+                        MessageBox.Show("系統錯誤：" + ex.Message);
+                    }
+                }
+            }
+        }   
+        
+        public void DELETE_REPORT_PACKAGES_DETAILS(
+            string SHIPDATES,
+            string LOT,
+            string LABELS,
+            string SSCC
+            )
+        {
+            // 1. 處理連線字串與解密
+            Class1 tkId = new Class1();
+            SqlConnectionStringBuilder sqlsb = new SqlConnectionStringBuilder(ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString);
+            sqlsb.Password = tkId.Decryption(sqlsb.Password);
+            sqlsb.UserID = tkId.Decryption(sqlsb.UserID);
+
+            // 2. 使用 using 確保資源自動釋放
+            using (SqlConnection conn = new SqlConnection(sqlsb.ConnectionString))
+            {
+                conn.Open();
+                // 開啟交易
+                using (SqlTransaction trans = conn.BeginTransaction())
+                {
+                    try
+                    {
+                        string sql = @"                                    
+                                      DELETE  [TKBUSINESS].[dbo].[REPORT_PACKAGES_DETAILS]
+                                        WHERE SHIPDATES=@SHIPDATES AND LOT=@LOT AND  LABELS=@LABELS AND SSCC=@SSCC 
+                                    
+                                        ";
+
+                        using (SqlCommand command = new SqlCommand(sql, conn, trans))
+                        {
+                            command.CommandTimeout = 60;
+                            // 使用參數化查詢，避免 SQL Injection
+                            command.Parameters.AddWithValue("@SHIPDATES", SHIPDATES ?? (object)DBNull.Value);
+                            command.Parameters.AddWithValue("@LOT", LOT ?? (object)DBNull.Value);
+                            command.Parameters.AddWithValue("@LABELS", LABELS ?? (object)DBNull.Value);
+                            command.Parameters.AddWithValue("@SSCC", SSCC ?? (object)DBNull.Value);
+
+                            int rowsAffected = command.ExecuteNonQuery();
+
+                            if (rowsAffected > 0)
+                            {
+                                trans.Commit();
+                            }
+                            else
+                            {
+                                // 若更新筆數為 0，通常代表 ID 不存在
+                                trans.Rollback();
+                                MessageBox.Show("更新失敗。");
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        // 發生錯誤時回滾
+                        if (trans.Connection != null) trans.Rollback();
+                        MessageBox.Show("系統錯誤：" + ex.Message);
+                    }
+                }
+            }
+        }
+
         public void SETFASTREPORT(List<string> checkedRows)
         {
             StringBuilder SQL1 = new StringBuilder();
@@ -688,15 +948,29 @@ namespace TKBUSINESS
 
         }
 
+        private void SetInputsReadOnly_tab2(bool readOnly)
+        {
+            textBox17.ReadOnly = readOnly;
+            textBox18.ReadOnly = readOnly;
+            textBox19.ReadOnly = readOnly;
+        }
+
         private void ClearInputs_tab2()
         {
-            textBox17.Clear();
+            //textBox17.Clear();
             textBox18.Clear();
             textBox19.Clear();
 
 
         }
 
+       
+      
+
+        
+            
+
+        
 
         #endregion
 
@@ -834,10 +1108,97 @@ namespace TKBUSINESS
             SEARCH_DG2(SDATES);
         }
 
+        private void toolStripButton5_Click(object sender, EventArgs e)
+        {
+            //add
+            SwitchState_tab2(EditState_tab2.Add);
+        }
+        private void toolStripButton6_Click(object sender, EventArgs e)
+        {
+            //update
+            SwitchState_tab2(EditState_tab2.Edit);
+        }
+        private void toolStripButton7_Click(object sender, EventArgs e)
+        {
+            //delete
+            if (dataGridView3.CurrentRow == null) return;
+
+            string SHIPDATES = dateTimePicker4.Value.ToString("yyyyMMdd");
+            string LOT = textBox17.Text.Trim();
+            string LABELS = textBox18.Text.Trim();
+            string SSCC = textBox19.Text.Trim();    
+
+            if (MessageBox.Show($"確定要刪除代碼為  [{SHIPDATES}] - [{LOT}] - [{LABELS}] - [{SSCC}] 的資料嗎？", "刪除確認",
+                MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+            {
+                // TODO: 執行 SQL DELETE ... 
+                DELETE_REPORT_PACKAGES_DETAILS(SHIPDATES, LOT, LABELS, SSCC);
+
+                MessageBox.Show("刪除成功！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                SwitchState_tab2(EditState_tab2.Browse);
+
+                SEARCH_DG3(SHIPDATES, LOT);
+            }
+        }
+
+        private void toolStripButton8_Click(object sender, EventArgs e)
+        {
+            //save
+            string SHIPDATES = dateTimePicker4.Value.ToString("yyyyMMdd");
+            string LOT = textBox17.Text.Trim();
+            string LABELS = textBox18.Text.Trim();
+            string SSCC = textBox19.Text.Trim();
+        
+
+            // 基礎資料驗證
+            if (string.IsNullOrEmpty(SSCC))
+            {
+                MessageBox.Show("請填寫所有必要欄位！", "驗證錯誤", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            try
+            {
+                if (currentState_tab2 == EditState_tab2.Add)
+                {
+                    // TODO: 執行 SQL INSERT ...
+                    ADD_REPORT_PACKAGES_DETAILS(
+                        SHIPDATES,
+                        LOT,
+                        LABELS,
+                        SSCC
+                        );
+                    MessageBox.Show("新增成功！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else if (currentState_tab2 == EditState_tab2.Edit)
+                {
+                    // TODO: 執行 SQL UPDATE ...
+                    UPDATE_REPORT_PACKAGES_DETAILS(
+                        SHIPDATES,
+                        LOT,
+                        LABELS,
+                        SSCC
+                        );
+
+                    MessageBox.Show("修改成功！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+
+                // 存檔成功後，恢復為瀏覽模式
+                SwitchState_tab2(EditState_tab2.Browse);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"儲存發生錯誤：{ex.Message}", "錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            SEARCH_DG3(SHIPDATES, LOT);
+        }
 
 
         #endregion
 
-       
+
+
+
     }
 }
