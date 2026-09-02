@@ -74,6 +74,7 @@ namespace TKBUSINESS
                 sbSql.AppendFormat(@"  
                                     SELECT 
                                     [ID]
+                                    ,[LOT]
                                     ,[SHIPDATES]
                                     ,[SHIPFROM]
                                     ,[SHIPTO]
@@ -82,15 +83,14 @@ namespace TKBUSINESS
                                     ,[CARRIER]
                                     ,[PO]
                                     ,[SUPPLIER]
-                                    ,[EXP]
-                                    ,[LOT]
+                                    ,[EXP]                                    
                                     ,[COO]
                                     ,[WEIGHT]
                                     ,[CUBE]
                                     ,[SELLUNIT]
                                     ,[ORDERUNITS]
                                     ,[LABEL]
-                                    ,[BATCH]
+                                    ,[GTIN]
                                     FROM [TKBUSINESS].[dbo].[REPORT_PACKAGES]
                                     WHERE [SHIPDATES]='{0}'
                                     ORDER BY  [ID]
@@ -138,7 +138,8 @@ namespace TKBUSINESS
                 textBox13.Text = selectedRow.Cells["SELLUNIT"].Value?.ToString();
                 textBox14.Text = selectedRow.Cells["ORDERUNITS"].Value?.ToString();
                 textBox15.Text = selectedRow.Cells["LABEL"].Value?.ToString();
-                textBox16.Text = selectedRow.Cells["BATCH"].Value?.ToString();
+                textBox16.Text = selectedRow.Cells["GTIN"].Value?.ToString();
+
             }
         
 
@@ -214,7 +215,7 @@ namespace TKBUSINESS
             string SELLUNIT,
             string ORDERUNITS,
             string LABEL,
-            string BATCH
+            string GTIN
             )
         {
             // 1. 處理連線字串與解密
@@ -251,7 +252,7 @@ namespace TKBUSINESS
                                     ,[SELLUNIT]
                                     ,[ORDERUNITS]
                                     ,[LABEL]
-                                    ,[BATCH]
+                                    ,[GTIN]
                                     )
                                     VALUES
                                     (
@@ -271,7 +272,7 @@ namespace TKBUSINESS
                                     ,@SELLUNIT
                                     ,@ORDERUNITS
                                     ,@LABEL
-                                    ,@BATCH
+                                    ,@GTIN
                                     )
                                        
                                         ";
@@ -296,8 +297,8 @@ namespace TKBUSINESS
                             command.Parameters.AddWithValue("@SELLUNIT", SELLUNIT ?? (object)DBNull.Value);
                             command.Parameters.AddWithValue("@ORDERUNITS", ORDERUNITS ?? (object)DBNull.Value);
                             command.Parameters.AddWithValue("@LABEL", LABEL ?? (object)DBNull.Value);
-                            command.Parameters.AddWithValue("@BATCH", BATCH ?? (object)DBNull.Value);
-                            
+                            command.Parameters.AddWithValue("@GTIN", GTIN ?? (object)DBNull.Value);
+
 
                             int rowsAffected = command.ExecuteNonQuery();
 
@@ -342,7 +343,7 @@ namespace TKBUSINESS
            string SELLUNIT,
            string ORDERUNITS,
            string LABEL,
-           string BATCH
+           string GTIN
            )
         {
             // 1. 處理連線字串與解密
@@ -378,8 +379,8 @@ namespace TKBUSINESS
                                     ,[CUBE]=@CUBE
                                     ,[SELLUNIT]=@SELLUNIT
                                     ,[ORDERUNITS]=@ORDERUNITS
-                                    ,[LABEL]=@LABEL
-                                    ,[BATCH]=@BATCH
+                                    ,[LABEL]=@LABEL    
+                                    ,[GTIN]=@GTIN   
                                     WHERE [ID]=@ID                                       
                                         ";
 
@@ -403,9 +404,8 @@ namespace TKBUSINESS
                             command.Parameters.AddWithValue("@CUBE", CUBE ?? (object)DBNull.Value);
                             command.Parameters.AddWithValue("@SELLUNIT", SELLUNIT ?? (object)DBNull.Value);
                             command.Parameters.AddWithValue("@ORDERUNITS", ORDERUNITS ?? (object)DBNull.Value);
-                            command.Parameters.AddWithValue("@LABEL", LABEL ?? (object)DBNull.Value);
-                            command.Parameters.AddWithValue("@BATCH", BATCH ?? (object)DBNull.Value);
-
+                            command.Parameters.AddWithValue("@LABEL", LABEL ?? (object)DBNull.Value);                 
+                            command.Parameters.AddWithValue("@GTIN", GTIN ?? (object)DBNull.Value);
 
                             int rowsAffected = command.ExecuteNonQuery();
 
@@ -566,7 +566,7 @@ namespace TKBUSINESS
             textBox14.Clear();
             textBox15.Clear();
             textBox16.Clear();
-           
+
         }
 
 
@@ -629,7 +629,7 @@ namespace TKBUSINESS
             string SELLUNIT = textBox13.Text.Trim();
             string ORDERUNITS = textBox14.Text.Trim();
             string LABEL = textBox15.Text.Trim();
-            string BATCH = textBox16.Text.Trim();
+            string GTIN = textBox16.Text.Trim();
 
             // 基礎資料驗證
             if (string.IsNullOrEmpty(SHIPDATES) )
@@ -660,7 +660,7 @@ namespace TKBUSINESS
                         SELLUNIT,
                         ORDERUNITS,
                         LABEL,
-                        BATCH
+                        GTIN
                         );
                     MessageBox.Show("新增成功！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
@@ -685,7 +685,7 @@ namespace TKBUSINESS
                         SELLUNIT,
                         ORDERUNITS,
                         LABEL,
-                        BATCH
+                        GTIN
                         );
 
                     MessageBox.Show("修改成功！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
