@@ -96,10 +96,12 @@ namespace TKBUSINESS
                                     ,[COO]
                                     ,[WEIGHT]
                                     ,[CUBE]
+                                    ,[BATCHUNITS]
                                     ,[SELLUNIT]
                                     ,[ORDERUNITS]
                                     ,[LABEL]
                                     ,[GTIN]
+
                                     FROM [TKBUSINESS].[dbo].[REPORT_PACKAGES]
                                     WHERE [SHIPDATES]='{0}'
                                     ORDER BY  [ID]
@@ -148,6 +150,7 @@ namespace TKBUSINESS
                 textBox14.Text = selectedRow.Cells["ORDERUNITS"].Value?.ToString();
                 textBox15.Text = selectedRow.Cells["LABEL"].Value?.ToString();
                 textBox16.Text = selectedRow.Cells["GTIN"].Value?.ToString();
+                textBox20.Text = selectedRow.Cells["BATCHUNITS"].Value?.ToString();
 
             }
         
@@ -398,7 +401,8 @@ namespace TKBUSINESS
             string SELLUNIT,
             string ORDERUNITS,
             string LABEL,
-            string GTIN
+            string GTIN,
+            string BATCHUNITS
             )
         {
             // 1. 處理連線字串與解密
@@ -436,6 +440,7 @@ namespace TKBUSINESS
                                     ,[ORDERUNITS]
                                     ,[LABEL]
                                     ,[GTIN]
+                                    ,[BATCHUNITS]
                                     )
                                     VALUES
                                     (
@@ -456,6 +461,7 @@ namespace TKBUSINESS
                                     ,@ORDERUNITS
                                     ,@LABEL
                                     ,@GTIN
+                                    ,@BATCHUNITS
                                     )
                                        
                                         ";
@@ -481,7 +487,7 @@ namespace TKBUSINESS
                             command.Parameters.AddWithValue("@ORDERUNITS", ORDERUNITS ?? (object)DBNull.Value);
                             command.Parameters.AddWithValue("@LABEL", LABEL ?? (object)DBNull.Value);
                             command.Parameters.AddWithValue("@GTIN", GTIN ?? (object)DBNull.Value);
-
+                            command.Parameters.AddWithValue("@BATCHUNITS", BATCHUNITS ?? (object)DBNull.Value);
 
                             int rowsAffected = command.ExecuteNonQuery();
 
@@ -526,7 +532,8 @@ namespace TKBUSINESS
            string SELLUNIT,
            string ORDERUNITS,
            string LABEL,
-           string GTIN
+           string GTIN,
+           string BATCHUNITS
            )
         {
             // 1. 處理連線字串與解密
@@ -564,6 +571,7 @@ namespace TKBUSINESS
                                     ,[ORDERUNITS]=@ORDERUNITS
                                     ,[LABEL]=@LABEL    
                                     ,[GTIN]=@GTIN   
+                                    ,[BATCHUNITS]=@BATCHUNITS
                                     WHERE [ID]=@ID                                       
                                         ";
 
@@ -589,6 +597,7 @@ namespace TKBUSINESS
                             command.Parameters.AddWithValue("@ORDERUNITS", ORDERUNITS ?? (object)DBNull.Value);
                             command.Parameters.AddWithValue("@LABEL", LABEL ?? (object)DBNull.Value);                 
                             command.Parameters.AddWithValue("@GTIN", GTIN ?? (object)DBNull.Value);
+                            command.Parameters.AddWithValue("@BATCHUNITS", BATCHUNITS ?? (object)DBNull.Value);
 
                             int rowsAffected = command.ExecuteNonQuery();
 
@@ -974,6 +983,7 @@ namespace TKBUSINESS
                             ,[REPORT_PACKAGES].[COO]
                             ,[REPORT_PACKAGES].[WEIGHT]
                             ,[REPORT_PACKAGES].[CUBE]
+                            ,[REPORT_PACKAGES].[BATCHUNITS]*[REPORT_PACKAGES_DETAILS].LABELS AS 'BATCHUNITS'
                             ,[REPORT_PACKAGES].[SELLUNIT]
                             ,[REPORT_PACKAGES].[ORDERUNITS]
                             ,[REPORT_PACKAGES].[LABEL]
@@ -1013,6 +1023,7 @@ namespace TKBUSINESS
             textBox14.ReadOnly = readOnly;
             textBox15.ReadOnly = readOnly;
             textBox16.ReadOnly = readOnly;
+            textBox20.ReadOnly = readOnly;
 
         }
 
@@ -1035,6 +1046,7 @@ namespace TKBUSINESS
             textBox14.Clear();
             textBox15.Clear();
             textBox16.Clear();
+            textBox20.Clear();
 
         }
 
@@ -1122,6 +1134,7 @@ namespace TKBUSINESS
             string ORDERUNITS = textBox14.Text.Trim();
             string LABEL = textBox15.Text.Trim();
             string GTIN = textBox16.Text.Trim();
+            string BATCHUNITS= textBox20.Text.Trim();
 
             // 基礎資料驗證
             if (string.IsNullOrEmpty(SHIPDATES) )
@@ -1152,7 +1165,8 @@ namespace TKBUSINESS
                         SELLUNIT,
                         ORDERUNITS,
                         LABEL,
-                        GTIN
+                        GTIN,
+                        BATCHUNITS
                         );
                     MessageBox.Show("新增成功！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
@@ -1177,7 +1191,8 @@ namespace TKBUSINESS
                         SELLUNIT,
                         ORDERUNITS,
                         LABEL,
-                        GTIN
+                        GTIN,
+                        BATCHUNITS
                         );
 
                     MessageBox.Show("修改成功！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
