@@ -871,7 +871,7 @@ namespace TKBUSINESS
             StringBuilder SQL1 = new StringBuilder();
             StringBuilder SQL2 = new StringBuilder();
 
-            SQL1 = SETSQL1();
+            SQL1 = SETSQL1(SHIPDATES, LOT);
 
             Report report1 = new Report();
             report1.Load(@"REPORT\CASE-LABEL.frx");
@@ -893,7 +893,7 @@ namespace TKBUSINESS
             report1.Show();
         }
 
-        public StringBuilder SETSQL1()
+        public StringBuilder SETSQL1(string SHIPDATES, string LOT)
         {
             StringBuilder SB = new StringBuilder();
 
@@ -918,14 +918,82 @@ namespace TKBUSINESS
                             ,[LABEL]
                             ,[GTIN]
                             FROM [TKBUSINESS].[dbo].[REPORT_PACKAGES]
-                            WHERE [SHIPDATES]='20260902' AND [LOT]='CT2504'
+                            WHERE [SHIPDATES]='{0}' AND [LOT]='{1}'
 
                            
-                            ");
+                            ", SHIPDATES, LOT);
 
             return SB;
 
         }
+
+        public void SETFASTREPORT_SSCC(string SHIPDATES, string LOT)
+        {
+            StringBuilder SQL1 = new StringBuilder();
+            StringBuilder SQL2 = new StringBuilder();
+
+            SQL1 = SETSQL_SSCC(SHIPDATES, LOT);
+
+            Report report1 = new Report();
+            report1.Load(@"REPORT\SSCC-Labels.frx");
+
+            //20210902密      
+            Class1 TKID = new Class1();
+            SqlConnectionStringBuilder sqlsb = new SqlConnectionStringBuilder(ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString);
+
+            sqlsb.Password = TKID.Decryption(sqlsb.Password);
+            sqlsb.UserID = TKID.Decryption(sqlsb.UserID);
+
+            report1.Dictionary.Connections[0].ConnectionString = sqlsb.ConnectionString;
+
+
+            TableDataSource table = report1.GetDataSource("Table") as TableDataSource;
+            table.SelectCommand = SQL1.ToString();
+
+            report1.Preview = previewControl2;
+            report1.Show();
+        }
+
+        public StringBuilder SETSQL_SSCC(string SHIPDATES, string LOT)
+        {
+            StringBuilder SB = new StringBuilder();
+
+            SB.AppendFormat(@" 
+                            SELECT 
+                            [REPORT_PACKAGES].[ID]
+                            ,[REPORT_PACKAGES].[SHIPDATES]
+                            ,[REPORT_PACKAGES].[SHIPFROM]
+                            ,[REPORT_PACKAGES].[SHIPTO]
+                            ,[REPORT_PACKAGES].[ITEM]
+                            ,[REPORT_PACKAGES].[PRODUCTDESCRIPTION]
+                            ,[REPORT_PACKAGES].[CARRIER]
+                            ,[REPORT_PACKAGES].[PO]
+                            ,[REPORT_PACKAGES].[SUPPLIER]
+                            ,[REPORT_PACKAGES].[EXP]
+                            ,[REPORT_PACKAGES].[LOT]
+                            ,[REPORT_PACKAGES].[COO]
+                            ,[REPORT_PACKAGES].[WEIGHT]
+                            ,[REPORT_PACKAGES].[CUBE]
+                            ,[REPORT_PACKAGES].[SELLUNIT]
+                            ,[REPORT_PACKAGES].[ORDERUNITS]
+                            ,[REPORT_PACKAGES].[LABEL]
+                            ,[REPORT_PACKAGES].[GTIN]
+                            ,[REPORT_PACKAGES_DETAILS].LABELS
+                            ,[REPORT_PACKAGES_DETAILS].SSCC
+                            FROM [TKBUSINESS].[dbo].[REPORT_PACKAGES]
+                            INNER JOIN  [TKBUSINESS].[dbo].[REPORT_PACKAGES_DETAILS] ON [REPORT_PACKAGES_DETAILS].SHIPDATES=[REPORT_PACKAGES].SHIPDATES AND  [REPORT_PACKAGES_DETAILS].LOT=[REPORT_PACKAGES].LOT 
+                            WHERE [REPORT_PACKAGES].[SHIPDATES]='{0}' 
+                            AND [REPORT_PACKAGES].[LOT]='{1}'
+                            ORDER BY LABELS
+                         
+                           
+                            ", SHIPDATES, LOT);
+
+            return SB;
+
+        }
+
+
         // 設定控制項唯讀狀態
         private void SetInputsReadOnly(bool readOnly)
         {
@@ -1228,8 +1296,15 @@ namespace TKBUSINESS
         }
 
 
+
         #endregion
 
-
+        private void button4_Click(object sender, EventArgs e)
+        {
+            //產生SSCC LABEL報表
+            string SDATES = dateTimePicker4.Value.ToString("yyyyMMdd");
+            string LOT = textBox17.Text.Trim();
+            SETFASTREPORT_SSCC(SDATES, LOT);
+        }
     }
 }
