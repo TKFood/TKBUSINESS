@@ -866,7 +866,7 @@ namespace TKBUSINESS
             }
         }
 
-        public void SETFASTREPORT(List<string> checkedRows)
+        public void SETFASTREPORT(string SHIPDATES,string LOT)
         {
             StringBuilder SQL1 = new StringBuilder();
             StringBuilder SQL2 = new StringBuilder();
@@ -874,7 +874,7 @@ namespace TKBUSINESS
             SQL1 = SETSQL1();
 
             Report report1 = new Report();
-            report1.Load(@"REPORT\銷貨單憑証-直式.frx");
+            report1.Load(@"REPORT\CASE-LABEL.frx");
 
             //20210902密      
             Class1 TKID = new Class1();
@@ -898,6 +898,28 @@ namespace TKBUSINESS
             StringBuilder SB = new StringBuilder();
 
             SB.AppendFormat(@" 
+                            SELECT 
+                            [ID]
+                            ,[SHIPDATES]
+                            ,[SHIPFROM]
+                            ,[SHIPTO]
+                            ,[ITEM]
+                            ,[PRODUCTDESCRIPTION]
+                            ,[CARRIER]
+                            ,[PO]
+                            ,[SUPPLIER]
+                            ,[EXP]
+                            ,[LOT]
+                            ,[COO]
+                            ,[WEIGHT]
+                            ,[CUBE]
+                            ,[SELLUNIT]
+                            ,[ORDERUNITS]
+                            ,[LABEL]
+                            ,[GTIN]
+                            FROM [TKBUSINESS].[dbo].[REPORT_PACKAGES]
+                            WHERE [SHIPDATES]='20260902' AND [LOT]='CT2504'
+
                            
                             ");
 
@@ -1195,9 +1217,18 @@ namespace TKBUSINESS
         }
 
 
+        private void button3_Click(object sender, EventArgs e)
+        {
+            tabControl2.SelectedIndex=1;
+            //產生case label報表
+            string SDATES = dateTimePicker2.Value.ToString("yyyyMMdd");
+            string LOT = textBox9.Text.Trim();
+            SETFASTREPORT(SDATES, LOT);
+
+        }
+
+
         #endregion
-
-
 
 
     }

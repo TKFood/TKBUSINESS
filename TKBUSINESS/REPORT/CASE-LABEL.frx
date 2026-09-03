@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report ScriptLanguage="CSharp" ReportInfo.Created="09/03/2026 10:44:33" ReportInfo.Modified="09/03/2026 13:00:40" ReportInfo.CreatorVersion="2017.4.1.0">
+  <Dictionary>
+    <MsSqlDataConnection Name="Connection" ConnectionString="rijcmlqHwzMSgwTFaHpjtG3vsOj8Zy6q+uhwpDsytgWqwZQZyEQUQyQ022aWUGqU90pHzzNS8V+op55d8q+MyIM1gh0M9zlGOgK4zWs8Nahyki0xHW6v1SoNjLsQ40hUEIevZodc4nZn1VMr9PyrOeyOFQcW49yN37Wommt8wACdM4FKHAeO5qqwIh8UI3n9QTXxqWwmJk05LggrUJgniMUANhS/w==">
+      <TableDataSource Name="Table" DataType="System.Int32" Enabled="true" SelectCommand="SELECT &#13;&#10;[ID]&#13;&#10;,[SHIPDATES]&#13;&#10;,[SHIPFROM]&#13;&#10;,[SHIPTO]&#13;&#10;,[ITEM]&#13;&#10;,[PRODUCTDESCRIPTION]&#13;&#10;,[CARRIER]&#13;&#10;,[PO]&#13;&#10;,[SUPPLIER]&#13;&#10;,[EXP]&#13;&#10;,[LOT]&#13;&#10;,[COO]&#13;&#10;,[WEIGHT]&#13;&#10;,[CUBE]&#13;&#10;,[SELLUNIT]&#13;&#10;,[ORDERUNITS]&#13;&#10;,[LABEL]&#13;&#10;,[GTIN]&#13;&#10;FROM [TKBUSINESS].[dbo].[REPORT_PACKAGES]&#13;&#10;WHERE [SHIPDATES]='20260902' AND [LOT]='CT2504'&#13;&#10;">
+        <Column Name="ID" DataType="System.Decimal"/>
+        <Column Name="SHIPDATES" DataType="System.String"/>
+        <Column Name="SHIPFROM" DataType="System.String"/>
+        <Column Name="SHIPTO" DataType="System.String"/>
+        <Column Name="ITEM" DataType="System.String"/>
+        <Column Name="PRODUCTDESCRIPTION" DataType="System.String"/>
+        <Column Name="CARRIER" DataType="System.String"/>
+        <Column Name="PO" DataType="System.String"/>
+        <Column Name="SUPPLIER" DataType="System.String"/>
+        <Column Name="EXP" DataType="System.String"/>
+        <Column Name="LOT" DataType="System.String"/>
+        <Column Name="COO" DataType="System.String"/>
+        <Column Name="WEIGHT" DataType="System.String"/>
+        <Column Name="CUBE" DataType="System.String"/>
+        <Column Name="SELLUNIT" DataType="System.Int32"/>
+        <Column Name="ORDERUNITS" DataType="System.Int32"/>
+        <Column Name="LABEL" DataType="System.String"/>
+        <Column Name="GTIN" DataType="System.String"/>
+      </TableDataSource>
+    </MsSqlDataConnection>
+  </Dictionary>
+  <ReportPage Name="Page1" PaperWidth="100" PaperHeight="60" LeftMargin="1" TopMargin="1" RightMargin="1" BottomMargin="1">
+    <DataBand Name="Data1" Width="370.44" Height="219.05" DataSource="Table">
+      <TextObject Name="Text1" Left="18.9" Top="84.05" Width="340.2" Height="18.9" Text="(01)[Table.GTIN](17)[Table.EXP](10)[Table.LOT]" Font="SimSun, 10pt"/>
+      <BarcodeObject Name="Barcode1" Left="18.9" Top="31.8" Width="335" Height="47.25" AutoSize="false" Text="01[Table.GTIN]17[Table.EXP]10[Table.LOT]" ShowText="false" AllowExpressions="true" Barcode="GS1-128 (UCC/EAN-128)" Barcode.AutoEncode="true"/>
+      <BarcodeObject Name="Barcode2" Left="9.45" Top="96.95" Width="75.6" Height="75.6" AutoSize="false" Text="01[Table.GTIN]17[Table.EXP]10[Table.LOT]" ShowText="false" AllowExpressions="true" Barcode="QR Code" Barcode.ErrorCorrection="L" Barcode.Encoding="UTF8" Barcode.QuietZone="true"/>
+      <TextObject Name="Text2" Left="9.45" Top="170.1" Width="349.65" Height="47.25" Text="(01)[Table.GTIN]&#13;&#10;(17)[Table.EXP]&#13;&#10;(10)[Table.LOT]" Font="SimSun, 10pt"/>
+      <TextObject Name="Text3" Left="18.9" Top="9.45" Width="340.2" Height="18.9" Text="Case Label" HorzAlign="Center" VertAlign="Center" Font="SimSun, 10pt"/>
+    </DataBand>
+  </ReportPage>
+</Report>
