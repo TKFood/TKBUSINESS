@@ -49,9 +49,67 @@ namespace TKBUSINESS
         public frmCOPTC()
         {
             InitializeComponent();
+
+        }
+        private void frmCOPTC_Load(object sender, EventArgs e)
+        {
+            combobox1load();
+            combobox1load2();
+        }
+        #region FUNCTION
+        public void combobox1load()
+        {
+
+            //20210902密
+            Class1 TKID = new Class1();//用new 建立類別實體
+            SqlConnectionStringBuilder sqlsb = new SqlConnectionStringBuilder(ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString);
+
+            //資料庫使用者密碼解密
+            sqlsb.Password = TKID.Decryption(sqlsb.Password);
+            sqlsb.UserID = TKID.Decryption(sqlsb.UserID);
+
+            String connectionString;
+            sqlConn = new SqlConnection(sqlsb.ConnectionString);
+
+            String Sequel = "SELECT  [ID],[KINDS],[NAMES],[VALUE] FROM [TKBUSINESS].[dbo].[TBPARA] WHERE [KINDS]='frmCOPTC'";
+            SqlDataAdapter da = new SqlDataAdapter(Sequel, sqlConn);
+            DataTable dt = new DataTable();
+            sqlConn.Open();
+
+            dt.Columns.Add("NAMES", typeof(string));    
+            da.Fill(dt);
+            comboBox1.DataSource = dt.DefaultView;
+            comboBox1.ValueMember = "NAMES";
+            comboBox1.DisplayMember = "NAMES";
+            sqlConn.Close();
+        }
+        public void combobox1load2()
+        {
+
+            //20210902密
+            Class1 TKID = new Class1();//用new 建立類別實體
+            SqlConnectionStringBuilder sqlsb = new SqlConnectionStringBuilder(ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString);
+
+            //資料庫使用者密碼解密
+            sqlsb.Password = TKID.Decryption(sqlsb.Password);
+            sqlsb.UserID = TKID.Decryption(sqlsb.UserID);
+
+            String connectionString;
+            sqlConn = new SqlConnection(sqlsb.ConnectionString);
+
+            String Sequel = "SELECT  [ID],[KINDS],[NAMES],[VALUE] FROM [TKBUSINESS].[dbo].[TBPARA] WHERE [KINDS]='frmCOPTCTD016'";
+            SqlDataAdapter da = new SqlDataAdapter(Sequel, sqlConn);
+            DataTable dt = new DataTable();
+            sqlConn.Open();
+
+            dt.Columns.Add("NAMES", typeof(string));
+            da.Fill(dt);
+            comboBox2.DataSource = dt.DefaultView;
+            comboBox2.ValueMember = "NAMES";
+            comboBox2.DisplayMember = "NAMES";
+            sqlConn.Close();
         }
 
-        #region FUNCTION
         public void Search()
         {
             try
@@ -123,12 +181,14 @@ namespace TKBUSINESS
             StringBuilder STR = new StringBuilder();
 
 
-            STR.AppendFormat(@"  SELECT TC001 AS '單別',TC002 AS '單號',TC003 AS '日期',TC004 AS '客戶',TC053 AS '名稱',TC012 AS '客戶單號' ,TC042 AS '付款條件' ");
-            STR.AppendFormat(@"  FROM [TK].dbo.COPTC");
-            STR.AppendFormat(@"  WHERE TC001='{0}'", comboBox1.Text.ToString());
-            STR.AppendFormat(@"  AND TC003>='{0}' AND TC003<='{1}'", dateTimePicker1.Value.ToString("yyyyMMdd"), dateTimePicker2.Value.ToString("yyyyMMdd"));
-            STR.AppendFormat(@"  ORDER BY TC001,TC002 ");
-            STR.AppendFormat(@"  ");
+          
+            STR.AppendFormat(@"  
+                                SELECT TC001 AS '單別',TC002 AS '單號',TC003 AS '日期',TC004 AS '客戶',TC053 AS '名稱',TC012 AS '客戶單號' ,TC042 AS '付款條件' 
+                                FROM [TK].dbo.COPTC
+                                WHERE TC001='{0}'
+                                AND TC003>='{1}' AND TC003<='{2}'
+                                ORDER BY TC001,TC002 
+                                ", comboBox1.Text.ToString(), dateTimePicker1.Value.ToString("yyyyMMdd"), dateTimePicker2.Value.ToString("yyyyMMdd"));
 
             tablename = "TEMPds1";
 
@@ -156,6 +216,80 @@ namespace TKBUSINESS
                     textBox2.Text = null;
                     textBox3.Text = null;
                     textBox4.Text = null;
+                }
+            }
+        }
+
+
+        public void Search_DG2(string TC002)
+        {
+            try
+            {
+                sbSql.Clear();
+                sbSql.AppendFormat(@"
+                                    SELECT TC001 AS '單別',TC002 AS '單號',TC003 AS '日期',TC004 AS '客戶',TC053 AS '名稱'
+                                    ,TD003 AS '序號'
+                                    ,TD004 AS '品號'
+                                    ,TD005 AS '品名'
+                                    ,TD016 AS '結案碼'
+                                    FROM [TK].dbo.COPTC,[TK].dbo.COPTD
+                                    WHERE TC001=TD001 AND TC002=TD002
+                                    AND TC002 LIKE '%{0}%'
+                                    ORDER BY TC001,TC002,TD003 
+                                    ", TC002);
+                if (!string.IsNullOrEmpty(sbSql.ToString()))
+                {
+                    //20210902密
+                    Class1 TKID = new Class1();//用new 建立類別實體
+                    SqlConnectionStringBuilder sqlsb = new SqlConnectionStringBuilder(ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString);
+                    //資料庫使用者密碼解密
+                    sqlsb.Password = TKID.Decryption(sqlsb.Password);
+                    sqlsb.UserID = TKID.Decryption(sqlsb.UserID);
+
+                    sqlConn = new SqlConnection(sqlsb.ConnectionString);
+
+                    using (SqlDataAdapter da = new SqlDataAdapter(sbSql.ToString(), sqlConn))
+                    {
+                        DataTable dt = new DataTable();
+                        da.Fill(dt);
+                        dataGridView2.DataSource = dt;
+                        dataGridView2.AutoResizeColumns();
+                    }
+
+                }
+            }
+            catch
+            {
+            }
+            finally
+            {
+
+
+            }
+        }
+
+        private void dataGridView2_SelectionChanged(object sender, EventArgs e)
+        {
+            textBox6.Text = null;
+            textBox7.Text = null;
+            textBox8.Text = null;
+
+            if (dataGridView2.CurrentRow != null)
+            {
+                int rowindex = dataGridView2.CurrentRow.Index;
+                if (rowindex >= 0)
+                {
+                    DataGridViewRow row = dataGridView2.Rows[rowindex];
+                    textBox6.Text = row.Cells["單別"].Value.ToString();
+                    textBox7.Text = row.Cells["單號"].Value.ToString();
+                    textBox8.Text = row.Cells["序號"].Value.ToString();
+                    comboBox2.Text = row.Cells["結案碼"].Value.ToString();
+                }
+                else
+                {
+                    textBox6.Text = null;
+                    textBox7.Text = null;
+                    textBox8.Text = null;
                 }
             }
         }
@@ -193,11 +327,12 @@ namespace TKBUSINESS
 
                 sbSql.Clear();
 
-                sbSql.AppendFormat(" UPDATE [TK].dbo.COPTC");
-                sbSql.AppendFormat(" SET TC012='{0}',TC042='{1}'", textBox1.Text, textBox4.Text);
-                sbSql.AppendFormat(" WHERE TC001='{0}' AND TC002='{1}' ", textBox2.Text, textBox3.Text);
-                sbSql.AppendFormat(" ");
-                sbSql.AppendFormat(" ");
+               
+                sbSql.AppendFormat(@" 
+                                    UPDATE [TK].dbo.COPTC
+                                    SET TC012='{0}',TC042='{1}'
+                                    WHERE TC001='{2}' AND TC002='{3}'
+                                    ", textBox1.Text, textBox4.Text, textBox2.Text, textBox3.Text);
 
                 cmd.Connection = sqlConn;
                 cmd.CommandTimeout = 60;
@@ -227,12 +362,61 @@ namespace TKBUSINESS
             }
         }
 
+
+        public void UPDATECOPTD(string TD001,string TD002,string TD003,string TD016)
+        {
+            try
+            {
+                //20210902密
+                Class1 TKID = new Class1();//用new 建立類別實體
+                SqlConnectionStringBuilder sqlsb = new SqlConnectionStringBuilder(ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString);
+                //資料庫使用者密碼解密
+                sqlsb.Password = TKID.Decryption(sqlsb.Password);
+                sqlsb.UserID = TKID.Decryption(sqlsb.UserID);
+                String connectionString;
+                sqlConn = new SqlConnection(sqlsb.ConnectionString);
+                sqlConn.Close();
+                sqlConn.Open();
+                tran = sqlConn.BeginTransaction();
+                sbSql.Clear();
+
+                using (SqlCommand cmd = new SqlCommand())
+                {
+                    sbSql.AppendFormat(@" 
+                                    UPDATE [TK].dbo.COPTD
+                                    SET TD016='{0}'
+                                    WHERE TD001='{1}' AND TD002='{2}' AND TD003='{3}'
+                                    ", TD016, TD001, TD002, TD003);
+                    cmd.Connection = sqlConn;
+                    cmd.CommandTimeout = 60;
+                    cmd.CommandText = sbSql.ToString();
+                    cmd.Transaction = tran;
+                    result = cmd.ExecuteNonQuery();
+                    if (result == 0)
+                    {
+                        tran.Rollback();    //交易取消
+                    }
+                    else
+                    {
+                        tran.Commit();      //執行交易  
+                    }
+                }
+            }
+            catch
+            {
+            }
+            finally
+            {
+                sqlConn.Close();
+            }
+        }
+
         #endregion
 
 
-      
 
-        #region BUTTON
+
+            #region BUTTON
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -250,8 +434,27 @@ namespace TKBUSINESS
             Search();
         }
 
-        #endregion
 
+        private void button4_Click(object sender, EventArgs e)
+        {
+            string TC005 = textBox5.Text.Trim();
+            Search_DG2(TC005);
+        }
+
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            string TD001 = textBox6.Text.Trim();
+            string TD002 = textBox7.Text.Trim();    
+            string TD003 = textBox8.Text.Trim();
+            string TD016 = comboBox2.Text;
+
+            UPDATECOPTD(TD001, TD002, TD003, TD016);
+
+            string TC005 = textBox5.Text.Trim();
+            Search_DG2(TC005);
+        }
+        #endregion
 
     }
 }
