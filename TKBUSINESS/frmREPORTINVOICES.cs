@@ -103,7 +103,13 @@ namespace TKBUSINESS
 									'Normal' AS '商品類型',
 									'商品一批' AS '商品名稱',	
 									'商品一批' AS '商品料號'	,
-									CONVERT(NVARCHAR,CONVERT(datetime,TA001),111)+' 10:00:00' AS '交易完成日期',
+									(CASE 
+									WHEN ISDATE(TA001) = 1 
+									THEN CAST(YEAR(CAST(TA001 AS DATETIME)) AS VARCHAR(4)) + '/' + 
+										CAST(MONTH(CAST(TA001 AS DATETIME)) AS VARCHAR(2)) + '/' + 
+										CAST(DAY(CAST(TA001 AS DATETIME)) AS VARCHAR(2)) + ' 10:00:00' 
+									ELSE NULL 
+									END)  AS '交易完成日期',
 									TA017 AS '實付金額(含稅)',	
 									TA017 AS '商品總售價(含稅)',	
 									TA017 AS '商品單價(含稅)',	
@@ -135,7 +141,13 @@ namespace TKBUSINESS
 									'Normal' AS '商品類型',
 									'商品一批' AS '商品名稱',	
 									'商品一批' AS '商品料號'	,
-									CONVERT(NVARCHAR,CONVERT(datetime,TG003),111)+' 10:00:00' AS '交易完成日期',
+									(CASE 
+									WHEN ISDATE(TG003) = 1 
+									THEN CAST(YEAR(CAST(TG003 AS DATETIME)) AS VARCHAR(4)) + '/' + 
+										CAST(MONTH(CAST(TG003 AS DATETIME)) AS VARCHAR(2)) + '/' + 
+										CAST(DAY(CAST(TG003 AS DATETIME)) AS VARCHAR(2)) + ' 10:00:00' 
+									ELSE NULL 
+									END)  AS '交易完成日期',
 									TG045+TG046 AS '實付金額(含稅)',	
 									TG045+TG046 AS '商品總售價(含稅)',	
 									TG045+TG046 AS '商品單價(含稅)',	
