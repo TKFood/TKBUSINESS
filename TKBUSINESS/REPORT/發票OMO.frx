@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report ScriptLanguage="CSharp" ReportInfo.Created="09/30/2026 15:08:50" ReportInfo.Modified="09/30/2026 15:14:55" ReportInfo.CreatorVersion="2017.4.1.0">
+  <Dictionary>
+    <MsSqlDataConnection Name="Connection" ConnectionString="rijcmlqHwzMSgwTFaHpjtG3vsOj8Zy6q+uhwpDsytgWqwZQZyEQUQyQ022aWUGqU90pHzzNS8V+op55d8q+MyIM1gh0M9zlGOgK4zWs8Nahyki0xHW6v1SoNjLsQ40hUEIevZodc4nZn1VMr9PyrOeyOFQcW49yN37Wommt8wACdM4FKHAeO5qqwIh8UI3n9QTXxqWw3jffkbA8ZT0FdGmUynWw1Q==">
+      <TableDataSource Name="Table" DataType="System.Int32" Enabled="true" SelectCommand="--20260930匯出omo&#13;&#10;SELECT *&#13;&#10;FROM &#13;&#10;	(&#13;&#10;	SELECT &#13;&#10;	TA001+'001' AS '交易序號1',	&#13;&#10;	'' AS '交易序號2',	&#13;&#10;	'' AS '交易序號3',	&#13;&#10;	'' AS '交易序號4',	&#13;&#10;	'' AS '交易序號5',	&#13;&#10;	'' AS '品牌會員編號',&#13;&#10;	TA002 AS '門市店號',	&#13;&#10;	TA007 AS '店員編號',	&#13;&#10;	'Normal' AS '商品類型',&#13;&#10;	'商品一批' AS '商品名稱',	&#13;&#10;	'商品一批' AS '商品料號'	,&#13;&#10;	CONVERT(NVARCHAR,CONVERT(datetime,TA001),111)+' 10:00:00' AS '交易完成日期',&#13;&#10;	TA017 AS '實付金額(含稅)',	&#13;&#10;	TA017 AS '商品總售價(含稅)',	&#13;&#10;	TA017 AS '商品單價(含稅)',	&#13;&#10;	1 AS '購買數量',	&#13;&#10;	0 AS '折抵金額',	&#13;&#10;	0 AS '折扣活動總折扣金額'	,&#13;&#10;	0 AS '折價券折扣金額',	&#13;&#10;	0 AS 'VIP折扣金額',	&#13;&#10;	'' AS '退貨勾稽交易序號1',&#13;&#10;	'' AS '退貨勾稽交易序號2',&#13;&#10;	'' AS '退貨勾稽交易序號3',&#13;&#10;	'' AS '退貨勾稽交易序號4',&#13;&#10;	'' AS '退貨勾稽交易序號5',&#13;&#10;	TA014&#13;&#10;&#13;&#10;	FROM [TK].dbo.POSTA&#13;&#10;	WHERE TA014 LIKE '%TN66727526%'&#13;&#10;&#13;&#10;	UNION ALL&#13;&#10;	SELECT &#13;&#10;	TG003+'001' AS '交易序號1',	&#13;&#10;	'' AS '交易序號2',	&#13;&#10;	'' AS '交易序號3',	&#13;&#10;	'' AS '交易序號4',	&#13;&#10;	'' AS '交易序號5',	&#13;&#10;	'' AS '品牌會員編號',&#13;&#10;	'' AS '門市店號',	&#13;&#10;	'' AS '店員編號',	&#13;&#10;	'Normal' AS '商品類型',&#13;&#10;	'商品一批' AS '商品名稱',	&#13;&#10;	'商品一批' AS '商品料號'	,&#13;&#10;	CONVERT(NVARCHAR,CONVERT(datetime,TG003),111)+' 10:00:00' AS '交易完成日期',&#13;&#10;	TG045+TG046 AS '實付金額(含稅)',	&#13;&#10;	TG045+TG046 AS '商品總售價(含稅)',	&#13;&#10;	TG045+TG046 AS '商品單價(含稅)',	&#13;&#10;	1 AS '購買數量',	&#13;&#10;	0 AS '折抵金額',	&#13;&#10;	0 AS '折扣活動總折扣金額'	,&#13;&#10;	0 AS '折價券折扣金額',	&#13;&#10;	0 AS 'VIP折扣金額',	&#13;&#10;	'' AS '退貨勾稽交易序號1',&#13;&#10;	'' AS '退貨勾稽交易序號2',&#13;&#10;	'' AS '退貨勾稽交易序號3',&#13;&#10;	'' AS '退貨勾稽交易序號4',&#13;&#10;	'' AS '退貨勾稽交易序號5',&#13;&#10;	TG014&#13;&#10;&#13;&#10;	 FROM [TK].dbo.COPTG&#13;&#10;	 WHERE  TG014  LIKE '%TN66933267%'&#13;&#10;) AS TEMP">
+        <Column Name="交易序號1" DataType="System.String"/>
+        <Column Name="交易序號2" DataType="System.String"/>
+        <Column Name="交易序號3" DataType="System.String"/>
+        <Column Name="交易序號4" DataType="System.String"/>
+        <Column Name="交易序號5" DataType="System.String"/>
+        <Column Name="品牌會員編號" DataType="System.String"/>
+        <Column Name="門市店號" DataType="System.String"/>
+        <Column Name="店員編號" DataType="System.String"/>
+        <Column Name="商品類型" DataType="System.String"/>
+        <Column Name="商品名稱" DataType="System.String"/>
+        <Column Name="商品料號" DataType="System.String"/>
+        <Column Name="交易完成日期" DataType="System.String"/>
+        <Column Name="實付金額(含稅)" DataType="System.Decimal"/>
+        <Column Name="商品總售價(含稅)" DataType="System.Decimal"/>
+        <Column Name="商品單價(含稅)" DataType="System.Decimal"/>
+        <Column Name="購買數量" DataType="System.Int32"/>
+        <Column Name="折抵金額" DataType="System.Int32"/>
+        <Column Name="折扣活動總折扣金額" DataType="System.Int32"/>
+        <Column Name="折價券折扣金額" DataType="System.Int32"/>
+        <Column Name="VIP折扣金額" DataType="System.Int32"/>
+        <Column Name="退貨勾稽交易序號1" DataType="System.String"/>
+        <Column Name="退貨勾稽交易序號2" DataType="System.String"/>
+        <Column Name="退貨勾稽交易序號3" DataType="System.String"/>
+        <Column Name="退貨勾稽交易序號4" DataType="System.String"/>
+        <Column Name="退貨勾稽交易序號5" DataType="System.String"/>
+        <Column Name="TA014" DataType="System.String"/>
+      </TableDataSource>
+    </MsSqlDataConnection>
+  </Dictionary>
+  <ReportPage Name="Page1" Landscape="true" PaperWidth="800" PaperHeight="210">
+    <PageHeaderBand Name="PageHeader1" Width="2948.4" Height="37.8">
+      <TextObject Name="Text2" Width="94.5" Height="37.8" Border.Lines="All" Text="交易序號1" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text4" Left="94.5" Width="94.5" Height="37.8" Border.Lines="All" Text="交易序號2" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text6" Left="189" Width="94.5" Height="37.8" Border.Lines="All" Text="交易序號3" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text8" Left="283.5" Width="94.5" Height="37.8" Border.Lines="All" Text="交易序號4" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text10" Left="378" Width="94.5" Height="37.8" Border.Lines="All" Text="交易序號5" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text12" Left="472.5" Width="94.5" Height="37.8" Border.Lines="All" Text="品牌會員編號" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text14" Left="567" Width="94.5" Height="37.8" Border.Lines="All" Text="門市店號" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text16" Left="661.5" Width="94.5" Height="37.8" Border.Lines="All" Text="店員編號" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text18" Left="756" Width="94.5" Height="37.8" Border.Lines="All" Text="商品類型" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text20" Left="850.5" Width="94.5" Height="37.8" Border.Lines="All" Text="商品名稱" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text22" Left="945" Width="94.5" Height="37.8" Border.Lines="All" Text="商品料號" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text24" Left="1039.5" Width="179.55" Height="37.8" Border.Lines="All" Text="交易完成日期" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text26" Left="1219.05" Width="113.4" Height="37.8" Border.Lines="All" Text="實付金額(含稅)" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text28" Left="1332.45" Width="113.4" Height="37.8" Border.Lines="All" Text="商品總售價(含稅)" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text30" Left="1445.85" Width="113.4" Height="37.8" Border.Lines="All" Text="商品單價(含稅)" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text32" Left="1559.25" Width="94.5" Height="37.8" Border.Lines="All" Text="購買數量" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text34" Left="1653.75" Width="94.5" Height="37.8" Border.Lines="All" Text="折抵金額" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text36" Left="1748.25" Width="122.85" Height="37.8" Border.Lines="All" Text="折扣活動總折扣金額" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text38" Left="1871.1" Width="94.5" Height="37.8" Border.Lines="All" Text="折價券折扣金額" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text40" Left="1965.6" Width="94.5" Height="37.8" Border.Lines="All" Text="VIP折扣金額" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text42" Left="2060.1" Width="113.4" Height="37.8" Border.Lines="All" Text="退貨勾稽交易序號1" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text44" Left="2173.5" Width="113.4" Height="37.8" Border.Lines="All" Text="退貨勾稽交易序號2" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text46" Left="2286.9" Width="113.4" Height="37.8" Border.Lines="All" Text="退貨勾稽交易序號3" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text48" Left="2400.3" Width="113.4" Height="37.8" Border.Lines="All" Text="退貨勾稽交易序號4" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text50" Left="2513.7" Width="113.4" Height="37.8" Border.Lines="All" Text="退貨勾稽交易序號5" HorzAlign="Center" VertAlign="Center"/>
+    </PageHeaderBand>
+    <DataBand Name="Data1" Top="42.01" Width="2948.4" Height="18.9" DataSource="Table">
+      <TextObject Name="Text1" Width="94.5" Height="18.9" Border.Lines="All" Text="[Table.交易序號1]" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text3" Left="94.5" Width="94.5" Height="18.9" Border.Lines="All" Text="[Table.交易序號2]" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text5" Left="189" Width="94.5" Height="18.9" Border.Lines="All" Text="[Table.交易序號3]" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text7" Left="283.5" Width="94.5" Height="18.9" Border.Lines="All" Text="[Table.交易序號4]" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text9" Left="378" Width="94.5" Height="18.9" Border.Lines="All" Text="[Table.交易序號5]" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text11" Left="472.5" Width="94.5" Height="18.9" Border.Lines="All" Text="[Table.品牌會員編號]" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text13" Left="567" Width="94.5" Height="18.9" Border.Lines="All" Text="[Table.門市店號]" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text15" Left="661.5" Width="94.5" Height="18.9" Border.Lines="All" Text="[Table.店員編號]" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text17" Left="756" Width="94.5" Height="18.9" Border.Lines="All" Text="[Table.商品類型]" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text19" Left="850.5" Width="94.5" Height="18.9" Border.Lines="All" Text="[Table.商品名稱]" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text21" Left="945" Width="94.5" Height="18.9" Border.Lines="All" Text="[Table.商品料號]" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text23" Left="1039.5" Width="179.55" Height="18.9" Border.Lines="All" Text="[Table.交易完成日期]" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text25" Left="1219.05" Width="113.4" Height="18.9" Border.Lines="All" Text="[Table.實付金額(含稅)]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="0" Format.DecimalSeparator="." Format.GroupSeparator="," Format.NegativePattern="1" HorzAlign="Right" VertAlign="Center" WordWrap="false" Trimming="EllipsisCharacter"/>
+      <TextObject Name="Text27" Left="1332.45" Width="113.4" Height="18.9" Border.Lines="All" Text="[Table.商品總售價(含稅)]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="0" Format.DecimalSeparator="." Format.GroupSeparator="," Format.NegativePattern="1" HorzAlign="Right" VertAlign="Center" WordWrap="false" Trimming="EllipsisCharacter"/>
+      <TextObject Name="Text29" Left="1445.85" Width="113.4" Height="18.9" Border.Lines="All" Text="[Table.商品單價(含稅)]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="0" Format.DecimalSeparator="." Format.GroupSeparator="," Format.NegativePattern="1" HorzAlign="Right" VertAlign="Center" WordWrap="false" Trimming="EllipsisCharacter"/>
+      <TextObject Name="Text31" Left="1559.25" Width="94.5" Height="18.9" Border.Lines="All" Text="[Table.購買數量]" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text33" Left="1653.75" Width="94.5" Height="18.9" Border.Lines="All" Text="[Table.折抵金額]" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text35" Left="1748.25" Width="122.85" Height="18.9" Border.Lines="All" Text="[Table.折扣活動總折扣金額]" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text37" Left="1871.1" Width="94.5" Height="18.9" Border.Lines="All" Text="[Table.折價券折扣金額]" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text39" Left="1965.6" Width="94.5" Height="18.9" Border.Lines="All" Text="[Table.VIP折扣金額]" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text41" Left="2060.1" Width="113.4" Height="18.9" Border.Lines="All" Text="[Table.退貨勾稽交易序號1]" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text43" Left="2173.5" Width="113.4" Height="18.9" Border.Lines="All" Text="[Table.退貨勾稽交易序號2]" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text45" Left="2286.9" Width="113.4" Height="18.9" Border.Lines="All" Text="[Table.退貨勾稽交易序號3]" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text47" Left="2400.3" Width="113.4" Height="18.9" Border.Lines="All" Text="[Table.退貨勾稽交易序號4]" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text49" Left="2513.7" Width="113.4" Height="18.9" Border.Lines="All" Text="[Table.退貨勾稽交易序號5]" HorzAlign="Center" VertAlign="Center"/>
+    </DataBand>
+    <PageFooterBand Name="PageFooter1" Top="65.12" Width="2948.4" Height="18.9"/>
+  </ReportPage>
+</Report>
